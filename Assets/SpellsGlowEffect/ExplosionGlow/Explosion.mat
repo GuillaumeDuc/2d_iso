@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: IcycleMat
-  m_Shader: {fileID: -6465566751694194690, guid: 0ff5aaeda139642419c1e9386ab921e6, type: 3}
+  m_Name: Explosion
+  m_Shader: {fileID: -6465566751694194690, guid: 39509b91ea728f6428c752f6f54e17c8, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -41,5 +41,5 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors:
-    - Color_ac13ebdb1e9e4999816dceb71511be65: {r: 753.5094, g: 0, b: 177.03313, a: 0}
+    - Color_b500f3b552954c6ea84e8880a88a9ade: {r: 1024, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

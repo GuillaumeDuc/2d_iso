@@ -6,15 +6,11 @@ public class SpellManager : MonoBehaviour
 {
     public GameObject Explosion;
     public GameObject Fireball;
+    public GameObject Icycle;
 
-    void launchExplosion(Vector2 pos)
+    void launchSpell(GameObject Spell, Vector2 pos)
     {
-        Instantiate(Explosion, pos, Quaternion.identity);
-    }
-
-    void launchFireball(Vector2 pos)
-    {
-        Instantiate(Fireball, pos, Quaternion.identity);
+        Instantiate(Spell, pos, Quaternion.identity);
     }
 
     void Start()
@@ -29,7 +25,7 @@ public class SpellManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Debug.Log(worldPosition);
-            launchExplosion(worldPosition);
+            launchSpell(Icycle, worldPosition);
             // launchFireball(worldPosition);
         }
     }
