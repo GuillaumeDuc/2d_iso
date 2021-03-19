@@ -8,7 +8,13 @@ public class SpellManager : MonoBehaviour
     public GameObject Explosion;
     public GameObject Fireball;
     public GameObject Icycle;
+<<<<<<< HEAD
     
+=======
+    public GameObject Lightning;
+    private int spellNb = 0;
+    List<GameObject> spellList = new List<GameObject> ();
+>>>>>>> 5aabd74 (guigui)
     private GameObject CurrentSpell;
 
     void launchSpell(GameObject Spell, Vector2 pos)
@@ -18,12 +24,18 @@ public class SpellManager : MonoBehaviour
 
     public void Spell1Clicked()
     {
-        CurrentSpell = Icycle;
+        CurrentSpell = spellList[spellNb];
+        spellNb += 1;
+        if (spellNb > spellList.Count - 1)
+        {
+            spellNb = 0;
+        }
     }
 
     void Start()
     {
-        CurrentSpell = Explosion;
+        spellList.InsertRange(spellList.Count, new GameObject[] { Explosion, Fireball, Icycle, Lightning });
+        
     }
 
     void Update()
@@ -32,7 +44,7 @@ public class SpellManager : MonoBehaviour
         {
             Vector2 screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-
+            if(CurrentSpell!=null)
             launchSpell(CurrentSpell, worldPosition);
         }
     }

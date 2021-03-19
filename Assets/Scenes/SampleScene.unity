@@ -4071,9 +4071,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3b6b877104578e4a8683bdd1ebae15b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Explosion: {fileID: 3011477353448975112, guid: 6847e7928d5294044851065b2f9966f2, type: 3}
-  Fireball: {fileID: 4489476417603283147, guid: 13864cb82af0afa46a6ba5bb772a0139, type: 3}
+  Explosion: {fileID: 3011477353448975112, guid: 6847e7928d5294044851065b2f9966f2,
+    type: 3}
+  Fireball: {fileID: 4489476417603283147, guid: 13864cb82af0afa46a6ba5bb772a0139,
+    type: 3}
   Icycle: {fileID: 6704543020205789090, guid: 12347f4e1e66b5648aa20dde3e6c9dc8, type: 3}
+  Lightning: {fileID: 798881998742606512, guid: d0f56839a50045548b42427f2db541fd,
+    type: 3}
 --- !u!4 &71678946
 Transform:
   m_ObjectHideFlags: 0
@@ -6164,7 +6168,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 4352879389509445440, guid: 2683315c141f1f1468e867d1b7a4796d, type: 3}
+  m_Sprite: {fileID: 4352879389509445440, guid: 2683315c141f1f1468e867d1b7a4796d,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
