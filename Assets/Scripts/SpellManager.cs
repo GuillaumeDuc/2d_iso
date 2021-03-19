@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class SpellManager : MonoBehaviour
@@ -8,25 +9,31 @@ public class SpellManager : MonoBehaviour
     public GameObject Fireball;
     public GameObject Icycle;
 
+    private GameObject CurrentSpell;
+
     void launchSpell(GameObject Spell, Vector2 pos)
     {
         Instantiate(Spell, pos, Quaternion.identity);
     }
 
+    public void Spell1Clicked()
+    {
+        CurrentSpell = Icycle;
+    }
+
     void Start()
     {
-        
+        CurrentSpell = Explosion;
     }
 
     void Update()
     {
-        Vector2 screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log(worldPosition);
-            launchSpell(Icycle, worldPosition);
-            // launchFireball(worldPosition);
+            Vector2 screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+
+            launchSpell(CurrentSpell, worldPosition);
         }
     }
 }

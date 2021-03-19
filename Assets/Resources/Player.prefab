@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 8819560813108669826}
   - component: {fileID: 8819560813108669828}
   - component: {fileID: 4851041692774381317}
-  - component: {fileID: 8570542740721602188}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -182,18 +181,3 @@ MonoBehaviour:
   damage: 15
   maxHP: 150
   currentHP: 150
---- !u!114 &8570542740721602188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8819560813108669827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34bd465c751f7c340a655e5e60465673, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  rb: {fileID: 8819560813108669831}
-  animator: {fileID: 8819560813108669828}
