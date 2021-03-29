@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8819560813108669826}
   - component: {fileID: 8819560813108669828}
   - component: {fileID: 4851041692774381317}
-  - component: {fileID: 8570542740721602188}
+  - component: {fileID: 3367643080429279368}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -182,7 +182,7 @@ MonoBehaviour:
   damage: 15
   maxHP: 150
   currentHP: 150
---- !u!114 &8570542740721602188
+--- !u!114 &3367643080429279368
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
