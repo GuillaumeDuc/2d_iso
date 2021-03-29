@@ -8,7 +8,7 @@ public class SpellManager : MonoBehaviour
     public GameObject Explosion;
     public GameObject Fireball;
     public GameObject Icycle;
-
+    
     private GameObject CurrentSpell;
 
     void launchSpell(GameObject Spell, Vector2 pos)
