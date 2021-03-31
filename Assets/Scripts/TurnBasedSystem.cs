@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
 
-public enum CurrentState { PLAYERTURN, ENNEMYTURN, WON, LOST }
+public enum CurrentState { MOVE, CAST }
 
 public class TurnBasedSystem : MonoBehaviour
 {
@@ -13,8 +13,14 @@ public class TurnBasedSystem : MonoBehaviour
     private GameObject Player;
     private Animator PlayerAnimator;
     private Rigidbody2D PlayerRigidBody;
+    private Transform PlayerTransform;
+    private Unit PlayerStats;
 
     public MoveSystem MoveSystem;
+
+    public CastSystem CastSystem;
+
+    public SpellList SpellList;
 
     // Player Speed
     private float moveSpeed = 5f;
@@ -29,7 +35,7 @@ public class TurnBasedSystem : MonoBehaviour
         Vector2 pos = new Vector2(posPlayerX, posPlayerY);
         Player = Instantiate(PlayerPrefab, pos, Quaternion.identity);
     }
-    
+
     public void MovePlayerWithPos(Animator animator, Rigidbody2D rb, Vector2 pos)
     {
         animator.SetFloat("Horizontal", pos.x);
@@ -44,57 +50,74 @@ public class TurnBasedSystem : MonoBehaviour
         // Get Player prefab from Assets/Resources
         GameObject PlayerPrefab = Resources.Load<GameObject>("Characters/Player");
         InstantiatePlayer(PlayerPrefab);
-        State = CurrentState.PLAYERTURN;
+        State = CurrentState.CAST;
 
         // Get Animation and Rigidbody from player to move it
         PlayerAnimator = Player.GetComponent<Animator>();
         PlayerRigidBody = Player.GetComponent<Rigidbody2D>();
+        PlayerTransform = Player.GetComponent<Transform>();
+
+        // Init player
+        PlayerStats = Player.GetComponent<Unit>();
+        PlayerStats.setSpellList(SpellList.Explosion);
+        PlayerStats.setSpellList(SpellList.Icycle);
+        PlayerStats.setStats("Player", 100, 100);
     }
 
     void Update()
     {
-        if (State == CurrentState.PLAYERTURN)
+        if (State == CurrentState.MOVE)
         {
             // Get keys input
+            /*
             float x = Input.GetAxisRaw("Horizontal");
             float y = Input.GetAxisRaw("Vertical");
             Vector2 worldPositio = new Vector2(x,y);
             Debug.Log("MOVE TO " + worldPositio);
             MovePlayerWithPos(PlayerAnimator, PlayerRigidBody, worldPositio);
+            */
 
             // Left mouse click
             if (Input.GetMouseButtonDown(0))
             {
                 // Get Mouse Input
                 Vector2 screenPosition = new Vector2(
-                    Input.mousePosition.x, 
+                    Input.mousePosition.x,
                     Input.mousePosition.y
                     );
 
                 Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
                 Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
-                
-                /*
-                Vector3Int clickPos = tilemap.WorldToCell(worldPosition);
-                TileBase tile = tilemap.GetTile(clickPos);
-                if (tile != null)
-                {
-                    Debug.Log("x:" + worldPosition.x + " y:" + worldPosition.y + " tile:" + tile.name);
-                }
-                else
-                {
-                    Debug.Log("x:" + worldPosition.x + " y:" + worldPosition.y + " tile: (null)");
-                }
-                */
 
                 // Move player
                 if (tilemap.HasTile(cellPosition))
                 {
                     MoveSystem.moveCharacter(Player, cellPosition, tilemap);
                 }
-                
+
             }
 
+        }
+        else if (State == CurrentState.CAST)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                // Get Mouse Input
+                Vector2 screenPosition = new Vector2(
+                    Input.mousePosition.x,
+                    Input.mousePosition.y
+                    );
+
+                Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+                Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
+
+                if (tilemap.HasTile(cellPosition))
+                {
+                    Debug.Log(PlayerStats.getSpellList());
+                    Vector3Int posPlayer = tilemap.WorldToCell(PlayerTransform.position);
+                    PlayerStats.spells[1].playAnimation(cellPosition, posPlayer, tilemap);
+                }
+            }
         }
     }
 }

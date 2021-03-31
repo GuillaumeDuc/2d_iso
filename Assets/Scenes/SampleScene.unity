@@ -5427,6 +5427,8 @@ GameObject:
   - component: {fileID: 1131004368}
   - component: {fileID: 1131004367}
   - component: {fileID: 1131004369}
+  - component: {fileID: 1131004370}
+  - component: {fileID: 1131004371}
   m_Layer: 0
   m_Name: Turn Based System
   m_TagString: Untagged
@@ -5449,6 +5451,8 @@ MonoBehaviour:
   tilemap: {fileID: 14874894}
   replacingTile: {fileID: 11400000, guid: 92339f10451ce714282b8391b78c0be4, type: 2}
   MoveSystem: {fileID: 1131004369}
+  CastSystem: {fileID: 1131004370}
+  SpellList: {fileID: 1131004371}
   State: 0
 --- !u!4 &1131004368
 Transform:
@@ -5477,6 +5481,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellsGrid: {fileID: 157593983}
+--- !u!114 &1131004370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131004366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9f551240c1f2244795d59b810576736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1131004371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131004366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e827dbf9d53849e45943fb2c1727e170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1286264960
 GameObject:
   m_ObjectHideFlags: 0

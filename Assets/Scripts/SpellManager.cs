@@ -28,6 +28,7 @@ public class SpellManager : MonoBehaviour
 
     void Update()
     {
+        /*
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 screenPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
@@ -35,5 +36,6 @@ public class SpellManager : MonoBehaviour
 
             launchSpell(CurrentSpell, worldPosition);
         }
+        */
     }
 }
