@@ -4,7 +4,7 @@ using UnityEngine;
 public class Spell
 {
     public GameObject spellGO;
-    Sprite picture;
+    public Sprite sprite;
     string nameSpell;
     int range, area, damage;
 
@@ -25,7 +25,7 @@ public class Spell
     public Spell(GameObject spellGO, string nameSpell, int range, int area, int damage)
     {
         this.spellGO = spellGO;
-        this.picture = spellGO.GetComponent<Sprite>();
+        this.sprite = spellGO.GetComponent<SpriteRenderer>().sprite;
         this.nameSpell = nameSpell;
         this.range = range;
         this.area = area;

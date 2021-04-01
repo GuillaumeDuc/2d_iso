@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public enum CurrentState { MOVE, CAST }
 
@@ -22,6 +23,8 @@ public class TurnBasedSystem : MonoBehaviour
 
     public SpellList SpellList;
 
+    public SpellScrollView SpellScrollView;
+
     // Player Speed
     private float moveSpeed = 5f;
 
@@ -36,7 +39,7 @@ public class TurnBasedSystem : MonoBehaviour
         Player = Instantiate(PlayerPrefab, pos, Quaternion.identity);
     }
 
-    public void MovePlayerWithPos(Animator animator, Rigidbody2D rb, Vector2 pos)
+    void MovePlayerWithPos(Animator animator, Rigidbody2D rb, Vector2 pos)
     {
         animator.SetFloat("Horizontal", pos.x);
         animator.SetFloat("Vertical", pos.y);
@@ -57,11 +60,17 @@ public class TurnBasedSystem : MonoBehaviour
         PlayerRigidBody = Player.GetComponent<Rigidbody2D>();
         PlayerTransform = Player.GetComponent<Transform>();
 
-        // Init player
+        // Init Player
         PlayerStats = Player.GetComponent<Unit>();
         PlayerStats.setSpellList(SpellList.Explosion);
         PlayerStats.setSpellList(SpellList.Icycle);
         PlayerStats.setStats("Player", 100, 100);
+
+        // Init UI
+        foreach (var s in PlayerStats.spellList)
+        {
+            SpellScrollView.addSpell(s, PlayerStats);
+        }
     }
 
     void Update()
@@ -111,11 +120,11 @@ public class TurnBasedSystem : MonoBehaviour
                 Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
                 Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
 
-                if (tilemap.HasTile(cellPosition))
+                if (tilemap.HasTile(cellPosition) && PlayerStats.selectedSpell != null)
                 {
-                    Debug.Log(PlayerStats.getSpellList());
+                    // Play Anim
                     Vector3Int posPlayer = tilemap.WorldToCell(PlayerTransform.position);
-                    PlayerStats.spells[1].playAnimation(cellPosition, posPlayer, tilemap);
+                    PlayerStats.selectedSpell.playAnimation(cellPosition, posPlayer, tilemap);
                 }
             }
         }

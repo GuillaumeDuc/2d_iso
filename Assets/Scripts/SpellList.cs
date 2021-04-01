@@ -45,7 +45,7 @@ public class SpellList : MonoBehaviour
             listCells.Add(current);
             current = getClosestNeighbour(current, from, tilemap);
         }
-        
+
         listCells.Reverse();
 
         foreach (var c in listCells)

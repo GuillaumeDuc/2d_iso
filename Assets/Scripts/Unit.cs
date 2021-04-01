@@ -8,7 +8,8 @@ public class Unit : MonoBehaviour
 
     public int maxHP;
     public int currentHP;
-    public List<Spell> spells = new List<Spell>();
+    public List<Spell> spellList = new List<Spell>();
+    public Spell selectedSpell;
 
     public bool takeDamage(int dmg)
     {
@@ -21,13 +22,13 @@ public class Unit : MonoBehaviour
     {
         foreach (var s in newSpells)
         {
-            spells.Add(s);
+            spellList.Add(s);
         }
     }
 
     public void setSpellList(Spell newSpells)
     {
-        spells.Add(newSpells);
+        spellList.Add(newSpells);
     }
 
     public void setStats(string name, int maxHP, int currentHP)
@@ -40,7 +41,7 @@ public class Unit : MonoBehaviour
     public string getSpellList()
     {
         string spellList = "";
-        foreach (var s in spells)
+        foreach (var s in spellList)
         {
             spellList += s.ToString() + "\n";
         }
