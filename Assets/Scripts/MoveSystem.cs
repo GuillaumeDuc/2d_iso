@@ -62,6 +62,13 @@ public class MoveSystem : MonoBehaviour
 {
     public Tilemap cellsGrid;
 
+    private RangeUtils RangeUtils;
+
+    private void Start()
+    {
+        RangeUtils = new RangeUtils();
+    }
+
     public void moveCharacter(GameObject player, Vector3Int posDest, Tilemap tilemap)
     {
         // Get Position from player
@@ -74,7 +81,13 @@ public class MoveSystem : MonoBehaviour
         // A* algorithm
         List<Square> path = getPathCharacter(start, dest, tilemap);
 
-        setTilePath(tilemap, path, dest);
+        // Show path
+        setTilePath(path);
+
+        // Set new position
+        Unit playerStats = player.GetComponent<Unit>();
+        playerStats.position = posDest;
+
         // move player from 1 to 1 square
         StartCoroutine(Move(playerTransform, path, tilemap));
     }
@@ -135,9 +148,9 @@ public class MoveSystem : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
             Vector2 pos = new Vector2(tilemap.CellToWorld(s.pos).x, tilemap.CellToWorld(s.pos).y + 0.2f);
-            Debug.Log("ok : " + pos);
             playerTransform.position = pos;
         }
+        RangeUtils.removeCells(cellsGrid);
     }
 
     private Square getSquareLowestScore(List<Square> openList)
@@ -216,10 +229,9 @@ public class MoveSystem : MonoBehaviour
         return reconstructPath(current.previousSquare, path);
     }
 
-    private void setTilePath(Tilemap tilemap, List<Square> path, Square dest)
+    private void setTilePath(List<Square> path)
     {
-        Tile transparent = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile_iso");
-
+        Tile transparent = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
         foreach (var s in path)
         {
             cellsGrid.SetTile(s.pos, transparent);

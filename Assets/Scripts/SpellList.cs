@@ -1,5 +1,6 @@
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using System.Linq;
 
@@ -10,20 +11,26 @@ public class SpellList : MonoBehaviour
     public Spell Explosion, Icycle;
     private static GameObject ExplosionGO, IcycleGO;
     private string nameSpell;
+    private RangeUtils RangeUtils;
 
     void Start()
     {
+        // Instantiate Utils to get area & calculations
+        RangeUtils = new RangeUtils();
+
         // Explosion
         nameSpell = "Explosion";
         ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell);
-        Explosion = new Spell(ExplosionGO, nameSpell, 3, 1, 10);
-        Explosion.animate = animateOnCell;
+        Explosion = new Spell(ExplosionGO, nameSpell, 3, 10, 3);
+        Explosion.animate = animateInCircleFull;
+        Explosion.getAreaList = getAreaInCircleFull;
 
         // Icycle
         nameSpell = "Icycle";
         IcycleGO = Resources.Load<GameObject>(PATH + nameSpell);
-        Icycle = new Spell(IcycleGO, nameSpell, 3, 1, 10);
+        Icycle = new Spell(IcycleGO, nameSpell, 10, 12, 5, true, true);
         Icycle.animate = animateInLine;
+        Icycle.getAreaList = getAreaInCircleFull;
     }
 
     // Animation
@@ -36,52 +43,40 @@ public class SpellList : MonoBehaviour
 
     public void animateInLine(Spell spell, Vector3Int to, Vector3Int from, Tilemap tilemap)
     {
-        Vector2 worldPosTo = tilemap.CellToWorld(to);
-        Vector3Int current = new Vector3Int(to.x, to.y, to.z);
-        List<Vector3Int> listCells = new List<Vector3Int>();
+        List<Vector3Int> listCells = getAreaInLine(spell, to, from, tilemap);
 
-        while (current != from)
-        {
-            listCells.Add(current);
-            current = getClosestNeighbour(current, from, tilemap);
-        }
+        StartCoroutine(multipleAnimateOnCell(listCells, spell, from, tilemap));
+    }
 
-        listCells.Reverse();
+    public void animateInCircleFull(Spell spell, Vector3Int to, Vector3Int from, Tilemap tilemap)
+    {
+        List<Vector3Int> listCells = RangeUtils.getAreaCircleFull(to, spell.area, tilemap);
 
+        StartCoroutine(multipleAnimateOnCell(listCells, spell, from, tilemap));
+    }
+
+    IEnumerator multipleAnimateOnCell(List<Vector3Int> listCells, Spell spell, Vector3Int from, Tilemap tilemap)
+    {
         foreach (var c in listCells)
         {
+            yield return new WaitForSeconds(0.1f);
             animateOnCell(spell, c, from, tilemap);
         }
-
     }
 
-    private Vector3Int getClosestNeighbour(Vector3Int to, Vector3Int from, Tilemap tilemap)
+    // Area
+    public List<Vector3Int> getAreaSingleCell(Spell spell, Vector3Int to, Vector3Int from, Tilemap tilemap)
     {
-        Vector3Int up = new Vector3Int(to.x, to.y + 1, to.z);
-        Vector3Int down = new Vector3Int(to.x, to.y - 1, to.z);
-        Vector3Int left = new Vector3Int(to.x - 1, to.y, to.z);
-        Vector3Int right = new Vector3Int(to.x + 1, to.y, to.z);
-        Vector3Int topRight = new Vector3Int(to.x + 1, to.y + 1, to.z);
-        Vector3Int topLeft = new Vector3Int(to.x - 1, to.y + 1, to.z);
-        Vector3Int bottomRight = new Vector3Int(to.x + 1, to.y - 1, to.z);
-        Vector3Int bottomLeft = new Vector3Int(to.x - 1, to.y - 1, to.z);
-
-        Dictionary<Vector3Int, float> neighbours = new Dictionary<Vector3Int, float>() {
-            { up, getMDistance(up, from) },
-            { down, getMDistance(down, from) },
-            { left, getMDistance(left, from) },
-            { right, getMDistance(right, from) },
-            { topRight, getMDistance(topRight, from) },
-            { topLeft, getMDistance(topLeft, from) },
-            { bottomRight, getMDistance(bottomRight, from) },
-            {bottomLeft, getMDistance(bottomLeft, from) },
-        };
-
-        return neighbours.FirstOrDefault(x => x.Value == neighbours.Min(n => n.Value)).Key;
+        return new List<Vector3Int>() { to };
     }
 
-    private float getMDistance(Vector3Int to, Vector3Int from)
+    public List<Vector3Int> getAreaInCircleFull(Spell spell, Vector3Int to, Vector3Int from, Tilemap tilemap)
     {
-        return Mathf.Abs(to.x - from.x) + Mathf.Abs(to.y - from.y);
+        return RangeUtils.getAreaCircleFull(to, spell.area, tilemap);
+    }
+
+    public List<Vector3Int> getAreaInLine(Spell spell, Vector3Int to, Vector3Int from, Tilemap tilemap)
+    {
+        return RangeUtils.getAreaInLine(to, from, tilemap);
     }
 }

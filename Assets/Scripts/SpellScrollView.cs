@@ -1,11 +1,21 @@
-using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using UnityEngine;
 
 public class SpellScrollView : MonoBehaviour
 {
     public GameObject contentContainer;
 
     public GameObject SpellButtonPrefab;
+
+    public TurnBasedSystem turnBasedSystem;
+
+    private RangeUtils RangeUtils;
+
+    private void Start()
+    {
+        RangeUtils = new RangeUtils();
+    }
 
     public void addSpell(Spell spell, Unit unit)
     {
@@ -24,6 +34,6 @@ public class SpellScrollView : MonoBehaviour
 
     void onClickSpell(Spell spell, Unit unit)
     {
-        unit.selectedSpell = spell;
+        turnBasedSystem.onClickSpell( spell,  unit);
     }
 }
