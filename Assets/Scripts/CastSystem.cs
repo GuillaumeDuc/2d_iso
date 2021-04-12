@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
+using System.Linq;
 
 public class CastSystem : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class CastSystem : MonoBehaviour
         transparent = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
     }
 
-    public bool canCast(Spell spell, Vector3Int cellPosition, Vector3Int playerPos, List<Vector3Int> area, Tilemap tilemap)
+    public bool canCast(Spell spell, Vector3Int cellPosition, Vector3Int playerPos, List<Vector3Int> range, Tilemap tilemap)
     {
         // Tile is empty
         if (!tilemap.HasTile(cellPosition))
@@ -33,48 +34,70 @@ public class CastSystem : MonoBehaviour
         // Check line of sight
         if (spell.lineOfSight && !RangeUtils.lineOfSight(playerPos, cellPosition, tilemap))
         {
-            return false ;
+            return false;
         }
         // Check if click is in range
-        if (!area.Contains(cellPosition))
+        if (!range.Contains(cellPosition))
         {
             return false;
         }
         return true;
     }
 
-    public void castSpell(Spell selectedSpell, Vector3Int cellPosition, Vector3Int playerPos, Tilemap tilemap)
+    public CastState cast(Spell spell, Unit player, Vector3Int cellClicked, CastState currentState, Tilemap tilemap, Tilemap cellsGrid)
     {
-        selectedSpell.playAnimation(cellPosition, playerPos, tilemap);
+        RangeUtils.removeCells(cellsGrid);
+        if (currentState == CastState.SHOW_AREA)
+        {
+            spell.casterPos = player.position;
+
+            if (!canCast(spell, cellClicked, spell.casterPos, spell.getRange(tilemap), tilemap)){
+                return CastState.DEFAULT;
+            }
+
+            spell.spellPos.Add(cellClicked);
+
+            showArea(spell.getArea(tilemap), cellsGrid, new Color(0.9f, 0.1f, 0.1f, 0.5f));
+
+            if (!(spell.spellPos.Count() == spell.clickNb))
+            {
+                showArea(spell.getRange(tilemap), cellsGrid);
+            }
+
+            if (spell.spellPos.Count() == spell.clickNb)
+            {
+                return CastState.CAST_SPELL;
+            }
+        }
+
+        if (currentState == CastState.CAST_SPELL)
+        {
+            if (canCast(spell, cellClicked, spell.casterPos, spell.getArea(tilemap), tilemap))
+            {
+                castSpell(spell, player, tilemap);
+            }
+            spell.spellPos.Clear();
+            return CastState.DEFAULT;
+        }
+
+        return currentState;
+    }
+
+    public void castSpell(Spell spell, Unit player, Tilemap tilemap)
+    {
+        spell.playAnimation(tilemap);
         // Todo : damage & effects
     }
 
-    public void showSpellArea(Spell spell, Vector3Int to, Vector3Int from, Tilemap cellsGrid, Tilemap tilemap)
+    public void showArea(List<Vector3Int> area, Tilemap cellsGrid)
     {
-        List<Vector3Int> area = spell.getArea(to, from, tilemap);
-        // Red
-        transparent.color = new Color(0.9f, 0.1f, 0.1f, 0.5f);
         RangeUtils.setTileOnTilemap(area, transparent, cellsGrid);
-        // White
-        transparent.color = new Color(1, 1, 1, 0.5f);
     }
 
-    public void showSpellArea(Spell spell, Vector3Int to, Vector3Int from, Tilemap cellsGrid, Tilemap tilemap, Color color)
+    public void showArea(List<Vector3Int> area, Tilemap cellsGrid, Color color)
     {
-        List<Vector3Int> area = spell.getArea(to, from, tilemap);
-        // Red
         transparent.color = color;
         RangeUtils.setTileOnTilemap(area, transparent, cellsGrid);
-        // White
-        transparent.color = new Color(1, 1, 1, 0.5f);
-    }
-
-    public void showAreaSelected(Vector3Int clickedPos, Vector3Int cellPosition, Tilemap cellsGrid)
-    {
-        List<Vector3Int> line = RangeUtils.getLine(clickedPos, cellPosition);
-        // Red
-        transparent.color = new Color(0.9f, 0.1f, 0.1f, 0.5f);
-        RangeUtils.setTileOnTilemap(line, transparent, cellsGrid);
         // White
         transparent.color = new Color(1, 1, 1, 0.5f);
     }
@@ -158,6 +181,4 @@ public class CastSystem : MonoBehaviour
             }
         });
     }
-
-
 }

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public enum CurrentState { MOVE, CAST }
 
-public enum CastState { DEFAULT, SELECT_AREA, CONFIRM_AREA, CAST_SPELL }
+public enum CastState { DEFAULT, SHOW_RANGE, SHOW_AREA, CAST_SPELL }
 
 public class TurnBasedSystem : MonoBehaviour
 {
@@ -42,12 +42,6 @@ public class TurnBasedSystem : MonoBehaviour
     public CurrentState CurrentState;
     public CastState CastState;
 
-    // Freeze spell selection
-    private Spell selectedSpell;
-    private Vector3Int playerPos;
-    private Vector3Int clickedPos;
-    private Vector3Int secondClickPos;
-
     void InstantiatePlayer(GameObject PlayerPrefab)
     {
         Vector2 pos = new Vector2(posPlayerX, posPlayerY);
@@ -69,9 +63,11 @@ public class TurnBasedSystem : MonoBehaviour
         RangeUtils.removeCells(cellsGrid);
 
         unit.selectedSpell = spell;
-        CastSystem.showSpellRange(spell, unit.position, cellsGrid, tilemap);
+        spell.casterPos = unit.position;
+        CastSystem.showArea(spell.getRange(tilemap), cellsGrid);
 
         CurrentState = CurrentState.CAST;
+        CastState = CastState.SHOW_AREA;
     }
 
     void Start()
@@ -111,126 +107,41 @@ public class TurnBasedSystem : MonoBehaviour
 
         dialogueText.text = "Current State : " + CurrentState + "\n" + "Cast State : " + CastState;
 
-        if (CurrentState == CurrentState.MOVE)
+        // Get keys input
+        /*
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
+        Vector2 worldPositio = new Vector2(x,y);
+        Debug.Log("MOVE TO " + worldPositio);
+        MovePlayerWithPos(PlayerAnimator, PlayerRigidBody, worldPositio);
+        */
+
+        // Left mouse click
+        if (Input.GetMouseButtonDown(0))
         {
-            // Get keys input
-            /*
-            float x = Input.GetAxisRaw("Horizontal");
-            float y = Input.GetAxisRaw("Vertical");
-            Vector2 worldPositio = new Vector2(x,y);
-            Debug.Log("MOVE TO " + worldPositio);
-            MovePlayerWithPos(PlayerAnimator, PlayerRigidBody, worldPositio);
-            */
+            // Get Mouse Input
+            Vector2 screenPosition = new Vector2(
+                Input.mousePosition.x,
+                Input.mousePosition.y
+                );
 
-            // Left mouse click
-            if (Input.GetMouseButtonDown(0))
+            Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+            Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
+
+            if (CurrentState == CurrentState.MOVE)
             {
-                // Get Mouse Input
-                Vector2 screenPosition = new Vector2(
-                    Input.mousePosition.x,
-                    Input.mousePosition.y
-                    );
-
-                Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-                Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
-
                 // Move player
                 if (tilemap.HasTile(cellPosition))
                 {
                     MoveSystem.moveCharacter(Player, cellPosition, tilemap);
                 }
+
             }
-
-        }
-        else if (CurrentState == CurrentState.CAST)
-        {
-            if (Input.GetMouseButtonDown(0))
+            else if (CurrentState == CurrentState.CAST)
             {
-                // Get Mouse Input
-                Vector2 screenPosition = new Vector2(
-                    Input.mousePosition.x,
-                    Input.mousePosition.y
-                );
-
-                // Position in 2d on screen
-                Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-                // Position in world
-                Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
-
+                CastState = CastSystem.cast(PlayerStats.selectedSpell, PlayerStats, cellPosition, CastState, tilemap, cellsGrid);
                 if (CastState == CastState.DEFAULT)
                 {
-                    // Remove any cells on cellsGrid
-                    RangeUtils.removeCells(cellsGrid);
-
-                    // Save spell selected from SpellScrollView
-                    selectedSpell = PlayerStats.selectedSpell;
-                    // Player Position in world
-                    playerPos = tilemap.WorldToCell(PlayerTransform.position);
-                    // Cell clicked
-                    clickedPos = cellPosition;
-
-                    if (CastSystem.canCast(selectedSpell, clickedPos, playerPos, RangeUtils.getAreaCircleFull(playerPos, selectedSpell.range, tilemap), tilemap))
-                    {
-                        // Show Area (in white if selectable area
-                        if (selectedSpell.selectableArea)
-                        {
-                            CastSystem.showSpellArea(selectedSpell, clickedPos, playerPos, cellsGrid, tilemap, new Color(1, 1, 1, 0.5f));
-                        }
-                        else
-                        {
-                            CastSystem.showSpellArea(selectedSpell, clickedPos, playerPos, cellsGrid, tilemap);
-                        }
-
-                        // Move to casting the spell or selecting the area
-                        if (selectedSpell.selectableArea)
-                        {
-                            CastState = CastState.SELECT_AREA;
-                        }
-                        else
-                        {
-                            CastState = CastState.CAST_SPELL;
-                        }
-                    }
-                    else
-                    {
-                        CurrentState = CurrentState.MOVE;
-                    }
-                }
-                else if (CastState == CastState.SELECT_AREA)
-                {
-                    // Remove any cells on cellsGrid
-                    RangeUtils.removeCells(cellsGrid);
-
-                    secondClickPos = cellPosition;
-                    // Show Area
-                    if (CastSystem.canCast(selectedSpell, clickedPos, secondClickPos, selectedSpell.getArea(clickedPos, playerPos, tilemap), tilemap))
-                    {
-                        CastSystem.showAreaSelected(clickedPos, secondClickPos, cellsGrid);
-                        CastState = CastState.CAST_SPELL;
-                    }
-                    else
-                    {
-                        CastState = CastState.DEFAULT;
-                        CurrentState = CurrentState.MOVE;
-                    }
-                }
-                else if (CastState == CastState.CAST_SPELL)
-                {
-                    // Remove any cells on cellsGrid
-                    RangeUtils.removeCells(cellsGrid);
-                    if (selectedSpell.selectableArea)
-                    {
-                        CastSystem.castSpell(selectedSpell, secondClickPos, clickedPos, tilemap);
-                    }
-                    else
-                    {
-                        if (CastSystem.canCast(selectedSpell, cellPosition, playerPos, selectedSpell.getArea(clickedPos, playerPos, tilemap), tilemap))
-                        {
-                            CastSystem.castSpell(selectedSpell, clickedPos, playerPos, tilemap);
-                        }
-                    }
-                    // Cast state over, set cast state to default and switch to move state
-                    CastState = CastState.DEFAULT;
                     CurrentState = CurrentState.MOVE;
                 }
             }

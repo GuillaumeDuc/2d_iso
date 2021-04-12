@@ -7,31 +7,33 @@ public class Spell
     public GameObject spellGO;
     public Sprite sprite;
     string nameSpell;
-    public int range, area, damage;
-    public bool lineOfSight, selectableArea;
+    public int range, area, damage, clickNb;
+    public bool lineOfSight;
+    public List<Vector3Int> spellPos;
+    public Vector3Int casterPos;
 
-    public System.Action<Spell, Vector3Int, Vector3Int, Tilemap> animate { get; set; }
+    public System.Action<Spell, Tilemap> animate { get; set; }
 
-    public System.Func<Spell, Vector3Int, Vector3Int, Tilemap, List<Vector3Int>> getAreaList;
+    public System.Func<Spell, Tilemap, List<Vector3Int>> getAreaList;
 
-    public List<Vector3Int> getArea(Vector3Int to, Vector3Int from, Tilemap tilemap)
+    public System.Func<Spell, Tilemap, List<Vector3Int>> getRangeList;
+
+    public List<Vector3Int> getRange(Tilemap tilemap)
     {
-        return getAreaList(this, to, from, tilemap);
+        return getRangeList(this, tilemap);
     }
 
-    public void playAnimation(Vector3Int to, Tilemap tilemap)
+    public List<Vector3Int> getArea(Tilemap tilemap)
     {
-        animate(this, to, new Vector3Int(), tilemap);
+        return getAreaList(this, tilemap);
     }
 
-    public void playAnimation(Vector3Int to, Vector3Int from, Tilemap tilemap)
+    public void playAnimation(Tilemap tilemap)
     {
-        animate(this, to, from, tilemap);
+        animate(this, tilemap);
     }
 
-    public Spell Explosion;
-
-    public Spell(GameObject spellGO, string nameSpell, int damage, int range, int area = 0, bool lineOfSight = true, bool selectableArea = false)
+    public Spell(GameObject spellGO, string nameSpell, int damage, int range, int area = 0, bool lineOfSight = true, int clickNb = 1)
     {
         this.spellGO = spellGO;
         this.sprite = spellGO.GetComponent<SpriteRenderer>().sprite;
@@ -40,7 +42,8 @@ public class Spell
         this.area = area;
         this.damage = damage;
         this.lineOfSight = lineOfSight;
-        this.selectableArea = selectableArea;
+        this.clickNb = clickNb;
+        spellPos = new List<Vector3Int>();
     }
 
     override public string ToString()

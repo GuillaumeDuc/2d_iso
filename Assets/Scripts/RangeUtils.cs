@@ -99,6 +99,7 @@ public class RangeUtils
     public List<Vector3Int> getAreaInLine(Vector3Int to, Vector3Int from, Tilemap tilemap)
     {
         List<Vector3Int> listCells = new List<Vector3Int>(getLine(from, to));
+        listCells.Reverse();
         return listCells;
     }
 
@@ -159,7 +160,7 @@ public class RangeUtils
     {
         listSquare.ForEach(s =>
         {
-                tilemap.SetTile(s, tile);
+            tilemap.SetTile(s, tile);
         });
     }
 
