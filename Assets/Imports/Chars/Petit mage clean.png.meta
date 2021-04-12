@@ -1,25 +1,25 @@
 fileFormatVersion: 2
-guid: e705af341ec2b00409cfacf3bd5d259a
+guid: c3bd8f66b0b086347bfda66aa0d76f60
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2097513807213676222
-    second: magicien feu_0
+      213: -4841650831263326130
+    second: Petit mage clean_0
   - first:
-      213: 3344158014813400362
-    second: magicien feu_1
+      213: -4373378838481593502
+    second: Petit mage clean_1
   - first:
-      213: 8502035407985771817
-    second: magicien feu_2
+      213: -8341846026534147516
+    second: Petit mage clean_2
   - first:
-      213: 4135218123406543896
-    second: magicien feu_3
+      213: 6269761791213110684
+    second: Petit mage clean_3
   - first:
-      213: 8654986205756901084
-    second: magicien feu_4
+      213: 8086784083133608159
+    second: Petit mage clean_4
   - first:
-      213: -1683310396909872518
-    second: magicien feu_5
+      213: 3867875155116813221
+    second: Petit mage clean_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -64,7 +64,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 150
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -121,13 +121,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: magicien feu_0
+      name: Petit mage clean_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 320
-        width: 189
-        height: 180
+        y: 0
+        width: 283.55554
+        height: 320
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -135,20 +135,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2493d813e4224e2e0800000000000000
-      internalID: -2097513807213676222
+      spriteID: e40231c98300fccb0800000000000000
+      internalID: -4841650831263326130
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magicien feu_1
+      name: Petit mage clean_1
       rect:
         serializedVersion: 2
-        x: 190
-        y: 320
-        width: 189
-        height: 180
+        x: 283
+        y: 0
+        width: 283.55554
+        height: 320
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a2d6ab11ff5d86e20800000000000000
-      internalID: 3344158014813400362
+      spriteID: 26b18181e13ae43c0800000000000000
+      internalID: -4373378838481593502
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magicien feu_2
+      name: Petit mage clean_2
       rect:
         serializedVersion: 2
-        x: 378
-        y: 320
-        width: 189
-        height: 180
+        x: 566
+        y: 0
+        width: 283.55554
+        height: 320
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -177,20 +177,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 92509c8682c4df570800000000000000
-      internalID: 8502035407985771817
+      spriteID: 44aad616c3fcb3c80800000000000000
+      internalID: -8341846026534147516
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magicien feu_3
+      name: Petit mage clean_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 117
-        width: 189
-        height: 180
+        x: 849
+        y: 0
+        width: 283.55554
+        height: 320
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -198,20 +198,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 81c876259fe336930800000000000000
-      internalID: 4135218123406543896
+      spriteID: c950397612ba20750800000000000000
+      internalID: 6269761791213110684
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magicien feu_4
+      name: Petit mage clean_4
       rect:
         serializedVersion: 2
-        x: 191
-        y: 116
-        width: 189
-        height: 180
+        x: 1132
+        y: 0
+        width: 283.55554
+        height: 320
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -219,29 +219,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cd6cb0a1910bc1870800000000000000
-      internalID: 8654986205756901084
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: magicien feu_5
-      rect:
-        serializedVersion: 2
-        x: 378
-        y: 117
-        width: 189
-        height: 180
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a7a1771dc1ea3a8e0800000000000000
-      internalID: -1683310396909872518
+      spriteID: fd0367a27470a3070800000000000000
+      internalID: 8086784083133608159
       vertices: []
       indices: 
       edges: []

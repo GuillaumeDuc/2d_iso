@@ -8,13 +8,9 @@ public class SpellManager : MonoBehaviour
     public GameObject Explosion;
     public GameObject Fireball;
     public GameObject Icycle;
-<<<<<<< HEAD
-    
-=======
     public GameObject Lightning;
     private int spellNb = 0;
     List<GameObject> spellList = new List<GameObject> ();
->>>>>>> 5aabd74 (guigui)
     private GameObject CurrentSpell;
 
     void launchSpell(GameObject Spell, Vector2 pos)

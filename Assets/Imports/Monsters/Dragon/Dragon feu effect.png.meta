@@ -1,25 +1,19 @@
 fileFormatVersion: 2
-guid: e705af341ec2b00409cfacf3bd5d259a
+guid: f7f202d7c0e9e5040b69eff4b99dc572
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2097513807213676222
-    second: magicien feu_0
+      213: 141011663366836796
+    second: Dragon feu effect_0
   - first:
-      213: 3344158014813400362
-    second: magicien feu_1
+      213: 8781349814076211203
+    second: Dragon feu effect_1
   - first:
-      213: 8502035407985771817
-    second: magicien feu_2
+      213: -7013713083217091137
+    second: Dragon feu effect_2
   - first:
-      213: 4135218123406543896
-    second: magicien feu_3
-  - first:
-      213: 8654986205756901084
-    second: magicien feu_4
-  - first:
-      213: -1683310396909872518
-    second: magicien feu_5
+      213: 8151354418401249125
+    second: Dragon feu effect_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -64,7 +58,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 150
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -121,127 +115,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: magicien feu_0
+      name: Dragon feu effect_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 320
-        width: 189
-        height: 180
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        y: 0
+        width: 400
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2493d813e4224e2e0800000000000000
-      internalID: -2097513807213676222
+      spriteID: c32da285c59f4f100800000000000000
+      internalID: 141011663366836796
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magicien feu_1
+      name: Dragon feu effect_1
       rect:
         serializedVersion: 2
-        x: 190
-        y: 320
-        width: 189
-        height: 180
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 400
+        y: 0
+        width: 400
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a2d6ab11ff5d86e20800000000000000
-      internalID: 3344158014813400362
+      spriteID: 300847c512f9dd970800000000000000
+      internalID: 8781349814076211203
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magicien feu_2
+      name: Dragon feu effect_2
       rect:
         serializedVersion: 2
-        x: 378
-        y: 320
-        width: 189
-        height: 180
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 800
+        y: 0
+        width: 400
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 92509c8682c4df570800000000000000
-      internalID: 8502035407985771817
+      spriteID: fb5e55e6c194aae90800000000000000
+      internalID: -7013713083217091137
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magicien feu_3
+      name: Dragon feu effect_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 117
-        width: 189
-        height: 180
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 1200
+        y: 0
+        width: 400
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 81c876259fe336930800000000000000
-      internalID: 4135218123406543896
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: magicien feu_4
-      rect:
-        serializedVersion: 2
-        x: 191
-        y: 116
-        width: 189
-        height: 180
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cd6cb0a1910bc1870800000000000000
-      internalID: 8654986205756901084
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: magicien feu_5
-      rect:
-        serializedVersion: 2
-        x: 378
-        y: 117
-        width: 189
-        height: 180
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a7a1771dc1ea3a8e0800000000000000
-      internalID: -1683310396909872518
+      spriteID: 5670e13e7ad6f1170800000000000000
+      internalID: 8151354418401249125
       vertices: []
       indices: 
       edges: []

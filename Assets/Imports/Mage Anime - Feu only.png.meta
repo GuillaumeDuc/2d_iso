@@ -1,25 +1,19 @@
 fileFormatVersion: 2
-guid: e705af341ec2b00409cfacf3bd5d259a
+guid: e0d599221a3bae5438c73eb5f67a7eb1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2097513807213676222
-    second: magicien feu_0
+      213: -7712909567225803803
+    second: Mage Anime - Feu only_0
   - first:
-      213: 3344158014813400362
-    second: magicien feu_1
+      213: 1243490079555004509
+    second: Mage Anime - Feu only_1
   - first:
-      213: 8502035407985771817
-    second: magicien feu_2
+      213: 7738470180883509039
+    second: Mage Anime - Feu only_2
   - first:
-      213: 4135218123406543896
-    second: magicien feu_3
-  - first:
-      213: 8654986205756901084
-    second: magicien feu_4
-  - first:
-      213: -1683310396909872518
-    second: magicien feu_5
+      213: -2816640441773073320
+    second: Mage Anime - Feu only_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -64,7 +58,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 150
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -121,127 +115,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: magicien feu_0
+      name: Mage Anime - Feu only_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 320
-        width: 189
-        height: 180
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        y: 0
+        width: 170.25
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2493d813e4224e2e0800000000000000
-      internalID: -2097513807213676222
+      spriteID: 5eb4bc40d9d36f490800000000000000
+      internalID: -7712909567225803803
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magicien feu_1
+      name: Mage Anime - Feu only_1
       rect:
         serializedVersion: 2
-        x: 190
-        y: 320
-        width: 189
-        height: 180
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 170
+        y: 0
+        width: 170.25
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a2d6ab11ff5d86e20800000000000000
-      internalID: 3344158014813400362
+      spriteID: d58299993a3c14110800000000000000
+      internalID: 1243490079555004509
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magicien feu_2
+      name: Mage Anime - Feu only_2
       rect:
         serializedVersion: 2
-        x: 378
-        y: 320
-        width: 189
-        height: 180
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 340
+        y: 0
+        width: 170.25
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 92509c8682c4df570800000000000000
-      internalID: 8502035407985771817
+      spriteID: f2fa38c11a1946b60800000000000000
+      internalID: 7738470180883509039
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: magicien feu_3
+      name: Mage Anime - Feu only_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 117
-        width: 189
-        height: 180
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 510
+        y: 0
+        width: 170.25
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 81c876259fe336930800000000000000
-      internalID: 4135218123406543896
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: magicien feu_4
-      rect:
-        serializedVersion: 2
-        x: 191
-        y: 116
-        width: 189
-        height: 180
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cd6cb0a1910bc1870800000000000000
-      internalID: 8654986205756901084
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: magicien feu_5
-      rect:
-        serializedVersion: 2
-        x: 378
-        y: 117
-        width: 189
-        height: 180
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a7a1771dc1ea3a8e0800000000000000
-      internalID: -1683310396909872518
+      spriteID: 85cdd10017849e8d0800000000000000
+      internalID: -2816640441773073320
       vertices: []
       indices: 
       edges: []
@@ -255,7 +207,9 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
+    secondaryTextures:
+    - texture: {fileID: 2800000, guid: 298cac9e17b29504d9a3f4aede3a4482, type: 3}
+      name: _Emission
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
