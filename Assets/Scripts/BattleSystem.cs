@@ -51,7 +51,7 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator PlayerAttack()
     {
-        bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
+        // bool isDead = enemyUnit.takeDamage(playerUnit.damage);
 
         enemyHUD.setHP(enemyUnit.currentHP);
 
@@ -59,11 +59,12 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
 
-        if (isDead)
+        if (true)
         {
             state = BattleState.WON;
             EndBattle();
-        } else
+        }
+        else
         {
             state = BattleState.ENNEMYTURN;
             StartCoroutine(EnemyTurn());
@@ -76,17 +77,18 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
+        // bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
 
         playerHUD.setHP(playerUnit.currentHP);
 
         yield return new WaitForSeconds(1f);
 
-        if (isDead)
+        if (true)
         {
             state = BattleState.LOST;
             EndBattle();
-        } else
+        }
+        else
         {
             state = BattleState.PLAYERTURN;
             PlayerTurn();
@@ -95,10 +97,11 @@ public class BattleSystem : MonoBehaviour
 
     void EndBattle()
     {
-        if(state == BattleState.WON)
+        if (state == BattleState.WON)
         {
             dialogueText.text = "You won the battle!";
-        } else if (state == BattleState.LOST)
+        }
+        else if (state == BattleState.LOST)
         {
             dialogueText.text = "You were defeated !";
         }
@@ -106,7 +109,7 @@ public class BattleSystem : MonoBehaviour
 
     void PlayerTurn()
     {
-        dialogueText.text = "Choose an action :"; 
+        dialogueText.text = "Choose an action :";
     }
 
     public void OnAttackButton()
@@ -121,6 +124,6 @@ public class BattleSystem : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 }
