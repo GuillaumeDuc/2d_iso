@@ -18,6 +18,13 @@ public class Spell
 
     public System.Func<Spell, Tilemap, List<Vector3Int>> getRangeList;
 
+    public System.Func<Spell, Vector3Int, Tilemap, bool> canCastOn;
+
+    public bool canCast(Vector3Int cell, Tilemap tilemap)
+    {
+        return canCastOn(this, cell, tilemap);
+    }
+
     public List<Vector3Int> getRange(Tilemap tilemap)
     {
         return getRangeList(this, tilemap);
@@ -48,6 +55,9 @@ public class Spell
 
     override public string ToString()
     {
-        return "spell go : " + spellGO + "\n" + "name : " + nameSpell + "\n" + "damage|range|area : " + damage + "|" + range + "|" + area;
+        return "spell go : " + spellGO + "\n" +
+            "name : " + nameSpell + "\n" +
+            "damage|range|area : " + damage + "|" + range + "|" + area + "\n" +
+            "line of sight : " + lineOfSight;
     }
 }

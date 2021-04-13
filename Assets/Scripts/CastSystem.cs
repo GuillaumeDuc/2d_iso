@@ -19,31 +19,6 @@ public class CastSystem : MonoBehaviour
         transparent = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
     }
 
-    public bool canCast(Spell spell, Vector3Int cellPosition, Vector3Int playerPos, List<Vector3Int> range, Tilemap tilemap)
-    {
-        // Tile is empty
-        if (!tilemap.HasTile(cellPosition))
-        {
-            return false;
-        }
-        // No spell selected
-        if (spell == null)
-        {
-            return false;
-        }
-        // Check line of sight
-        if (spell.lineOfSight && !RangeUtils.lineOfSight(playerPos, cellPosition, tilemap))
-        {
-            return false;
-        }
-        // Check if click is in range
-        if (!range.Contains(cellPosition))
-        {
-            return false;
-        }
-        return true;
-    }
-
     public CastState cast(Spell spell, Unit player, Vector3Int cellClicked, CastState currentState, Tilemap tilemap, Tilemap cellsGrid)
     {
         RangeUtils.removeCells(cellsGrid);
@@ -51,7 +26,9 @@ public class CastSystem : MonoBehaviour
         {
             spell.casterPos = player.position;
 
-            if (!canCast(spell, cellClicked, spell.casterPos, spell.getRange(tilemap), tilemap)){
+            if (!spell.canCast(cellClicked, tilemap))
+            {
+                spell.spellPos.Clear();
                 return CastState.DEFAULT;
             }
 
@@ -72,7 +49,7 @@ public class CastSystem : MonoBehaviour
 
         if (currentState == CastState.CAST_SPELL)
         {
-            if (canCast(spell, cellClicked, spell.casterPos, spell.getArea(tilemap), tilemap))
+            if (spell.getArea(tilemap).Contains(cellClicked))
             {
                 castSpell(spell, player, tilemap);
             }

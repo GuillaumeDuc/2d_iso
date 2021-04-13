@@ -27,20 +27,59 @@ public class SpellList : MonoBehaviour
         Explosion.getRangeList = getRangeInCircleFullPlayer;
         Explosion.getAreaList = getAreaInCircleFull;
         Explosion.animate = animateInCircleFull;
+        Explosion.canCastOn = canCast;
 
         // Icycle
         nameSpell = "Icycle";
         IcycleGO = Resources.Load<GameObject>(PATH + nameSpell);
-        Icycle = new Spell(IcycleGO, nameSpell, 10, 12, 5, true);
+        Icycle = new Spell(IcycleGO, nameSpell, 10, 10, 1, false, 3);
         Icycle.getRangeList = getRangeInCircleFullPlayer;
-        Icycle.getAreaList = getAreaInLine;
-        Icycle.animate = animateInLine;
+        Icycle.getAreaList = getAreaSingleCell;
+        Icycle.animate = animateOnCell;
+        Icycle.canCastOn = canCast;
+    }
+
+    public bool canCast(Spell spell, List<Vector3Int> range, Vector3Int cell, Tilemap tilemap)
+    {
+        // Tile is empty
+        if (!tilemap.HasTile(cell))
+        {
+            return false;
+        }
+        // No spell selected
+        if (spell == null)
+        {
+            return false;
+        }
+        // Check line of sight
+        if (spell.lineOfSight && !RangeUtils.lineOfSight(spell.casterPos, cell, tilemap))
+        {
+            return false;
+        }
+        // Check if cell is in range
+        if (!range.Contains(cell))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public bool canCast(Spell spell, Vector3Int cell, Tilemap tilemap)
+    {
+        return canCast(spell, spell.getRange(tilemap), cell, tilemap);
     }
 
     // Animation
     public void animateInCircleFull(Spell spell, Tilemap tilemap)
     {
         List<Vector3Int> listCells = getAreaInCircleFull(spell, tilemap);
+
+        StartCoroutine(multipleAnimateOnCell(listCells, spell, tilemap));
+    }
+
+    public void animateInLine(Spell spell, Tilemap tilemap)
+    {
+        List<Vector3Int> listCells = getAreaInLine(spell, tilemap);
 
         StartCoroutine(multipleAnimateOnCell(listCells, spell, tilemap));
     }
@@ -60,13 +99,16 @@ public class SpellList : MonoBehaviour
         Instantiate(spell.spellGO, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
     }
 
-    public void animateInLine(Spell spell, Tilemap tilemap)
+    public void animateOnCell(Spell spell, Tilemap tilemap)
     {
-        List<Vector3Int> listCells = getAreaInLine(spell, tilemap);
+        List<Vector3Int> listCells = getAreaSingleCell(spell, tilemap);
 
-        StartCoroutine(multipleAnimateOnCell(listCells, spell, tilemap));
+        listCells.ForEach(s =>
+        {
+            Vector2 worldPos = tilemap.CellToWorld(s);
+            Instantiate(spell.spellGO, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+        });
     }
-
 
     // Range 
     public List<Vector3Int> getRangeInCircleFullPlayer(Spell spell, Tilemap tilemap)
@@ -75,10 +117,11 @@ public class SpellList : MonoBehaviour
         // Get full circle
         List<Vector3Int> listSquare = RangeUtils.getAreaCircleFull(spell.casterPos, spell.range, tilemap);
 
-        // Check for each square if there is line of sight
+        // Check for each square if spell can be cast
         listSquare.ForEach(s =>
         {
-            if (RangeUtils.lineOfSight(spell.casterPos, s, tilemap))
+            // Spell is always in range though
+            if (canCast(spell, listSquare, s, tilemap))
             {
                 area.Add(s);
             }
@@ -109,10 +152,8 @@ public class SpellList : MonoBehaviour
         return area;
     }
 
-    /*
-    public List<Vector3Int> getAreaSingleCell(Spell spell, int i, Tilemap tilemap)
+    public List<Vector3Int> getAreaSingleCell(Spell spell, Tilemap tilemap)
     {
-        return new List<Vector3Int>() { spell.spellPos[i] };
+        return new List<Vector3Int>(spell.spellPos);
     }
-    */
 }
