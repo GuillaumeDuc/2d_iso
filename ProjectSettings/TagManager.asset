@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Unit
   layers:
   - Default
   - TransparentFX
@@ -43,7 +44,4 @@ TagManager:
     locked: 0
   - name: HoverGround
     uniqueID: 2663803687
-    locked: 0
-  - name: Foreground
-    uniqueID: 997220689
     locked: 0

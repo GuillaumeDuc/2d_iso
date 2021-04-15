@@ -16,18 +16,18 @@ public class Spell
 
     public System.Func<Spell, Tilemap, List<Vector3Int>> getAreaList;
 
-    public System.Func<Spell, Tilemap, List<Vector3Int>> getRangeList;
+    public System.Func<Spell, Tilemap, Tilemap, List<Vector3Int>> getRangeList;
 
-    public System.Func<Spell, Vector3Int, Tilemap, bool> canCastOn;
+    public System.Func<Spell, Vector3Int, Tilemap, Tilemap, bool> canCastOn;
 
-    public bool canCast(Vector3Int cell, Tilemap tilemap)
+    public bool canCast(Vector3Int cell, Tilemap tilemap, Tilemap obstacles)
     {
-        return canCastOn(this, cell, tilemap);
+        return canCastOn(this, cell, tilemap, obstacles);
     }
 
-    public List<Vector3Int> getRange(Tilemap tilemap)
+    public List<Vector3Int> getRange(Tilemap tilemap, Tilemap obstacles)
     {
-        return getRangeList(this, tilemap);
+        return getRangeList(this, tilemap, obstacles);
     }
 
     public List<Vector3Int> getArea(Tilemap tilemap)

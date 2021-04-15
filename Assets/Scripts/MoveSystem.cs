@@ -48,7 +48,7 @@ public class Square
 
     public override int GetHashCode()
     {
-        return ((int) pos.x << 2) ^ (int) pos.y;
+        return ((int)pos.x << 2) ^ (int)pos.y;
     }
 
     public override string ToString()
@@ -69,7 +69,7 @@ public class MoveSystem : MonoBehaviour
         RangeUtils = new RangeUtils();
     }
 
-    public void moveCharacter(GameObject player, Vector3Int posDest, Tilemap tilemap)
+    public void moveCharacter(GameObject player, Vector3Int posDest, Tilemap tilemap, Tilemap obstacles)
     {
         // Get Position from player
         Transform playerTransform = player.GetComponent<Transform>();
@@ -79,7 +79,7 @@ public class MoveSystem : MonoBehaviour
         Square dest = new Square(posDest);
 
         // A* algorithm
-        List<Square> path = getPathCharacter(start, dest, tilemap);
+        List<Square> path = getPathCharacter(start, dest, tilemap, obstacles);
 
         // Show path
         setTilePath(path);
@@ -92,7 +92,7 @@ public class MoveSystem : MonoBehaviour
         StartCoroutine(Move(playerTransform, path, tilemap));
     }
 
-    private List<Square> getPathCharacter(Square start, Square dest, Tilemap tilemap)
+    private List<Square> getPathCharacter(Square start, Square dest, Tilemap tilemap, Tilemap obstacles)
     {
         List<Square> openList = new List<Square>();
         List<Square> closedList = new List<Square>();
@@ -103,7 +103,7 @@ public class MoveSystem : MonoBehaviour
 
         // if list not empty
         while (openList.Count != 0)
-        {   
+        {
             // get square with the lowest distance
             Square lowestSquare = getSquareLowestScore(openList);
 
@@ -119,7 +119,7 @@ public class MoveSystem : MonoBehaviour
             }
 
             // get list of walkable adjacent square
-            List<Square> adjacentSquares = getAdjacentSquares(currentSquare, tilemap);
+            List<Square> adjacentSquares = getAdjacentSquares(currentSquare, tilemap, obstacles);
 
             foreach (var a in adjacentSquares)
             {
@@ -184,32 +184,32 @@ public class MoveSystem : MonoBehaviour
         return total;
     }
 
-    private List<Square> getAdjacentSquares(Square currentSquare, Tilemap tilemap)
+    private List<Square> getAdjacentSquares(Square currentSquare, Tilemap tilemap, Tilemap obstacles)
     {
         //ToDo check if cell is unwalkable or objects blocking the way
 
         List<Square> adj = new List<Square>();
 
         Vector3Int up = new Vector3Int(currentSquare.pos.x, currentSquare.pos.y + 1, currentSquare.pos.z);
-        if (tilemap.HasTile(up))
+        if (tilemap.HasTile(up) && !obstacles.HasTile(up))
         {
             adj.Add(new Square(up));
         }
 
         Vector3Int down = new Vector3Int(currentSquare.pos.x, currentSquare.pos.y - 1, currentSquare.pos.z);
-        if (tilemap.HasTile(down))
+        if (tilemap.HasTile(down) && !obstacles.HasTile(down))
         {
             adj.Add(new Square(down));
         }
 
         Vector3Int left = new Vector3Int(currentSquare.pos.x - 1, currentSquare.pos.y, currentSquare.pos.z);
-        if (tilemap.HasTile(left))
+        if (tilemap.HasTile(left) && !obstacles.HasTile(left))
         {
             adj.Add(new Square(left));
         }
 
         Vector3Int right = new Vector3Int(currentSquare.pos.x + 1, currentSquare.pos.y, currentSquare.pos.z);
-        if (tilemap.HasTile(right))
+        if (tilemap.HasTile(right) && !obstacles.HasTile(right))
         {
             adj.Add(new Square(right));
         }
@@ -224,7 +224,6 @@ public class MoveSystem : MonoBehaviour
             path.Reverse();
             return path;
         }
-
         path.Add(current);
         return reconstructPath(current.previousSquare, path);
     }

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8507357622897284504}
   - component: {fileID: 2535704817730985628}
   m_Layer: 0
-  m_Name: Enemy
-  m_TagString: Untagged
+  m_Name: Green
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,9 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Link au rabais
   unitLevel: 1
-  damage: 5
   maxHP: 30
   currentHP: 30
+  position: {x: 0, y: 0, z: 0}
 --- !u!210 &2535704817730985628
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -58,9 +58,9 @@ SortingGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7782045614947533327}
   m_Enabled: 1
-  m_SortingLayerID: 997220689
-  m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 2
 --- !u!1 &7869088206760229003
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,7 +86,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7869088206760229003}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.081, y: 0.314, z: 2.2395487}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5878285093507019865}
@@ -129,7 +129,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
+  m_SortingLayerID: 997220689
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 1062266681453288945, guid: 04e70a8fceb064440a295d98300fa5d7, type: 3}

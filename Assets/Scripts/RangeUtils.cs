@@ -6,13 +6,13 @@ using System.Linq;
 
 public class RangeUtils
 {
-    public bool lineOfSight(Vector3Int playerPos, Vector3Int cellPos, Tilemap tilemap)
+    public bool lineOfSight(Vector3Int playerPos, Vector3Int cellPos, Tilemap obstacles)
     {
         List<Vector3Int> lineOfSightArray = new List<Vector3Int>(getLine(playerPos, cellPos));
         bool lineOS = true;
         lineOfSightArray.ForEach(a =>
         {
-            if (!tilemap.HasTile(a))
+            if (obstacles.HasTile(a))
             {
                 lineOS = false;
             };
