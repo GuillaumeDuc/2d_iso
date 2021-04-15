@@ -54,4 +54,30 @@ public class Unit : MonoBehaviour
         }
         return spellList;
     }
+
+    public override bool Equals(System.Object obj)
+    {
+        //Check for null and compare run-time types.
+        if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+        {
+            return false;
+        }
+        else
+        {
+            Unit u = (Unit)obj;
+            return unitName == u.unitName && position == u.position;
+        }
+    }
+
+    public override int GetHashCode()
+    {
+        return unitName.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return "Unit " + unitName + "\n" +
+            "max HP : " + maxHP + " - current HP : " + currentHP + "\n" +
+            "position : " + position;
+    }
 }
