@@ -6,13 +6,13 @@ using System.Linq;
 
 public class RangeUtils
 {
-    public bool lineOfSight(Vector3Int playerPos, Vector3Int cellPos, Tilemap obstacles)
+    public bool lineOfSight(Vector3Int playerPos, Vector3Int cellPos, Dictionary<Vector3Int, GameObject> obstacleList)
     {
         List<Vector3Int> lineOfSightArray = new List<Vector3Int>(getLine(playerPos, cellPos));
         bool lineOS = true;
         lineOfSightArray.ForEach(a =>
         {
-            if (obstacles.HasTile(a))
+            if (obstacleList.ContainsKey(a))
             {
                 lineOS = false;
             };
@@ -96,11 +96,32 @@ public class RangeUtils
         return new List<Vector3Int>() { up, down, left, right };
     }
 
-    public List<Vector3Int> getAreaInLine(Vector3Int to, Vector3Int from, Tilemap tilemap)
+    public List<Vector3Int> getAreaInLine(
+        Vector3Int to,
+        Vector3Int from,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap,
+        bool uniqueCellArea = false
+        )
     {
         List<Vector3Int> listCells = new List<Vector3Int>(getLine(from, to));
         listCells.Reverse();
-        return listCells;
+        if (!uniqueCellArea)
+        {
+            return listCells;
+        }
+
+        List<Vector3Int> result = new List<Vector3Int>();
+        // Remove existing cell in obstacleList
+        listCells.ForEach(c =>
+        {
+            if (uniqueCellArea && !obstacleList.ContainsKey(c))
+            {
+                result.Add(c);
+            }
+        });
+
+        return result;
     }
 
     public List<Vector3Int> getAreaInLineFollowClick(Vector3Int to, Vector3Int from, Tilemap tilemap)

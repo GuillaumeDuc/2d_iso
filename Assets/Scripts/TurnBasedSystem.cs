@@ -13,7 +13,6 @@ public class TurnBasedSystem : MonoBehaviour
 {
     public Tilemap tilemap;
     public Tilemap cellsGrid;
-    public Tilemap obstacles;
 
     private GameObject Player;
     private Animator PlayerAnimator;
@@ -48,6 +47,7 @@ public class TurnBasedSystem : MonoBehaviour
 
     private Dictionary<Unit, GameObject> enemyList;
     private Dictionary<Unit, GameObject> playerList;
+    private Dictionary<Vector3Int, GameObject> obstacleList;
 
     void InstantiatePlayer(GameObject PlayerPrefab)
     {
@@ -71,7 +71,7 @@ public class TurnBasedSystem : MonoBehaviour
 
         unit.selectedSpell = spell;
         spell.casterPos = unit.position;
-        CastSystem.showArea(spell.getRange(tilemap, obstacles), cellsGrid);
+        CastSystem.showArea(spell.getRange(obstacleList, tilemap), cellsGrid);
 
         CurrentState = CurrentState.CAST;
         CastState = CastState.SHOW_AREA;
@@ -128,6 +128,9 @@ public class TurnBasedSystem : MonoBehaviour
             { PlayerStats, Player },
         };
 
+        // Init obstacle List
+        obstacleList = new Dictionary<Vector3Int, GameObject>();
+
         // Init UI
         // Spell scrollview
         foreach (var s in PlayerStats.spellList)
@@ -179,9 +182,9 @@ public class TurnBasedSystem : MonoBehaviour
             if (CurrentState == CurrentState.MOVE)
             {
                 // Move player
-                if (tilemap.HasTile(cellPosition) && !obstacles.HasTile(cellPosition))
+                if (tilemap.HasTile(cellPosition) && !obstacleList.ContainsKey(cellPosition))
                 {
-                    MoveSystem.moveCharacter(Player, cellPosition, tilemap, obstacles);
+                    MoveSystem.moveCharacter(Player, cellPosition, obstacleList, tilemap);
                 }
 
             }
@@ -193,11 +196,11 @@ public class TurnBasedSystem : MonoBehaviour
                     cellPosition,
                     playerList,
                     enemyList,
+                    obstacleList,
                     CastState,
                     tilemap,
-                    cellsGrid,
-                    obstacles
-                );
+                    cellsGrid
+                                    );
                 if (CastState == CastState.DEFAULT)
                 {
                     CurrentState = CurrentState.MOVE;

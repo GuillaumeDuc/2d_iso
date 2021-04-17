@@ -23,14 +23,24 @@ public class CastSystem : MonoBehaviour
         transparent = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
     }
 
-    public CastState cast(Spell spell, Unit player, Vector3Int cellClicked, Dictionary<Unit, GameObject> playerList, Dictionary<Unit, GameObject> enemyList, CastState currentState, Tilemap tilemap, Tilemap cellsGrid, Tilemap obstacles)
+    public CastState cast(
+        Spell spell,
+        Unit player,
+        Vector3Int cellClicked,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        CastState currentState,
+        Tilemap tilemap,
+        Tilemap cellsGrid
+        )
     {
         RangeUtils.removeCells(cellsGrid);
         if (currentState == CastState.SHOW_AREA)
         {
             spell.casterPos = player.position;
 
-            if (!spell.canCast(cellClicked, tilemap, obstacles))
+            if (!spell.canCast(cellClicked, obstacleList, tilemap))
             {
                 spell.spellPos.Clear();
                 return CastState.DEFAULT;
@@ -41,26 +51,26 @@ public class CastSystem : MonoBehaviour
             // Orange color
             showArea(spell.spellPos, cellsGrid, new Color(1, 0.5f, 0, 0.5f));
             // Red color
-            showArea(spell.getArea(tilemap), cellsGrid, new Color(0.9f, 0.1f, 0.1f, 0.5f));
+            showArea(spell.getArea(obstacleList, tilemap), cellsGrid, new Color(0.9f, 0.1f, 0.1f, 0.5f));
 
             if (!(spell.spellPos.Count() == spell.clickNb))
             {
-                showArea(spell.getRange(tilemap, obstacles), cellsGrid);
+                showArea(spell.getRange(obstacleList, tilemap), cellsGrid);
             }
 
             if (spell.spellPos.Count() == spell.clickNb)
             {
                 RangeUtils.removeCells(cellsGrid);
-                showArea(spell.getArea(tilemap), cellsGrid, new Color(0.9f, 0.1f, 0.1f, 0.5f));
+                showArea(spell.getArea(obstacleList, tilemap), cellsGrid, new Color(0.9f, 0.1f, 0.1f, 0.5f));
                 return CastState.CAST_SPELL;
             }
         }
 
         if (currentState == CastState.CAST_SPELL)
         {
-            if (spell.getArea(tilemap).Contains(cellClicked))
+            if (spell.getArea(obstacleList, tilemap).Contains(cellClicked))
             {
-                castSpell(spell, player, playerList, enemyList, tilemap);
+                castSpell(spell, player, playerList, enemyList, obstacleList, tilemap);
             }
             spell.spellPos.Clear();
             return CastState.DEFAULT;
@@ -69,17 +79,30 @@ public class CastSystem : MonoBehaviour
         return currentState;
     }
 
-    public void castSpell(Spell spell, Unit player, Dictionary<Unit, GameObject> playerList, Dictionary<Unit, GameObject> enemyList, Tilemap tilemap)
+    public void castSpell(
+        Spell spell,
+        Unit player,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
-        spell.playAnimation(tilemap);
-
+        spell.playAnimation(obstacleList, tilemap);
         // Todo : damage & effects
-        doDamage(spell, playerList, enemyList, tilemap);
+        spell.applyEffect(playerList, enemyList, obstacleList, tilemap);
+        doDamage(spell, playerList, enemyList, obstacleList, tilemap);
     }
 
-    private void doDamage(Spell spell, Dictionary<Unit, GameObject> playerList, Dictionary<Unit, GameObject> enemyList, Tilemap tilemap)
+    private void doDamage(
+        Spell spell,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
-        List<Vector3Int> areaSpell = spell.getArea(tilemap);
+        List<Vector3Int> areaSpell = spell.getArea(obstacleList, tilemap);
         // Friends take damage
         foreach (var s in playerList)
         {

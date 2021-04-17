@@ -8,6 +8,8 @@ public class SpellList : MonoBehaviour
 {
     private const string PATH = "Spells/SpellsPrefab/";
 
+    public SpellEffectList SpellEffectList;
+
     public Spell
         Explosion,
         Icycle,
@@ -32,6 +34,7 @@ public class SpellList : MonoBehaviour
         // Explosion
         nameSpell = "Explosion";
         ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell);
+        // GameObject, name, damage, range, area, line of sight, click nb, unique cell area
         Explosion = new Spell(ExplosionGO, nameSpell, 20, 8, 5, true, 2);
         Explosion.getRangeList = getRangeInCircleFullPlayer;
         Explosion.getAreaList = getAreaInCircleFull;
@@ -50,14 +53,22 @@ public class SpellList : MonoBehaviour
         // Sandwall
         nameSpell = "Sandwall";
         SandwallGO = Resources.Load<GameObject>(PATH + nameSpell);
-        Sandwall = new Spell(SandwallGO, nameSpell, 0, 7, 1, true, 2);
+        Sandwall = new Spell(SandwallGO, nameSpell, 0, 10, 1, false, 2, true);
         Sandwall.getRangeList = getRangeInCircleFullPlayer;
         Sandwall.getAreaList = getAreaInLineBetweenCells;
         Sandwall.animate = animateInLineBetweenCells;
         Sandwall.canCastOn = canCast;
+        //Add effect on spell
+        Sandwall.spellEffectList.Add(SpellEffectList.CreateObstacle);
     }
 
-    public bool canCast(Spell spell, List<Vector3Int> range, Vector3Int cell, Tilemap tilemap, Tilemap obstacles)
+    public bool canCast(
+        Spell spell,
+        List<Vector3Int> range,
+        Vector3Int cell,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         // Tile is empty
         if (!tilemap.HasTile(cell))
@@ -65,7 +76,7 @@ public class SpellList : MonoBehaviour
             return false;
         }
         // Tile contains an obstacle
-        if (obstacles.HasTile(cell))
+        if (obstacleList.ContainsKey(cell))
         {
             return false;
         }
@@ -75,7 +86,7 @@ public class SpellList : MonoBehaviour
             return false;
         }
         // Check line of sight
-        if (spell.lineOfSight && !RangeUtils.lineOfSight(spell.casterPos, cell, obstacles))
+        if (spell.lineOfSight && !RangeUtils.lineOfSight(spell.casterPos, cell, obstacleList))
         {
             return false;
         }
@@ -87,51 +98,82 @@ public class SpellList : MonoBehaviour
         return true;
     }
 
-    public bool canCast(Spell spell, Vector3Int cell, Tilemap tilemap, Tilemap obstacles)
+    public bool canCast(
+        Spell spell,
+        Vector3Int cell,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
-        return canCast(spell, spell.getRange(tilemap, obstacles), cell, tilemap, obstacles);
+        return canCast(spell, spell.getRange(obstacleList, tilemap), cell, obstacleList, tilemap);
     }
 
     // Animation
-    public void animateInCircleFull(Spell spell, Tilemap tilemap)
+    public void animateInCircleFull(
+        Spell spell,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
-        List<Vector3Int> listCells = getAreaInCircleFull(spell, tilemap);
+        List<Vector3Int> listCells = getAreaInCircleFull(spell, obstacleList, tilemap);
 
-        StartCoroutine(multipleAnimateOnCell(listCells, spell, tilemap));
+        StartCoroutine(multipleAnimateOnCell(listCells, spell, obstacleList, tilemap));
     }
 
-    public void animateInLine(Spell spell, Tilemap tilemap)
+    public void animateInLine(
+        Spell spell,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
-        List<Vector3Int> listCells = getAreaInLine(spell, tilemap);
+        List<Vector3Int> listCells = getAreaInLine(spell, obstacleList, tilemap);
 
-        StartCoroutine(multipleAnimateOnCell(listCells, spell, tilemap));
+        StartCoroutine(multipleAnimateOnCell(listCells, spell, obstacleList, tilemap));
     }
 
-    public void animateInLineBetweenCells(Spell spell, Tilemap tilemap)
+    public void animateInLineBetweenCells(
+        Spell spell,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
-        List<Vector3Int> listCells = getAreaInLineBetweenCells(spell, tilemap);
+        List<Vector3Int> listCells = getAreaInLineBetweenCells(spell, obstacleList, tilemap);
 
-        StartCoroutine(multipleAnimateOnCell(listCells, spell, tilemap));
+        StartCoroutine(multipleAnimateOnCell(listCells, spell, obstacleList, tilemap));
     }
 
-    IEnumerator multipleAnimateOnCell(List<Vector3Int> listCells, Spell spell, Tilemap tilemap)
+    IEnumerator multipleAnimateOnCell(
+        List<Vector3Int> listCells,
+        Spell spell,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         foreach (var c in listCells)
         {
             yield return new WaitForSeconds(0.1f);
-            animateOnCell(spell, c, tilemap);
+            animateOnCell(spell, c, obstacleList, tilemap);
         }
     }
 
-    public void animateOnCell(Spell spell, Vector3Int to, Tilemap tilemap)
+    public void animateOnCell(
+        Spell spell,
+        Vector3Int to,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         Vector2 worldPos = tilemap.CellToWorld(to);
         Instantiate(spell.spellGO, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
     }
 
-    public void animateOnCell(Spell spell, Tilemap tilemap)
+    public void animateOnCell(
+        Spell spell,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
-        List<Vector3Int> listCells = getAreaSingleCell(spell, tilemap);
+        List<Vector3Int> listCells = getAreaSingleCell(spell, obstacleList, tilemap);
 
         listCells.ForEach(s =>
         {
@@ -141,7 +183,11 @@ public class SpellList : MonoBehaviour
     }
 
     // Range 
-    public List<Vector3Int> getRangeInCircleFullPlayer(Spell spell, Tilemap tilemap, Tilemap obstacles)
+    public List<Vector3Int> getRangeInCircleFullPlayer(
+        Spell spell,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         List<Vector3Int> area = new List<Vector3Int>();
         // Get full circle
@@ -151,16 +197,21 @@ public class SpellList : MonoBehaviour
         listSquare.ForEach(s =>
         {
             // Spell is always in range though
-            if (canCast(spell, listSquare, s, tilemap, obstacles))
+            if (canCast(spell, listSquare, s, obstacleList, tilemap))
             {
                 area.Add(s);
             }
         });
+
         return area;
     }
 
     // Area of Effect
-    public List<Vector3Int> getAreaInCircleFull(Spell spell, Tilemap tilemap)
+    public List<Vector3Int> getAreaInCircleFull(
+        Spell spell,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         List<Vector3Int> area = new List<Vector3Int>();
 
@@ -171,29 +222,41 @@ public class SpellList : MonoBehaviour
         return area;
     }
 
-    public List<Vector3Int> getAreaInLine(Spell spell, Tilemap tilemap)
+    public List<Vector3Int> getAreaInLine(
+        Spell spell,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         List<Vector3Int> area = new List<Vector3Int>();
 
         spell.spellPos.ForEach(s =>
         {
-            area = area.Concat(RangeUtils.getAreaInLine(spell.casterPos, s, tilemap)).ToList();
+            area = area.Concat(RangeUtils.getAreaInLine(spell.casterPos, s, obstacleList, tilemap, spell.uniqueCellArea)).ToList();
         });
         return area;
     }
 
-    public List<Vector3Int> getAreaSingleCell(Spell spell, Tilemap tilemap)
+    public List<Vector3Int> getAreaSingleCell(
+        Spell spell,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         return new List<Vector3Int>(spell.spellPos);
     }
 
-    public List<Vector3Int> getAreaInLineBetweenCells(Spell spell, Tilemap tilemap)
+    public List<Vector3Int> getAreaInLineBetweenCells(
+        Spell spell,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         List<Vector3Int> area = new List<Vector3Int>();
 
         for (int i = 0; i < spell.spellPos.Count() - 1; i++)
         {
-            area = area.Concat(RangeUtils.getAreaInLine(spell.spellPos[i], spell.spellPos[i + 1], tilemap)).ToList();
+            area = area.Concat(RangeUtils.getAreaInLine(spell.spellPos[i], spell.spellPos[i + 1], obstacleList, tilemap, spell.uniqueCellArea)).ToList();
         }
         return area;
     }

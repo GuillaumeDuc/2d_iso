@@ -69,7 +69,12 @@ public class MoveSystem : MonoBehaviour
         RangeUtils = new RangeUtils();
     }
 
-    public void moveCharacter(GameObject player, Vector3Int posDest, Tilemap tilemap, Tilemap obstacles)
+    public void moveCharacter(
+        GameObject player,
+        Vector3Int posDest,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         // Get Position from player
         Transform playerTransform = player.GetComponent<Transform>();
@@ -79,7 +84,7 @@ public class MoveSystem : MonoBehaviour
         Square dest = new Square(posDest);
 
         // A* algorithm
-        List<Square> path = getPathCharacter(start, dest, tilemap, obstacles);
+        List<Square> path = getPathCharacter(start, dest, obstacleList, tilemap);
 
         // Show path
         setTilePath(path);
@@ -92,7 +97,12 @@ public class MoveSystem : MonoBehaviour
         StartCoroutine(Move(playerTransform, path, tilemap));
     }
 
-    private List<Square> getPathCharacter(Square start, Square dest, Tilemap tilemap, Tilemap obstacles)
+    private List<Square> getPathCharacter(
+        Square start,
+        Square dest,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         List<Square> openList = new List<Square>();
         List<Square> closedList = new List<Square>();
@@ -119,7 +129,7 @@ public class MoveSystem : MonoBehaviour
             }
 
             // get list of walkable adjacent square
-            List<Square> adjacentSquares = getAdjacentSquares(currentSquare, tilemap, obstacles);
+            List<Square> adjacentSquares = getAdjacentSquares(currentSquare, obstacleList, tilemap);
 
             foreach (var a in adjacentSquares)
             {
@@ -184,32 +194,36 @@ public class MoveSystem : MonoBehaviour
         return total;
     }
 
-    private List<Square> getAdjacentSquares(Square currentSquare, Tilemap tilemap, Tilemap obstacles)
+    private List<Square> getAdjacentSquares(
+        Square currentSquare, 
+        Dictionary<Vector3Int, GameObject> obstacleList, 
+        Tilemap tilemap
+        )
     {
         //ToDo check if cell is unwalkable or objects blocking the way
 
         List<Square> adj = new List<Square>();
 
         Vector3Int up = new Vector3Int(currentSquare.pos.x, currentSquare.pos.y + 1, currentSquare.pos.z);
-        if (tilemap.HasTile(up) && !obstacles.HasTile(up))
+        if (tilemap.HasTile(up) && !obstacleList.ContainsKey(up))
         {
             adj.Add(new Square(up));
         }
 
         Vector3Int down = new Vector3Int(currentSquare.pos.x, currentSquare.pos.y - 1, currentSquare.pos.z);
-        if (tilemap.HasTile(down) && !obstacles.HasTile(down))
+        if (tilemap.HasTile(down) && !obstacleList.ContainsKey(down))
         {
             adj.Add(new Square(down));
         }
 
         Vector3Int left = new Vector3Int(currentSquare.pos.x - 1, currentSquare.pos.y, currentSquare.pos.z);
-        if (tilemap.HasTile(left) && !obstacles.HasTile(left))
+        if (tilemap.HasTile(left) && !obstacleList.ContainsKey(left))
         {
             adj.Add(new Square(left));
         }
 
         Vector3Int right = new Vector3Int(currentSquare.pos.x + 1, currentSquare.pos.y, currentSquare.pos.z);
-        if (tilemap.HasTile(right) && !obstacles.HasTile(right))
+        if (tilemap.HasTile(right) && !obstacleList.ContainsKey(right))
         {
             adj.Add(new Square(right));
         }
