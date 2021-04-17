@@ -139,6 +139,49 @@ public class RangeUtils
         return listCells;
     }
 
+    public bool isWalkable(
+        Vector3Int cell,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        return tilemap.HasTile(cell) && !obstacleList.ContainsKey(cell);
+    }
+
+    public Vector3Int getFarthestWalkableNeighbour(
+        Vector3Int to,
+        Vector3Int from,
+        List<Vector3Int> area,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        Vector3Int up = new Vector3Int(to.x, to.y + 1, to.z);
+        Vector3Int down = new Vector3Int(to.x, to.y - 1, to.z);
+        Vector3Int left = new Vector3Int(to.x - 1, to.y, to.z);
+        Vector3Int right = new Vector3Int(to.x + 1, to.y, to.z);
+
+        Dictionary<Vector3Int, float> neighbours = new Dictionary<Vector3Int, float>() {
+            { up, getMDistance(up, from) },
+            { down, getMDistance(down, from) },
+            { left, getMDistance(left, from) },
+            { right, getMDistance(right, from) }
+        };
+
+        Vector3Int farthest = neighbours.FirstOrDefault(x =>
+        {
+            return (x.Value == neighbours.Max(n => n.Value)) &&
+            isWalkable(x.Key, obstacleList, tilemap) &&
+            !area.Contains(x.Key);
+        }).Key;
+
+        if (!isWalkable(to, obstacleList, tilemap) || area.Contains(to))
+        {
+            return getFarthestWalkableNeighbour(farthest, from, area, obstacleList, tilemap);
+        }
+        return to;
+    }
+
     private Vector3Int getClosestNeighbour(Vector3Int to, Vector3Int from, Tilemap tilemap)
     {
         Vector3Int up = new Vector3Int(to.x, to.y + 1, to.z);

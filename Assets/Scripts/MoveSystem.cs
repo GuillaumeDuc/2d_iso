@@ -195,8 +195,8 @@ public class MoveSystem : MonoBehaviour
     }
 
     private List<Square> getAdjacentSquares(
-        Square currentSquare, 
-        Dictionary<Vector3Int, GameObject> obstacleList, 
+        Square currentSquare,
+        Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
@@ -205,25 +205,25 @@ public class MoveSystem : MonoBehaviour
         List<Square> adj = new List<Square>();
 
         Vector3Int up = new Vector3Int(currentSquare.pos.x, currentSquare.pos.y + 1, currentSquare.pos.z);
-        if (tilemap.HasTile(up) && !obstacleList.ContainsKey(up))
+        if (RangeUtils.isWalkable(up, obstacleList, tilemap))
         {
             adj.Add(new Square(up));
         }
 
         Vector3Int down = new Vector3Int(currentSquare.pos.x, currentSquare.pos.y - 1, currentSquare.pos.z);
-        if (tilemap.HasTile(down) && !obstacleList.ContainsKey(down))
+        if (RangeUtils.isWalkable(down, obstacleList, tilemap))
         {
             adj.Add(new Square(down));
         }
 
         Vector3Int left = new Vector3Int(currentSquare.pos.x - 1, currentSquare.pos.y, currentSquare.pos.z);
-        if (tilemap.HasTile(left) && !obstacleList.ContainsKey(left))
+        if (RangeUtils.isWalkable(left, obstacleList, tilemap))
         {
             adj.Add(new Square(left));
         }
 
         Vector3Int right = new Vector3Int(currentSquare.pos.x + 1, currentSquare.pos.y, currentSquare.pos.z);
-        if (tilemap.HasTile(right) && !obstacleList.ContainsKey(right))
+        if (RangeUtils.isWalkable(right, obstacleList, tilemap))
         {
             adj.Add(new Square(right));
         }

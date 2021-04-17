@@ -59,6 +59,7 @@ public class SpellList : MonoBehaviour
         Sandwall.animate = animateInLineBetweenCells;
         Sandwall.canCastOn = canCast;
         //Add effect on spell
+        Sandwall.spellEffectList.Add(SpellEffectList.PushFromPlayer);
         Sandwall.spellEffectList.Add(SpellEffectList.CreateObstacle);
     }
 
