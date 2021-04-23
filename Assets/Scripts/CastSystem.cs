@@ -89,43 +89,26 @@ public class CastSystem : MonoBehaviour
         )
     {
         spell.playAnimation(obstacleList, tilemap);
-        // Todo : damage & effects
         spell.applyEffect(playerList, enemyList, obstacleList, tilemap);
-        doDamage(spell, playerList, enemyList, obstacleList, tilemap);
+        spell.doDamage(playerList, enemyList, obstacleList, tilemap);
+        updateScrollViews(playerList, enemyList);
     }
 
-    private void doDamage(
-        Spell spell,
+    public void updateScrollViews(
         Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Tilemap tilemap
+        Dictionary<Unit, GameObject> enemyList
         )
     {
-        List<Vector3Int> areaSpell = spell.getArea(obstacleList, tilemap);
-        // Friends take damage
-        foreach (var s in playerList)
+        foreach (var enemy in enemyList)
         {
-            // Count number of case selected in area
-            int selectedNb = areaSpell.Where(x => x.Equals(s.Key.position)).Count();
-            if (selectedNb > 0)
-            {
-                s.Key.takeDamage(spell.damage * selectedNb);
-                PlayersScrollView.setSliderHP(s.Key);
-            }
+            EnemiesScrollView.setSliderHP(enemy.Key);
         }
-        // Enemies take damage
-        foreach (var s in enemyList)
+        foreach (var player in playerList)
         {
-            // Count number of case selected in area
-            int selectedNb = areaSpell.Where(x => x.Equals(s.Key.position)).Count();
-            if (selectedNb > 0)
-            {
-                s.Key.takeDamage(spell.damage * selectedNb);
-                EnemiesScrollView.setSliderHP(s.Key);
-            }
+            PlayersScrollView.setSliderHP(player.Key);
         }
     }
+
 
     public void showArea(List<Vector3Int> area, Tilemap cellsGrid)
     {

@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
+using System.Linq;
 
 public class SpellEffectList : MonoBehaviour
 {
+    public StatusList StatusList;
+
     private Tile obstacleTile;
 
     public SpellEffect
         CreateObstacle,
-        PushFromPlayer
+        PushFromPlayer,
+        Fire
         ;
 
     private RangeUtils RangeUtils;
@@ -23,12 +27,50 @@ public class SpellEffectList : MonoBehaviour
         obstacleTile = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
 
         // Create Obstacle
-        CreateObstacle = new SpellEffect();
+        CreateObstacle = new SpellEffect("CreateObstacle");
         CreateObstacle.applyEffectAction = createObstacleEffect;
 
         // Push Outside Area of effect
-        PushFromPlayer = new SpellEffect();
+        PushFromPlayer = new SpellEffect("PushFromPlayer");
         PushFromPlayer.applyEffectAction = pushFromPlayerEffect;
+
+        // Apply Fire in a given area
+        Fire = new SpellEffect("FireEffect");
+        Fire.statusList.Add(new Status(StatusList.Fire));
+        Fire.applyEffectAction = fireEffect;
+    }
+
+    public void fireEffect(
+        Spell spell,
+        SpellEffect spellEffect,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        Dictionary<Unit, GameObject> allCharacters = playerList.Concat(enemyList).ToDictionary(x => x.Key, x => x.Value);
+        List<Vector3Int> area = spell.getArea(obstacleList, tilemap);
+        // Check multiple effect can stack on same cell on a single cast
+        if (!spellEffect.cumul)
+        {
+            area = area.Distinct().ToList();
+        }
+
+        area.ForEach(cell =>
+        {
+            // Apply status to obstacleList
+            // obstacleList[cell];
+
+            // Apply status to characters
+            Unit character = getUnitFromPos(allCharacters, cell);
+            if (character != null)
+            {
+                spellEffect.statusList.ForEach(status => {
+                    character.addStatus(new Status(status));
+                });
+            }
+        });
     }
 
     public void createObstacleEffect(
@@ -101,7 +143,12 @@ public class SpellEffectList : MonoBehaviour
         {
             GameObject playerGO = dict[unitPlayer];
             dict.Remove(unitPlayer);
-            unitPlayer.position = RangeUtils.getFarthestWalkableNeighbour(cell, spell.casterPos, area, obstacleList, tilemap);
+            unitPlayer.position = RangeUtils.getFarthestWalkableNeighbour(
+                cell,
+                spell.casterPos,
+                area, obstacleList,
+                tilemap: tilemap
+            );
             dict.Add(unitPlayer, playerGO);
 
             moveGameObject(playerGO, unitPlayer.position, tilemap);

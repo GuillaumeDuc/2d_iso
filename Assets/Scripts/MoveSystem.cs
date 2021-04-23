@@ -158,7 +158,9 @@ public class MoveSystem : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
             Vector2 pos = new Vector2(tilemap.CellToWorld(s.pos).x, tilemap.CellToWorld(s.pos).y + 0.2f);
-            playerTransform.position = pos;
+            float step = 1000 * Time.deltaTime;
+            playerTransform.position = Vector3.MoveTowards(playerTransform.position, pos, step);
+            //playerTransform.position = pos;
         }
         RangeUtils.removeCells(cellsGrid);
     }

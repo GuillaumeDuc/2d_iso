@@ -14,12 +14,20 @@ public class Spell
     public List<SpellEffect> spellEffectList;
 
     public System.Action<Spell, Dictionary<Vector3Int, GameObject>, Tilemap> animate { get; set; }
-
     public System.Func<Spell, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>> getAreaList;
-
     public System.Func<Spell, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>> getRangeList;
-
     public System.Func<Spell, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool> canCastOn;
+    public System.Action<Spell, Dictionary<Unit, GameObject>, Dictionary<Unit, GameObject>, Dictionary<Vector3Int, GameObject>, Tilemap> doDamageAction;
+
+    public void doDamage(
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        doDamageAction(this, playerList, enemyList, obstacleList, tilemap);
+    }
 
     public bool canCast(Vector3Int cell, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {

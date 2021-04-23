@@ -35,11 +35,15 @@ public class SpellList : MonoBehaviour
         nameSpell = "Explosion";
         ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell);
         // GameObject, name, damage, range, area, line of sight, click nb, unique cell area
-        Explosion = new Spell(ExplosionGO, nameSpell, 20, 8, 5, true, 2);
+        Explosion = new Spell(ExplosionGO, nameSpell, 20, 8, 2, true, 2);
         Explosion.getRangeList = getRangeInCircleFullPlayer;
         Explosion.getAreaList = getAreaInCircleFull;
         Explosion.animate = animateInCircleFull;
         Explosion.canCastOn = canCast;
+        // Effects
+        Explosion.spellEffectList.Add(SpellEffectList.Fire);
+        // Damage
+        Explosion.doDamageAction = doDamage;
 
         // Icycle
         nameSpell = "Icycle";
@@ -49,6 +53,8 @@ public class SpellList : MonoBehaviour
         Icycle.getAreaList = getAreaSingleCell;
         Icycle.animate = animateOnCell;
         Icycle.canCastOn = canCast;
+        // Damage
+        Icycle.doDamageAction = doDamage;
 
         // Sandwall
         nameSpell = "Sandwall";
@@ -61,6 +67,8 @@ public class SpellList : MonoBehaviour
         //Add effect on spell
         Sandwall.spellEffectList.Add(SpellEffectList.PushFromPlayer);
         Sandwall.spellEffectList.Add(SpellEffectList.CreateObstacle);
+        // Damage
+        Sandwall.doDamageAction = doDamage;
     }
 
     public bool canCast(
@@ -260,5 +268,37 @@ public class SpellList : MonoBehaviour
             area = area.Concat(RangeUtils.getAreaInLine(spell.spellPos[i], spell.spellPos[i + 1], obstacleList, tilemap, spell.uniqueCellArea)).ToList();
         }
         return area;
+    }
+
+    // Damage
+    public void doDamage(
+        Spell spell,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        List<Vector3Int> areaSpell = spell.getArea(obstacleList, tilemap);
+        // Friends take damage
+        foreach (var s in playerList)
+        {
+            // Count number of case selected in area
+            int selectedNb = areaSpell.Where(x => x.Equals(s.Key.position)).Count();
+            if (selectedNb > 0)
+            {
+                s.Key.takeDamage(spell.damage * selectedNb);
+            }
+        }
+        // Enemies take damage
+        foreach (var s in enemyList)
+        {
+            // Count number of case selected in area
+            int selectedNb = areaSpell.Where(x => x.Equals(s.Key.position)).Count();
+            if (selectedNb > 0)
+            {
+                s.Key.takeDamage(spell.damage * selectedNb);
+            }
+        }
     }
 }

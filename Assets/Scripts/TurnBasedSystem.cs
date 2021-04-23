@@ -1,9 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine.Tilemaps;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.UI;
+using System.Linq;
 
 public enum CurrentState { MOVE, CAST }
 
@@ -49,6 +50,10 @@ public class TurnBasedSystem : MonoBehaviour
     private Dictionary<Unit, GameObject> playerList;
     private Dictionary<Vector3Int, GameObject> obstacleList;
 
+    private Dictionary<Unit, bool> initiativeList;
+    private Unit currentUnit;
+    private int currentTurn = 1;
+
     void InstantiatePlayer(GameObject PlayerPrefab)
     {
         Vector2 pos = new Vector2(posPlayerX, posPlayerY);
@@ -77,6 +82,73 @@ public class TurnBasedSystem : MonoBehaviour
         CastState = CastState.SHOW_AREA;
     }
 
+    private Dictionary<Unit, bool> getInitList()
+    {
+        Dictionary<Unit, bool> fullList = new Dictionary<Unit, bool>(
+            playerList
+            .Concat(enemyList)
+            .OrderBy(x => x.Key.initiative)
+            .Reverse()
+            .ToDictionary(x => x.Key, x => false)
+        );
+        return fullList;
+    }
+
+    private Unit getUnitTurn()
+    {
+        return initiativeList.FirstOrDefault(x => !x.Value).Key;
+    }
+
+    public void onClickEndTurn()
+    {
+        currentUnit = getUnitTurn();
+        // Next character
+        if (currentUnit != null)
+        {
+            initiativeList[currentUnit] = true;
+        }
+        // All characters have played, next turn
+        if (currentUnit == null)
+        {
+            currentTurn += 1;
+            // Playing for all character = false
+            foreach (var key in initiativeList.Keys.ToList())
+            {
+                initiativeList[key] = false;
+            }
+            // New turn
+            currentUnit = getUnitTurn();
+            initiativeList[currentUnit] = true;
+            // Apply all status on players then update
+            applyStatus();
+            updateScrollViews();
+        }
+    }
+
+    public void updateScrollViews()
+    {
+        foreach(var enemy in enemyList)
+        {
+            EnemiesScrollView.setSliderHP(enemy.Key);
+        }
+        foreach (var player in playerList)
+        {
+            PlayersScrollView.setSliderHP(player.Key);
+        }
+    }
+
+    public void applyStatus()
+    {
+        Dictionary<Unit, GameObject> allCharacters = playerList.Concat(enemyList).ToDictionary(x => x.Key, x => x.Value);
+        foreach (var c in allCharacters)
+        {
+            // Take damages
+            c.Key.takeStatus();
+            // Update status
+            c.Key.updateStatus();
+        }
+    }
+
     void Start()
     {
         // Get Player prefab from Assets/Resources
@@ -98,7 +170,8 @@ public class TurnBasedSystem : MonoBehaviour
         PlayerStats.setSpellList(SpellList.Explosion);
         PlayerStats.setSpellList(SpellList.Icycle);
         PlayerStats.setSpellList(SpellList.Sandwall);
-        PlayerStats.setStats("Player", 100, tilemap.WorldToCell(PlayerTransform.position));
+        PlayerStats.setStats("Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3 ,110);
+        PlayerStats.playable = true;
 
         // Init Ennemies
         GameObject EnnemyPrefab = Resources.Load<GameObject>("Characters/NPC/Green");
@@ -107,13 +180,13 @@ public class TurnBasedSystem : MonoBehaviour
         Transform green1Transform = green1.GetComponent<Transform>();
         Unit green1Stats = green1.GetComponent<Unit>();
         green1Stats.setSpellList(SpellList.Explosion);
-        green1Stats.setStats("Green ennemy 1", 100, tilemap.WorldToCell(green1Transform.position));
+        green1Stats.setStats("Green ennemy 1", tilemap.WorldToCell(green1Transform.position), 100);
         // Second
         GameObject green2 = Instantiate(EnnemyPrefab, tilemap.CellToWorld(new Vector3Int(-1, -2, 0)), Quaternion.identity);
         Transform green2Transform = green2.GetComponent<Transform>();
         Unit green2Stats = green2.GetComponent<Unit>();
         green2Stats.setSpellList(SpellList.Explosion);
-        green2Stats.setStats("Green ennemy 2", 100, tilemap.WorldToCell(green2Transform.position));
+        green2Stats.setStats("Green ennemy 2", tilemap.WorldToCell(green2Transform.position), 100);
 
         // Init RangeUtils
         RangeUtils = new RangeUtils();
@@ -123,6 +196,7 @@ public class TurnBasedSystem : MonoBehaviour
             { green1Stats, green1 },
             { green2Stats, green2 }
         };
+        List<GameObject> a = new List<GameObject>();
         playerList = new Dictionary<Unit, GameObject>()
         {
             { PlayerStats, Player },
@@ -130,6 +204,13 @@ public class TurnBasedSystem : MonoBehaviour
 
         // Init obstacle List
         obstacleList = new Dictionary<Vector3Int, GameObject>();
+
+        // Init initiative list
+        initiativeList = new Dictionary<Unit, bool>(getInitList());
+
+        // Init current turn
+        currentUnit = getUnitTurn();
+        initiativeList[currentUnit] = true;
 
         // Init UI
         // Spell scrollview
@@ -155,8 +236,10 @@ public class TurnBasedSystem : MonoBehaviour
 
     void Update()
     {
-
-        dialogueText.text = "Current State : " + CurrentState + "\n" + "Cast State : " + CastState;
+        dialogueText.text = "Current State : " + CurrentState + "\n" +
+            "Cast State : " + CastState + "\n" +
+            "Turn : " + currentTurn + "\n" +
+            "Current unit : \n" + currentUnit;
 
         // Get keys input
         /*
@@ -186,7 +269,6 @@ public class TurnBasedSystem : MonoBehaviour
                 {
                     MoveSystem.moveCharacter(Player, cellPosition, obstacleList, tilemap);
                 }
-
             }
             else if (CurrentState == CurrentState.CAST)
             {
@@ -200,7 +282,7 @@ public class TurnBasedSystem : MonoBehaviour
                     CastState,
                     tilemap,
                     cellsGrid
-                                    );
+                );
                 if (CastState == CastState.DEFAULT)
                 {
                     CurrentState = CurrentState.MOVE;
