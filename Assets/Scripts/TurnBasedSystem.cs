@@ -249,7 +249,28 @@ public class TurnBasedSystem : MonoBehaviour
         Debug.Log("MOVE TO " + worldPositio);
         MovePlayerWithPos(PlayerAnimator, PlayerRigidBody, worldPositio);
         */
+        if (Input.GetMouseButtonDown(0))
+        {
+            // Get Mouse Input
+            Vector2 screenPosition = new Vector2(
+                Input.mousePosition.x,
+                Input.mousePosition.y
+            );
 
+            Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+            Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
+            
+            Sprite brickSp = Resources.Load<Sprite>("Tilemaps/Brick/brick_short_tile_iso");
+            Sprite brickSp2 = Resources.Load<Sprite>("Tilemaps/Brick/brick_tile_iso");
+            Sprite[] spl = new Sprite[2];
+            spl[0] = brickSp;
+            spl[1] = brickSp2;
+
+            GroundTile gd = Resources.Load<GroundTile>("ground");
+            gd.animatedSprites = spl;
+            tilemap.SetTile(cellPosition, gd);
+        }
+        /*
         // Left mouse click
         if (Input.GetMouseButtonDown(0))
         {
@@ -289,5 +310,6 @@ public class TurnBasedSystem : MonoBehaviour
                 }
             }
         }
+        */
     }
 }
