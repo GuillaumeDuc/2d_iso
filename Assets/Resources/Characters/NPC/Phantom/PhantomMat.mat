@@ -23,6 +23,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _EmissionEyes:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Eyes:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -41,5 +49,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors:
-    - Color_0cc97e87ef4d4f7fac095e8677c6beb4: {r: 0, g: 1.8196079, b: 1.5372549, a: 0}
+    - Color_0cc97e87ef4d4f7fac095e8677c6beb4: {r: 0, g: 4.237095, b: 3.61595, a: 0}
+    - Color_65cef0114dc9452ea7ab38e911e63bc5: {r: 1024, g: 1024, b: 1024, a: 0}
   m_BuildTextureStacks: []
