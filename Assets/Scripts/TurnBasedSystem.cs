@@ -73,7 +73,6 @@ public class TurnBasedSystem : MonoBehaviour
     {
         // Remove any previously added range
         RangeUtils.removeCells(cellsGrid);
-
         unit.selectedSpell = spell;
         spell.casterPos = unit.position;
         CastSystem.showArea(spell.getRange(obstacleList, tilemap), cellsGrid);
@@ -127,7 +126,7 @@ public class TurnBasedSystem : MonoBehaviour
 
     public void updateScrollViews()
     {
-        foreach(var enemy in enemyList)
+        foreach (var enemy in enemyList)
         {
             EnemiesScrollView.setSliderHP(enemy.Key);
         }
@@ -170,7 +169,7 @@ public class TurnBasedSystem : MonoBehaviour
         PlayerStats.setSpellList(SpellList.Explosion);
         PlayerStats.setSpellList(SpellList.Icycle);
         PlayerStats.setSpellList(SpellList.Sandwall);
-        PlayerStats.setStats("Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3 ,110);
+        PlayerStats.setStats("Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3, 110);
         PlayerStats.playable = true;
 
         // Init Ennemies
@@ -259,16 +258,27 @@ public class TurnBasedSystem : MonoBehaviour
 
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
             Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
-            
-            Sprite brickSp = Resources.Load<Sprite>("Tilemaps/Brick/brick_short_tile_iso");
-            Sprite brickSp2 = Resources.Load<Sprite>("Tilemaps/Brick/brick_tile_iso");
-            Sprite[] spl = new Sprite[2];
-            spl[0] = brickSp;
-            spl[1] = brickSp2;
 
-            GroundTile gd = Resources.Load<GroundTile>("ground");
-            gd.animatedSprites = spl;
-            tilemap.SetTile(cellPosition, gd);
+            if (tilemap.GetTile(cellPosition) is GroundTile)
+            {
+                tilemap.SetTile(cellPosition, null);
+            }
+            else
+            {
+                Sprite brickSp = Resources.Load<Sprite>("Tilemaps/Brick/brick_short_tile_iso");
+                Sprite brickSp2 = Resources.Load<Sprite>("Tilemaps/Brick/brick_tile_iso");
+                Sprite[] spl = new Sprite[2];
+                spl[0] = brickSp;
+                spl[1] = brickSp2;
+
+                GameObject Fire = Resources.Load<GameObject>("Fire");
+
+                GroundTile gd = Resources.Load<GroundTile>("ground");
+                gd.animatedSprites = spl;
+                gd.m_Sprite = brickSp;
+                gd.m_Prefab = Fire;
+                tilemap.SetTile(cellPosition, gd);
+            }
         }
         /*
         // Left mouse click

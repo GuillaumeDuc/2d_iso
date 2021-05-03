@@ -34,5 +34,7 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
+  m_Sprite: {fileID: 0}
+  m_Prefab: {fileID: 0}
   animatedSprites: []
   m_Preview: {fileID: 0}
