@@ -29,6 +29,8 @@ public class TurnBasedSystem : MonoBehaviour
 
     public SpellList SpellList;
 
+    public TileList TileList;
+
     public SpellScrollView SpellScrollView;
 
     public InfoScrollView EnemiesScrollView;
@@ -261,23 +263,20 @@ public class TurnBasedSystem : MonoBehaviour
 
             if (tilemap.GetTile(cellPosition) is GroundTile)
             {
-                tilemap.SetTile(cellPosition, null);
+                // tilemap.SetTile(cellPosition, null);
+                GroundTile tile = (GroundTile)tilemap.GetTile(cellPosition);
+                tile.isFreeze = !tile.isFreeze;
+                tile.isOnFire = !tile.isOnFire;
+                tilemap.RefreshTile(cellPosition);
             }
             else
             {
-                Sprite brickSp = Resources.Load<Sprite>("Tilemaps/Brick/brick_short_tile_iso");
-                Sprite brickSp2 = Resources.Load<Sprite>("Tilemaps/Brick/brick_tile_iso");
-                Sprite[] spl = new Sprite[2];
-                spl[0] = brickSp;
-                spl[1] = brickSp2;
+                GroundTile tileBrick = ScriptableObject.CreateInstance<GroundTile>();
+                tileBrick.setTile(TileList.brick);
+                tileBrick.isFreeze = true;
+                tileBrick.isOnFire = true;
 
-                GameObject Fire = Resources.Load<GameObject>("Fire");
-
-                GroundTile gd = Resources.Load<GroundTile>("ground");
-                gd.animatedSprites = spl;
-                gd.m_Sprite = brickSp;
-                gd.m_Prefab = Fire;
-                tilemap.SetTile(cellPosition, gd);
+                tilemap.SetTile(cellPosition, tileBrick);
             }
         }
         /*

@@ -6,32 +6,54 @@ using UnityEditor;
 public class GroundTile : Tile
 {
     public Sprite m_Sprite;
-    public GameObject m_Prefab;
-    public Sprite[] animatedSprites;
     public Sprite m_Preview;
+    public Sprite[] animatedSprites;
+    public GameObject fireEffect, freezeEffect;
+    public Status[] statusList;
+    public bool isOnFire, isFreeze;
+
+    public void setTile(GroundTile gt)
+    {
+        m_Sprite = gt.m_Sprite;
+        m_Preview = gt.m_Preview;
+        animatedSprites = gt.animatedSprites;
+        fireEffect = gt.fireEffect;
+        freezeEffect = gt.freezeEffect;
+        statusList = gt.statusList;
+        isOnFire = gt.isOnFire;
+    }
 
     public override void RefreshTile(Vector3Int position, ITilemap tilemap)
     {
         base.RefreshTile(position, tilemap);
     }
 
-    /*
-        public override bool GetTileAnimationData(Vector3Int position, ITilemap tilemap, ref TileAnimationData tileAnimationData)
+    public override bool GetTileAnimationData(Vector3Int position, ITilemap tilemap, ref TileAnimationData tileAnimationData)
+    {
+        if (animatedSprites.Length > 0)
         {
-            if (animatedSprites.Length > 0)
-            {
-                tileAnimationData.animatedSprites = animatedSprites;
-                tileAnimationData.animationSpeed = 1;
-                return true;
-            }
-            return false;
+            tileAnimationData.animatedSprites = animatedSprites;
+            tileAnimationData.animationSpeed = 1;
+            return true;
         }
+        return false;
+    }
 
-        */
     public override void GetTileData(Vector3Int location, ITilemap tilemap, ref TileData tileData)
     {
         tileData.sprite = m_Sprite;
-        tileData.gameObject = m_Prefab;
+        if (isOnFire)
+        {
+            tileData.gameObject = fireEffect;
+        }
+        if (isFreeze)
+        {
+            tileData.gameObject = freezeEffect;
+        }
+        if (!isFreeze && !isOnFire)
+        {
+            tileData.gameObject = null;
+        }
     }
 
 #if UNITY_EDITOR

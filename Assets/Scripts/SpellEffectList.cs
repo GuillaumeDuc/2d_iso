@@ -70,6 +70,9 @@ public class SpellEffectList : MonoBehaviour
                     character.addStatus(new Status(status));
                 });
             }
+            // Apply status to tiles
+            // GroundTile tile = (GroundTile)tilemap.GetTile(cell);
+
         });
     }
 
