@@ -15,6 +15,8 @@ public class TurnBasedSystem : MonoBehaviour
     public Tilemap tilemap;
     public Tilemap cellsGrid;
 
+    public GameObject CameraView;
+
     private GameObject Player;
     private Animator PlayerAnimator;
     private Rigidbody2D PlayerRigidBody;
@@ -242,6 +244,11 @@ public class TurnBasedSystem : MonoBehaviour
             "Turn : " + currentTurn + "\n" +
             "Current unit : \n" + currentUnit;
 
+
+        // Move Camera
+        Vector3 posPlayer = PlayerTransform.position;
+        CameraView.transform.position = new Vector3(posPlayer.x, posPlayer.y, -10);
+
         // Get keys input
         /*
         float x = Input.GetAxisRaw("Horizontal");
@@ -250,36 +257,7 @@ public class TurnBasedSystem : MonoBehaviour
         Debug.Log("MOVE TO " + worldPositio);
         MovePlayerWithPos(PlayerAnimator, PlayerRigidBody, worldPositio);
         */
-        if (Input.GetMouseButtonDown(0))
-        {
-            // Get Mouse Input
-            Vector2 screenPosition = new Vector2(
-                Input.mousePosition.x,
-                Input.mousePosition.y
-            );
 
-            Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-            Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
-
-            if (tilemap.GetTile(cellPosition) is GroundTile)
-            {
-                // tilemap.SetTile(cellPosition, null);
-                GroundTile tile = (GroundTile)tilemap.GetTile(cellPosition);
-                tile.isFreeze = !tile.isFreeze;
-                tile.isOnFire = !tile.isOnFire;
-                tilemap.RefreshTile(cellPosition);
-            }
-            else
-            {
-                GroundTile tileBrick = ScriptableObject.CreateInstance<GroundTile>();
-                tileBrick.setTile(TileList.brick);
-                tileBrick.isFreeze = true;
-                tileBrick.isOnFire = true;
-
-                tilemap.SetTile(cellPosition, tileBrick);
-            }
-        }
-        /*
         // Left mouse click
         if (Input.GetMouseButtonDown(0))
         {
@@ -319,6 +297,5 @@ public class TurnBasedSystem : MonoBehaviour
                 }
             }
         }
-        */
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 public class GenerateCavern : MonoBehaviour
 {
     public Tilemap tilemap;
-    public Tile tile;
+    public TileList TileList;
     public int width, height, percentWalls;
 
     private void createMapCavern(int width, int height, float percentWalls)
@@ -30,9 +30,7 @@ public class GenerateCavern : MonoBehaviour
                 }
                 else
                 {
-                    System.Random rnd = new System.Random();
-                    int percent = rnd.Next(1, 100);
-                    if (percentWalls >= percent)
+                    if (percentWalls >= UnityEngine.Random.Range(1,101))
                     {
                         setWall(column, row);
                     }
@@ -148,17 +146,17 @@ public class GenerateCavern : MonoBehaviour
 
     private void setGround(int x, int y)
     {
+        GroundTile tile = ScriptableObject.CreateInstance<GroundTile>();
+        tile.setTile(TileList.brick);
         Vector3Int pos = new Vector3Int(x, y, 0);
         tilemap.SetTile(pos, tile);
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         createMapCavern(width, height, percentWalls);
     }
 
-    // Update is called once per frame
     void Update()
     {
 
