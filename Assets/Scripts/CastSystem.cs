@@ -88,9 +88,9 @@ public class CastSystem : MonoBehaviour
         Tilemap tilemap
         )
     {
-        spell.playAnimation(obstacleList, tilemap);
-        spell.applyEffect(playerList, enemyList, obstacleList, tilemap);
         spell.doDamage(playerList, enemyList, obstacleList, tilemap);
+        spell.applyEffect(playerList, enemyList, obstacleList, tilemap);
+        spell.playAnimation(obstacleList, tilemap);
         updateScrollViews(playerList, enemyList);
     }
 

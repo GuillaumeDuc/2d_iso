@@ -6,6 +6,7 @@ public class SpellEffect
 {
     public string name;
     public List<Status> statusList;
+    public List<Status> statusTileList;
     public int value;
     public bool cumul;
 
@@ -28,6 +29,7 @@ public class SpellEffect
         value = 0;
         this.cumul = cumul;
         statusList = new List<Status>();
+        statusTileList = new List<Status>();
     }
 
     public override string ToString()

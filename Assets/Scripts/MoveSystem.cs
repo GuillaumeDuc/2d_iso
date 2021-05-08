@@ -93,8 +93,11 @@ public class MoveSystem : MonoBehaviour
         Unit playerStats = player.GetComponent<Unit>();
         playerStats.position = posDest;
 
-        // move player from 1 to 1 square
+        // Move player from 1 to 1 square
         StartCoroutine(Move(playerTransform, path, tilemap));
+
+        // Apply tile status to player for every square passed
+        applyTilesEffects(playerStats, path, tilemap);
     }
 
     private List<Square> getPathCharacter(
@@ -251,5 +254,24 @@ public class MoveSystem : MonoBehaviour
         {
             cellsGrid.SetTile(s.pos, transparent);
         }
+    }
+
+    private void applyTilesEffects(Unit unit, List<Square> path, Tilemap tilemap)
+    {
+        path.ForEach(s =>
+        {
+            GroundTile gt = (GroundTile)tilemap.GetTile(s.pos);
+            if (gt != null)
+            {
+                if (gt.statusList != null)
+                {
+                    gt.statusList.ForEach(status =>
+                    {
+                        unit.addStatus(status);
+                    });
+                }
+            }
+
+        });
     }
 }

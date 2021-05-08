@@ -45,7 +45,7 @@ public class TurnBasedSystem : MonoBehaviour
     private float moveSpeed = 5f;
 
     // Spawn Player
-    private float posPlayerX = -2.5f, posPlayerY = -2.5f;
+    private float posPlayerX = 2.5f, posPlayerY = 2.5f;
 
     public CurrentState CurrentState;
     public CastState CastState;
@@ -179,13 +179,13 @@ public class TurnBasedSystem : MonoBehaviour
         // Init Ennemies
         GameObject EnnemyPrefab = Resources.Load<GameObject>("Characters/NPC/Green");
         // First
-        GameObject green1 = Instantiate(EnnemyPrefab, tilemap.CellToWorld(new Vector3Int(0, 0, 0)), Quaternion.identity);
+        GameObject green1 = Instantiate(EnnemyPrefab, tilemap.CellToWorld(new Vector3Int(2, 6, 0)), Quaternion.identity);
         Transform green1Transform = green1.GetComponent<Transform>();
         Unit green1Stats = green1.GetComponent<Unit>();
         green1Stats.setSpellList(SpellList.Explosion);
         green1Stats.setStats("Green ennemy 1", tilemap.WorldToCell(green1Transform.position), 100);
         // Second
-        GameObject green2 = Instantiate(EnnemyPrefab, tilemap.CellToWorld(new Vector3Int(-1, -2, 0)), Quaternion.identity);
+        GameObject green2 = Instantiate(EnnemyPrefab, tilemap.CellToWorld(new Vector3Int(3, 7, 0)), Quaternion.identity);
         Transform green2Transform = green2.GetComponent<Transform>();
         Unit green2Stats = green2.GetComponent<Unit>();
         green2Stats.setSpellList(SpellList.Explosion);

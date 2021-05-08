@@ -10,6 +10,8 @@ public class GenerateCavern : MonoBehaviour
     public TileList TileList;
     public int width, height, percentWalls;
 
+    private int currentWidth, currentHeight, currentPW;
+
     private void createMapCavern(int width, int height, float percentWalls)
     {
         randomFillMap(width, height, percentWalls);
@@ -30,7 +32,7 @@ public class GenerateCavern : MonoBehaviour
                 }
                 else
                 {
-                    if (percentWalls >= UnityEngine.Random.Range(1,101))
+                    if (percentWalls >= UnityEngine.Random.Range(1, 101))
                     {
                         setWall(column, row);
                     }
@@ -155,10 +157,19 @@ public class GenerateCavern : MonoBehaviour
     void Start()
     {
         createMapCavern(width, height, percentWalls);
+        currentWidth = width;
+        currentHeight = height;
+        currentPW = percentWalls;
     }
 
     void Update()
     {
-
+        if (currentWidth != width || currentHeight != height || currentPW != percentWalls)
+        {
+            createMapCavern(width, height, percentWalls);
+            currentWidth = width;
+            currentHeight = height;
+            currentPW = percentWalls;
+        }
     }
 }

@@ -13,7 +13,8 @@ public class SpellEffectList : MonoBehaviour
     public SpellEffect
         CreateObstacle,
         PushFromPlayer,
-        Fire
+        Fire,
+        Freeze
         ;
 
     private RangeUtils RangeUtils;
@@ -36,8 +37,17 @@ public class SpellEffectList : MonoBehaviour
 
         // Apply Fire in a given area
         Fire = new SpellEffect("FireEffect");
+        // Apply status to players
         Fire.statusList.Add(new Status(StatusList.Fire));
+        // Apply status to tiles
+        Fire.statusTileList.Add(new Status(StatusList.Fire));
         Fire.applyEffectAction = fireEffect;
+
+        // Apply freeze in a given area
+        Freeze = new SpellEffect("FreezeEffect");
+        Freeze.statusList.Add(new Status(StatusList.Freeze));
+        Freeze.statusTileList.Add(new Status(StatusList.Freeze));
+        Freeze.applyEffectAction = freezeEffect;
     }
 
     public void fireEffect(
@@ -66,13 +76,65 @@ public class SpellEffectList : MonoBehaviour
             Unit character = getUnitFromPos(allCharacters, cell);
             if (character != null)
             {
-                spellEffect.statusList.ForEach(status => {
+                spellEffect.statusList.ForEach(status =>
+                {
                     character.addStatus(new Status(status));
                 });
             }
             // Apply status to tiles
-            // GroundTile tile = (GroundTile)tilemap.GetTile(cell);
+            GroundTile tile = (GroundTile)tilemap.GetTile(cell);
+            if (tile != null)
+            {
+                tile.isOnFire = true;
+                spellEffect.statusTileList.ForEach(status =>
+                {
+                    tile.addStatus(new Status(status));
+                });
+            }
+        });
+    }
 
+    public void freezeEffect(
+        Spell spell,
+        SpellEffect spellEffect,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        Dictionary<Unit, GameObject> allCharacters = playerList.Concat(enemyList).ToDictionary(x => x.Key, x => x.Value);
+        List<Vector3Int> area = spell.getArea(obstacleList, tilemap);
+        // Check multiple effect can stack on same cell on a single cast
+        if (!spellEffect.cumul)
+        {
+            area = area.Distinct().ToList();
+        }
+
+        area.ForEach(cell =>
+        {
+            // Apply status to obstacleList
+            // obstacleList[cell];
+
+            // Apply status to characters
+            Unit character = getUnitFromPos(allCharacters, cell);
+            if (character != null)
+            {
+                spellEffect.statusList.ForEach(status =>
+                {
+                    character.addStatus(new Status(status));
+                });
+            }
+            // Apply status to tiles
+            GroundTile tile = (GroundTile)tilemap.GetTile(cell);
+            if (tile != null)
+            {
+                tile.isFreeze = true;
+                spellEffect.statusTileList.ForEach(status =>
+                {
+                    tile.addStatus(new Status(status));
+                });
+            }
         });
     }
 

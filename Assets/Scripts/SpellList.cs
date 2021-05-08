@@ -53,6 +53,8 @@ public class SpellList : MonoBehaviour
         Icycle.getAreaList = getAreaSingleCell;
         Icycle.animate = animateOnCell;
         Icycle.canCastOn = canCast;
+        // Effects
+        Icycle.spellEffectList.Add(SpellEffectList.Freeze);
         // Damage
         Icycle.doDamageAction = doDamage;
 
@@ -173,7 +175,10 @@ public class SpellList : MonoBehaviour
         )
     {
         Vector2 worldPos = tilemap.CellToWorld(to);
+        // Instantiate animation
         Instantiate(spell.spellGO, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+        // Refresh tile
+        tilemap.RefreshTile(to);
     }
 
     public void animateOnCell(
@@ -187,7 +192,10 @@ public class SpellList : MonoBehaviour
         listCells.ForEach(s =>
         {
             Vector2 worldPos = tilemap.CellToWorld(s);
+            // Instantiate animation
             Instantiate(spell.spellGO, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+            // Refresh tile
+            tilemap.RefreshTile(s);
         });
     }
 

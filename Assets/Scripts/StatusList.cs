@@ -6,14 +6,21 @@ using UnityEngine;
 public class StatusList : MonoBehaviour
 {
     public Status
-        Fire
+        Fire,
+        Freeze
         ;
 
     void Start()
     {
+        // Fire status
         Fire = new Status("Fire", 10, 3);
         Fire.updateFunc = updateStatus;
         Fire.damageFunc = damageStatus;
+
+        // Freeze Status
+        Freeze = new Status("Freeze", 10, 3);
+        Freeze.updateFunc = updateStatus;
+        Freeze.damageFunc = damageStatus;
     }
 
     bool updateStatus(Status status)

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Tilemaps;
 using UnityEditor;
+using System.Collections.Generic;
 
 public class GroundTile : Tile
 {
@@ -9,7 +10,7 @@ public class GroundTile : Tile
     public Sprite m_Preview;
     public Sprite[] animatedSprites;
     public GameObject fireEffect, freezeEffect;
-    public Status[] statusList;
+    public List<Status> statusList;
     public bool isOnFire, isFreeze;
 
     public void setTile(GroundTile gt)
@@ -21,6 +22,15 @@ public class GroundTile : Tile
         freezeEffect = gt.freezeEffect;
         statusList = gt.statusList;
         isOnFire = gt.isOnFire;
+    }
+
+    public void addStatus(Status status)
+    {
+        if (statusList == null)
+        {
+            statusList = new List<Status>();
+        }
+        statusList.Add(status);
     }
 
     public override void RefreshTile(Vector3Int position, ITilemap tilemap)
