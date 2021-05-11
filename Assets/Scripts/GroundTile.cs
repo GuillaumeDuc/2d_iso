@@ -30,7 +30,8 @@ public class GroundTile : Tile
         {
             statusList = new List<Status>();
         }
-        statusList.Add(status);
+        Status newStatus = new Status(status);
+        statusList = newStatus.addStatusToList(statusList);
     }
 
     public override void RefreshTile(Vector3Int position, ITilemap tilemap)

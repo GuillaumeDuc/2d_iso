@@ -78,7 +78,33 @@ public class Unit : MonoBehaviour
 
     public void addStatus(Status status)
     {
-        statusList.Add(status);
+        Status newStatus = new Status(status);
+        statusList = newStatus.addStatusToList(statusList);
+    }
+
+    private void showAllStatus(Status status)
+    {
+        Debug.Log("Show status");
+        Status current = status;
+        Debug.Log("current : " + current);
+        while (current != null)
+        {
+            if (current.name != status.name)
+            {
+                Debug.Log(current);
+            }
+            current = current.nextStatus;
+        }
+        current = status;
+        Debug.Log("---  previous  ---");
+        while (current != null)
+        {
+            if (current.name != status.name)
+            {
+                Debug.Log(current);
+            }
+            current = current.previousStatus;
+        }
     }
 
     public void updateStatus()
@@ -125,16 +151,11 @@ public class Unit : MonoBehaviour
     public override string ToString()
     {
         string list = "";
-        statusList.ForEach(s => {
+        statusList.ForEach(s =>
+        {
             list += s + "\n";
         });
-        /*
-        return "Unit " + unitName + "\n" +
-            "max HP : " + maxHP + " - current HP : " + currentHP + "\n" +
-            "position : " + position + "\n" +
-            "initiative : " + initiative + " - movement : " + movementPoint;
-        */
-        return "Unit : " + unitName + " | HP : "+ currentHP + "\n" +
+        return "Unit : " + unitName + " | HP : " + currentHP + "\n" +
             "list status : \n" + list;
     }
 }

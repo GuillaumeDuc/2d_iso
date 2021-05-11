@@ -23,7 +23,7 @@ public class SpellEffect
         applyEffectAction(spell, this, playerList, enemyList, obstacleList, tilemap);
     }
 
-    public SpellEffect(string name, int value = 0, bool cumul = false)
+    public SpellEffect(string name, int value = 0, bool cumul = true)
     {
         this.name = name;
         value = 0;
