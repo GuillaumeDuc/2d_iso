@@ -12,9 +12,13 @@ public class StatusList : MonoBehaviour
 
     void Start()
     {
-        // Status Tile GameObject
+        // Temperature Tile GameObject
         GameObject fireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/FireEffect");
+        GameObject extremeFireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/ExtremFireEffect");
+        GameObject scorchingFireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/ScorchingFireEffect");
         GameObject freezeTileEffect = Resources.Load<GameObject>("TileEffects/Freeze/FreezeEffect");
+        GameObject extremeFreezeTileEffect = Resources.Load<GameObject>("TileEffects/Freeze/ExtremFreezeEffect");
+        GameObject freezingColdTileEffect = Resources.Load<GameObject>("TileEffects/Freeze/FreezingColdEffect");
 
         // Temperature status
         string temperature = "Temperature";
@@ -26,10 +30,10 @@ public class StatusList : MonoBehaviour
         Fire.tileGO = fireTileEffect;
         // Escalating Fire
         Status ExtremeFire = new Status(temperature, "Extreme Fire", 15, 6);
-        ExtremeFire.tileGO = fireTileEffect;
+        ExtremeFire.tileGO = extremeFireTileEffect;
         // Escalating More
         Status ScorchingFire = new Status(temperature, "Scorching Fire", 20, 12);
-        ScorchingFire.tileGO = fireTileEffect;
+        ScorchingFire.tileGO = scorchingFireTileEffect;
         // Freeze Status
         Freeze = new Status(temperature, "Freeze", 10, 3);
         Freeze.tileGO = freezeTileEffect;
