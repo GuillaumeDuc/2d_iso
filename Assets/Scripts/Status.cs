@@ -11,6 +11,7 @@ public class Status
     public Status nextStatus;
     public Status previousStatus;
     public int weight;
+    public GameObject tileGO;
 
     public System.Func<Status, bool> updateFunc { get; set; }
     public System.Func<Status, int> damageFunc { get; set; }
@@ -50,11 +51,13 @@ public class Status
         damage = status.damage;
         turnNb = status.turnNb;
         permanent = status.permanent;
+        weight = status.weight;
+        tileGO = status.tileGO;
+        turnCounter = 0;
+
         updateFunc = status.updateFunc;
         damageFunc = status.damageFunc;
         addStatusToListFunc = status.addStatusToListFunc;
-        weight = status.weight;
-        turnCounter = 0;
 
         // Deep clone
         if (deepCopy)

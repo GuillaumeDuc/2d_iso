@@ -61,7 +61,7 @@ public class SpellList : MonoBehaviour
         // Sandwall
         nameSpell = "Sandwall";
         SandwallGO = Resources.Load<GameObject>(PATH + nameSpell);
-        Sandwall = new Spell(SandwallGO, nameSpell, 0, 10, 1, false, 2, true);
+        Sandwall = new Spell(SandwallGO, nameSpell, 0, 10, 1, false, 3, true);
         Sandwall.getRangeList = getRangeInCircleFullPlayer;
         Sandwall.getAreaList = getAreaInLineBetweenCells;
         Sandwall.animate = animateInLineBetweenCells;
@@ -148,9 +148,19 @@ public class SpellList : MonoBehaviour
         Tilemap tilemap
         )
     {
-        List<Vector3Int> listCells = getAreaInLineBetweenCells(spell, obstacleList, tilemap);
-
-        StartCoroutine(multipleAnimateOnCell(listCells, spell, obstacleList, tilemap));
+        List<Vector3Int> listCells = getAreaInLineBetweenCells(
+            spell,
+            obstacleList,
+            tilemap
+        );
+        StartCoroutine(
+            multipleAnimateOnCell(
+                listCells,
+                spell,
+                obstacleList,
+                tilemap
+            )
+        );
     }
 
     IEnumerator multipleAnimateOnCell(
@@ -270,11 +280,20 @@ public class SpellList : MonoBehaviour
         )
     {
         List<Vector3Int> area = new List<Vector3Int>();
-
+        
         for (int i = 0; i < spell.spellPos.Count() - 1; i++)
         {
-            area = area.Concat(RangeUtils.getAreaInLine(spell.spellPos[i], spell.spellPos[i + 1], obstacleList, tilemap, spell.uniqueCellArea)).ToList();
+            area = area.Concat(
+                RangeUtils.getAreaInLine(
+                    spell.spellPos[i],
+                    spell.spellPos[i + 1],
+                    obstacleList,
+                    tilemap,
+                    spell.uniqueCellArea
+                    )
+                ).ToList();
         }
+
         return area;
     }
 

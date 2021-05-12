@@ -3,25 +3,23 @@ using System.Collections;
 using UnityEngine.Tilemaps;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GroundTile : Tile
 {
     public Sprite m_Sprite;
     public Sprite m_Preview;
     public Sprite[] animatedSprites;
-    public GameObject fireEffect, freezeEffect;
+    public GameObject tileGO;
     public List<Status> statusList;
-    public bool isOnFire, isFreeze;
 
     public void setTile(GroundTile gt)
     {
         m_Sprite = gt.m_Sprite;
         m_Preview = gt.m_Preview;
         animatedSprites = gt.animatedSprites;
-        fireEffect = gt.fireEffect;
-        freezeEffect = gt.freezeEffect;
         statusList = gt.statusList;
-        isOnFire = gt.isOnFire;
+        tileGO = gt.tileGO;
     }
 
     public void addStatus(Status status)
@@ -32,6 +30,16 @@ public class GroundTile : Tile
         }
         Status newStatus = new Status(status);
         statusList = newStatus.addStatusToList(statusList);
+        // Change GameObject
+        statusList.ForEach(s =>
+        {
+            tileGO = s.tileGO;
+        });
+        // If list empty, no GameObject
+        if (!statusList.Any())
+        {
+            tileGO = null;
+        }
     }
 
     public override void RefreshTile(Vector3Int position, ITilemap tilemap)
@@ -53,18 +61,7 @@ public class GroundTile : Tile
     public override void GetTileData(Vector3Int location, ITilemap tilemap, ref TileData tileData)
     {
         tileData.sprite = m_Sprite;
-        if (isOnFire)
-        {
-            tileData.gameObject = fireEffect;
-        }
-        if (isFreeze)
-        {
-            tileData.gameObject = freezeEffect;
-        }
-        if (!isFreeze && !isOnFire)
-        {
-            tileData.gameObject = null;
-        }
+        tileData.gameObject = tileGO;
     }
 
 #if UNITY_EDITOR

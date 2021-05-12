@@ -12,30 +12,33 @@ public class StatusList : MonoBehaviour
 
     void Start()
     {
+        // Status Tile GameObject
+        GameObject fireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/FireEffect");
+        GameObject freezeTileEffect = Resources.Load<GameObject>("TileEffects/Freeze/FreezeEffect");
+
         // Temperature status
         string temperature = "Temperature";
 
         // No status
         Status NoStatus = new Status(temperature, "No status", 0, 0);
-        NoStatus.setFunctions(updateStatus, damageStatus, addStatusToList);
         // Fire status
         Fire = new Status(temperature, "Fire", 10, 3);
-        Fire.setFunctions(updateStatus, damageStatus, addStatusToList);
+        Fire.tileGO = fireTileEffect;
         // Escalating Fire
         Status ExtremeFire = new Status(temperature, "Extreme Fire", 15, 6);
-        ExtremeFire.setFunctions(updateStatus, damageStatus, addStatusToList);
+        ExtremeFire.tileGO = fireTileEffect;
         // Escalating More
         Status ScorchingFire = new Status(temperature, "Scorching Fire", 20, 12);
-        ScorchingFire.setFunctions(updateStatus, damageStatus, addStatusToList);
+        ScorchingFire.tileGO = fireTileEffect;
         // Freeze Status
         Freeze = new Status(temperature, "Freeze", 10, 3);
-        Freeze.setFunctions(updateStatus, damageStatus, addStatusToList);
+        Freeze.tileGO = freezeTileEffect;
         // Escalating Freeze
         Status ExtremeFreeze = new Status(temperature, "Extreme Freeze", 15, 6);
-        ExtremeFire.setFunctions(updateStatus, damageStatus, addStatusToList);
+        ExtremeFreeze.tileGO = freezeTileEffect;
         // Escalating More
         Status FreezingCold = new Status(temperature, "Freezing Cold", 20, 12);
-        FreezingCold.setFunctions(updateStatus, damageStatus, addStatusToList);
+        FreezingCold.tileGO = freezeTileEffect;
 
         // Setting Temperature status
         List<Status> temperatureList = new List<Status>()
@@ -48,12 +51,22 @@ public class StatusList : MonoBehaviour
             ExtremeFire,
             ScorchingFire
         };
+        setFunctionsStatus(temperatureList);
         setPNStatus(temperatureList);
         setWeight(FreezingCold, -3);
 
         // Slow Status
         Status Slow = new Status("Slow", "Slowed", 0, 3);
+        Slow.setFunctions(updateStatus, damageStatus, addStatusToList);
 
+    }
+
+    private void setFunctionsStatus(List<Status> list)
+    {
+        list.ForEach(status =>
+        {
+            status.setFunctions(updateStatus, damageStatus, addStatusToList);
+        });
     }
 
     private void setPNStatus(List<Status> temperatureList)

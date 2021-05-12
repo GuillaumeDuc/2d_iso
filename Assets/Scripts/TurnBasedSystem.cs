@@ -269,7 +269,7 @@ public class TurnBasedSystem : MonoBehaviour
 
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
             Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
-
+            
             if (CurrentState == CurrentState.MOVE)
             {
                 // Move player
