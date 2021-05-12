@@ -102,11 +102,33 @@ public class SpellEffectList : MonoBehaviour
         Tilemap tilemap
         )
     {
-        spell.getArea(obstacleList, tilemap).ForEach(c =>
+        List<Vector3Int> area = spell.getArea(obstacleList, tilemap);
+        // Fill Obstacles
+        area.ForEach(c =>
         {
-            try { obstacleList.Add(c, spell.spellGO); }
+            try
+            {
+                obstacleList.Add(c, spell.spellGO);
+            }
             catch { }
         });
+        // Instantiate obstacle
+        StartCoroutine(animateOnOneCell(spell, area, tilemap));
+    }
+
+    IEnumerator animateOnOneCell(
+        Spell spell,
+        List<Vector3Int> area,
+        Tilemap tilemap
+        )
+    {
+        foreach (var c in area)
+        {
+            yield return new WaitForSeconds(0.2f);
+            Vector2 worldPos = tilemap.CellToWorld(c);
+            // Instantiate animation
+            Instantiate(spell.spellGO, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+        }
     }
 
     public void pushFromPlayerEffect(

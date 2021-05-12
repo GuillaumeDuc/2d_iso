@@ -120,7 +120,6 @@ public class RangeUtils
                 result.Add(c);
             }
         });
-
         return result;
     }
 

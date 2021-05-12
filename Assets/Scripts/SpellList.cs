@@ -48,9 +48,9 @@ public class SpellList : MonoBehaviour
         // Icycle
         nameSpell = "Icycle";
         IcycleGO = Resources.Load<GameObject>(PATH + nameSpell);
-        Icycle = new Spell(IcycleGO, nameSpell, 30, 6, 1, false, 3);
+        Icycle = new Spell(IcycleGO, nameSpell, 30, 8, 3, false, 3);
         Icycle.getRangeList = getRangeInCircleFullPlayer;
-        Icycle.getAreaList = getAreaSingleCell;
+        Icycle.getAreaList = getAreaInCircleFull;
         Icycle.animate = animateOnCell;
         Icycle.canCastOn = canCast;
         // Effects
@@ -61,10 +61,10 @@ public class SpellList : MonoBehaviour
         // Sandwall
         nameSpell = "Sandwall";
         SandwallGO = Resources.Load<GameObject>(PATH + nameSpell);
-        Sandwall = new Spell(SandwallGO, nameSpell, 0, 10, 1, false, 3, true);
+        Sandwall = new Spell(SandwallGO, nameSpell, 0, 10, 1, false, 2, true);
         Sandwall.getRangeList = getRangeInCircleFullPlayer;
         Sandwall.getAreaList = getAreaInLineBetweenCells;
-        Sandwall.animate = animateInLineBetweenCells;
+        // No animation for sandwall, walls are created in spell effect
         Sandwall.canCastOn = canCast;
         //Add effect on spell
         Sandwall.spellEffectList.Add(SpellEffectList.PushFromPlayer);
@@ -153,6 +153,7 @@ public class SpellList : MonoBehaviour
             obstacleList,
             tilemap
         );
+
         StartCoroutine(
             multipleAnimateOnCell(
                 listCells,
@@ -173,11 +174,11 @@ public class SpellList : MonoBehaviour
         foreach (var c in listCells)
         {
             yield return new WaitForSeconds(0.1f);
-            animateOnCell(spell, c, obstacleList, tilemap);
+            animateOnOneCell(spell, c, obstacleList, tilemap);
         }
     }
 
-    public void animateOnCell(
+    public void animateOnOneCell(
         Spell spell,
         Vector3Int to,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -197,13 +198,16 @@ public class SpellList : MonoBehaviour
         Tilemap tilemap
         )
     {
-        List<Vector3Int> listCells = getAreaSingleCell(spell, obstacleList, tilemap);
+        List<Vector3Int> listCells = getAreaInCircleFull(spell, obstacleList, tilemap);
 
         listCells.ForEach(s =>
         {
             Vector2 worldPos = tilemap.CellToWorld(s);
-            // Instantiate animation
-            Instantiate(spell.spellGO, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+            // Instantiate animation one cells clicked
+            if (spell.spellPos.Contains(s))
+            {
+                Instantiate(spell.spellGO, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+            }
             // Refresh tile
             tilemap.RefreshTile(s);
         });
@@ -264,15 +268,6 @@ public class SpellList : MonoBehaviour
         return area;
     }
 
-    public List<Vector3Int> getAreaSingleCell(
-        Spell spell,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Tilemap tilemap
-        )
-    {
-        return new List<Vector3Int>(spell.spellPos);
-    }
-
     public List<Vector3Int> getAreaInLineBetweenCells(
         Spell spell,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -280,7 +275,7 @@ public class SpellList : MonoBehaviour
         )
     {
         List<Vector3Int> area = new List<Vector3Int>();
-        
+
         for (int i = 0; i < spell.spellPos.Count() - 1; i++)
         {
             area = area.Concat(
@@ -293,7 +288,6 @@ public class SpellList : MonoBehaviour
                     )
                 ).ToList();
         }
-
         return area;
     }
 

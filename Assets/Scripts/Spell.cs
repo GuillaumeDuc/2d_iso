@@ -46,7 +46,7 @@ public class Spell
 
     public void playAnimation(Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
-        animate(this, obstacleList, tilemap);
+        animate?.Invoke(this, obstacleList, tilemap);
     }
 
     public void applyEffect(
