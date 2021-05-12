@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 3128274454820993150}
   - component: {fileID: 3128274454820993151}
   - component: {fileID: 3128274454820993148}
+  - component: {fileID: 7281843324146592911}
+  - component: {fileID: 1852905798405404563}
+  - component: {fileID: 1682680173513532166}
   m_Layer: 0
   m_Name: Sandwall
   m_TagString: Untagged
@@ -102,3 +105,54 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7281843324146592911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3128274454820993149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 1
+  m_ApplyToSortingLayers: 00000000276bc69e
+  m_ShapePath:
+  - {x: 0.039883494, y: -0.1331284, z: 0}
+  - {x: 0.505026, y: 0.14655542, z: 0.00000166893}
+  - {x: 0.03262806, y: 0.3911903, z: 0.00000166893}
+  - {x: -0.47469318, y: 0.11839104, z: 0}
+  m_ShapePathHash: 1554172155
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 35172
+--- !u!114 &1852905798405404563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3128274454820993149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38f48a8d66b2adc46887f23a3a88ac01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+--- !u!114 &1682680173513532166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3128274454820993149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4610e4e0e461b540ae9817fcf16b3c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

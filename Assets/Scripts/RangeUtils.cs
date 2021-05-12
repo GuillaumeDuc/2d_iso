@@ -6,13 +6,13 @@ using System.Linq;
 
 public class RangeUtils
 {
-    public bool lineOfSight(Vector3Int playerPos, Vector3Int cellPos, Tilemap obstacles)
+    public bool lineOfSight(Vector3Int playerPos, Vector3Int cellPos, Dictionary<Vector3Int, GameObject> obstacleList)
     {
         List<Vector3Int> lineOfSightArray = new List<Vector3Int>(getLine(playerPos, cellPos));
         bool lineOS = true;
         lineOfSightArray.ForEach(a =>
         {
-            if (obstacles.HasTile(a))
+            if (obstacleList.ContainsKey(a))
             {
                 lineOS = false;
             };
@@ -96,11 +96,31 @@ public class RangeUtils
         return new List<Vector3Int>() { up, down, left, right };
     }
 
-    public List<Vector3Int> getAreaInLine(Vector3Int to, Vector3Int from, Tilemap tilemap)
+    public List<Vector3Int> getAreaInLine(
+        Vector3Int to,
+        Vector3Int from,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap,
+        bool uniqueCellArea = false
+        )
     {
         List<Vector3Int> listCells = new List<Vector3Int>(getLine(from, to));
         listCells.Reverse();
-        return listCells;
+        if (!uniqueCellArea)
+        {
+            return listCells;
+        }
+
+        List<Vector3Int> result = new List<Vector3Int>();
+        // Remove existing cell in obstacleList
+        listCells.ForEach(c =>
+        {
+            if (uniqueCellArea && !obstacleList.ContainsKey(c))
+            {
+                result.Add(c);
+            }
+        });
+        return result;
     }
 
     public List<Vector3Int> getAreaInLineFollowClick(Vector3Int to, Vector3Int from, Tilemap tilemap)
@@ -116,6 +136,49 @@ public class RangeUtils
 
         listCells.Reverse();
         return listCells;
+    }
+
+    public bool isWalkable(
+        Vector3Int cell,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        return tilemap.HasTile(cell) && !obstacleList.ContainsKey(cell);
+    }
+
+    public Vector3Int getFarthestWalkableNeighbour(
+        Vector3Int to,
+        Vector3Int from,
+        List<Vector3Int> area,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        Vector3Int up = new Vector3Int(to.x, to.y + 1, to.z);
+        Vector3Int down = new Vector3Int(to.x, to.y - 1, to.z);
+        Vector3Int left = new Vector3Int(to.x - 1, to.y, to.z);
+        Vector3Int right = new Vector3Int(to.x + 1, to.y, to.z);
+
+        Dictionary<Vector3Int, float> neighbours = new Dictionary<Vector3Int, float>() {
+            { up, getMDistance(up, from) },
+            { down, getMDistance(down, from) },
+            { left, getMDistance(left, from) },
+            { right, getMDistance(right, from) }
+        };
+
+        Vector3Int farthest = neighbours.FirstOrDefault(x =>
+        {
+            return (x.Value == neighbours.Max(n => n.Value)) &&
+            isWalkable(x.Key, obstacleList, tilemap) &&
+            !area.Contains(x.Key);
+        }).Key;
+
+        if (!isWalkable(to, obstacleList, tilemap) || area.Contains(to))
+        {
+            return getFarthestWalkableNeighbour(farthest, from, area, obstacleList, tilemap);
+        }
+        return to;
     }
 
     private Vector3Int getClosestNeighbour(Vector3Int to, Vector3Int from, Tilemap tilemap)

@@ -4,13 +4,21 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public string unitName;
-    public int unitLevel;
-
-    public int maxHP;
-    public int currentHP;
+    public int
+        unitLevel,
+        maxHP,
+        currentHP,
+        endurance,
+        mana,
+        spellSlot,
+        initiative,
+        movementPoint
+        ;
     public List<Spell> spellList = new List<Spell>();
     public Spell selectedSpell;
     public Vector3Int position;
+    public bool playable;
+    public List<Status> statusList = new List<Status>();
 
     public bool takeDamage(int dmg)
     {
@@ -32,17 +40,30 @@ public class Unit : MonoBehaviour
         spellList.Add(newSpells);
     }
 
-    public void setStats(string name, int maxHP)
+    public void setStats(
+        string name,
+        Vector3Int position,
+        int maxHP = 100,
+        int endurance = 0,
+        int mana = 100,
+        int movementPoint = 6,
+        int spellSlot = 3
+        )
     {
-        this.unitName = name;
-        this.maxHP = maxHP;
-        this.currentHP = maxHP;
-    }
 
-    public void setStats(string name, int maxHP, Vector3Int position)
-    {
-        setStats(name, maxHP);
+        this.unitName = name;
+        this.maxHP = (int)(maxHP * (1 + (double)endurance / 10));
+        this.currentHP = this.maxHP;
+
         this.position = position;
+
+        this.endurance = endurance;
+        this.mana = mana;
+        this.movementPoint = movementPoint + (int)(endurance / 10);
+
+        initiative = mana + endurance;
+
+        this.playable = false;
     }
 
     public string getSpellList()
@@ -53,6 +74,59 @@ public class Unit : MonoBehaviour
             spellList += s.ToString() + "\n";
         }
         return spellList;
+    }
+
+    public void addStatus(Status status)
+    {
+        Status newStatus = new Status(status);
+        statusList = newStatus.addStatusToList(statusList);
+    }
+
+    private void showAllStatus(Status status)
+    {
+        Debug.Log("Show status");
+        Status current = status;
+        Debug.Log("current : " + current);
+        while (current != null)
+        {
+            if (current.name != status.name)
+            {
+                Debug.Log(current);
+            }
+            current = current.nextStatus;
+        }
+        current = status;
+        Debug.Log("---  previous  ---");
+        while (current != null)
+        {
+            if (current.name != status.name)
+            {
+                Debug.Log(current);
+            }
+            current = current.previousStatus;
+        }
+    }
+
+    public void updateStatus()
+    {
+        List<Status> newStatusList = new List<Status>();
+        statusList.ForEach(s =>
+        {
+            bool continueStatus = s.updateStatus();
+            if (continueStatus)
+            {
+                newStatusList.Add(s);
+            }
+        });
+        statusList = newStatusList;
+    }
+
+    public void takeStatus()
+    {
+        statusList.ForEach(s =>
+        {
+            takeDamage(s.damageStatus());
+        });
     }
 
     public override bool Equals(System.Object obj)
@@ -76,8 +150,12 @@ public class Unit : MonoBehaviour
 
     public override string ToString()
     {
-        return "Unit " + unitName + "\n" +
-            "max HP : " + maxHP + " - current HP : " + currentHP + "\n" +
-            "position : " + position;
+        string list = "";
+        statusList.ForEach(s =>
+        {
+            list += s + "\n";
+        });
+        return "Unit : " + unitName + " | HP : " + currentHP + "\n" +
+            "list status : \n" + list;
     }
 }

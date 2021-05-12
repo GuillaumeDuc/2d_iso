@@ -69,7 +69,12 @@ public class MoveSystem : MonoBehaviour
         RangeUtils = new RangeUtils();
     }
 
-    public void moveCharacter(GameObject player, Vector3Int posDest, Tilemap tilemap, Tilemap obstacles)
+    public void moveCharacter(
+        GameObject player,
+        Vector3Int posDest,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         // Get Position from player
         Transform playerTransform = player.GetComponent<Transform>();
@@ -79,7 +84,7 @@ public class MoveSystem : MonoBehaviour
         Square dest = new Square(posDest);
 
         // A* algorithm
-        List<Square> path = getPathCharacter(start, dest, tilemap, obstacles);
+        List<Square> path = getPathCharacter(start, dest, obstacleList, tilemap);
 
         // Show path
         setTilePath(path);
@@ -88,11 +93,19 @@ public class MoveSystem : MonoBehaviour
         Unit playerStats = player.GetComponent<Unit>();
         playerStats.position = posDest;
 
-        // move player from 1 to 1 square
+        // Move player from 1 to 1 square
         StartCoroutine(Move(playerTransform, path, tilemap));
+
+        // Apply tile status to player for every square passed
+        applyTilesEffects(playerStats, path, tilemap);
     }
 
-    private List<Square> getPathCharacter(Square start, Square dest, Tilemap tilemap, Tilemap obstacles)
+    private List<Square> getPathCharacter(
+        Square start,
+        Square dest,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         List<Square> openList = new List<Square>();
         List<Square> closedList = new List<Square>();
@@ -119,7 +132,7 @@ public class MoveSystem : MonoBehaviour
             }
 
             // get list of walkable adjacent square
-            List<Square> adjacentSquares = getAdjacentSquares(currentSquare, tilemap, obstacles);
+            List<Square> adjacentSquares = getAdjacentSquares(currentSquare, obstacleList, tilemap);
 
             foreach (var a in adjacentSquares)
             {
@@ -148,7 +161,9 @@ public class MoveSystem : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
             Vector2 pos = new Vector2(tilemap.CellToWorld(s.pos).x, tilemap.CellToWorld(s.pos).y + 0.2f);
-            playerTransform.position = pos;
+            float step = 1000 * Time.deltaTime;
+            playerTransform.position = Vector3.MoveTowards(playerTransform.position, pos, step);
+            //playerTransform.position = pos;
         }
         RangeUtils.removeCells(cellsGrid);
     }
@@ -184,32 +199,36 @@ public class MoveSystem : MonoBehaviour
         return total;
     }
 
-    private List<Square> getAdjacentSquares(Square currentSquare, Tilemap tilemap, Tilemap obstacles)
+    private List<Square> getAdjacentSquares(
+        Square currentSquare,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         //ToDo check if cell is unwalkable or objects blocking the way
 
         List<Square> adj = new List<Square>();
 
         Vector3Int up = new Vector3Int(currentSquare.pos.x, currentSquare.pos.y + 1, currentSquare.pos.z);
-        if (tilemap.HasTile(up) && !obstacles.HasTile(up))
+        if (RangeUtils.isWalkable(up, obstacleList, tilemap))
         {
             adj.Add(new Square(up));
         }
 
         Vector3Int down = new Vector3Int(currentSquare.pos.x, currentSquare.pos.y - 1, currentSquare.pos.z);
-        if (tilemap.HasTile(down) && !obstacles.HasTile(down))
+        if (RangeUtils.isWalkable(down, obstacleList, tilemap))
         {
             adj.Add(new Square(down));
         }
 
         Vector3Int left = new Vector3Int(currentSquare.pos.x - 1, currentSquare.pos.y, currentSquare.pos.z);
-        if (tilemap.HasTile(left) && !obstacles.HasTile(left))
+        if (RangeUtils.isWalkable(left, obstacleList, tilemap))
         {
             adj.Add(new Square(left));
         }
 
         Vector3Int right = new Vector3Int(currentSquare.pos.x + 1, currentSquare.pos.y, currentSquare.pos.z);
-        if (tilemap.HasTile(right) && !obstacles.HasTile(right))
+        if (RangeUtils.isWalkable(right, obstacleList, tilemap))
         {
             adj.Add(new Square(right));
         }
@@ -235,5 +254,24 @@ public class MoveSystem : MonoBehaviour
         {
             cellsGrid.SetTile(s.pos, transparent);
         }
+    }
+
+    private void applyTilesEffects(Unit unit, List<Square> path, Tilemap tilemap)
+    {
+        path.ForEach(s =>
+        {
+            GroundTile gt = (GroundTile)tilemap.GetTile(s.pos);
+            if (gt != null)
+            {
+                if (gt.statusList != null)
+                {
+                    gt.statusList.ForEach(status =>
+                    {
+                        unit.addStatus(status);
+                    });
+                }
+            }
+
+        });
     }
 }

@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 8819560813108669826}
   - component: {fileID: 8819560813108669828}
   - component: {fileID: 4851041692774381317}
-  - component: {fileID: 3367643080429279368}
   m_Layer: 0
   m_Name: Player
   m_TagString: Unit
@@ -169,19 +168,10 @@ MonoBehaviour:
   unitLevel: 10
   maxHP: 150
   currentHP: 150
+  endurance: 0
+  mana: 0
+  spellSlot: 0
+  initiative: 0
+  movementPoint: 0
   position: {x: 0, y: 0, z: 0}
---- !u!114 &3367643080429279368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8819560813108669827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34bd465c751f7c340a655e5e60465673, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  rb: {fileID: 8819560813108669831}
-  animator: {fileID: 8819560813108669828}
+  playable: 0
