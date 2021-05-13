@@ -35,7 +35,7 @@ public class SpellList : MonoBehaviour
         nameSpell = "Explosion";
         ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell);
         // GameObject, name, damage, range, area, line of sight, click nb, unique cell area
-        Explosion = new Spell(ExplosionGO, nameSpell, 20, 8, 2, true, 2);
+        Explosion = new Spell(ExplosionGO, nameSpell, 20, 8, 4, true, 2);
         Explosion.getRangeList = getRangeInCircleFullPlayer;
         Explosion.getAreaList = getAreaInCircleFull;
         Explosion.animate = animateInCircleFull;
@@ -48,7 +48,7 @@ public class SpellList : MonoBehaviour
         // Icycle
         nameSpell = "Icycle";
         IcycleGO = Resources.Load<GameObject>(PATH + nameSpell);
-        Icycle = new Spell(IcycleGO, nameSpell, 30, 8, 3, false, 3);
+        Icycle = new Spell(IcycleGO, nameSpell, 30, 8, 4, false, 3);
         Icycle.getRangeList = getRangeInCircleFullPlayer;
         Icycle.getAreaList = getAreaInCircleFull;
         Icycle.animate = animateOnCell;

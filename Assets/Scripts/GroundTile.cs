@@ -49,7 +49,7 @@ public class GroundTile : Tile
 
     public override bool GetTileAnimationData(Vector3Int position, ITilemap tilemap, ref TileAnimationData tileAnimationData)
     {
-        if (animatedSprites.Length > 0)
+        if (animatedSprites != null && animatedSprites.Length > 0)
         {
             tileAnimationData.animatedSprites = animatedSprites;
             tileAnimationData.animationSpeed = 1;
