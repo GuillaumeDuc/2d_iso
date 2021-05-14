@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 public enum CurrentState { MOVE, CAST }
 
@@ -152,6 +153,29 @@ public class TurnBasedSystem : MonoBehaviour
         }
     }
 
+    public static bool IsPointerOverUIElement()
+    {
+        return IsPointerOverUIElement(GetEventSystemRaycastResults());
+    }
+    public static bool IsPointerOverUIElement(List<RaycastResult> eventSystemRaysastResults)
+    {
+        for (int index = 0; index < eventSystemRaysastResults.Count; index++)
+        {
+            RaycastResult curRaysastResult = eventSystemRaysastResults[index];
+            if (curRaysastResult.gameObject.layer == LayerMask.NameToLayer("UI"))
+                return true;
+        }
+        return false;
+    }
+    static List<RaycastResult> GetEventSystemRaycastResults()
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> raysastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, raysastResults);
+        return raysastResults;
+    }
+
     void Start()
     {
         // Get Player prefab from Assets/Resources
@@ -263,7 +287,9 @@ public class TurnBasedSystem : MonoBehaviour
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
             Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
             
-            if (CurrentState == CurrentState.MOVE)
+
+            
+            if (CurrentState == CurrentState.MOVE && !IsPointerOverUIElement())
             {
                 // Move player
                 if (tilemap.HasTile(cellPosition) && !obstacleList.ContainsKey(cellPosition))
