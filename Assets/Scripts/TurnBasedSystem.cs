@@ -177,19 +177,13 @@ public class TurnBasedSystem : MonoBehaviour
         PlayerStats.playable = true;
 
         // Init Ennemies
-        GameObject EnnemyPrefab = Resources.Load<GameObject>("Characters/NPC/Green");
+        GameObject EnnemyPrefab = Resources.Load<GameObject>("Characters/NPC/Phantom/Phantom");
         // First
-        GameObject green1 = Instantiate(EnnemyPrefab, tilemap.CellToWorld(new Vector3Int(2, 6, 0)), Quaternion.identity);
+        GameObject green1 = Instantiate(EnnemyPrefab, tilemap.CellToWorld(new Vector3Int(5, 15, 0)), Quaternion.identity);
         Transform green1Transform = green1.GetComponent<Transform>();
         Unit green1Stats = green1.GetComponent<Unit>();
         green1Stats.setSpellList(SpellList.Explosion);
-        green1Stats.setStats("Green ennemy 1", tilemap.WorldToCell(green1Transform.position), 100);
-        // Second
-        GameObject green2 = Instantiate(EnnemyPrefab, tilemap.CellToWorld(new Vector3Int(3, 7, 0)), Quaternion.identity);
-        Transform green2Transform = green2.GetComponent<Transform>();
-        Unit green2Stats = green2.GetComponent<Unit>();
-        green2Stats.setSpellList(SpellList.Explosion);
-        green2Stats.setStats("Green ennemy 2", tilemap.WorldToCell(green2Transform.position), 100);
+        green1Stats.setStats("Phantom", tilemap.WorldToCell(green1Transform.position), 100);
 
         // Init RangeUtils
         RangeUtils = new RangeUtils();
@@ -197,7 +191,6 @@ public class TurnBasedSystem : MonoBehaviour
         // Add characters in lists
         enemyList = new Dictionary<Unit, GameObject>() {
             { green1Stats, green1 },
-            { green2Stats, green2 }
         };
         List<GameObject> a = new List<GameObject>();
         playerList = new Dictionary<Unit, GameObject>()
@@ -233,7 +226,7 @@ public class TurnBasedSystem : MonoBehaviour
         }
 
         Tile transparent = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
-        List<Vector3Int> displayPos = new List<Vector3Int>() { green1Stats.position, green2Stats.position };
+        List<Vector3Int> displayPos = new List<Vector3Int>() { green1Stats.position };
         RangeUtils.setTileOnTilemap(displayPos, transparent, cellsGrid);
     }
 

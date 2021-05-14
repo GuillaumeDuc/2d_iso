@@ -18,7 +18,7 @@ public class TileList : MonoBehaviour
         // Water Tile
         water = ScriptableObject.CreateInstance<GroundTile>();
         Sprite waterSprite = Resources.Load<Sprite>("Tilemaps/Water/water_tile_full_iso");
-        GameObject waterGO = Resources.Load<GameObject>("Tilemaps/Water/water_tile_iso");
+        GameObject waterGO = Resources.Load<GameObject>("Tilemaps/Water/water_tile_cartoon_iso");
         water.m_Sprite = null;
         water.m_Preview = waterSprite;
         water.tileGO = waterGO;
