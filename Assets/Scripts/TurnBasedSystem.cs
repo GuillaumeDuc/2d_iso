@@ -143,6 +143,7 @@ public class TurnBasedSystem : MonoBehaviour
 
     public void applyStatus()
     {
+        // Update status for all characters
         Dictionary<Unit, GameObject> allCharacters = playerList.Concat(enemyList).ToDictionary(x => x.Key, x => x.Value);
         foreach (var c in allCharacters)
         {
@@ -151,6 +152,23 @@ public class TurnBasedSystem : MonoBehaviour
             // Update status
             c.Key.updateStatus();
         }
+
+        // Update status for all tiles
+        BoundsInt bounds = tilemap.cellBounds;
+        TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
+        for (int x = 0; x < bounds.size.x; x++)
+        {
+            for (int y = 0; y < bounds.size.y; y++)
+            {
+                TileBase tile = allTiles[x + y * bounds.size.x];
+                if (tile != null && tile is GroundTile)
+                {
+                    GroundTile gt = (GroundTile)tile;
+                    gt.updateStatus();
+                }
+            }
+        }
+        tilemap.RefreshAllTiles();
     }
 
     public static bool IsPointerOverUIElement()
@@ -286,9 +304,9 @@ public class TurnBasedSystem : MonoBehaviour
 
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
             Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
-            
 
-            
+
+
             if (CurrentState == CurrentState.MOVE && !IsPointerOverUIElement())
             {
                 // Move player

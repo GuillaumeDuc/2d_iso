@@ -82,31 +82,6 @@ public class Unit : MonoBehaviour
         statusList = newStatus.addStatusToList(statusList);
     }
 
-    private void showAllStatus(Status status)
-    {
-        Debug.Log("Show status");
-        Status current = status;
-        Debug.Log("current : " + current);
-        while (current != null)
-        {
-            if (current.name != status.name)
-            {
-                Debug.Log(current);
-            }
-            current = current.nextStatus;
-        }
-        current = status;
-        Debug.Log("---  previous  ---");
-        while (current != null)
-        {
-            if (current.name != status.name)
-            {
-                Debug.Log(current);
-            }
-            current = current.previousStatus;
-        }
-    }
-
     public void updateStatus()
     {
         List<Status> newStatusList = new List<Status>();

@@ -42,6 +42,28 @@ public class GroundTile : Tile
         }
     }
 
+    public void updateStatus()
+    {
+        if (statusList != null)
+        {
+            List<Status> newStatusList = new List<Status>();
+            statusList.ForEach(s =>
+            {
+                bool continueStatus = s.updateStatus();
+                if (continueStatus)
+                {
+                    newStatusList.Add(s);
+                }
+            });
+            statusList = newStatusList;
+            // If list empty, no GameObject
+            if (!statusList.Any())
+            {
+                tileGO = null;
+            }
+        }
+    }
+
     public override void RefreshTile(Vector3Int position, ITilemap tilemap)
     {
         base.RefreshTile(position, tilemap);
