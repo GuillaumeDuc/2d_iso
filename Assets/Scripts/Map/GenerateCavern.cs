@@ -171,7 +171,7 @@ public class GenerateCavern : MonoBehaviour
 
     private void setWater(int x, int y)
     {
-        GroundTile tile = ScriptableObject.CreateInstance<GroundTile>();
+        WaterTile tile = ScriptableObject.CreateInstance<WaterTile>();
         tile.setTile(TileList.water);
         Vector3Int pos = new Vector3Int(x, y, 0);
         tilemap.SetTile(pos, tile);

@@ -16,12 +16,6 @@ public class SpellList : MonoBehaviour
         Sandwall
         ;
 
-    private static GameObject
-        ExplosionGO,
-        IcycleGO,
-        SandwallGO
-        ;
-
     private string nameSpell;
 
     private RangeUtils RangeUtils;
@@ -33,9 +27,9 @@ public class SpellList : MonoBehaviour
 
         // Explosion
         nameSpell = "Explosion";
-        ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell);
+        GameObject ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell);
         // GameObject, name, damage, range, area, line of sight, click nb, unique cell area
-        Explosion = new Spell(ExplosionGO, nameSpell, 20, 8, 4, true, 2);
+        Explosion = new Spell(ExplosionGO, nameSpell, 20, 8, 0, true, 3);
         Explosion.getRangeList = getRangeInCircleFullPlayer;
         Explosion.getAreaList = getAreaInCircleFull;
         Explosion.animate = animateInCircleFull;
@@ -47,8 +41,8 @@ public class SpellList : MonoBehaviour
 
         // Icycle
         nameSpell = "Icycle";
-        IcycleGO = Resources.Load<GameObject>(PATH + nameSpell);
-        Icycle = new Spell(IcycleGO, nameSpell, 30, 8, 4, false, 3);
+        GameObject IcycleGO = Resources.Load<GameObject>(PATH + nameSpell);
+        Icycle = new Spell(IcycleGO, nameSpell, 30, 8, 0, false, 3);
         Icycle.getRangeList = getRangeInCircleFullPlayer;
         Icycle.getAreaList = getAreaInCircleFull;
         Icycle.animate = animateOnCell;
@@ -60,7 +54,7 @@ public class SpellList : MonoBehaviour
 
         // Sandwall
         nameSpell = "Sandwall";
-        SandwallGO = Resources.Load<GameObject>(PATH + nameSpell);
+        GameObject SandwallGO = Resources.Load<GameObject>(PATH + nameSpell);
         Sandwall = new Spell(SandwallGO, nameSpell, 0, 10, 1, false, 2, true);
         Sandwall.getRangeList = getRangeInCircleFullPlayer;
         Sandwall.getAreaList = getAreaInLineBetweenCells;

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5088562701954239752}
   - component: {fileID: 5088562701954239754}
   - component: {fileID: 5088562701954239755}
+  - component: {fileID: 8103624616585489109}
   m_Layer: 0
   m_Name: Fire Particles Addition
   m_TagString: Untagged
@@ -4804,6 +4805,17 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!210 &8103624616585489109
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5088562701954239753}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 2
 --- !u!1 &5088562702395892163
 GameObject:
   m_ObjectHideFlags: 0
@@ -4815,6 +4827,7 @@ GameObject:
   - component: {fileID: 5088562702395892162}
   - component: {fileID: 5088562702395892220}
   - component: {fileID: 5088562702395892221}
+  - component: {fileID: 5050291627711238625}
   m_Layer: 0
   m_Name: Fire Particles Alpha
   m_TagString: Untagged
@@ -9608,6 +9621,17 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!210 &5050291627711238625
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5088562702395892163}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 1
 --- !u!1 &5088562702520935669
 GameObject:
   m_ObjectHideFlags: 0
@@ -9633,7 +9657,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5088562702520935669}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.9572471, y: -0.040468097, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5088562702395892162}
@@ -9757,6 +9781,7 @@ GameObject:
   - component: {fileID: 5088562702892938665}
   - component: {fileID: 5088562702892938667}
   - component: {fileID: 5088562702892938664}
+  - component: {fileID: 3126581517338473750}
   m_Layer: 0
   m_Name: Sparks
   m_TagString: Untagged
@@ -14550,3 +14575,14 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!210 &3126581517338473750
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5088562702892938670}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 2

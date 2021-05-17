@@ -2,10 +2,15 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Tilemaps;
 using UnityEditor;
+using System.Collections.Generic;
 
 public class TileList : MonoBehaviour
 {
-    public GroundTile brick, water;
+    public GroundTile brick;
+    public WaterTile water;
+    public StatusList StatusList;
+    public Tilemap tilemap;
+
     void Start()
     {
         // Brick Tile
@@ -16,12 +21,14 @@ public class TileList : MonoBehaviour
         brick.name = "Brick";
 
         // Water Tile
-        water = ScriptableObject.CreateInstance<GroundTile>();
+        water = ScriptableObject.CreateInstance<WaterTile>();
         Sprite waterSprite = Resources.Load<Sprite>("Tilemaps/Water/water_tile_full_iso");
         GameObject waterGO = Resources.Load<GameObject>("Tilemaps/Water/water_tile_cartoon_iso");
         water.m_Sprite = null;
         water.m_Preview = waterSprite;
-        water.tileGO = waterGO;
-        water.name =  "Water";
+        water.defaultGO = waterGO;
+        water.name = "Water";
+        water.currentTilemap = tilemap;
+        water.addStatus(new Status(StatusList.Wet));
     }
 }

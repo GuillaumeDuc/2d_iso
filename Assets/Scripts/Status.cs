@@ -7,7 +7,7 @@ public class Status
 {
     public string name, type;
     public int damage, turnNb, turnCounter;
-    public bool permanent;
+    public bool permanent, permanentOnTile;
     public Status nextStatus;
     public Status previousStatus;
     public int weight;
@@ -51,6 +51,7 @@ public class Status
         damage = status.damage;
         turnNb = status.turnNb;
         permanent = status.permanent;
+        permanentOnTile = status.permanentOnTile;
         weight = status.weight;
         tileGO = status.tileGO;
         turnCounter = 0;
@@ -95,6 +96,19 @@ public class Status
     {
         this.type = type;
         this.name = name;
+        this.damage = damage;
+        this.turnNb = turnNb;
+        this.permanent = permanent;
+        this.turnCounter = 0;
+        weight = 1;
+        nextStatus = null;
+        previousStatus = null;
+    }
+
+    public Status(string type, int damage = 0, int turnNb = 0, bool permanent = false)
+    {
+        this.type = type;
+        this.name = type;
         this.damage = damage;
         this.turnNb = turnNb;
         this.permanent = permanent;

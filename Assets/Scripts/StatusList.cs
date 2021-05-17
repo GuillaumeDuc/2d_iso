@@ -7,14 +7,16 @@ public class StatusList : MonoBehaviour
 {
     public Status
         Fire,
-        Freeze
+        Freeze,
+        Slow,
+        Wet
         ;
 
     void Start()
     {
         // Temperature Tile GameObject
         GameObject fireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/FireEffect");
-        GameObject extremeFireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/ExtremFireEffect");
+        GameObject extremeFireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/ExtremeFireEffect");
         GameObject scorchingFireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/ScorchingFireEffect");
         GameObject freezeTileEffect = Resources.Load<GameObject>("TileEffects/Freeze/FreezeEffect");
         GameObject extremeFreezeTileEffect = Resources.Load<GameObject>("TileEffects/Freeze/ExtremFreezeEffect");
@@ -43,7 +45,6 @@ public class StatusList : MonoBehaviour
         // Escalating More
         Status FreezingCold = new Status(temperature, "Freezing Cold", 20, 12);
         FreezingCold.tileGO = freezeTileEffect;
-
         // Setting Temperature status
         List<Status> temperatureList = new List<Status>()
         {
@@ -60,9 +61,13 @@ public class StatusList : MonoBehaviour
         setWeight(FreezingCold, -3);
 
         // Slow Status
-        Status Slow = new Status("Slow", "Slowed", 0, 3);
+        Slow = new Status("Slow", 0, 3);
         Slow.setFunctions(updateStatus, damageStatus, addStatusToList);
 
+        // Wet Status
+        Wet = new Status("Wet", 0, 3);
+        Wet.permanentOnTile = true;
+        Wet.setFunctions(updateStatus, damageStatus, addStatusToList);
     }
 
     private void setFunctionsStatus(List<Status> list)

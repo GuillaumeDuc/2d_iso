@@ -13,13 +13,24 @@ public class GroundTile : Tile
     public GameObject tileGO;
     public List<Status> statusList;
 
-    public void setTile(GroundTile gt)
+    public virtual void setTile(GroundTile gt)
     {
         m_Sprite = gt.m_Sprite;
         m_Preview = gt.m_Preview;
         animatedSprites = gt.animatedSprites;
-        statusList = gt.statusList;
         tileGO = gt.tileGO;
+        // create new status list
+        if (gt.statusList != null)
+        {
+            statusList = getNewStatusList(gt.statusList);
+        }
+    }
+
+    public List<Status> getNewStatusList(List<Status> statusList)
+    {
+        List<Status> res = new List<Status>();
+        statusList.ForEach(a => { res.Add(new Status(a)); });
+        return res;
     }
 
     public void addStatus(Status status)
@@ -42,6 +53,18 @@ public class GroundTile : Tile
         }
     }
 
+    public bool containsOnlyPermanentStatus(List<Status> statusList)
+    {
+        bool contains = true;
+        statusList.ForEach(s=> {
+            if (!s.permanentOnTile)
+            {
+                contains = false;
+            }
+        });
+        return contains;
+    }
+
     public void updateStatus()
     {
         if (statusList != null)
@@ -49,15 +72,15 @@ public class GroundTile : Tile
             List<Status> newStatusList = new List<Status>();
             statusList.ForEach(s =>
             {
-                bool continueStatus = s.updateStatus();
+                bool continueStatus = (s.updateStatus() || s.permanentOnTile);
                 if (continueStatus)
                 {
                     newStatusList.Add(s);
                 }
             });
             statusList = newStatusList;
-            // If list empty, no GameObject
-            if (!statusList.Any())
+            // If list empty or contains only permanent status, no GameObject
+            if (!statusList.Any() || containsOnlyPermanentStatus(statusList))
             {
                 tileGO = null;
             }

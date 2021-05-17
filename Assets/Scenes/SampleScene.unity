@@ -3679,6 +3679,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   brick: {fileID: 0}
   water: {fileID: 0}
+  StatusList: {fileID: 1131004373}
 --- !u!1 &1256664111
 GameObject:
   m_ObjectHideFlags: 0

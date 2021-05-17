@@ -24,9 +24,6 @@ public class SpellEffectList : MonoBehaviour
         // Instantiate Utils to get area & calculations
         RangeUtils = new RangeUtils();
 
-        // Get obstacles
-        obstacleTile = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
-
         // Create Obstacle
         CreateObstacle = new SpellEffect("CreateObstacle");
         CreateObstacle.applyEffectAction = createObstacleEffect;
