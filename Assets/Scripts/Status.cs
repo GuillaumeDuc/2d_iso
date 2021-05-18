@@ -15,17 +15,20 @@ public class Status
 
     public System.Func<Status, bool> updateFunc { get; set; }
     public System.Func<Status, int> damageFunc { get; set; }
-    public System.Func<Status, List<Status>, List<Status>> addStatusToListFunc { get; set; }
+    public System.Func<Status, List<Status>, List<Status>> addStatusToPlayerFunc { get; set; }
+    public System.Func<Status, List<Status>, List<Status>> addStatusToTileFunc { get; set; }
 
     public void setFunctions(
         System.Func<Status, bool> update,
         System.Func<Status, int> damage,
-        System.Func<Status, List<Status>, List<Status>> addStatusToList
+        System.Func<Status, List<Status>, List<Status>> addStatusToPlayer,
+        System.Func<Status, List<Status>, List<Status>> addStatusToTile
         )
     {
         updateFunc = update;
         damageFunc = damage;
-        addStatusToListFunc = addStatusToList;
+        addStatusToPlayerFunc = addStatusToPlayer;
+        addStatusToTileFunc = addStatusToTile;
     }
 
     public bool updateStatus()
@@ -38,11 +41,15 @@ public class Status
         return damageFunc(this);
     }
 
-    public List<Status> addStatusToList(List<Status> statusList)
+    public List<Status> addStatusToPlayer(List<Status> statusList)
     {
-        return addStatusToListFunc(this, statusList);
+        return addStatusToPlayerFunc(this, statusList);
     }
 
+    public List<Status> addStatusToTile(List<Status> statusList)
+    {
+        return addStatusToTileFunc(this, statusList);
+    }
 
     public Status(Status status, bool deepCopy = true)
     {
@@ -58,7 +65,8 @@ public class Status
 
         updateFunc = status.updateFunc;
         damageFunc = status.damageFunc;
-        addStatusToListFunc = status.addStatusToListFunc;
+        addStatusToPlayerFunc = status.addStatusToPlayerFunc;
+        addStatusToTileFunc = status.addStatusToTileFunc;
 
         // Deep clone
         if (deepCopy)

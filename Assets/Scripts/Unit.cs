@@ -79,7 +79,7 @@ public class Unit : MonoBehaviour
     public void addStatus(Status status)
     {
         Status newStatus = new Status(status);
-        statusList = newStatus.addStatusToList(statusList);
+        statusList = newStatus.addStatusToPlayer(statusList);
     }
 
     public void updateStatus()

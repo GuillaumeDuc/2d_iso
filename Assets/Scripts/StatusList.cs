@@ -9,8 +9,11 @@ public class StatusList : MonoBehaviour
         Fire,
         Freeze,
         Slow,
-        Wet
+        Wet,
+        Steam
         ;
+
+    private MixingStatusHelper MixingStatusHelper = new MixingStatusHelper();
 
     void Start()
     {
@@ -62,19 +65,30 @@ public class StatusList : MonoBehaviour
 
         // Slow Status
         Slow = new Status("Slow", 0, 3);
-        Slow.setFunctions(updateStatus, damageStatus, addStatusToList);
+        setFunctions(Slow);
 
         // Wet Status
         Wet = new Status("Wet", 0, 3);
         Wet.permanentOnTile = true;
-        Wet.setFunctions(updateStatus, damageStatus, addStatusToList);
+        setFunctions(Wet);
+
+        // Steam Status
+        Steam = new Status("Steam", 0, 3);
+        setFunctions(Steam);
+        GameObject steamEffect = Resources.Load<GameObject>("TileEffects/Steam/SteamEffect");
+        Steam.tileGO = steamEffect;
+    }
+
+    private void setFunctions(Status status)
+    {
+        status.setFunctions(updateStatus, damageStatus, addStatusToPlayer, addStatusToTile);
     }
 
     private void setFunctionsStatus(List<Status> list)
     {
         list.ForEach(status =>
         {
-            status.setFunctions(updateStatus, damageStatus, addStatusToList);
+            status.setFunctions(updateStatus, damageStatus, addStatusToPlayer, addStatusToTile);
         });
     }
 
@@ -112,6 +126,19 @@ public class StatusList : MonoBehaviour
     int damageStatus(Status status)
     {
         return status.damage;
+    }
+
+    List<Status> addStatusToPlayer(Status status, List<Status> statusList)
+    {
+        Status newStatus = new Status(status);
+        // Remove permanent on tile property for players
+        newStatus.permanentOnTile = false;
+        return addStatusToList(newStatus, statusList);
+    }
+
+    List<Status> addStatusToTile(Status status, List<Status> statusList)
+    {
+        return addStatusToList(status, statusList);
     }
 
     List<Status> addStatusToList(Status status, List<Status> statusList)
@@ -159,7 +186,7 @@ public class StatusList : MonoBehaviour
         // Create new status
         else
         {
-            statusList.Add(status);
+            statusList = MixingStatusHelper.getStatusList(this, statusList, status);
         }
         return statusList;
     }

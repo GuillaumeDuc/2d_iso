@@ -14,7 +14,7 @@ public class TileList : MonoBehaviour
     void Start()
     {
         // Brick Tile
-        brick = Resources.Load<GroundTile>("ground");
+        brick = ScriptableObject.CreateInstance<GroundTile>();
         Sprite brickSprite = Resources.Load<Sprite>("Tilemaps/Brick/brick_short_tile_iso");
         brick.m_Sprite = brickSprite;
         brick.m_Preview = brickSprite;

@@ -40,7 +40,7 @@ public class GroundTile : Tile
             statusList = new List<Status>();
         }
         Status newStatus = new Status(status);
-        statusList = newStatus.addStatusToList(statusList);
+        statusList = newStatus.addStatusToTile(statusList);
         // Change GameObject
         statusList.ForEach(s =>
         {
@@ -65,7 +65,7 @@ public class GroundTile : Tile
         return contains;
     }
 
-    public void updateStatus()
+    public virtual void updateStatus()
     {
         if (statusList != null)
         {

@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -39,8 +40,11 @@ public class WaterTile : GroundTile
         else
         {
             if (previousTileGO != null)
-            {
+            {   
+                // Reset
                 Destroy(previousTileGO);
+                previousTileGO = null;
+                previousNameGO = "";
             }
             tileData.gameObject = defaultGO;
         }
