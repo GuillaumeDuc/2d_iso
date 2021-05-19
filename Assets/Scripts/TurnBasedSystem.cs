@@ -45,9 +45,6 @@ public class TurnBasedSystem : MonoBehaviour
     // Player Speed
     private float moveSpeed = 5f;
 
-    // Spawn Player
-    private float posPlayerX = 2.5f, posPlayerY = 2.5f;
-
     public CurrentState CurrentState;
     public CastState CastState;
 
@@ -61,8 +58,14 @@ public class TurnBasedSystem : MonoBehaviour
 
     void InstantiatePlayer(GameObject PlayerPrefab)
     {
-        Vector2 pos = new Vector2(posPlayerX, posPlayerY);
-        Player = Instantiate(PlayerPrefab, pos, Quaternion.identity);
+        Vector3Int pos = new Vector3Int(5, 0, 0);
+        GroundTile tile = (GroundTile)tilemap.GetTile(pos);
+        while (!tile.walkable)
+        {
+            pos.y += 1;
+            tile = (GroundTile)tilemap.GetTile(pos);
+        }
+        Player = Instantiate(PlayerPrefab, tilemap.CellToWorld(pos), Quaternion.identity);
     }
 
     void MovePlayerWithPos(Animator animator, Rigidbody2D rb, Vector2 pos)

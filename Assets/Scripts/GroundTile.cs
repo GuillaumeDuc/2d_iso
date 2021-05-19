@@ -12,6 +12,11 @@ public class GroundTile : Tile
     public Sprite[] animatedSprites;
     public GameObject tileGO;
     public List<Status> statusList;
+    public bool
+        defaultLineOfSight = true,
+        defaultWalkable = true,
+        lineOfSight = true,
+        walkable = true;
 
     public virtual void setTile(GroundTile gt)
     {
@@ -19,6 +24,10 @@ public class GroundTile : Tile
         m_Preview = gt.m_Preview;
         animatedSprites = gt.animatedSprites;
         tileGO = gt.tileGO;
+        lineOfSight = gt.lineOfSight;
+        walkable = gt.walkable;
+        defaultWalkable = gt.defaultWalkable;
+        defaultLineOfSight = gt.defaultLineOfSight;
         // create new status list
         if (gt.statusList != null)
         {
@@ -35,16 +44,19 @@ public class GroundTile : Tile
 
     public void addStatus(Status status)
     {
+        // Reset tile
+        resetTile();
         if (statusList == null)
         {
             statusList = new List<Status>();
         }
         Status newStatus = new Status(status);
         statusList = newStatus.addStatusToTile(statusList);
-        // Change GameObject
+        // Change GameObject & apply status effects
         statusList.ForEach(s =>
         {
             tileGO = s.tileGO;
+            s.modifyTile(this);
         });
         // If list empty, no GameObject
         if (!statusList.Any())
@@ -56,7 +68,8 @@ public class GroundTile : Tile
     public bool containsOnlyPermanentStatus(List<Status> statusList)
     {
         bool contains = true;
-        statusList.ForEach(s=> {
+        statusList.ForEach(s =>
+        {
             if (!s.permanentOnTile)
             {
                 contains = false;
@@ -67,6 +80,8 @@ public class GroundTile : Tile
 
     public virtual void updateStatus()
     {
+        // Reset tile
+        resetTile();
         if (statusList != null)
         {
             List<Status> newStatusList = new List<Status>();
@@ -76,6 +91,8 @@ public class GroundTile : Tile
                 if (continueStatus)
                 {
                     newStatusList.Add(s);
+                    // Apply status effect
+                    s.modifyTile(this);
                 }
             });
             statusList = newStatusList;
@@ -85,6 +102,12 @@ public class GroundTile : Tile
                 tileGO = null;
             }
         }
+    }
+
+    public void resetTile()
+    {
+        lineOfSight = defaultLineOfSight;
+        walkable = defaultWalkable;
     }
 
     public override void RefreshTile(Vector3Int position, ITilemap tilemap)

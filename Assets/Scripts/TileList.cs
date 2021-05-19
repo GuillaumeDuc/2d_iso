@@ -29,6 +29,8 @@ public class TileList : MonoBehaviour
         water.defaultGO = waterGO;
         water.name = "Water";
         water.currentTilemap = tilemap;
+        water.walkable = false;
+        water.defaultWalkable = false;
         water.addStatus(new Status(StatusList.Wet));
     }
 }

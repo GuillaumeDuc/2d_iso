@@ -71,10 +71,15 @@ public class MixingStatusHelper
 
     private Status mixTemperature(StatusList StatusList, Status temperature, Status status)
     {
-        // Steam = Wet + Fire
+        // Steam = Fire + Weight
         if (temperature.weight > 0 && status.type == StatusList.Wet.type)
         {
             return new Status(StatusList.Steam);
+        }
+        // Freeze = Freeze + Wet
+        if (temperature.weight < 0 && status.type == StatusList.Wet.type)
+        {
+            return new Status(temperature);
         }
         return null;
     }
@@ -86,7 +91,11 @@ public class MixingStatusHelper
         {
             return new Status(StatusList.Steam);
         }
-
+        // Freeze = Wet + Freeze
+        if (status.type == StatusList.Freeze.type && status.weight < 0)
+        {
+            return new Status(status);
+        }
         return null;
     }
 

@@ -17,6 +17,7 @@ public class Status
     public System.Func<Status, int> damageFunc { get; set; }
     public System.Func<Status, List<Status>, List<Status>> addStatusToPlayerFunc { get; set; }
     public System.Func<Status, List<Status>, List<Status>> addStatusToTileFunc { get; set; }
+    public System.Action<Status, Tile> modifyTileAction { get; set; }
 
     public void setFunctions(
         System.Func<Status, bool> update,
@@ -51,6 +52,11 @@ public class Status
         return addStatusToTileFunc(this, statusList);
     }
 
+    public void modifyTile(Tile tile)
+    {
+        modifyTileAction?.Invoke(this, tile);
+    }
+
     public Status(Status status, bool deepCopy = true)
     {
         type = status.type;
@@ -67,6 +73,7 @@ public class Status
         damageFunc = status.damageFunc;
         addStatusToPlayerFunc = status.addStatusToPlayerFunc;
         addStatusToTileFunc = status.addStatusToTileFunc;
+        modifyTileAction = status.modifyTileAction;
 
         // Deep clone
         if (deepCopy)

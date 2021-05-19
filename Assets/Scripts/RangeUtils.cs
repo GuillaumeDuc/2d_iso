@@ -6,13 +6,19 @@ using System.Linq;
 
 public class RangeUtils
 {
-    public bool lineOfSight(Vector3Int playerPos, Vector3Int cellPos, Dictionary<Vector3Int, GameObject> obstacleList)
+    public bool lineOfSight(
+        Vector3Int playerPos,
+        Vector3Int cellPos,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         List<Vector3Int> lineOfSightArray = new List<Vector3Int>(getLine(playerPos, cellPos));
         bool lineOS = true;
         lineOfSightArray.ForEach(a =>
         {
-            if (obstacleList.ContainsKey(a))
+            GroundTile gt = (GroundTile)tilemap.GetTile(a);
+            if (obstacleList.ContainsKey(a) || !gt.lineOfSight)
             {
                 lineOS = false;
             };
@@ -144,7 +150,8 @@ public class RangeUtils
         Tilemap tilemap
         )
     {
-        return tilemap.HasTile(cell) && !obstacleList.ContainsKey(cell);
+        GroundTile gt = (GroundTile)tilemap.GetTile(cell);
+        return gt != null && !obstacleList.ContainsKey(cell) && gt.walkable;
     }
 
     public Vector3Int getFarthestWalkableNeighbour(

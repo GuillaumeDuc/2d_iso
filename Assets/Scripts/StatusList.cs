@@ -42,12 +42,15 @@ public class StatusList : MonoBehaviour
         // Freeze Status
         Freeze = new Status(temperature, "Freeze", 10, 3);
         Freeze.tileGO = freezeTileEffect;
+        Freeze.modifyTileAction = walkableWater;
         // Escalating Freeze
         Status ExtremeFreeze = new Status(temperature, "Extreme Freeze", 15, 6);
         ExtremeFreeze.tileGO = freezeTileEffect;
+        ExtremeFreeze.modifyTileAction = walkableWater;
         // Escalating More
         Status FreezingCold = new Status(temperature, "Freezing Cold", 20, 12);
         FreezingCold.tileGO = freezeTileEffect;
+        FreezingCold.modifyTileAction = walkableWater;
         // Setting Temperature status
         List<Status> temperatureList = new List<Status>()
         {
@@ -75,13 +78,19 @@ public class StatusList : MonoBehaviour
         // Steam Status
         Steam = new Status("Steam", 0, 3);
         setFunctions(Steam);
+        Steam.modifyTileAction = removeLineOfSight;
         GameObject steamEffect = Resources.Load<GameObject>("TileEffects/Steam/SteamEffect");
         Steam.tileGO = steamEffect;
     }
 
     private void setFunctions(Status status)
     {
-        status.setFunctions(updateStatus, damageStatus, addStatusToPlayer, addStatusToTile);
+        status.setFunctions(
+            updateStatus,
+            damageStatus,
+            addStatusToPlayer,
+            addStatusToTile
+            );
     }
 
     private void setFunctionsStatus(List<Status> list)
@@ -189,5 +198,23 @@ public class StatusList : MonoBehaviour
             statusList = MixingStatusHelper.getStatusList(this, statusList, status);
         }
         return statusList;
+    }
+
+    // Modify Tile 
+
+    public void removeLineOfSight(Status status, Tile tile)
+    {
+        GroundTile gt = (GroundTile)tile;
+        gt.lineOfSight = false;
+    }
+
+    public void walkableWater(Status status, Tile tile)
+    {
+        WaterTile wt;
+        if (tile is WaterTile)
+        {
+            wt = (WaterTile)tile;
+            wt.walkable = true;
+        }
     }
 }

@@ -29,7 +29,7 @@ public class SpellList : MonoBehaviour
         nameSpell = "Explosion";
         GameObject ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell);
         // GameObject, name, damage, range, area, line of sight, click nb, unique cell area
-        Explosion = new Spell(ExplosionGO, nameSpell, 20, 8, 0, true, 3);
+        Explosion = new Spell(ExplosionGO, nameSpell, 20, 10, 0, true, 3);
         Explosion.getRangeList = getRangeInCircleFullPlayer;
         Explosion.getAreaList = getAreaInCircleFull;
         Explosion.animate = animateInCircleFull;
@@ -42,7 +42,7 @@ public class SpellList : MonoBehaviour
         // Icycle
         nameSpell = "Icycle";
         GameObject IcycleGO = Resources.Load<GameObject>(PATH + nameSpell);
-        Icycle = new Spell(IcycleGO, nameSpell, 30, 8, 0, false, 3);
+        Icycle = new Spell(IcycleGO, nameSpell, 30, 10, 1, false, 5);
         Icycle.getRangeList = getRangeInCircleFullPlayer;
         Icycle.getAreaList = getAreaInCircleFull;
         Icycle.animate = animateOnCell;
@@ -91,7 +91,14 @@ public class SpellList : MonoBehaviour
             return false;
         }
         // Check line of sight
-        if (spell.lineOfSight && !RangeUtils.lineOfSight(spell.casterPos, cell, obstacleList))
+        if (spell.lineOfSight && 
+            !RangeUtils.lineOfSight(
+                spell.casterPos, 
+                cell, 
+                obstacleList, 
+                tilemap
+                )
+            )
         {
             return false;
         }
