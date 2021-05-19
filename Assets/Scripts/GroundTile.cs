@@ -17,6 +17,7 @@ public class GroundTile : Tile
         defaultWalkable = true,
         lineOfSight = true,
         walkable = true;
+    public int movementCost = 1;
 
     public virtual void setTile(GroundTile gt)
     {
@@ -28,6 +29,7 @@ public class GroundTile : Tile
         walkable = gt.walkable;
         defaultWalkable = gt.defaultWalkable;
         defaultLineOfSight = gt.defaultLineOfSight;
+        movementCost = gt.movementCost;
         // create new status list
         if (gt.statusList != null)
         {

@@ -16,15 +16,19 @@ public class InfoScrollView : MonoBehaviour
         GameObject unitInfo = Instantiate(InfoPrefab);
         BattleHUD enemyHUD = unitInfo.GetComponent<BattleHUD>();
         enemyHUD.setHUD(unit);
-        // Put button in scrollviewer
+        // Put InfoScrollView in content
         unitInfo.transform.SetParent(ContentContainer.transform, false);
         // Put enemy in list
         HUDList.Add(unit, enemyHUD);
     }
 
-    public void setSliderHP(Unit unit)
+    public void updateScrollView()
     {
-        BattleHUD unitHUD = HUDList[unit];
-        unitHUD.setHP(unit.currentHP);
+        foreach(var h in HUDList)
+        {
+            h.Value.setHP(h.Key.currentHP);
+            h.Value.setMana(h.Key.currentMana);
+            h.Value.setMovementPoint(h.Key.currentMovementPoint);
+        }
     }
 }

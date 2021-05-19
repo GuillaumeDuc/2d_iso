@@ -7,7 +7,7 @@ public class Spell
     public GameObject spellGO;
     public Sprite sprite;
     string nameSpell;
-    public int range, area, damage, clickNb;
+    public int range, area, damage, clickNb, manaCost;
     public bool lineOfSight, uniqueCellArea;
     public List<Vector3Int> spellPos;
     public Vector3Int casterPos;
@@ -70,7 +70,8 @@ public class Spell
         int area = 0,
         bool lineOfSight = true,
         int clickNb = 1,
-        bool uniqueCellArea = false
+        bool uniqueCellArea = false,
+        int manaCost = 10
         )
     {
         this.spellGO = spellGO;
@@ -82,6 +83,7 @@ public class Spell
         this.lineOfSight = lineOfSight;
         this.clickNb = clickNb;
         this.uniqueCellArea = uniqueCellArea;
+        this.manaCost = manaCost;
         spellPos = new List<Vector3Int>();
         spellEffectList = new List<SpellEffect>();
     }

@@ -56,6 +56,8 @@ public class TurnBasedSystem : MonoBehaviour
     private Unit currentUnit;
     private int currentTurn = 1;
 
+
+
     void InstantiatePlayer(GameObject PlayerPrefab)
     {
         Vector3Int pos = new Vector3Int(5, 0, 0);
@@ -101,6 +103,16 @@ public class TurnBasedSystem : MonoBehaviour
         return fullList;
     }
 
+    private GameObject getGOFromUnit(Unit unit)
+    {
+        Dictionary<Unit, GameObject> allList = new Dictionary<Unit, GameObject>(
+            playerList
+            .Concat(enemyList)
+            .ToDictionary(x => x.Key, x => x.Value)
+            );
+        return allList[unit];
+    }
+
     private Unit getUnitTurn()
     {
         return initiativeList.FirstOrDefault(x => !x.Value).Key;
@@ -119,9 +131,11 @@ public class TurnBasedSystem : MonoBehaviour
         {
             currentTurn += 1;
             // Playing for all character = false
+            // Reset stats
             foreach (var key in initiativeList.Keys.ToList())
             {
                 initiativeList[key] = false;
+                key.resetStats();
             }
             // New turn
             currentUnit = getUnitTurn();
@@ -134,14 +148,8 @@ public class TurnBasedSystem : MonoBehaviour
 
     public void updateScrollViews()
     {
-        foreach (var enemy in enemyList)
-        {
-            EnemiesScrollView.setSliderHP(enemy.Key);
-        }
-        foreach (var player in playerList)
-        {
-            PlayersScrollView.setSliderHP(player.Key);
-        }
+        EnemiesScrollView.updateScrollView();
+        PlayersScrollView.updateScrollView();
     }
 
     public void applyStatus()
@@ -228,7 +236,7 @@ public class TurnBasedSystem : MonoBehaviour
         Transform green1Transform = green1.GetComponent<Transform>();
         Unit green1Stats = green1.GetComponent<Unit>();
         green1Stats.setSpellList(SpellList.Explosion);
-        green1Stats.setStats("Phantom", tilemap.WorldToCell(green1Transform.position), 100);
+        green1Stats.setStats("Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
 
         // Init RangeUtils
         RangeUtils = new RangeUtils();
@@ -308,21 +316,22 @@ public class TurnBasedSystem : MonoBehaviour
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
             Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
 
-
+            GameObject currentPlayer = getGOFromUnit(currentUnit);
 
             if (CurrentState == CurrentState.MOVE && !IsPointerOverUIElement())
             {
                 // Move player
                 if (tilemap.HasTile(cellPosition) && !obstacleList.ContainsKey(cellPosition))
                 {
-                    MoveSystem.moveCharacter(Player, cellPosition, obstacleList, tilemap);
+                    MoveSystem.moveCharacter(currentPlayer, cellPosition, obstacleList, tilemap);
+                    updateScrollViews();
                 }
             }
             else if (CurrentState == CurrentState.CAST)
             {
                 CastState = CastSystem.cast(
-                    PlayerStats.selectedSpell,
-                    PlayerStats,
+                    currentUnit.selectedSpell,
+                    currentUnit,
                     cellPosition,
                     playerList,
                     enemyList,
