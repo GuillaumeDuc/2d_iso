@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
+using System.Linq;
 
 public class Square
 {
@@ -76,6 +77,8 @@ public class MoveSystem : MonoBehaviour
         Tilemap tilemap
         )
     {
+        // Get unit
+        Unit playerStats = player.GetComponent<Unit>();
         // Get Position from player
         Transform playerTransform = player.GetComponent<Transform>();
         Vector3Int posPlayer = tilemap.WorldToCell(playerTransform.position);
@@ -86,21 +89,33 @@ public class MoveSystem : MonoBehaviour
         // A* algorithm
         List<Square> path = getPathCharacter(start, dest, obstacleList, tilemap);
 
-        // Show path
-        setTilePath(path);
+        // If path found
+        if (path.Any())
+        {
+            // Remove cell where player is standing
+            path.RemoveAt(0);
 
-        // Set new position
-        Unit playerStats = player.GetComponent<Unit>();
-        playerStats.position = posDest;
+            // Remove overcost movement
+            path = removeOverCost(playerStats, path, tilemap);
 
-        // Move player from 1 to 1 square
-        StartCoroutine(Move(playerTransform, path, tilemap));
+            // Show path
+            setTilePath(path);
 
-        // Apply tile status to player for every square passed
-        applyTilesEffects(playerStats, path, tilemap);
+            // Set new position
+            if (path.Any() && path != null)
+            {
+                playerStats.position = path[path.Count() - 1].pos;
+            }
+
+            // Move player from 1 to 1 square
+            StartCoroutine(Move(playerTransform, path, tilemap));
+
+            // Apply tile status to player for every square passed
+            applyTilesEffects(playerStats, path, tilemap);
+        }
     }
 
-    private List<Square> getPathCharacter(
+    public List<Square> getPathCharacter(
         Square start,
         Square dest,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -247,7 +262,7 @@ public class MoveSystem : MonoBehaviour
         return reconstructPath(current.previousSquare, path);
     }
 
-    private void setTilePath(List<Square> path)
+    public void setTilePath(List<Square> path)
     {
         Tile transparent = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
         foreach (var s in path)
@@ -273,5 +288,50 @@ public class MoveSystem : MonoBehaviour
             }
 
         });
+    }
+
+    public List<Square> removeOverCost(Unit unit, List<Square> path, Tilemap tilemap)
+    {
+        List<Square> res = new List<Square>();
+        path.ForEach(s =>
+        {
+            GroundTile gt = (GroundTile)tilemap.GetTile(s.pos);
+            if (gt != null)
+            {
+                if (unit.currentMovementPoint > 0)
+                {
+                    unit.currentMovementPoint -= gt.movementCost;
+                    res.Add(s);
+                }
+            }
+        });
+        return res;
+    }
+
+    public void moveOneSquare(
+        Square square,
+        Unit unit,
+        GameObject unitGO,
+        Tilemap tilemap
+        )
+    {
+        GroundTile gt = (GroundTile)tilemap.GetTile(square.pos);
+        if (gt != null)
+        {
+            if (unit.currentMovementPoint > 0)
+            {
+                // Remove movement point
+                unit.currentMovementPoint -= gt.movementCost;
+
+                // Set new position
+                unit.position = square.pos;
+
+                // Apply tile status to player for square passed
+                applyTilesEffects(unit, new List<Square>() { square }, tilemap);
+
+                // Move player
+                StartCoroutine(Move(unitGO.transform, new List<Square>() { square }, tilemap));
+            }
+        }
     }
 }

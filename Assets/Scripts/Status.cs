@@ -7,7 +7,7 @@ public class Status
 {
     public string name, type;
     public int damage, turnNb, turnCounter;
-    public bool permanent;
+    public bool permanent, permanentOnTile;
     public Status nextStatus;
     public Status previousStatus;
     public int weight;
@@ -15,17 +15,21 @@ public class Status
 
     public System.Func<Status, bool> updateFunc { get; set; }
     public System.Func<Status, int> damageFunc { get; set; }
-    public System.Func<Status, List<Status>, List<Status>> addStatusToListFunc { get; set; }
+    public System.Func<Status, List<Status>, List<Status>> addStatusToPlayerFunc { get; set; }
+    public System.Func<Status, List<Status>, List<Status>> addStatusToTileFunc { get; set; }
+    public System.Action<Status, Tile> modifyTileAction { get; set; }
 
     public void setFunctions(
         System.Func<Status, bool> update,
         System.Func<Status, int> damage,
-        System.Func<Status, List<Status>, List<Status>> addStatusToList
+        System.Func<Status, List<Status>, List<Status>> addStatusToPlayer,
+        System.Func<Status, List<Status>, List<Status>> addStatusToTile
         )
     {
         updateFunc = update;
         damageFunc = damage;
-        addStatusToListFunc = addStatusToList;
+        addStatusToPlayerFunc = addStatusToPlayer;
+        addStatusToTileFunc = addStatusToTile;
     }
 
     public bool updateStatus()
@@ -38,11 +42,20 @@ public class Status
         return damageFunc(this);
     }
 
-    public List<Status> addStatusToList(List<Status> statusList)
+    public List<Status> addStatusToPlayer(List<Status> statusList)
     {
-        return addStatusToListFunc(this, statusList);
+        return addStatusToPlayerFunc(this, statusList);
     }
 
+    public List<Status> addStatusToTile(List<Status> statusList)
+    {
+        return addStatusToTileFunc(this, statusList);
+    }
+
+    public void modifyTile(Tile tile)
+    {
+        modifyTileAction?.Invoke(this, tile);
+    }
 
     public Status(Status status, bool deepCopy = true)
     {
@@ -51,13 +64,16 @@ public class Status
         damage = status.damage;
         turnNb = status.turnNb;
         permanent = status.permanent;
+        permanentOnTile = status.permanentOnTile;
         weight = status.weight;
         tileGO = status.tileGO;
         turnCounter = 0;
 
         updateFunc = status.updateFunc;
         damageFunc = status.damageFunc;
-        addStatusToListFunc = status.addStatusToListFunc;
+        addStatusToPlayerFunc = status.addStatusToPlayerFunc;
+        addStatusToTileFunc = status.addStatusToTileFunc;
+        modifyTileAction = status.modifyTileAction;
 
         // Deep clone
         if (deepCopy)
@@ -95,6 +111,19 @@ public class Status
     {
         this.type = type;
         this.name = name;
+        this.damage = damage;
+        this.turnNb = turnNb;
+        this.permanent = permanent;
+        this.turnCounter = 0;
+        weight = 1;
+        nextStatus = null;
+        previousStatus = null;
+    }
+
+    public Status(string type, int damage = 0, int turnNb = 0, bool permanent = false)
+    {
+        this.type = type;
+        this.name = type;
         this.damage = damage;
         this.turnNb = turnNb;
         this.permanent = permanent;

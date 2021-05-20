@@ -34,7 +34,7 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
-  m_Sprite: {fileID: 0}
-  m_Prefab: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 444cceb778fa32e4083a5f2465bb7ff8, type: 3}
+  m_Preview: {fileID: 21300000, guid: 444cceb778fa32e4083a5f2465bb7ff8, type: 3}
   animatedSprites: []
-  m_Preview: {fileID: 0}
+  tileGO: {fileID: 0}

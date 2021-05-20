@@ -24,9 +24,6 @@ public class SpellEffectList : MonoBehaviour
         // Instantiate Utils to get area & calculations
         RangeUtils = new RangeUtils();
 
-        // Get obstacles
-        obstacleTile = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
-
         // Create Obstacle
         CreateObstacle = new SpellEffect("CreateObstacle");
         CreateObstacle.applyEffectAction = createObstacleEffect;
@@ -52,6 +49,7 @@ public class SpellEffectList : MonoBehaviour
 
     public void applyEffect(
         Spell spell,
+        Unit caster,
         SpellEffect spellEffect,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
@@ -95,6 +93,7 @@ public class SpellEffectList : MonoBehaviour
 
     public void createObstacleEffect(
         Spell spell,
+        Unit caster,
         SpellEffect spellEffect,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
@@ -133,6 +132,7 @@ public class SpellEffectList : MonoBehaviour
 
     public void pushFromPlayerEffect(
         Spell spell,
+        Unit caster,
         SpellEffect spellEffect,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
@@ -145,9 +145,9 @@ public class SpellEffectList : MonoBehaviour
         area.ForEach(a =>
         {
             // Players
-            movePlayer(spell, playerList, a, area, obstacleList, tilemap);
+            movePlayer(spell, caster, playerList, a, area, obstacleList, tilemap);
             // Enemies
-            movePlayer(spell, enemyList, a, area, obstacleList, tilemap);
+            movePlayer(spell, caster, enemyList, a, area, obstacleList, tilemap);
         });
     }
 
@@ -173,6 +173,7 @@ public class SpellEffectList : MonoBehaviour
 
     private void movePlayer(
         Spell spell,
+        Unit caster,
         Dictionary<Unit, GameObject> dict,
         Vector3Int cell,
         List<Vector3Int> area,
@@ -187,7 +188,7 @@ public class SpellEffectList : MonoBehaviour
             dict.Remove(unitPlayer);
             unitPlayer.position = RangeUtils.getFarthestWalkableNeighbour(
                 cell,
-                spell.casterPos,
+                caster.position,
                 area, obstacleList,
                 tilemap: tilemap
             );

@@ -12,34 +12,104 @@ public class GroundTile : Tile
     public Sprite[] animatedSprites;
     public GameObject tileGO;
     public List<Status> statusList;
+    public bool
+        defaultLineOfSight = true,
+        defaultWalkable = true,
+        lineOfSight = true,
+        walkable = true;
+    public int movementCost = 1;
 
-    public void setTile(GroundTile gt)
+    public virtual void setTile(GroundTile gt)
     {
         m_Sprite = gt.m_Sprite;
         m_Preview = gt.m_Preview;
         animatedSprites = gt.animatedSprites;
-        statusList = gt.statusList;
         tileGO = gt.tileGO;
+        lineOfSight = gt.lineOfSight;
+        walkable = gt.walkable;
+        defaultWalkable = gt.defaultWalkable;
+        defaultLineOfSight = gt.defaultLineOfSight;
+        movementCost = gt.movementCost;
+        // create new status list
+        if (gt.statusList != null)
+        {
+            statusList = getNewStatusList(gt.statusList);
+        }
+    }
+
+    public List<Status> getNewStatusList(List<Status> statusList)
+    {
+        List<Status> res = new List<Status>();
+        statusList.ForEach(a => { res.Add(new Status(a)); });
+        return res;
     }
 
     public void addStatus(Status status)
     {
+        // Reset tile
+        resetTile();
         if (statusList == null)
         {
             statusList = new List<Status>();
         }
         Status newStatus = new Status(status);
-        statusList = newStatus.addStatusToList(statusList);
-        // Change GameObject
+        statusList = newStatus.addStatusToTile(statusList);
+        // Change GameObject & apply status effects
         statusList.ForEach(s =>
         {
             tileGO = s.tileGO;
+            s.modifyTile(this);
         });
         // If list empty, no GameObject
         if (!statusList.Any())
         {
             tileGO = null;
         }
+    }
+
+    public bool containsOnlyPermanentStatus(List<Status> statusList)
+    {
+        bool contains = true;
+        statusList.ForEach(s =>
+        {
+            if (!s.permanentOnTile)
+            {
+                contains = false;
+            }
+        });
+        return contains;
+    }
+
+    public virtual void updateStatus()
+    {
+        // Reset tile
+        resetTile();
+        if (statusList != null)
+        {
+            List<Status> newStatusList = new List<Status>();
+            statusList.ForEach(s =>
+            {
+                bool continueStatus = (s.updateStatus() || s.permanentOnTile);
+                if (continueStatus)
+                {
+                    newStatusList.Add(s);
+                    // Apply status effect
+                    s.modifyTile(this);
+                }
+            });
+            statusList = newStatusList;
+            // If list empty or contains only permanent status, no GameObject
+            if (!statusList.Any() || containsOnlyPermanentStatus(statusList))
+            {
+                tileGO = null;
+            }
+        }
+    }
+
+    public void resetTile()
+    {
+        lineOfSight = defaultLineOfSight;
+        walkable = defaultWalkable;
     }
 
     public override void RefreshTile(Vector3Int position, ITilemap tilemap)
@@ -49,7 +119,7 @@ public class GroundTile : Tile
 
     public override bool GetTileAnimationData(Vector3Int position, ITilemap tilemap, ref TileAnimationData tileAnimationData)
     {
-        if (animatedSprites.Length > 0)
+        if (animatedSprites != null && animatedSprites.Length > 0)
         {
             tileAnimationData.animatedSprites = animatedSprites;
             tileAnimationData.animationSpeed = 1;

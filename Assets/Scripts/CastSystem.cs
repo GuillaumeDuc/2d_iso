@@ -38,9 +38,7 @@ public class CastSystem : MonoBehaviour
         RangeUtils.removeCells(cellsGrid);
         if (currentState == CastState.SHOW_AREA)
         {
-            spell.casterPos = player.position;
-
-            if (!spell.canCast(cellClicked, obstacleList, tilemap))
+            if (!spell.canCast(player, cellClicked, obstacleList, tilemap))
             {
                 spell.spellPos.Clear();
                 return CastState.DEFAULT;
@@ -55,7 +53,7 @@ public class CastSystem : MonoBehaviour
 
             if (!(spell.spellPos.Count() == spell.clickNb))
             {
-                showArea(spell.getRange(obstacleList, tilemap), cellsGrid);
+                showArea(spell.getRange(player, obstacleList, tilemap), cellsGrid);
             }
 
             if (spell.spellPos.Count() == spell.clickNb)
@@ -68,7 +66,8 @@ public class CastSystem : MonoBehaviour
 
         if (currentState == CastState.CAST_SPELL)
         {
-            if (spell.getArea(obstacleList, tilemap).Contains(cellClicked))
+            // If spell area is clear & mana is enough
+            if (spell.getArea(obstacleList, tilemap).Contains(cellClicked) && player.currentMana >= spell.manaCost)
             {
                 castSpell(spell, player, playerList, enemyList, obstacleList, tilemap);
             }
@@ -89,8 +88,9 @@ public class CastSystem : MonoBehaviour
         )
     {
         spell.doDamage(playerList, enemyList, obstacleList, tilemap);
-        spell.applyEffect(playerList, enemyList, obstacleList, tilemap);
+        spell.applyEffect(player, playerList, enemyList, obstacleList, tilemap);
         spell.playAnimation(obstacleList, tilemap);
+        player.currentMana -= spell.manaCost;
         updateScrollViews(playerList, enemyList);
     }
 
@@ -99,14 +99,8 @@ public class CastSystem : MonoBehaviour
         Dictionary<Unit, GameObject> enemyList
         )
     {
-        foreach (var enemy in enemyList)
-        {
-            EnemiesScrollView.setSliderHP(enemy.Key);
-        }
-        foreach (var player in playerList)
-        {
-            PlayersScrollView.setSliderHP(player.Key);
-        }
+        EnemiesScrollView.updateScrollView();
+        PlayersScrollView.updateScrollView();
     }
 
 

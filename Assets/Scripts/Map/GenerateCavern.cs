@@ -8,17 +8,17 @@ public class GenerateCavern : MonoBehaviour
 {
     public Tilemap tilemap;
     public TileList TileList;
-    public int width, height, percentWalls;
+    public int width, height, percentWater;
 
     private int currentWidth, currentHeight, currentPW;
 
-    private void createMapCavern(int width, int height, float percentWalls)
+    private void createMapCavern(int width, int height, float percentWater)
     {
-        randomFillMap(width, height, percentWalls);
+        randomFillMap(width, height, percentWater);
         makeCaverns(width, height);
     }
 
-    private void randomFillMap(int width, int height, float percentWalls)
+    private void randomFillMap(int width, int height, float percentWater)
     {
         int mapMiddle = 0;
         for (var row = 0; row < height; row++)
@@ -32,7 +32,7 @@ public class GenerateCavern : MonoBehaviour
                 }
                 else
                 {
-                    if (percentWalls >= UnityEngine.Random.Range(1, 101))
+                    if (percentWater >= UnityEngine.Random.Range(1, 101))
                     {
                         setWall(column, row);
                     }
@@ -140,6 +140,21 @@ public class GenerateCavern : MonoBehaviour
         return false;
     }
 
+    private void fillWithWater(int width, int height)
+    {
+        for (var row = 0; row < height; row++)
+        {
+            for (var column = 0; column < width; column++)
+            {
+                if (tilemap.GetTile(new Vector3Int(column, row, 0)) == null)
+                {
+                    setWater(column, row);
+                }
+
+            }
+        }
+    }
+
     private void setWall(int x, int y)
     {
         Vector3Int pos = new Vector3Int(x, y, 0);
@@ -154,22 +169,32 @@ public class GenerateCavern : MonoBehaviour
         tilemap.SetTile(pos, tile);
     }
 
+    private void setWater(int x, int y)
+    {
+        WaterTile tile = ScriptableObject.CreateInstance<WaterTile>();
+        tile.setTile(TileList.water);
+        Vector3Int pos = new Vector3Int(x, y, 0);
+        tilemap.SetTile(pos, tile);
+    }
+
     void Start()
     {
-        createMapCavern(width, height, percentWalls);
+        createMapCavern(width, height, percentWater);
+        fillWithWater(width, height);
         currentWidth = width;
         currentHeight = height;
-        currentPW = percentWalls;
+        currentPW = percentWater;
     }
 
     void Update()
     {
-        if (currentWidth != width || currentHeight != height || currentPW != percentWalls)
+        if (currentWidth != width || currentHeight != height || currentPW != percentWater)
         {
-            createMapCavern(width, height, percentWalls);
+            createMapCavern(width, height, percentWater);
+            fillWithWater(width, height);
             currentWidth = width;
             currentHeight = height;
-            currentPW = percentWalls;
+            currentPW = percentWater;
         }
     }
 }

@@ -7,12 +7,14 @@ public class Unit : MonoBehaviour
     public int
         unitLevel,
         maxHP,
-        currentHP,
         endurance,
         mana,
         spellSlot,
         initiative,
-        movementPoint
+        movementPoint,
+        currentHP,
+        currentMovementPoint,
+        currentMana
         ;
     public List<Spell> spellList = new List<Spell>();
     public Spell selectedSpell;
@@ -40,6 +42,12 @@ public class Unit : MonoBehaviour
         spellList.Add(newSpells);
     }
 
+    public void resetStats()
+    {
+        currentMovementPoint = movementPoint;
+        currentMana = mana;
+    }
+
     public void setStats(
         string name,
         Vector3Int position,
@@ -60,6 +68,8 @@ public class Unit : MonoBehaviour
         this.endurance = endurance;
         this.mana = mana;
         this.movementPoint = movementPoint + (int)(endurance / 10);
+        this.currentMana = mana;
+        this.currentMovementPoint = movementPoint;
 
         initiative = mana + endurance;
 
@@ -79,32 +89,7 @@ public class Unit : MonoBehaviour
     public void addStatus(Status status)
     {
         Status newStatus = new Status(status);
-        statusList = newStatus.addStatusToList(statusList);
-    }
-
-    private void showAllStatus(Status status)
-    {
-        Debug.Log("Show status");
-        Status current = status;
-        Debug.Log("current : " + current);
-        while (current != null)
-        {
-            if (current.name != status.name)
-            {
-                Debug.Log(current);
-            }
-            current = current.nextStatus;
-        }
-        current = status;
-        Debug.Log("---  previous  ---");
-        while (current != null)
-        {
-            if (current.name != status.name)
-            {
-                Debug.Log(current);
-            }
-            current = current.previousStatus;
-        }
+        statusList = newStatus.addStatusToPlayer(statusList);
     }
 
     public void updateStatus()
@@ -156,6 +141,7 @@ public class Unit : MonoBehaviour
             list += s + "\n";
         });
         return "Unit : " + unitName + " | HP : " + currentHP + "\n" +
+            "Movement : " + currentMovementPoint + " | Mana : " + currentMana + "\n" +
             "list status : \n" + list;
     }
 }

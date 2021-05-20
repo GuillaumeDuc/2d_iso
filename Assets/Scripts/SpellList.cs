@@ -16,12 +16,6 @@ public class SpellList : MonoBehaviour
         Sandwall
         ;
 
-    private static GameObject
-        ExplosionGO,
-        IcycleGO,
-        SandwallGO
-        ;
-
     private string nameSpell;
 
     private RangeUtils RangeUtils;
@@ -33,9 +27,9 @@ public class SpellList : MonoBehaviour
 
         // Explosion
         nameSpell = "Explosion";
-        ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell);
+        GameObject ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell);
         // GameObject, name, damage, range, area, line of sight, click nb, unique cell area
-        Explosion = new Spell(ExplosionGO, nameSpell, 20, 8, 2, true, 2);
+        Explosion = new Spell(ExplosionGO, nameSpell, 5, 10, 0, true, 3, false, 50);
         Explosion.getRangeList = getRangeInCircleFullPlayer;
         Explosion.getAreaList = getAreaInCircleFull;
         Explosion.animate = animateInCircleFull;
@@ -47,8 +41,8 @@ public class SpellList : MonoBehaviour
 
         // Icycle
         nameSpell = "Icycle";
-        IcycleGO = Resources.Load<GameObject>(PATH + nameSpell);
-        Icycle = new Spell(IcycleGO, nameSpell, 30, 8, 3, false, 3);
+        GameObject IcycleGO = Resources.Load<GameObject>(PATH + nameSpell);
+        Icycle = new Spell(IcycleGO, nameSpell, 5, 10, 1, false, 5, false, 50);
         Icycle.getRangeList = getRangeInCircleFullPlayer;
         Icycle.getAreaList = getAreaInCircleFull;
         Icycle.animate = animateOnCell;
@@ -60,8 +54,8 @@ public class SpellList : MonoBehaviour
 
         // Sandwall
         nameSpell = "Sandwall";
-        SandwallGO = Resources.Load<GameObject>(PATH + nameSpell);
-        Sandwall = new Spell(SandwallGO, nameSpell, 0, 10, 1, false, 2, true);
+        GameObject SandwallGO = Resources.Load<GameObject>(PATH + nameSpell);
+        Sandwall = new Spell(SandwallGO, nameSpell, 0, 10, 1, false, 2, true, 100);
         Sandwall.getRangeList = getRangeInCircleFullPlayer;
         Sandwall.getAreaList = getAreaInLineBetweenCells;
         // No animation for sandwall, walls are created in spell effect
@@ -75,6 +69,7 @@ public class SpellList : MonoBehaviour
 
     public bool canCast(
         Spell spell,
+        Unit caster,
         List<Vector3Int> range,
         Vector3Int cell,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -97,7 +92,14 @@ public class SpellList : MonoBehaviour
             return false;
         }
         // Check line of sight
-        if (spell.lineOfSight && !RangeUtils.lineOfSight(spell.casterPos, cell, obstacleList))
+        if (spell.lineOfSight &&
+            !RangeUtils.lineOfSight(
+                caster.position,
+                cell,
+                obstacleList,
+                tilemap
+                )
+            )
         {
             return false;
         }
@@ -111,12 +113,13 @@ public class SpellList : MonoBehaviour
 
     public bool canCast(
         Spell spell,
+        Unit caster,
         Vector3Int cell,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
-        return canCast(spell, spell.getRange(obstacleList, tilemap), cell, obstacleList, tilemap);
+        return canCast(spell, caster, spell.getRange(caster, obstacleList, tilemap), cell, obstacleList, tilemap);
     }
 
     // Animation
@@ -133,11 +136,12 @@ public class SpellList : MonoBehaviour
 
     public void animateInLine(
         Spell spell,
+        Unit caster,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
-        List<Vector3Int> listCells = getAreaInLine(spell, obstacleList, tilemap);
+        List<Vector3Int> listCells = getAreaInLine(spell, caster, obstacleList, tilemap);
 
         StartCoroutine(multipleAnimateOnCell(listCells, spell, obstacleList, tilemap));
     }
@@ -216,19 +220,20 @@ public class SpellList : MonoBehaviour
     // Range 
     public List<Vector3Int> getRangeInCircleFullPlayer(
         Spell spell,
+        Unit caster,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
         List<Vector3Int> area = new List<Vector3Int>();
         // Get full circle
-        List<Vector3Int> listSquare = RangeUtils.getAreaCircleFull(spell.casterPos, spell.range, tilemap);
+        List<Vector3Int> listSquare = RangeUtils.getAreaCircleFull(caster.position, spell.range, tilemap);
 
         // Check for each square if spell can be cast
         listSquare.ForEach(s =>
         {
             // Spell is always in range though
-            if (canCast(spell, listSquare, s, obstacleList, tilemap))
+            if (canCast(spell, caster, listSquare, s, obstacleList, tilemap))
             {
                 area.Add(s);
             }
@@ -255,6 +260,7 @@ public class SpellList : MonoBehaviour
 
     public List<Vector3Int> getAreaInLine(
         Spell spell,
+        Unit caster,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
@@ -263,7 +269,7 @@ public class SpellList : MonoBehaviour
 
         spell.spellPos.ForEach(s =>
         {
-            area = area.Concat(RangeUtils.getAreaInLine(spell.casterPos, s, obstacleList, tilemap, spell.uniqueCellArea)).ToList();
+            area = area.Concat(RangeUtils.getAreaInLine(caster.position, s, obstacleList, tilemap, spell.uniqueCellArea)).ToList();
         });
         return area;
     }
