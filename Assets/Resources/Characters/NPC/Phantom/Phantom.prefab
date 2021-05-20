@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1242469316633480265}
   - component: {fileID: 1242469316633480266}
   - component: {fileID: -8697452396025057502}
+  - component: {fileID: 6692759303726813954}
   m_Layer: 0
   m_Name: Phantom
   m_TagString: Untagged
@@ -119,14 +120,30 @@ MonoBehaviour:
   unitName: 
   unitLevel: 0
   maxHP: 0
-  currentHP: 0
   endurance: 0
   mana: 0
   spellSlot: 0
   initiative: 0
   movementPoint: 0
+  currentHP: 0
+  currentMovementPoint: 0
+  currentMana: 0
   position: {x: 0, y: 0, z: 0}
   playable: 0
+--- !u!114 &6692759303726813954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242469316633480267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6590483b2a5c2724f873e56ff07a1f6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Enemy: {fileID: 1242469316633480267}
+  unit: {fileID: -8697452396025057502}
 --- !u!1 &1242469317768781209
 GameObject:
   m_ObjectHideFlags: 0

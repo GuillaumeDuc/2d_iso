@@ -58,16 +58,15 @@ public class TurnBasedSystem : MonoBehaviour
 
 
 
-    void InstantiatePlayer(GameObject PlayerPrefab)
+    GameObject InstantiatePlayer(GameObject PlayerPrefab, Vector3Int pos)
     {
-        Vector3Int pos = new Vector3Int(5, 0, 0);
         GroundTile tile = (GroundTile)tilemap.GetTile(pos);
         while (!tile.walkable)
         {
             pos.y += 1;
             tile = (GroundTile)tilemap.GetTile(pos);
         }
-        Player = Instantiate(PlayerPrefab, tilemap.CellToWorld(pos), Quaternion.identity);
+        return Instantiate(PlayerPrefab, tilemap.CellToWorld(pos), Quaternion.identity);
     }
 
     void MovePlayerWithPos(Animator animator, Rigidbody2D rb, Vector2 pos)
@@ -84,8 +83,7 @@ public class TurnBasedSystem : MonoBehaviour
         // Remove any previously added range
         RangeUtils.removeCells(cellsGrid);
         unit.selectedSpell = spell;
-        spell.casterPos = unit.position;
-        CastSystem.showArea(spell.getRange(obstacleList, tilemap), cellsGrid);
+        CastSystem.showArea(spell.getRange(unit, obstacleList, tilemap), cellsGrid);
 
         CurrentState = CurrentState.CAST;
         CastState = CastState.SHOW_AREA;
@@ -209,7 +207,7 @@ public class TurnBasedSystem : MonoBehaviour
     {
         // Get Player prefab from Assets/Resources
         GameObject PlayerPrefab = Resources.Load<GameObject>("Characters/PC/Player");
-        InstantiatePlayer(PlayerPrefab);
+        Player = InstantiatePlayer(PlayerPrefab, new Vector3Int(5, 0, 0));
 
         // Instantiate state
         CurrentState = CurrentState.MOVE;
@@ -230,9 +228,9 @@ public class TurnBasedSystem : MonoBehaviour
         PlayerStats.playable = true;
 
         // Init Ennemies
-        GameObject EnnemyPrefab = Resources.Load<GameObject>("Characters/NPC/Phantom/Phantom");
+        GameObject EnemyPrefab = Resources.Load<GameObject>("Characters/NPC/Phantom/Phantom");
         // First
-        GameObject green1 = Instantiate(EnnemyPrefab, tilemap.CellToWorld(new Vector3Int(5, 15, 0)), Quaternion.identity);
+        GameObject green1 = InstantiatePlayer(EnemyPrefab, new Vector3Int(5, 10, 0));
         Transform green1Transform = green1.GetComponent<Transform>();
         Unit green1Stats = green1.GetComponent<Unit>();
         green1Stats.setSpellList(SpellList.Explosion);
@@ -304,6 +302,22 @@ public class TurnBasedSystem : MonoBehaviour
         MovePlayerWithPos(PlayerAnimator, PlayerRigidBody, worldPositio);
         */
 
+        // Play Enemies
+        if (!currentUnit.playable)
+        {
+            GameObject currentEnemy = getGOFromUnit(currentUnit);
+            EnemyAI enemyAI = currentUnit.GetComponent<EnemyAI>();
+            enemyAI.play(
+                MoveSystem,
+                CastSystem,
+                obstacleList,
+                playerList,
+                enemyList,
+                tilemap
+            );
+            onClickEndTurn();
+        }
+
         // Left mouse click
         if (Input.GetMouseButtonDown(0))
         {
@@ -317,32 +331,34 @@ public class TurnBasedSystem : MonoBehaviour
             Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
 
             GameObject currentPlayer = getGOFromUnit(currentUnit);
-
-            if (CurrentState == CurrentState.MOVE && !IsPointerOverUIElement())
+            if (currentUnit.playable)
             {
-                // Move player
-                if (tilemap.HasTile(cellPosition) && !obstacleList.ContainsKey(cellPosition))
+                if (CurrentState == CurrentState.MOVE && !IsPointerOverUIElement())
                 {
-                    MoveSystem.moveCharacter(currentPlayer, cellPosition, obstacleList, tilemap);
-                    updateScrollViews();
+                    // Move player
+                    if (tilemap.HasTile(cellPosition) && !obstacleList.ContainsKey(cellPosition))
+                    {
+                        MoveSystem.moveCharacter(currentPlayer, cellPosition, obstacleList, tilemap);
+                        updateScrollViews();
+                    }
                 }
-            }
-            else if (CurrentState == CurrentState.CAST)
-            {
-                CastState = CastSystem.cast(
-                    currentUnit.selectedSpell,
-                    currentUnit,
-                    cellPosition,
-                    playerList,
-                    enemyList,
-                    obstacleList,
-                    CastState,
-                    tilemap,
-                    cellsGrid
-                );
-                if (CastState == CastState.DEFAULT)
+                else if (CurrentState == CurrentState.CAST)
                 {
-                    CurrentState = CurrentState.MOVE;
+                    CastState = CastSystem.cast(
+                        currentUnit.selectedSpell,
+                        currentUnit,
+                        cellPosition,
+                        playerList,
+                        enemyList,
+                        obstacleList,
+                        CastState,
+                        tilemap,
+                        cellsGrid
+                    );
+                    if (CastState == CastState.DEFAULT)
+                    {
+                        CurrentState = CurrentState.MOVE;
+                    }
                 }
             }
         }

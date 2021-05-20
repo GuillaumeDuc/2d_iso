@@ -10,13 +10,12 @@ public class Spell
     public int range, area, damage, clickNb, manaCost;
     public bool lineOfSight, uniqueCellArea;
     public List<Vector3Int> spellPos;
-    public Vector3Int casterPos;
     public List<SpellEffect> spellEffectList;
 
     public System.Action<Spell, Dictionary<Vector3Int, GameObject>, Tilemap> animate { get; set; }
     public System.Func<Spell, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>> getAreaList;
-    public System.Func<Spell, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>> getRangeList;
-    public System.Func<Spell, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool> canCastOn;
+    public System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>> getRangeList;
+    public System.Func<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool> canCastOn;
     public System.Action<Spell, Dictionary<Unit, GameObject>, Dictionary<Unit, GameObject>, Dictionary<Vector3Int, GameObject>, Tilemap> doDamageAction;
 
     public void doDamage(
@@ -29,14 +28,14 @@ public class Spell
         doDamageAction(this, playerList, enemyList, obstacleList, tilemap);
     }
 
-    public bool canCast(Vector3Int cell, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    public bool canCast(Unit caster, Vector3Int cell, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
-        return canCastOn(this, cell, obstacleList, tilemap);
+        return canCastOn(this, caster, cell, obstacleList, tilemap);
     }
 
-    public List<Vector3Int> getRange(Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    public List<Vector3Int> getRange(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
-        return getRangeList(this, obstacleList, tilemap);
+        return getRangeList(this, caster, obstacleList, tilemap);
     }
 
     public List<Vector3Int> getArea(Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
@@ -50,6 +49,7 @@ public class Spell
     }
 
     public void applyEffect(
+        Unit caster,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -58,7 +58,7 @@ public class Spell
     {
         spellEffectList.ForEach(se =>
         {
-            se.applyEffect(this, playerList, enemyList, obstacleList, tilemap);
+            se.applyEffect(this, caster, playerList, enemyList, obstacleList, tilemap);
         });
     }
 

@@ -104,7 +104,7 @@ public class MoveSystem : MonoBehaviour
             // Set new position
             if (path.Any() && path != null)
             {
-                playerStats.position = path[path.Count()-1].pos;
+                playerStats.position = path[path.Count() - 1].pos;
             }
 
             // Move player from 1 to 1 square
@@ -115,7 +115,7 @@ public class MoveSystem : MonoBehaviour
         }
     }
 
-    private List<Square> getPathCharacter(
+    public List<Square> getPathCharacter(
         Square start,
         Square dest,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -262,7 +262,7 @@ public class MoveSystem : MonoBehaviour
         return reconstructPath(current.previousSquare, path);
     }
 
-    private void setTilePath(List<Square> path)
+    public void setTilePath(List<Square> path)
     {
         Tile transparent = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
         foreach (var s in path)
@@ -290,7 +290,7 @@ public class MoveSystem : MonoBehaviour
         });
     }
 
-    public List<Square> removeOverCost (Unit unit, List<Square> path, Tilemap tilemap)
+    public List<Square> removeOverCost(Unit unit, List<Square> path, Tilemap tilemap)
     {
         List<Square> res = new List<Square>();
         path.ForEach(s =>
@@ -306,5 +306,32 @@ public class MoveSystem : MonoBehaviour
             }
         });
         return res;
+    }
+
+    public void moveOneSquare(
+        Square square,
+        Unit unit,
+        GameObject unitGO,
+        Tilemap tilemap
+        )
+    {
+        GroundTile gt = (GroundTile)tilemap.GetTile(square.pos);
+        if (gt != null)
+        {
+            if (unit.currentMovementPoint > 0)
+            {
+                // Remove movement point
+                unit.currentMovementPoint -= gt.movementCost;
+
+                // Set new position
+                unit.position = square.pos;
+
+                // Apply tile status to player for square passed
+                applyTilesEffects(unit, new List<Square>() { square }, tilemap);
+
+                // Move player
+                StartCoroutine(Move(unitGO.transform, new List<Square>() { square }, tilemap));
+            }
+        }
     }
 }

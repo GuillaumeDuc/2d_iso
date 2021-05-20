@@ -10,17 +10,18 @@ public class SpellEffect
     public int value;
     public bool cumul;
 
-    public System.Action<Spell, SpellEffect, Dictionary<Unit, GameObject>, Dictionary<Unit, GameObject>, Dictionary<Vector3Int, GameObject>, Tilemap> applyEffectAction;
+    public System.Action<Spell, Unit, SpellEffect, Dictionary<Unit, GameObject>, Dictionary<Unit, GameObject>, Dictionary<Vector3Int, GameObject>, Tilemap> applyEffectAction;
 
     public void applyEffect(
         Spell spell,
+        Unit caster,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
-        applyEffectAction(spell, this, playerList, enemyList, obstacleList, tilemap);
+        applyEffectAction(spell, caster, this, playerList, enemyList, obstacleList, tilemap);
     }
 
     public SpellEffect(string name, int value = 0, bool cumul = true)
