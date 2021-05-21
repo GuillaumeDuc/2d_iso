@@ -233,7 +233,7 @@ public class TurnBasedSystem : MonoBehaviour
         GameObject green1 = InstantiatePlayer(EnemyPrefab, new Vector3Int(5, 10, 0));
         Transform green1Transform = green1.GetComponent<Transform>();
         Unit green1Stats = green1.GetComponent<Unit>();
-        green1Stats.setSpellList(SpellList.Explosion);
+        green1Stats.setSpellList(SpellList.Blackhole);
         green1Stats.setStats("Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
 
         // Init RangeUtils

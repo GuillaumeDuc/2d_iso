@@ -174,13 +174,32 @@ public class MoveSystem : MonoBehaviour
     {
         foreach (var s in path)
         {
+            Vector3 pos = tilemap.CellToWorld(s.pos);
+            pos.y = pos.y + 0.2f;
             yield return new WaitForSeconds(0.1f);
-            Vector2 pos = new Vector2(tilemap.CellToWorld(s.pos).x, tilemap.CellToWorld(s.pos).y + 0.2f);
-            float step = 1000 * Time.deltaTime;
-            playerTransform.position = Vector3.MoveTowards(playerTransform.position, pos, step);
-            //playerTransform.position = pos;
+            playerTransform.position = pos;
+            /*
+            while (pos != playerTransform.position)
+            {
+                yield return new WaitForSeconds(0.01f);
+                float smooth = 5f;
+                Debug.Log("player : " + playerTransform.position);
+                Debug.Log("dest : " + pos);
+                playerTransform.position = Vector3.MoveTowards(playerTransform.position, pos, Time.deltaTime * smooth);
+            }
+            */
         }
         RangeUtils.removeCells(cellsGrid);
+    }
+
+    private IEnumerator moveToward(Transform transform, Vector3 pos)
+    {
+        while (transform.position != pos)
+        {
+            yield return new WaitForSeconds(0.01f);
+            float smooth = 5f;
+            transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * smooth);
+        }
     }
 
     private Square getSquareLowestScore(List<Square> openList)

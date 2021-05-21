@@ -13,7 +13,8 @@ public class SpellList : MonoBehaviour
     public Spell
         Explosion,
         Icycle,
-        Sandwall
+        Sandwall,
+        Blackhole
         ;
 
     private string nameSpell;
@@ -65,6 +66,18 @@ public class SpellList : MonoBehaviour
         Sandwall.spellEffectList.Add(SpellEffectList.CreateObstacle);
         // Damage
         Sandwall.doDamageAction = doDamage;
+
+        // Blackhole
+        nameSpell = "Blackhole";
+        GameObject BlackholeGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+        Blackhole = new Spell(BlackholeGO, nameSpell, 90, 5, 0, true, 1, false, 100);
+        Blackhole.getRangeList = getRangeInCircleFullPlayer;
+        Blackhole.getAreaList = getAreaInCircleFull;
+        Blackhole.animate = animateOnCell;
+        Blackhole.canCastOn = canCast;
+        // Effects
+        // Damage
+        Blackhole.doDamageAction = doDamage;
     }
 
     public bool canCast(
