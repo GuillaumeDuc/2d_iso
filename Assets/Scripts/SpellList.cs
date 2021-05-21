@@ -6,7 +6,7 @@ using System.Linq;
 
 public class SpellList : MonoBehaviour
 {
-    private const string PATH = "Spells/SpellsPrefab/";
+    private const string PATH = "Spells/";
 
     public SpellEffectList SpellEffectList;
 
@@ -27,7 +27,7 @@ public class SpellList : MonoBehaviour
 
         // Explosion
         nameSpell = "Explosion";
-        GameObject ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell);
+        GameObject ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
         // GameObject, name, damage, range, area, line of sight, click nb, unique cell area
         Explosion = new Spell(ExplosionGO, nameSpell, 5, 10, 0, true, 3, false, 50);
         Explosion.getRangeList = getRangeInCircleFullPlayer;
@@ -41,7 +41,7 @@ public class SpellList : MonoBehaviour
 
         // Icycle
         nameSpell = "Icycle";
-        GameObject IcycleGO = Resources.Load<GameObject>(PATH + nameSpell);
+        GameObject IcycleGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
         Icycle = new Spell(IcycleGO, nameSpell, 5, 10, 1, false, 5, false, 50);
         Icycle.getRangeList = getRangeInCircleFullPlayer;
         Icycle.getAreaList = getAreaInCircleFull;
@@ -54,7 +54,7 @@ public class SpellList : MonoBehaviour
 
         // Sandwall
         nameSpell = "Sandwall";
-        GameObject SandwallGO = Resources.Load<GameObject>(PATH + nameSpell);
+        GameObject SandwallGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
         Sandwall = new Spell(SandwallGO, nameSpell, 0, 10, 1, false, 2, true, 100);
         Sandwall.getRangeList = getRangeInCircleFullPlayer;
         Sandwall.getAreaList = getAreaInLineBetweenCells;
