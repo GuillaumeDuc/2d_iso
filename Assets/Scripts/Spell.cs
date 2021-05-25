@@ -25,7 +25,7 @@ public class Spell
         Tilemap tilemap
         )
     {
-        doDamageAction(this, playerList, enemyList, obstacleList, tilemap);
+        doDamageAction?.Invoke(this, playerList, enemyList, obstacleList, tilemap);
     }
 
     public bool canCast(Unit caster, Vector3Int cell, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)

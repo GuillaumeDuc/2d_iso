@@ -14,7 +14,8 @@ public class SpellList : MonoBehaviour
         Explosion,
         Icycle,
         Sandwall,
-        Blackhole
+        Blackhole,
+        Teleportation
         ;
 
     private string nameSpell;
@@ -70,7 +71,7 @@ public class SpellList : MonoBehaviour
         // Blackhole
         nameSpell = "Blackhole";
         GameObject BlackholeGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-        Blackhole = new Spell(BlackholeGO, nameSpell, 90, 5, 0, true, 1, false, 100);
+        Blackhole = new Spell(BlackholeGO, nameSpell, 90, 5, 0, true, 1, false, 70);
         Blackhole.getRangeList = getRangeInCircleFullPlayer;
         Blackhole.getAreaList = getAreaInCircleFull;
         Blackhole.animate = animateOnCell;
@@ -78,6 +79,18 @@ public class SpellList : MonoBehaviour
         // Effects
         // Damage
         Blackhole.doDamageAction = doDamage;
+
+        // Teleportation
+        nameSpell = "Teleportation";
+        GameObject TeleportationGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+        Teleportation = new Spell(TeleportationGO, nameSpell, 0, 10, 0, false, 1, false, 30);
+        Teleportation.getRangeList = getRangeInCircleFullPlayer;
+        Teleportation.getAreaList = getAreaInCircleFull;
+        Teleportation.animate = animateOnCell;
+        Teleportation.canCastOn = canCast;
+        // Effects
+        Teleportation.spellEffectList.Add(SpellEffectList.Teleport);
+        // Damage
     }
 
     public bool canCast(

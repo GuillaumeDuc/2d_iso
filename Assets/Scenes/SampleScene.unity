@@ -1138,6 +1138,7 @@ MonoBehaviour:
   width: 20
   height: 20
   percentWater: 30
+  TileType: 0
 --- !u!4 &489335839
 Transform:
   m_ObjectHideFlags: 0
@@ -2297,7 +2298,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1034680175}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999995
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2555,6 +2556,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brick: {fileID: 0}
+  grass: {fileID: 0}
+  sand: {fileID: 0}
   water: {fileID: 0}
   StatusList: {fileID: 1131004373}
   tilemap: {fileID: 14874894}
