@@ -232,6 +232,7 @@ public class TurnBasedSystem : MonoBehaviour
         PlayerStats.setSpellList(SpellList.Explosion);
         PlayerStats.setSpellList(SpellList.Icycle);
         PlayerStats.setSpellList(SpellList.Sandwall);
+        PlayerStats.setSpellList(SpellList.Blackhole);
         PlayerStats.setSpellList(SpellList.Teleportation);
         PlayerStats.setStats("Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3, 110);
         PlayerStats.playable = true;
@@ -243,6 +244,7 @@ public class TurnBasedSystem : MonoBehaviour
         Transform green1Transform = green1.GetComponent<Transform>();
         Unit green1Stats = green1.GetComponent<Unit>();
         green1Stats.setSpellList(SpellList.Blackhole);
+        green1Stats.setSpellList(SpellList.Teleportation);
         green1Stats.setStats("Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
 
         // Init RangeUtils

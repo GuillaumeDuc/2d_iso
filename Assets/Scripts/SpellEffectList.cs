@@ -167,10 +167,11 @@ public class SpellEffectList : MonoBehaviour
         )
     {
         KeyValuePair<Unit, GameObject> player = getUnitFromPlayersAndEnemies(playerList, enemyList, caster);
+        Vector3 originalScale = player.Value.transform.localScale;
         spell.spellPos.ForEach(pos =>
         {
             // Make player disappear
-            StartCoroutine(scaleGO(player.Value, 1f, 0f));
+            StartCoroutine(scaleGO(player.Value, originalScale.x, 0f, originalScale));
             // Get cell to world position
             Vector3 cellPos = tilemap.CellToWorld(pos);
             cellPos.y += 0.2f;
@@ -179,26 +180,30 @@ public class SpellEffectList : MonoBehaviour
             // Move gameobject to position
             player.Value.transform.position = cellPos;
             // Make player reappear
-            StartCoroutine(scaleGO(player.Value, 0f, 1f));
+            StartCoroutine(scaleGO(player.Value, 0f, originalScale.x, originalScale));
         });
     }
 
-    IEnumerator scaleGO(GameObject go, float from, float to)
+    IEnumerator scaleGO(GameObject go, float from, float to, Vector3 originalScale)
     {
         float i = from;
         while (!i.Equals(to))
         {
             yield return new WaitForSeconds(0.01f);
-            go.transform.localScale = new Vector3(i, 1f, 1f);
+            go.transform.localScale = new Vector3(i, originalScale.y, originalScale.z);
             if (i < to)
             {
-                i = (float)System.Math.Round(i + 0.1f, 1);
+                // Add one tenth of the goal
+                float step = to / 10;
+                i = (float)System.Math.Round(i + step, 3);
             }
             else
             {
-                i = (float)System.Math.Round(i - 0.1f, 1);
+                float step = from / 10;
+                i = (float)System.Math.Round(i - step, 3);
             }
         }
+        go.transform.localScale = new Vector3(to, originalScale.y, originalScale.z);
     }
 
     private void movePlayer(
