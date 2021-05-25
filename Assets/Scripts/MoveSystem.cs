@@ -65,6 +65,9 @@ public class MoveSystem : MonoBehaviour
 
     private RangeUtils RangeUtils;
 
+    private bool isMoving = false;
+    private Queue<KeyValuePair<Transform, Vector3>> movingList = new Queue<KeyValuePair<Transform, Vector3>>();
+
     private void Start()
     {
         RangeUtils = new RangeUtils();
@@ -108,7 +111,8 @@ public class MoveSystem : MonoBehaviour
             }
 
             // Move player from 1 to 1 square
-            StartCoroutine(Move(playerTransform, path, tilemap));
+            Move(playerTransform, path, tilemap);
+            RangeUtils.removeCells(cellsGrid);
 
             // Apply tile status to player for every square passed
             applyTilesEffects(playerStats, path, tilemap);
@@ -170,36 +174,36 @@ public class MoveSystem : MonoBehaviour
         return new List<Square>();
     }
 
-    private IEnumerator Move(Transform playerTransform, List<Square> path, Tilemap tilemap)
+    private void Move(Transform playerTransform, List<Square> path, Tilemap tilemap)
     {
         foreach (var s in path)
         {
             Vector3 pos = tilemap.CellToWorld(s.pos);
             pos.y = pos.y + 0.2f;
-            yield return new WaitForSeconds(0.1f);
-            playerTransform.position = pos;
-            /*
-            while (pos != playerTransform.position)
+            // Add player to waiting list
+            movingList.Enqueue(new KeyValuePair<Transform, Vector3>(playerTransform, pos));
+            if (!isMoving)
             {
-                yield return new WaitForSeconds(0.01f);
-                float smooth = 5f;
-                Debug.Log("player : " + playerTransform.position);
-                Debug.Log("dest : " + pos);
-                playerTransform.position = Vector3.MoveTowards(playerTransform.position, pos, Time.deltaTime * smooth);
+                isMoving = true;
+                StartCoroutine(moveToMovingList());
             }
-            */
         }
-        RangeUtils.removeCells(cellsGrid);
     }
 
-    private IEnumerator moveToward(Transform transform, Vector3 pos)
+    private IEnumerator moveToMovingList()
     {
-        while (transform.position != pos)
+        // Get all queued case
+        while (movingList.Any())
         {
-            yield return new WaitForSeconds(0.01f);
-            float smooth = 5f;
-            transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * smooth);
+            var pos = movingList.Dequeue();
+            while (pos.Key.position != pos.Value)
+            {
+                yield return new WaitForSeconds(0.001f);
+                float smooth = 5f;
+                pos.Key.position = Vector3.MoveTowards(pos.Key.position, pos.Value, Time.deltaTime * smooth);
+            }
         }
+        isMoving = false;
     }
 
     private Square getSquareLowestScore(List<Square> openList)
@@ -349,7 +353,7 @@ public class MoveSystem : MonoBehaviour
                 applyTilesEffects(unit, new List<Square>() { square }, tilemap);
 
                 // Move player
-                StartCoroutine(Move(unitGO.transform, new List<Square>() { square }, tilemap));
+                Move(unitGO.transform, new List<Square>() { square }, tilemap);
             }
         }
     }

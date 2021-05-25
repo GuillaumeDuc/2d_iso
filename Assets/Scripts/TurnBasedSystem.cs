@@ -230,7 +230,7 @@ public class TurnBasedSystem : MonoBehaviour
         // Init Ennemies
         GameObject EnemyPrefab = Resources.Load<GameObject>("Characters/NPC/Phantom/Phantom");
         // First
-        GameObject green1 = InstantiatePlayer(EnemyPrefab, new Vector3Int(5, 10, 0));
+        GameObject green1 = InstantiatePlayer(EnemyPrefab, new Vector3Int(10, 15, 0));
         Transform green1Transform = green1.GetComponent<Transform>();
         Unit green1Stats = green1.GetComponent<Unit>();
         green1Stats.setSpellList(SpellList.Blackhole);
@@ -288,19 +288,9 @@ public class TurnBasedSystem : MonoBehaviour
             "Turn : " + currentTurn + "\n" +
             "Current unit : \n" + currentUnit;
 
-
         // Move Camera
         Vector3 posPlayer = PlayerTransform.position;
         CameraView.transform.position = new Vector3(posPlayer.x, posPlayer.y, -10);
-
-        // Get keys input
-        /*
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxisRaw("Vertical");
-        Vector2 worldPositio = new Vector2(x,y);
-        Debug.Log("MOVE TO " + worldPositio);
-        MovePlayerWithPos(PlayerAnimator, PlayerRigidBody, worldPositio);
-        */
 
         // Play Enemies
         if (!currentUnit.playable)
