@@ -61,12 +61,20 @@ public class TurnBasedSystem : MonoBehaviour
     GameObject InstantiatePlayer(GameObject PlayerPrefab, Vector3Int pos)
     {
         GroundTile tile = (GroundTile)tilemap.GetTile(pos);
+        Vector3Int newPos = pos;
         while (!tile.walkable)
         {
-            pos.y += 1;
-            tile = (GroundTile)tilemap.GetTile(pos);
+            if (newPos.y < 20)
+            {
+                newPos.y += 1;
+            } else
+            {
+                newPos = pos;
+                newPos.x += 1;
+            }
+            tile = (GroundTile)tilemap.GetTile(newPos);
         }
-        return Instantiate(PlayerPrefab, tilemap.CellToWorld(pos), Quaternion.identity);
+        return Instantiate(PlayerPrefab, tilemap.CellToWorld(newPos), Quaternion.identity);
     }
 
     void MovePlayerWithPos(Animator animator, Rigidbody2D rb, Vector2 pos)

@@ -4,13 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+public enum TileType { SAND, BRICK, GRASS}
+
 public class GenerateCavern : MonoBehaviour
 {
     public Tilemap tilemap;
     public TileList TileList;
     public int width, height, percentWater;
+    public TileType TileType;
 
     private int currentWidth, currentHeight, currentPW;
+    private TileType currentTileType;
 
     private void createMapCavern(int width, int height, float percentWater)
     {
@@ -150,7 +154,22 @@ public class GenerateCavern : MonoBehaviour
                 {
                     setWater(column, row);
                 }
+            }
+        }
+    }
 
+    private void refreshGround()
+    {
+        for (var row = 0; row < height; row++)
+        {
+            for (var column = 0; column < width; column++)
+            {
+                GroundTile gt = (GroundTile) tilemap.GetTile(new Vector3Int(column, row, 0));
+                bool isWater = gt is WaterTile;
+                if (gt != null && !isWater)
+                {
+                    setGround(column, row);
+                }
             }
         }
     }
@@ -164,7 +183,18 @@ public class GenerateCavern : MonoBehaviour
     private void setGround(int x, int y)
     {
         GroundTile tile = ScriptableObject.CreateInstance<GroundTile>();
-        tile.setTile(TileList.brick);
+        switch (TileType)
+        {
+            case TileType.BRICK:
+                tile.setTile(TileList.brick);
+                break;
+            case TileType.SAND:
+                tile.setTile(TileList.sand);
+                break;
+            default:
+                tile.setTile(TileList.grass);
+                break;
+        }
         Vector3Int pos = new Vector3Int(x, y, 0);
         tilemap.SetTile(pos, tile);
     }
@@ -184,6 +214,7 @@ public class GenerateCavern : MonoBehaviour
         currentWidth = width;
         currentHeight = height;
         currentPW = percentWater;
+        currentTileType = TileType;
     }
 
     void Update()
@@ -195,6 +226,11 @@ public class GenerateCavern : MonoBehaviour
             currentWidth = width;
             currentHeight = height;
             currentPW = percentWater;
+        }
+        if (currentTileType != TileType)
+        {
+            refreshGround();
+            currentTileType = TileType;
         }
     }
 }
