@@ -21,6 +21,7 @@ public class Unit : MonoBehaviour
     public Vector3Int position;
     public bool playable;
     public List<Status> statusList = new List<Status>();
+    public GameObject unitGO;
 
     public bool takeDamage(int dmg)
     {
@@ -49,6 +50,7 @@ public class Unit : MonoBehaviour
     }
 
     public void setStats(
+        GameObject unitGO,
         string name,
         Vector3Int position,
         int maxHP = 100,
@@ -58,6 +60,7 @@ public class Unit : MonoBehaviour
         int spellSlot = 3
         )
     {
+        this.unitGO = unitGO;
 
         this.unitName = name;
         this.maxHP = (int)(maxHP * (1 + (double)endurance / 10));

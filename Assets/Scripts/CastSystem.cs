@@ -87,6 +87,8 @@ public class CastSystem : MonoBehaviour
         spell.doDamage(playerList, enemyList, obstacleList, tilemap);
         spell.applyEffect(player, playerList, enemyList, obstacleList, tilemap);
         spell.playAnimation(obstacleList, tilemap);
+        spell.animateCaster(player);
+
         player.currentMana -= spell.manaCost;
         updateScrollViews(playerList, enemyList);
     }

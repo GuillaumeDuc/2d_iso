@@ -17,6 +17,7 @@ public class Spell
     public System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>> getRangeList;
     public System.Func<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool> canCastOn;
     public System.Action<Spell, Dictionary<Unit, GameObject>, Dictionary<Unit, GameObject>, Dictionary<Vector3Int, GameObject>, Tilemap> doDamageAction;
+    public System.Action<Spell, Unit> animateCasterAction;
 
     public void doDamage(
         Dictionary<Unit, GameObject> playerList,
@@ -26,6 +27,11 @@ public class Spell
         )
     {
         doDamageAction?.Invoke(this, playerList, enemyList, obstacleList, tilemap);
+    }
+
+    public void animateCaster(Unit caster)
+    {
+        animateCasterAction?.Invoke(this, caster);
     }
 
     public bool canCast(Unit caster, Vector3Int cell, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)

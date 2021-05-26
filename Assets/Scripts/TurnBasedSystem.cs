@@ -19,10 +19,7 @@ public class TurnBasedSystem : MonoBehaviour
     public GameObject CameraView;
 
     private GameObject Player;
-    private Animator PlayerAnimator;
-    private Rigidbody2D PlayerRigidBody;
     private Transform PlayerTransform;
-    private Unit PlayerStats;
 
     public MoveSystem MoveSystem;
 
@@ -41,9 +38,6 @@ public class TurnBasedSystem : MonoBehaviour
     public InfoScrollView PlayersScrollView;
 
     public Text dialogueText;
-
-    // Player Speed
-    private float moveSpeed = 5f;
 
     public CurrentState CurrentState;
     public CastState CastState;
@@ -78,8 +72,8 @@ public class TurnBasedSystem : MonoBehaviour
         Vector3 cellToWorldVector = tilemap.CellToWorld(newPos);
         cellToWorldVector.y += 0.2f;
         return Instantiate(
-            PlayerPrefab, 
-            cellToWorldVector, 
+            PlayerPrefab,
+            cellToWorldVector,
             Quaternion.identity
         );
     }
@@ -104,16 +98,6 @@ public class TurnBasedSystem : MonoBehaviour
             .ToDictionary(x => x.Key, x => false)
         );
         return fullList;
-    }
-
-    private GameObject getGOFromUnit(Unit unit)
-    {
-        Dictionary<Unit, GameObject> allList = new Dictionary<Unit, GameObject>(
-            playerList
-            .Concat(enemyList)
-            .ToDictionary(x => x.Key, x => x.Value)
-            );
-        return allList[unit];
     }
 
     private Unit getUnitTurn()
@@ -221,34 +205,33 @@ public class TurnBasedSystem : MonoBehaviour
         // Casting state
         CastState = CastState.DEFAULT;
 
-        // Get Animation and Rigidbody from player to move it
-        PlayerAnimator = Player.GetComponent<Animator>();
-        PlayerRigidBody = Player.GetComponent<Rigidbody2D>();
+        // Get transform
         PlayerTransform = Player.GetComponent<Transform>();
 
         // Init Player
-        PlayerStats = Player.GetComponent<Unit>();
+        Unit PlayerStats = Player.GetComponent<Unit>();
         PlayerStats.setSpellList(SpellList.Explosion);
         PlayerStats.setSpellList(SpellList.Icycle);
         PlayerStats.setSpellList(SpellList.Sandwall);
         PlayerStats.setSpellList(SpellList.Blackhole);
         PlayerStats.setSpellList(SpellList.Teleportation);
-        PlayerStats.setStats("Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3, 110);
+        PlayerStats.setSpellList(SpellList.Slash);
+        PlayerStats.setStats(Player, "Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3, 110);
         PlayerStats.playable = true;
 
         // Init Ennemies
         GameObject EnemyPrefab = Resources.Load<GameObject>("Characters/NPC/Phantom/Phantom");
         // First
-        GameObject green1 = InstantiatePlayer(EnemyPrefab, new Vector3Int(10, 15, 0));
-        Transform green1Transform = green1.GetComponent<Transform>();
-        Unit green1Stats = green1.GetComponent<Unit>();
-        green1Stats.setSpellList(SpellList.Blackhole);
+        GameObject phantom = InstantiatePlayer(EnemyPrefab, new Vector3Int(10, 15, 0));
+        Transform green1Transform = phantom.GetComponent<Transform>();
+        Unit green1Stats = phantom.GetComponent<Unit>();
+        green1Stats.setSpellList(SpellList.Slash);
         green1Stats.setSpellList(SpellList.Teleportation);
-        green1Stats.setStats("Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
+        green1Stats.setStats(phantom, "Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
 
         // Add characters in lists
         enemyList = new Dictionary<Unit, GameObject>() {
-            { green1Stats, green1 },
+            { green1Stats, phantom },
         };
         List<GameObject> a = new List<GameObject>();
         playerList = new Dictionary<Unit, GameObject>()
@@ -300,7 +283,7 @@ public class TurnBasedSystem : MonoBehaviour
         // Play Enemies
         if (!currentUnit.playable && !IAisPlaying)
         {
-            GameObject currentEnemy = getGOFromUnit(currentUnit);
+            GameObject currentEnemy = currentUnit.unitGO;
             EnemyAI enemyAI = currentUnit.GetComponent<EnemyAI>();
             IAisPlaying = true;
             enemyAI.play(
@@ -329,7 +312,7 @@ public class TurnBasedSystem : MonoBehaviour
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
             Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
 
-            GameObject currentPlayer = getGOFromUnit(currentUnit);
+            GameObject currentPlayer = currentUnit.unitGO;
             if (currentUnit.playable)
             {
                 if (CurrentState == CurrentState.MOVE && !IsPointerOverUIElement())

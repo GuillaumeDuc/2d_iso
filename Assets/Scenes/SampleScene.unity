@@ -1147,7 +1147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 489335837}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.7809441, y: -0.75825965, z: -40.810272}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2298,7 +2298,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1034680175}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9999995
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2432,6 +2432,7 @@ GameObject:
   - component: {fileID: 1131004372}
   - component: {fileID: 1131004373}
   - component: {fileID: 1131004374}
+  - component: {fileID: 1131004375}
   m_Layer: 0
   m_Name: Turn Based System
   m_TagString: Untagged
@@ -2458,6 +2459,7 @@ MonoBehaviour:
   CastSystem: {fileID: 1131004370}
   SpellList: {fileID: 1131004371}
   TileList: {fileID: 1131004374}
+  DrawOnMap: {fileID: 1131004375}
   SpellScrollView: {fileID: 15146474}
   EnemiesScrollView: {fileID: 1913935315}
   PlayersScrollView: {fileID: 139910982}
@@ -2490,7 +2492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4623600f9ce5ef448170f1db3f9e0a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellsGrid: {fileID: 157593983}
+  DrawOnMap: {fileID: 1131004375}
 --- !u!114 &1131004370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2505,6 +2507,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemiesScrollView: {fileID: 1913935315}
   PlayersScrollView: {fileID: 139910982}
+  DrawOnMap: {fileID: 1131004375}
 --- !u!114 &1131004371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2561,6 +2564,26 @@ MonoBehaviour:
   water: {fileID: 0}
   StatusList: {fileID: 1131004373}
   tilemap: {fileID: 14874894}
+--- !u!114 &1131004375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131004366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae8eff3beb6b504cba00646328b29de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TurnBasedSystem: {fileID: 1131004367}
+  cellsGrid: {fileID: 157593983}
+  orange: {r: 0, g: 0, b: 0, a: 0}
+  white: {r: 0, g: 0, b: 0, a: 0}
+  red: {r: 0, g: 0, b: 0, a: 0}
+  black: {r: 0, g: 0, b: 0, a: 0}
+  blue: {r: 0, g: 0, b: 0, a: 0}
+  green: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1256664111
 GameObject:
   m_ObjectHideFlags: 0
