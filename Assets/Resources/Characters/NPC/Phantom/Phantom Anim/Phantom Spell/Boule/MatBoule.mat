@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MatBoule
+  m_Shader: {fileID: -6465566751694194690, guid: fbd25a3bfc0a2ab408d49f73e5669937, type: 3}
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Emission:
+        m_Texture: {fileID: 2800000, guid: be72db72c2db7b542aab128f3c43924b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionEyes:
+        m_Texture: {fileID: 2800000, guid: a18b07500edec0c459a04871b9bc555b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: bd2eb66f92f2ca84da29d79f61bbf3a4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_37436583b98e4faeb4f8cacb89c21c46: 0
+    - Vector1_5a93491f65904c929ca492513ef0a831: 11.92
+    - Vector1_5faf3fef61cc4ac787940a42f1209ced: 20
+    - Vector1_94676ebb6fe44aa0858797301dd796d0: 1
+    - Vector1_ae07743faff045e49c9cd2d92e79c019: 2.2
+    - Vector1_f199091e2db04e67b5587af44d91da00: 2
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - Color_03d38b7809f343eaa3dc8ec03c0c22ed: {r: 1, g: 1, b: 1, a: 0}
+    - Color_0cc97e87ef4d4f7fac095e8677c6beb4: {r: 0, g: 0.2845684, b: 0.4289763, a: 0}
+    - Color_65cef0114dc9452ea7ab38e911e63bc5: {r: 72.52637, g: 0, b: 0, a: 0}
+    - Color_83fba52cb170449288f14ad4005cff58: {r: 10.470726, g: 25.023262, b: 45.254833, a: 0}
+    - Vector2_29e64bd5a2b946fe995a1950db29f4ce: {r: 4.6, g: -0.61, b: 0, a: 0}
+    - Vector2_a70c861e568e4fa8ad0f4ee16aa3f29b: {r: 0, g: 0.5, b: 0, a: 0}
+    - Vector2_de435283a4fa4600aa4f693cea5cb89b: {r: 0.1, g: -0.5, b: 0, a: 0}
+    - Vector2_e05af735ee194b01afb0f28228c864e3: {r: 0, g: 0.5, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
