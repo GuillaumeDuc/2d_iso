@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,8 @@ public class EnemyAI : MonoBehaviour
         Dictionary<Vector3Int, GameObject> obstacleList,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
-        Tilemap tilemap
+        Tilemap tilemap,
+        Action endTurn
         )
     {
         // Choose spell
@@ -44,6 +46,8 @@ public class EnemyAI : MonoBehaviour
                 tilemap
             );
         }
+        // End playing
+        endTurn();
     }
 
     public bool moveInRange(

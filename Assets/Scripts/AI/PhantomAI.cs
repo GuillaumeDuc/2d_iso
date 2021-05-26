@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,15 @@ public class PhantomAI : EnemyAI
         RangeUtils = new RangeUtils();
     }
 
-    public override void play(MoveSystem MoveSystem, CastSystem CastSystem, Dictionary<Vector3Int, GameObject> obstacleList, Dictionary<Unit, GameObject> playerList, Dictionary<Unit, GameObject> enemyList, Tilemap tilemap)
+    public override void play(
+        MoveSystem MoveSystem, 
+        CastSystem CastSystem, 
+        Dictionary<Vector3Int, GameObject> obstacleList, 
+        Dictionary<Unit, GameObject> playerList, 
+        Dictionary<Unit, GameObject> enemyList, 
+        Tilemap tilemap,
+        Action endTurn
+        )
     {
 
         // Choose spell
@@ -36,6 +45,7 @@ public class PhantomAI : EnemyAI
                 enemyList,
                 tilemap
             );
+            endTurn();
         }
         // If is not in range tp in then try casting again
         if (!isInRange)
@@ -58,28 +68,30 @@ public class PhantomAI : EnemyAI
                 obstacleList,
                 playerList,
                 enemyList,
-                tilemap
+                tilemap,
+                endTurn
             ));
         }
-
     }
 
-    private IEnumerator castWithDelay(
+    public IEnumerator castWithDelay(
         Spell spell,
         Vector3Int target,
         CastSystem CastSystem,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
-        Tilemap tilemap
+        Tilemap tilemap,
+        Action endTurn
         )
     {
         yield return new WaitForSeconds(1.7f);
         cast(spell, target, CastSystem, obstacleList, playerList, enemyList, tilemap);
+        endTurn();
     }
 
 
-    private IEnumerator castToNearestPlayer(
+    public IEnumerator castToNearestPlayer(
         Spell spell,
         Vector3Int target,
         CastSystem CastSystem,

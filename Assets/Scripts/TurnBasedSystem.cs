@@ -56,7 +56,7 @@ public class TurnBasedSystem : MonoBehaviour
     private Unit currentUnit;
     private int currentTurn = 1;
 
-
+    private bool IAisPlaying;
 
     GameObject InstantiatePlayer(GameObject PlayerPrefab, Vector3Int pos)
     {
@@ -67,7 +67,8 @@ public class TurnBasedSystem : MonoBehaviour
             if (newPos.y < 20)
             {
                 newPos.y += 1;
-            } else
+            }
+            else
             {
                 newPos = pos;
                 newPos.x += 1;
@@ -136,16 +137,18 @@ public class TurnBasedSystem : MonoBehaviour
         if (currentUnit == null)
         {
             currentTurn += 1;
-            // Playing for all character = false
-            // Reset stats
             foreach (var key in initiativeList.Keys.ToList())
             {
+                // Playing for all character = false
                 initiativeList[key] = false;
+                // Reset stats (mana and movement)
                 key.resetStats();
             }
             // New turn
             currentUnit = getUnitTurn();
             initiativeList[currentUnit] = true;
+            // IA finished playing
+            IAisPlaying = false;
             // Apply all status on players then update
             applyStatus();
             updateScrollViews();
@@ -304,19 +307,20 @@ public class TurnBasedSystem : MonoBehaviour
         CameraView.transform.position = new Vector3(posPlayer.x, posPlayer.y, -10);
 
         // Play Enemies
-        if (!currentUnit.playable)
+        if (!currentUnit.playable && !IAisPlaying)
         {
             GameObject currentEnemy = getGOFromUnit(currentUnit);
             EnemyAI enemyAI = currentUnit.GetComponent<EnemyAI>();
+            IAisPlaying = true;
             enemyAI.play(
                 MoveSystem,
                 CastSystem,
                 obstacleList,
                 playerList,
                 enemyList,
-                tilemap
+                tilemap,
+                onClickEndTurn
             );
-            onClickEndTurn();
         }
 
         // Left mouse click
