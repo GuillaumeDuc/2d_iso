@@ -61,7 +61,7 @@ public class Square
 
 public class MoveSystem : MonoBehaviour
 {
-    public Tilemap cellsGrid;
+    public DrawOnMap DrawOnMap;
 
     private RangeUtils RangeUtils;
 
@@ -102,7 +102,7 @@ public class MoveSystem : MonoBehaviour
             path = removeOverCost(playerStats, path, tilemap);
 
             // Show path
-            setTilePath(path);
+            DrawOnMap.showMovement(new List<Vector3Int>(path.Select(s => s.pos).ToList()));
 
             // Set new position
             if (path.Any() && path != null)
@@ -112,7 +112,6 @@ public class MoveSystem : MonoBehaviour
 
             // Move player from 1 to 1 square
             Move(playerTransform, path, tilemap);
-            RangeUtils.removeCells(cellsGrid);
 
             // Apply tile status to player for every square passed
             applyTilesEffects(playerStats, path, tilemap);
@@ -204,6 +203,8 @@ public class MoveSystem : MonoBehaviour
             }
         }
         isMoving = false;
+        // Remove moving tiles
+        DrawOnMap.resetMap();
     }
 
     private Square getSquareLowestScore(List<Square> openList)
@@ -283,15 +284,6 @@ public class MoveSystem : MonoBehaviour
         }
         path.Add(current);
         return reconstructPath(current.previousSquare, path);
-    }
-
-    public void setTilePath(List<Square> path)
-    {
-        Tile transparent = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
-        foreach (var s in path)
-        {
-            cellsGrid.SetTile(s.pos, transparent);
-        }
     }
 
     private void applyTilesEffects(Unit unit, List<Square> path, Tilemap tilemap)

@@ -218,22 +218,6 @@ public class RangeUtils
         return Mathf.Abs(to.x - from.x) + Mathf.Abs(to.y - from.y);
     }
 
-    public void removeCells(Tilemap tilemap)
-    {
-        foreach (var a in tilemap.cellBounds.allPositionsWithin)
-        {
-            tilemap.SetTile(a, null);
-        }
-    }
-
-    public void setTileOnTilemap(List<Vector3Int> listSquare, Tile tile, Tilemap tilemap)
-    {
-        listSquare.ForEach(s =>
-        {
-            tilemap.SetTile(s, tile);
-        });
-    }
-
     public int getNbFarthestAdjSquares(Tilemap tilemap, Vector3Int to, Vector3Int from)
     {
         List<Vector3Int> listSquare = new List<Vector3Int>(getAdjacentSquares(from));

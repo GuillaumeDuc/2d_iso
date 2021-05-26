@@ -24,8 +24,6 @@ public class TurnBasedSystem : MonoBehaviour
     private Transform PlayerTransform;
     private Unit PlayerStats;
 
-    private RangeUtils RangeUtils;
-
     public MoveSystem MoveSystem;
 
     public CastSystem CastSystem;
@@ -33,6 +31,8 @@ public class TurnBasedSystem : MonoBehaviour
     public SpellList SpellList;
 
     public TileList TileList;
+
+    public DrawOnMap DrawOnMap;
 
     public SpellScrollView SpellScrollView;
 
@@ -48,9 +48,9 @@ public class TurnBasedSystem : MonoBehaviour
     public CurrentState CurrentState;
     public CastState CastState;
 
-    private Dictionary<Unit, GameObject> enemyList;
-    private Dictionary<Unit, GameObject> playerList;
-    private Dictionary<Vector3Int, GameObject> obstacleList;
+    public Dictionary<Unit, GameObject> enemyList;
+    public Dictionary<Unit, GameObject> playerList;
+    public Dictionary<Vector3Int, GameObject> obstacleList;
 
     private Dictionary<Unit, bool> initiativeList;
     private Unit currentUnit;
@@ -75,24 +75,20 @@ public class TurnBasedSystem : MonoBehaviour
             }
             tile = (GroundTile)tilemap.GetTile(newPos);
         }
-        return Instantiate(PlayerPrefab, tilemap.CellToWorld(newPos), Quaternion.identity);
-    }
-
-    void MovePlayerWithPos(Animator animator, Rigidbody2D rb, Vector2 pos)
-    {
-        animator.SetFloat("Horizontal", pos.x);
-        animator.SetFloat("Vertical", pos.y);
-        animator.SetFloat("Speed", Mathf.Abs(pos.sqrMagnitude));
-
-        rb.MovePosition(pos * moveSpeed * Time.fixedDeltaTime);
+        Vector3 cellToWorldVector = tilemap.CellToWorld(newPos);
+        cellToWorldVector.y += 0.2f;
+        return Instantiate(
+            PlayerPrefab, 
+            cellToWorldVector, 
+            Quaternion.identity
+        );
     }
 
     public void onClickSpell(Spell spell, Unit unit)
     {
-        // Remove any previously added range
-        RangeUtils.removeCells(cellsGrid);
         unit.selectedSpell = spell;
-        CastSystem.showArea(spell.getRange(unit, obstacleList, tilemap), cellsGrid);
+        // Show on map
+        DrawOnMap.showRange(spell.getRange(unit, obstacleList, tilemap), true);
 
         CurrentState = CurrentState.CAST;
         CastState = CastState.SHOW_AREA;
@@ -250,9 +246,6 @@ public class TurnBasedSystem : MonoBehaviour
         green1Stats.setSpellList(SpellList.Teleportation);
         green1Stats.setStats("Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
 
-        // Init RangeUtils
-        RangeUtils = new RangeUtils();
-
         // Add characters in lists
         enemyList = new Dictionary<Unit, GameObject>() {
             { green1Stats, green1 },
@@ -289,10 +282,8 @@ public class TurnBasedSystem : MonoBehaviour
         {
             PlayersScrollView.addInfo(e.Key);
         }
-
-        Tile transparent = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
-        List<Vector3Int> displayPos = new List<Vector3Int>() { green1Stats.position };
-        RangeUtils.setTileOnTilemap(displayPos, transparent, cellsGrid);
+        // Draw position on map
+        DrawOnMap.resetMap();
     }
 
     void Update()
@@ -326,6 +317,9 @@ public class TurnBasedSystem : MonoBehaviour
         // Left mouse click
         if (Input.GetMouseButtonDown(0))
         {
+            // Reset map when clicking
+            DrawOnMap.resetMap();
+
             // Get Mouse Input
             Vector2 screenPosition = new Vector2(
                 Input.mousePosition.x,
@@ -363,6 +357,9 @@ public class TurnBasedSystem : MonoBehaviour
                     if (CastState == CastState.DEFAULT)
                     {
                         CurrentState = CurrentState.MOVE;
+
+                        // Reset map when exiting click
+                        DrawOnMap.resetMap();
                     }
                 }
             }
