@@ -195,11 +195,14 @@ public class MoveSystem : MonoBehaviour
         while (movingList.Any())
         {
             var pos = movingList.Dequeue();
-            while (pos.Key.position != pos.Value && pos.Key.position != null)
+            while (pos.Key != null && pos.Key.position != pos.Value)
             {
                 yield return new WaitForSeconds(0.001f);
                 float smooth = 5f;
-                pos.Key.position = Vector3.MoveTowards(pos.Key.position, pos.Value, Time.deltaTime * smooth);
+                if (pos.Key != null)
+                {
+                    pos.Key.position = Vector3.MoveTowards(pos.Key.position, pos.Value, Time.deltaTime * smooth);
+                }
             }
         }
         isMoving = false;
