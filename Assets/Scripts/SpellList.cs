@@ -32,7 +32,7 @@ public class SpellList : MonoBehaviour
         nameSpell = "Explosion";
         GameObject ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
         // GameObject, name, damage, range, area, line of sight, click nb, unique cell area
-        Explosion = new Spell(ExplosionGO, nameSpell, 5, 10, 0, true, 3, false, 50);
+        Explosion = new Spell(ExplosionGO, nameSpell, 15, 10, 0, true, 3, false, 50);
         Explosion.getRangeList = getRangeInCircleFullPlayer;
         Explosion.getAreaList = getAreaInCircleFull;
         Explosion.animate = animateInCircleFull;
@@ -346,6 +346,9 @@ public class SpellList : MonoBehaviour
         )
     {
         List<Vector3Int> areaSpell = spell.getArea(obstacleList, tilemap);
+        Dictionary<Unit, GameObject> deadPlayerList = new Dictionary<Unit, GameObject>();
+        Dictionary<Unit, GameObject> deadEnemyList = new Dictionary<Unit, GameObject>();
+
         // Friends take damage
         foreach (var s in playerList)
         {
@@ -353,7 +356,11 @@ public class SpellList : MonoBehaviour
             int selectedNb = areaSpell.Where(x => x.Equals(s.Key.position)).Count();
             if (selectedNb > 0)
             {
-                s.Key.takeDamage(spell.damage * selectedNb);
+                bool isDead = s.Key.takeDamage(spell.damage * selectedNb);
+                if (isDead)
+                {
+                    deadPlayerList.Add(s.Key, s.Value);
+                }
             }
         }
         // Enemies take damage
@@ -363,8 +370,23 @@ public class SpellList : MonoBehaviour
             int selectedNb = areaSpell.Where(x => x.Equals(s.Key.position)).Count();
             if (selectedNb > 0)
             {
-                s.Key.takeDamage(spell.damage * selectedNb);
+                bool isDead = s.Key.takeDamage(spell.damage * selectedNb);
+                if (isDead)
+                {
+                    deadEnemyList.Add(s.Key, s.Value);
+                }
             }
+        }
+        // Remove dead
+        foreach (var s in deadPlayerList)
+        {
+            playerList.Remove(s.Key);
+            Destroy(s.Value);
+        }
+        foreach (var s in deadEnemyList)
+        {
+            enemyList.Remove(s.Key);
+            Destroy(s.Value);
         }
     }
 
@@ -372,7 +394,13 @@ public class SpellList : MonoBehaviour
     public void animateCasterAttack(Spell spell, Unit caster)
     {
         Animator animator = caster.unitGO.GetComponent<Animator>();
-        animator.SetTrigger("Attack");
-        
+        string paramName = "Attack";
+        foreach (AnimatorControllerParameter param in animator.parameters)
+        {
+            if (param.name == paramName)
+            {
+                animator.SetTrigger(paramName);
+            }
+        }
     }
 }

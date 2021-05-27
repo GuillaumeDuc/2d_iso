@@ -195,7 +195,7 @@ public class MoveSystem : MonoBehaviour
         while (movingList.Any())
         {
             var pos = movingList.Dequeue();
-            while (pos.Key.position != pos.Value)
+            while (pos.Key.position != pos.Value && pos.Key.position != null)
             {
                 yield return new WaitForSeconds(0.001f);
                 float smooth = 5f;

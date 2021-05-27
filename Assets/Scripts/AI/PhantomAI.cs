@@ -106,7 +106,12 @@ public class PhantomAI : EnemyAI
         // Remove where player is standing
         if (path.Any())
         {
-            path.RemoveAt(path.Count() - 1);
+            Vector3Int maxPos = path.ElementAt(path.Count() - 1);
+            KeyValuePair<Unit, GameObject> player = playerList.First(s => s.Key.position == maxPos);
+            if (player.Key != null)
+            {
+                path.RemoveAt(path.Count() - 1);
+            }
         }
         bool casted = false;
         // Try to cast on every cell from path 
