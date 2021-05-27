@@ -6,14 +6,17 @@ using System.Linq;
 
 public class SpellList : MonoBehaviour
 {
-    private const string PATH = "Spells/SpellsPrefab/";
+    private const string PATH = "Spells/";
 
     public SpellEffectList SpellEffectList;
 
     public Spell
         Explosion,
         Icycle,
-        Sandwall
+        Sandwall,
+        Blackhole,
+        Teleportation,
+        Slash
         ;
 
     private string nameSpell;
@@ -27,9 +30,9 @@ public class SpellList : MonoBehaviour
 
         // Explosion
         nameSpell = "Explosion";
-        GameObject ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell);
+        GameObject ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
         // GameObject, name, damage, range, area, line of sight, click nb, unique cell area
-        Explosion = new Spell(ExplosionGO, nameSpell, 5, 10, 0, true, 3, false, 50);
+        Explosion = new Spell(ExplosionGO, nameSpell, 15, 10, 0, true, 3, false, 50);
         Explosion.getRangeList = getRangeInCircleFullPlayer;
         Explosion.getAreaList = getAreaInCircleFull;
         Explosion.animate = animateInCircleFull;
@@ -41,7 +44,7 @@ public class SpellList : MonoBehaviour
 
         // Icycle
         nameSpell = "Icycle";
-        GameObject IcycleGO = Resources.Load<GameObject>(PATH + nameSpell);
+        GameObject IcycleGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
         Icycle = new Spell(IcycleGO, nameSpell, 5, 10, 1, false, 5, false, 50);
         Icycle.getRangeList = getRangeInCircleFullPlayer;
         Icycle.getAreaList = getAreaInCircleFull;
@@ -54,7 +57,7 @@ public class SpellList : MonoBehaviour
 
         // Sandwall
         nameSpell = "Sandwall";
-        GameObject SandwallGO = Resources.Load<GameObject>(PATH + nameSpell);
+        GameObject SandwallGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
         Sandwall = new Spell(SandwallGO, nameSpell, 0, 10, 1, false, 2, true, 100);
         Sandwall.getRangeList = getRangeInCircleFullPlayer;
         Sandwall.getAreaList = getAreaInLineBetweenCells;
@@ -65,6 +68,42 @@ public class SpellList : MonoBehaviour
         Sandwall.spellEffectList.Add(SpellEffectList.CreateObstacle);
         // Damage
         Sandwall.doDamageAction = doDamage;
+
+        // Blackhole
+        nameSpell = "Blackhole";
+        GameObject BlackholeGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+        Blackhole = new Spell(BlackholeGO, nameSpell, 90, 5, 0, true, 1, false, 70);
+        Blackhole.getRangeList = getRangeInCircleFullPlayer;
+        Blackhole.getAreaList = getAreaInCircleFull;
+        Blackhole.animate = animateOnCell;
+        Blackhole.canCastOn = canCast;
+        // Effects
+        // Damage
+        Blackhole.doDamageAction = doDamage;
+
+        // Teleportation
+        nameSpell = "Teleportation";
+        GameObject TeleportationGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+        Teleportation = new Spell(TeleportationGO, nameSpell, 0, 10, 0, false, 1, false, 30);
+        Teleportation.getRangeList = getRangeInCircleFullPlayer;
+        Teleportation.getAreaList = getAreaInCircleFull;
+        Teleportation.canCastOn = canCast;
+        // Effects
+        Teleportation.spellEffectList.Add(SpellEffectList.Teleport);
+        // Damage
+
+        // Slash
+        nameSpell = "Slash";
+        GameObject SlashGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+        Slash = new Spell(SlashGO, nameSpell, 50, 1, 0, false, 1, false, 50);
+        Slash.getRangeList = getRangeInCircleFullPlayer;
+        Slash.getAreaList = getAreaInCircleFull;
+        Slash.canCastOn = canCast;
+        // Effects
+        // Damage
+        Slash.doDamageAction = doDamage;
+        // Animate Caster
+        Slash.animateCasterAction = animateCasterAttack;
     }
 
     public bool canCast(
@@ -307,6 +346,9 @@ public class SpellList : MonoBehaviour
         )
     {
         List<Vector3Int> areaSpell = spell.getArea(obstacleList, tilemap);
+        Dictionary<Unit, GameObject> deadPlayerList = new Dictionary<Unit, GameObject>();
+        Dictionary<Unit, GameObject> deadEnemyList = new Dictionary<Unit, GameObject>();
+
         // Friends take damage
         foreach (var s in playerList)
         {
@@ -314,7 +356,11 @@ public class SpellList : MonoBehaviour
             int selectedNb = areaSpell.Where(x => x.Equals(s.Key.position)).Count();
             if (selectedNb > 0)
             {
-                s.Key.takeDamage(spell.damage * selectedNb);
+                bool isDead = s.Key.takeDamage(spell.damage * selectedNb);
+                if (isDead)
+                {
+                    deadPlayerList.Add(s.Key, s.Value);
+                }
             }
         }
         // Enemies take damage
@@ -324,7 +370,36 @@ public class SpellList : MonoBehaviour
             int selectedNb = areaSpell.Where(x => x.Equals(s.Key.position)).Count();
             if (selectedNb > 0)
             {
-                s.Key.takeDamage(spell.damage * selectedNb);
+                bool isDead = s.Key.takeDamage(spell.damage * selectedNb);
+                if (isDead)
+                {
+                    deadEnemyList.Add(s.Key, s.Value);
+                }
+            }
+        }
+        // Remove dead
+        foreach (var s in deadPlayerList)
+        {
+            playerList.Remove(s.Key);
+            Destroy(s.Value);
+        }
+        foreach (var s in deadEnemyList)
+        {
+            enemyList.Remove(s.Key);
+            Destroy(s.Value);
+        }
+    }
+
+    // Animate Caster
+    public void animateCasterAttack(Spell spell, Unit caster)
+    {
+        Animator animator = caster.unitGO.GetComponent<Animator>();
+        string paramName = "Attack";
+        foreach (AnimatorControllerParameter param in animator.parameters)
+        {
+            if (param.name == paramName)
+            {
+                animator.SetTrigger(paramName);
             }
         }
     }

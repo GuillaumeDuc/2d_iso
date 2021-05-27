@@ -9,6 +9,8 @@ public class CastSystem : MonoBehaviour
 
     public InfoScrollView PlayersScrollView;
 
+    public DrawOnMap DrawOnMap;
+
     private RangeUtils RangeUtils;
 
     private Tile threeSidesTile, threeSidesBottomTile, twoSidesLeftTile, twoSidesRightTile, transparent;
@@ -35,7 +37,6 @@ public class CastSystem : MonoBehaviour
         Tilemap cellsGrid
         )
     {
-        RangeUtils.removeCells(cellsGrid);
         if (currentState == CastState.SHOW_AREA)
         {
             if (!spell.canCast(player, cellClicked, obstacleList, tilemap))
@@ -46,20 +47,16 @@ public class CastSystem : MonoBehaviour
 
             spell.spellPos.Add(cellClicked);
 
-            // Orange color
-            showArea(spell.spellPos, cellsGrid, new Color(1, 0.5f, 0, 0.5f));
-            // Red color
-            showArea(spell.getArea(obstacleList, tilemap), cellsGrid, new Color(0.9f, 0.1f, 0.1f, 0.5f));
+            DrawOnMap.showSpellSelection(spell.spellPos, spell.getArea(obstacleList, tilemap));
 
             if (!(spell.spellPos.Count() == spell.clickNb))
             {
-                showArea(spell.getRange(player, obstacleList, tilemap), cellsGrid);
+                DrawOnMap.showRange(spell.getRange(player, obstacleList, tilemap));
             }
 
             if (spell.spellPos.Count() == spell.clickNb)
             {
-                RangeUtils.removeCells(cellsGrid);
-                showArea(spell.getArea(obstacleList, tilemap), cellsGrid, new Color(0.9f, 0.1f, 0.1f, 0.5f));
+                DrawOnMap.showSpellArea(spell.getArea(obstacleList, tilemap));
                 return CastState.CAST_SPELL;
             }
         }
@@ -90,6 +87,8 @@ public class CastSystem : MonoBehaviour
         spell.doDamage(playerList, enemyList, obstacleList, tilemap);
         spell.applyEffect(player, playerList, enemyList, obstacleList, tilemap);
         spell.playAnimation(obstacleList, tilemap);
+        spell.animateCaster(player);
+
         player.currentMana -= spell.manaCost;
         updateScrollViews(playerList, enemyList);
     }
@@ -101,20 +100,6 @@ public class CastSystem : MonoBehaviour
     {
         EnemiesScrollView.updateScrollView();
         PlayersScrollView.updateScrollView();
-    }
-
-
-    public void showArea(List<Vector3Int> area, Tilemap cellsGrid)
-    {
-        RangeUtils.setTileOnTilemap(area, transparent, cellsGrid);
-    }
-
-    public void showArea(List<Vector3Int> area, Tilemap cellsGrid, Color color)
-    {
-        transparent.color = color;
-        RangeUtils.setTileOnTilemap(area, transparent, cellsGrid);
-        // White
-        transparent.color = new Color(1, 1, 1, 0.5f);
     }
 
     public void showSpellRangeEmpty(Spell spell, Vector3Int playerPos, Tilemap tilemap)

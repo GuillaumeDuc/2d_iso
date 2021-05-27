@@ -14,7 +14,8 @@ public class SpellEffectList : MonoBehaviour
         CreateObstacle,
         PushFromPlayer,
         Fire,
-        Freeze
+        Freeze,
+        Teleport
         ;
 
     private RangeUtils RangeUtils;
@@ -45,6 +46,10 @@ public class SpellEffectList : MonoBehaviour
         Freeze.statusList.Add(new Status(StatusList.Freeze));
         Freeze.statusTileList.Add(new Status(StatusList.Freeze));
         Freeze.applyEffectAction = applyEffect;
+
+        // Teleport from a point to another point
+        Teleport = new SpellEffect("TeleportEffect");
+        Teleport.applyEffectAction = teleportPlayerEffect;
     }
 
     public void applyEffect(
@@ -151,35 +156,65 @@ public class SpellEffectList : MonoBehaviour
         });
     }
 
-    private string printList(List<Vector3Int> list)
-    {
-        string res = "";
-        list.ForEach(a =>
-        {
-            res += a + "\n";
-        });
-        return res;
-    }
-
-    private string printDict(Dictionary<Unit, GameObject> dict)
-    {
-        string res = "";
-        foreach (var d in dict)
-        {
-            res += d + "\n";
-        }
-        return res;
-    }
-
-    private void movePlayer(
+    private void teleportPlayerEffect(
         Spell spell,
         Unit caster,
-        Dictionary<Unit, GameObject> dict,
-        Vector3Int cell,
-        List<Vector3Int> area,
+        SpellEffect spellEffect,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
+    {
+        KeyValuePair<Unit, GameObject> player = getUnitFromPlayersAndEnemies(playerList, enemyList, caster);
+        Vector3 originalScale = player.Value.transform.localScale;
+        spell.spellPos.ForEach(pos =>
+        {
+            // Make player disappear
+            StartCoroutine(scaleGO(player.Value, originalScale.x, 0f, originalScale));
+            // Get cell to world position
+            Vector3 cellPos = tilemap.CellToWorld(pos);
+            cellPos.y += 0.2f;
+            // Move unit to position
+            player.Key.position = pos;
+            // Move gameobject to position
+            player.Value.transform.position = cellPos;
+            // Make player reappear
+            StartCoroutine(scaleGO(player.Value, 0f, originalScale.x, originalScale));
+        });
+    }
+
+    IEnumerator scaleGO(GameObject go, float from, float to, Vector3 originalScale)
+    {
+        float i = from;
+        while (!i.Equals(to))
+        {
+            yield return new WaitForSeconds(0.01f);
+            go.transform.localScale = new Vector3(i, originalScale.y, originalScale.z);
+            if (i < to)
+            {
+                // Add one tenth of the goal
+                float step = to / 10;
+                i = (float)System.Math.Round(i + step, 3);
+            }
+            else
+            {
+                float step = from / 10;
+                i = (float)System.Math.Round(i - step, 3);
+            }
+        }
+        go.transform.localScale = new Vector3(to, originalScale.y, originalScale.z);
+    }
+
+    private void movePlayer(
+    Spell spell,
+    Unit caster,
+    Dictionary<Unit, GameObject> dict,
+    Vector3Int cell,
+    List<Vector3Int> area,
+    Dictionary<Vector3Int, GameObject> obstacleList,
+    Tilemap tilemap
+    )
     {
         Unit unitPlayer = getUnitFromPos(dict, cell);
         if (unitPlayer != null)
@@ -203,6 +238,20 @@ public class SpellEffectList : MonoBehaviour
         // Move GameObjects
         Vector2 pos = new Vector2(tilemap.CellToWorld(cell).x, tilemap.CellToWorld(cell).y + 0.2f);
         gameObject.transform.position = pos;
+    }
+
+    private KeyValuePair<Unit, GameObject> getUnitFromPlayersAndEnemies(
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Unit unit
+        )
+    {
+        Dictionary<Unit, GameObject> allList = new Dictionary<Unit, GameObject>(
+            playerList
+            .Concat(enemyList)
+            .ToDictionary(x => x.Key, x => x.Value)
+        );
+        return allList.First(a => a.Key == unit);
     }
 
     private Unit getUnitFromPos(Dictionary<Unit, GameObject> dict, Vector3Int cell)

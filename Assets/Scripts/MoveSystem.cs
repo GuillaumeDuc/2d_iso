@@ -61,9 +61,12 @@ public class Square
 
 public class MoveSystem : MonoBehaviour
 {
-    public Tilemap cellsGrid;
+    public DrawOnMap DrawOnMap;
 
     private RangeUtils RangeUtils;
+
+    private bool isMoving = false;
+    private Queue<KeyValuePair<Transform, Vector3>> movingList = new Queue<KeyValuePair<Transform, Vector3>>();
 
     private void Start()
     {
@@ -99,7 +102,7 @@ public class MoveSystem : MonoBehaviour
             path = removeOverCost(playerStats, path, tilemap);
 
             // Show path
-            setTilePath(path);
+            DrawOnMap.showMovement(new List<Vector3Int>(path.Select(s => s.pos).ToList()));
 
             // Set new position
             if (path.Any() && path != null)
@@ -108,7 +111,7 @@ public class MoveSystem : MonoBehaviour
             }
 
             // Move player from 1 to 1 square
-            StartCoroutine(Move(playerTransform, path, tilemap));
+            Move(playerTransform, path, tilemap);
 
             // Apply tile status to player for every square passed
             applyTilesEffects(playerStats, path, tilemap);
@@ -170,17 +173,38 @@ public class MoveSystem : MonoBehaviour
         return new List<Square>();
     }
 
-    private IEnumerator Move(Transform playerTransform, List<Square> path, Tilemap tilemap)
+    private void Move(Transform playerTransform, List<Square> path, Tilemap tilemap)
     {
         foreach (var s in path)
         {
-            yield return new WaitForSeconds(0.1f);
-            Vector2 pos = new Vector2(tilemap.CellToWorld(s.pos).x, tilemap.CellToWorld(s.pos).y + 0.2f);
-            float step = 1000 * Time.deltaTime;
-            playerTransform.position = Vector3.MoveTowards(playerTransform.position, pos, step);
-            //playerTransform.position = pos;
+            Vector3 pos = tilemap.CellToWorld(s.pos);
+            pos.y = pos.y + 0.2f;
+            // Add player to waiting list
+            movingList.Enqueue(new KeyValuePair<Transform, Vector3>(playerTransform, pos));
+            if (!isMoving)
+            {
+                isMoving = true;
+                StartCoroutine(moveToMovingList());
+            }
         }
-        RangeUtils.removeCells(cellsGrid);
+    }
+
+    private IEnumerator moveToMovingList()
+    {
+        // Get all queued case
+        while (movingList.Any())
+        {
+            var pos = movingList.Dequeue();
+            while (pos.Key.position != pos.Value && pos.Key.position != null)
+            {
+                yield return new WaitForSeconds(0.001f);
+                float smooth = 5f;
+                pos.Key.position = Vector3.MoveTowards(pos.Key.position, pos.Value, Time.deltaTime * smooth);
+            }
+        }
+        isMoving = false;
+        // Remove moving tiles
+        DrawOnMap.resetMap();
     }
 
     private Square getSquareLowestScore(List<Square> openList)
@@ -262,15 +286,6 @@ public class MoveSystem : MonoBehaviour
         return reconstructPath(current.previousSquare, path);
     }
 
-    public void setTilePath(List<Square> path)
-    {
-        Tile transparent = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
-        foreach (var s in path)
-        {
-            cellsGrid.SetTile(s.pos, transparent);
-        }
-    }
-
     private void applyTilesEffects(Unit unit, List<Square> path, Tilemap tilemap)
     {
         path.ForEach(s =>
@@ -330,7 +345,7 @@ public class MoveSystem : MonoBehaviour
                 applyTilesEffects(unit, new List<Square>() { square }, tilemap);
 
                 // Move player
-                StartCoroutine(Move(unitGO.transform, new List<Square>() { square }, tilemap));
+                Move(unitGO.transform, new List<Square>() { square }, tilemap);
             }
         }
     }

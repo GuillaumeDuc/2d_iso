@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public enum CurrentState { MOVE, CAST }
 
@@ -13,77 +14,72 @@ public enum CastState { DEFAULT, SHOW_RANGE, SHOW_AREA, CAST_SPELL }
 
 public class TurnBasedSystem : MonoBehaviour
 {
+    // Grid
     public Tilemap tilemap;
     public Tilemap cellsGrid;
 
     public GameObject CameraView;
 
     private GameObject Player;
-    private Animator PlayerAnimator;
-    private Rigidbody2D PlayerRigidBody;
     private Transform PlayerTransform;
-    private Unit PlayerStats;
 
-    private RangeUtils RangeUtils;
-
+    // Scripts
     public MoveSystem MoveSystem;
-
     public CastSystem CastSystem;
-
     public SpellList SpellList;
-
     public TileList TileList;
+    public DrawOnMap DrawOnMap;
 
+    // UI
     public SpellScrollView SpellScrollView;
-
     public InfoScrollView EnemiesScrollView;
-
     public InfoScrollView PlayersScrollView;
-
+    public GameObject EndResultUI;
     public Text dialogueText;
-
-    // Player Speed
-    private float moveSpeed = 5f;
 
     public CurrentState CurrentState;
     public CastState CastState;
 
-    private Dictionary<Unit, GameObject> enemyList;
-    private Dictionary<Unit, GameObject> playerList;
-    private Dictionary<Vector3Int, GameObject> obstacleList;
-
+    public Dictionary<Unit, GameObject> enemyList;
+    public Dictionary<Unit, GameObject> playerList;
+    public Dictionary<Vector3Int, GameObject> obstacleList;
     private Dictionary<Unit, bool> initiativeList;
     private Unit currentUnit;
     private int currentTurn = 1;
 
-
+    private bool IAisPlaying;
 
     GameObject InstantiatePlayer(GameObject PlayerPrefab, Vector3Int pos)
     {
         GroundTile tile = (GroundTile)tilemap.GetTile(pos);
+        Vector3Int newPos = pos;
         while (!tile.walkable)
         {
-            pos.y += 1;
-            tile = (GroundTile)tilemap.GetTile(pos);
+            if (newPos.y < 20)
+            {
+                newPos.y += 1;
+            }
+            else
+            {
+                newPos = pos;
+                newPos.x += 1;
+            }
+            tile = (GroundTile)tilemap.GetTile(newPos);
         }
-        return Instantiate(PlayerPrefab, tilemap.CellToWorld(pos), Quaternion.identity);
-    }
-
-    void MovePlayerWithPos(Animator animator, Rigidbody2D rb, Vector2 pos)
-    {
-        animator.SetFloat("Horizontal", pos.x);
-        animator.SetFloat("Vertical", pos.y);
-        animator.SetFloat("Speed", Mathf.Abs(pos.sqrMagnitude));
-
-        rb.MovePosition(pos * moveSpeed * Time.fixedDeltaTime);
+        Vector3 cellToWorldVector = tilemap.CellToWorld(newPos);
+        cellToWorldVector.y += 0.2f;
+        return Instantiate(
+            PlayerPrefab,
+            cellToWorldVector,
+            Quaternion.identity
+        );
     }
 
     public void onClickSpell(Spell spell, Unit unit)
     {
-        // Remove any previously added range
-        RangeUtils.removeCells(cellsGrid);
         unit.selectedSpell = spell;
-        CastSystem.showArea(spell.getRange(unit, obstacleList, tilemap), cellsGrid);
+        // Show on map
+        DrawOnMap.showRange(spell.getRange(unit, obstacleList, tilemap), true);
 
         CurrentState = CurrentState.CAST;
         CastState = CastState.SHOW_AREA;
@@ -101,16 +97,6 @@ public class TurnBasedSystem : MonoBehaviour
         return fullList;
     }
 
-    private GameObject getGOFromUnit(Unit unit)
-    {
-        Dictionary<Unit, GameObject> allList = new Dictionary<Unit, GameObject>(
-            playerList
-            .Concat(enemyList)
-            .ToDictionary(x => x.Key, x => x.Value)
-            );
-        return allList[unit];
-    }
-
     private Unit getUnitTurn()
     {
         return initiativeList.FirstOrDefault(x => !x.Value).Key;
@@ -119,6 +105,9 @@ public class TurnBasedSystem : MonoBehaviour
     public void onClickEndTurn()
     {
         currentUnit = getUnitTurn();
+        // IA finished playing
+        IAisPlaying = false;
+        DrawOnMap.resetMap();
         // Next character
         if (currentUnit != null)
         {
@@ -128,11 +117,11 @@ public class TurnBasedSystem : MonoBehaviour
         if (currentUnit == null)
         {
             currentTurn += 1;
-            // Playing for all character = false
-            // Reset stats
             foreach (var key in initiativeList.Keys.ToList())
             {
+                // Playing for all character = false
                 initiativeList[key] = false;
+                // Reset stats (mana and movement)
                 key.resetStats();
             }
             // New turn
@@ -152,15 +141,8 @@ public class TurnBasedSystem : MonoBehaviour
 
     public void applyStatus()
     {
-        // Update status for all characters
-        Dictionary<Unit, GameObject> allCharacters = playerList.Concat(enemyList).ToDictionary(x => x.Key, x => x.Value);
-        foreach (var c in allCharacters)
-        {
-            // Take damages
-            c.Key.takeStatus();
-            // Update status
-            c.Key.updateStatus();
-        }
+        // Update status for characters
+        applyStatusCharacter();
 
         // Update status for all tiles
         BoundsInt bounds = tilemap.cellBounds;
@@ -178,6 +160,89 @@ public class TurnBasedSystem : MonoBehaviour
             }
         }
         tilemap.RefreshAllTiles();
+    }
+
+    void applyStatusCharacter()
+    {
+        //  Remove dead characters
+        List<Unit> deadPlayerList = new List<Unit>();
+        List<Unit> deadEnemyList = new List<Unit>();
+        
+        foreach (var p in playerList)
+        {
+            // Take damages
+            p.Key.takeStatus();
+            // Update status
+            p.Key.updateStatus();
+
+            if (p.Key.currentHP <= 0)
+            {
+                deadPlayerList.Add(p.Key);
+            }
+        }
+        foreach (var e in enemyList)
+        {
+            // Take damages
+            e.Key.takeStatus();
+            // Update status
+            e.Key.updateStatus();
+
+            if (e.Key.currentHP <= 0)
+            {
+                deadEnemyList.Add(e.Key);
+            }
+        }
+
+        foreach (var s in deadPlayerList)
+        {
+            playerList.Remove(s);
+            Destroy(s.unitGO);
+        }
+        foreach (var s in deadEnemyList)
+        {
+            enemyList.Remove(s);
+            Destroy(s.unitGO);
+        }
+        // Try end everytime character take damage
+        tryEndGame();
+    }
+
+    void tryEndGame()
+    {
+        string text = getWinningSideText();
+        if (text != null)
+        {
+            Text endText = EndResultUI.GetComponentInChildren<Text>();
+            Animator animator = EndResultUI.GetComponent<Animator>();
+            endText.text = text;
+            EndResultUI.SetActive(true);
+            StartCoroutine(loadNewScene(animator));
+        }
+    }
+
+    IEnumerator loadNewScene(Animator animator)
+    {
+        // Wait for anim to finish
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    string getWinningSideText()
+    {
+        string res = null;
+        if (!playerList.Any() && !enemyList.Any())
+        {
+            res = "Draw";
+        }
+        else if (!playerList.Any())
+        {
+            res = "Lost";
+        }
+        else if (!enemyList.Any())
+        {
+            res = "Won";
+        }
+        return res;
     }
 
     public static bool IsPointerOverUIElement()
@@ -198,9 +263,9 @@ public class TurnBasedSystem : MonoBehaviour
     {
         PointerEventData eventData = new PointerEventData(EventSystem.current);
         eventData.position = Input.mousePosition;
-        List<RaycastResult> raysastResults = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventData, raysastResults);
-        return raysastResults;
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, raycastResults);
+        return raycastResults;
     }
 
     void Start()
@@ -214,36 +279,34 @@ public class TurnBasedSystem : MonoBehaviour
         // Casting state
         CastState = CastState.DEFAULT;
 
-        // Get Animation and Rigidbody from player to move it
-        PlayerAnimator = Player.GetComponent<Animator>();
-        PlayerRigidBody = Player.GetComponent<Rigidbody2D>();
+        // Get transform
         PlayerTransform = Player.GetComponent<Transform>();
 
         // Init Player
-        PlayerStats = Player.GetComponent<Unit>();
+        Unit PlayerStats = Player.GetComponent<Unit>();
         PlayerStats.setSpellList(SpellList.Explosion);
         PlayerStats.setSpellList(SpellList.Icycle);
         PlayerStats.setSpellList(SpellList.Sandwall);
-        PlayerStats.setStats("Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3, 110);
+        PlayerStats.setSpellList(SpellList.Blackhole);
+        PlayerStats.setSpellList(SpellList.Teleportation);
+        PlayerStats.setSpellList(SpellList.Slash);
+        PlayerStats.setStats(Player, "Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3, 110);
         PlayerStats.playable = true;
 
         // Init Ennemies
         GameObject EnemyPrefab = Resources.Load<GameObject>("Characters/NPC/Phantom/Phantom");
         // First
-        GameObject green1 = InstantiatePlayer(EnemyPrefab, new Vector3Int(5, 10, 0));
-        Transform green1Transform = green1.GetComponent<Transform>();
-        Unit green1Stats = green1.GetComponent<Unit>();
-        green1Stats.setSpellList(SpellList.Explosion);
-        green1Stats.setStats("Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
-
-        // Init RangeUtils
-        RangeUtils = new RangeUtils();
-
+        GameObject phantom = InstantiatePlayer(EnemyPrefab, new Vector3Int(10, 15, 0));
+        Transform green1Transform = phantom.GetComponent<Transform>();
+        Unit green1Stats = phantom.GetComponent<Unit>();
+        green1Stats.setSpellList(SpellList.Slash);
+        green1Stats.setSpellList(SpellList.Teleportation);
+        green1Stats.setStats(phantom, "Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
+        
         // Add characters in lists
         enemyList = new Dictionary<Unit, GameObject>() {
-            { green1Stats, green1 },
+            { green1Stats, phantom },
         };
-        List<GameObject> a = new List<GameObject>();
         playerList = new Dictionary<Unit, GameObject>()
         {
             { PlayerStats, Player },
@@ -275,10 +338,8 @@ public class TurnBasedSystem : MonoBehaviour
         {
             PlayersScrollView.addInfo(e.Key);
         }
-
-        Tile transparent = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
-        List<Vector3Int> displayPos = new List<Vector3Int>() { green1Stats.position };
-        RangeUtils.setTileOnTilemap(displayPos, transparent, cellsGrid);
+        // Draw position on map
+        DrawOnMap.resetMap();
     }
 
     void Update()
@@ -288,39 +349,35 @@ public class TurnBasedSystem : MonoBehaviour
             "Turn : " + currentTurn + "\n" +
             "Current unit : \n" + currentUnit;
 
-
         // Move Camera
-        Vector3 posPlayer = PlayerTransform.position;
+        Vector3 posPlayer = PlayerTransform ? PlayerTransform.position : CameraView.transform.position;
         CameraView.transform.position = new Vector3(posPlayer.x, posPlayer.y, -10);
 
-        // Get keys input
-        /*
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxisRaw("Vertical");
-        Vector2 worldPositio = new Vector2(x,y);
-        Debug.Log("MOVE TO " + worldPositio);
-        MovePlayerWithPos(PlayerAnimator, PlayerRigidBody, worldPositio);
-        */
-
         // Play Enemies
-        if (!currentUnit.playable)
+        if (!currentUnit.playable && !IAisPlaying && currentUnit != null)
         {
-            GameObject currentEnemy = getGOFromUnit(currentUnit);
+            GameObject currentEnemy = currentUnit.unitGO;
             EnemyAI enemyAI = currentUnit.GetComponent<EnemyAI>();
+            IAisPlaying = true;
             enemyAI.play(
                 MoveSystem,
                 CastSystem,
                 obstacleList,
                 playerList,
                 enemyList,
-                tilemap
+                tilemap,
+                onClickEndTurn
             );
-            onClickEndTurn();
+            // Try end everytime character take damage
+            tryEndGame();
         }
 
         // Left mouse click
         if (Input.GetMouseButtonDown(0))
         {
+            // Reset map when clicking
+            DrawOnMap.resetMap();
+
             // Get Mouse Input
             Vector2 screenPosition = new Vector2(
                 Input.mousePosition.x,
@@ -330,7 +387,7 @@ public class TurnBasedSystem : MonoBehaviour
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
             Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
 
-            GameObject currentPlayer = getGOFromUnit(currentUnit);
+            GameObject currentPlayer = currentUnit.unitGO;
             if (currentUnit.playable)
             {
                 if (CurrentState == CurrentState.MOVE && !IsPointerOverUIElement())
@@ -358,9 +415,14 @@ public class TurnBasedSystem : MonoBehaviour
                     if (CastState == CastState.DEFAULT)
                     {
                         CurrentState = CurrentState.MOVE;
+
+                        // Reset map when exiting click
+                        DrawOnMap.resetMap();
                     }
                 }
             }
+            // Try end everytime character take damage
+            tryEndGame();
         }
     }
 }
