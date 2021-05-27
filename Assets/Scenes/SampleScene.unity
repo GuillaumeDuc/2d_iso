@@ -462,7 +462,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contentContainer: {fileID: 1716382162}
-  SpellButtonPrefab: {fileID: 7971129681570069999, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
+  SpellButtonPrefab: {fileID: 7971129681570069999, guid: d2149b30bf47a024a8f948d0015b84d4,
+    type: 3}
   turnBasedSystem: {fileID: 1131004367}
 --- !u!1 &24009862
 GameObject:
@@ -644,7 +645,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ContentContainer: {fileID: 770049548}
-  InfoPrefab: {fileID: 1663270179602338890, guid: 291ad0a3470df05448f19d368b98e24a, type: 3}
+  InfoPrefab: {fileID: 1663270179602338890, guid: 291ad0a3470df05448f19d368b98e24a,
+    type: 3}
 --- !u!224 &139910983
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1353,7 +1355,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 2
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3554,8 +3556,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 34}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 0, y: 57.966064}
+  m_SizeDelta: {x: 160, y: 77.9321}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1699365222
 MonoBehaviour:
@@ -3963,7 +3965,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ContentContainer: {fileID: 637663830}
-  InfoPrefab: {fileID: 1663270179602338890, guid: 291ad0a3470df05448f19d368b98e24a, type: 3}
+  InfoPrefab: {fileID: 1663270179602338890, guid: 291ad0a3470df05448f19d368b98e24a,
+    type: 3}
 --- !u!114 &1913935317
 MonoBehaviour:
   m_ObjectHideFlags: 0

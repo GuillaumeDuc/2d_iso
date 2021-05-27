@@ -24,7 +24,7 @@ public class DrawOnMap : MonoBehaviour
         red = new Color(0.9f, 0.1f, 0.1f, transparency);
         green = new Color(0f, 0.9f, 0f, transparency);
         black = new Color(0f, 0f, 0f, transparency);
-        blue = new Color(0.4f, 1f, 1f, transparency);
+        blue = new Color(0f, 0.5f, 1f, transparency);
     }
 
     public void drawCharactersPosition()
