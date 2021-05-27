@@ -7,10 +7,10 @@ using UnityEngine.Tilemaps;
 public class DrawOnMap : MonoBehaviour
 {
     public TurnBasedSystem TurnBasedSystem;
-    public Tilemap cellsGrid;
+    public Tilemap cellsGrid, characterGrid;
 
     private RangeUtils RangeUtils;
-    private Tile transparentTile;
+    private Tile transparentTile, characterTile;
     public Color orange, white, red, black, blue, green;
     private float transparency = 0.5f;
 
@@ -18,12 +18,13 @@ public class DrawOnMap : MonoBehaviour
     {
         RangeUtils = new RangeUtils();
         transparentTile = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
+        characterTile = Resources.Load<Tile>("Tilemaps/CellsGrid/character_circle_tile");
         orange = new Color(1, 0.5f, 0, transparency);
         white = new Color(1, 1, 1, transparency);
         red = new Color(0.9f, 0.1f, 0.1f, transparency);
-        blue = new Color(0.4f, 1f, 1f, transparency);
-        black = new Color(0f, 0f, 0f, transparency);
         green = new Color(0f, 0.9f, 0f, transparency);
+        black = new Color(0f, 0f, 0f, transparency);
+        blue = new Color(0f, 0.5f, 1f, transparency);
     }
 
     public void drawCharactersPosition()
@@ -36,13 +37,15 @@ public class DrawOnMap : MonoBehaviour
 
     public void drawPosition(Dictionary<Unit, GameObject> list, Color color)
     {
-        transparentTile.color = color;
+        color.a = 0.8f;
+        characterTile.color = color;
         List<Vector3Int> posList = new List<Vector3Int>(
             list.Select(unit => unit.Key.position).ToList()
         );
-        setTileOnTilemap(posList);
+        setCharacterTile(posList);
         // Back to white
-        transparentTile.color = white;
+        color.a = transparency;
+        characterTile.color = white;
     }
 
     public void showSpellSelection(List<Vector3Int> spellPos, List<Vector3Int> area)
@@ -94,11 +97,22 @@ public class DrawOnMap : MonoBehaviour
         transparentTile.color = white;
     }
 
+    public void setCharacterTile(List<Vector3Int> listCharacter)
+    {
+        listCharacter.ForEach(s =>
+        {
+            characterGrid.SetTile(s, characterTile);
+        });
+    }
+
     public void setTileOnTilemap(List<Vector3Int> listSquare)
     {
         listSquare.ForEach(s =>
         {
-            cellsGrid.SetTile(s, transparentTile);
+            if (cellsGrid.GetTile(s) == null)
+            {
+                cellsGrid.SetTile(s, transparentTile);
+            }
         });
     }
 
@@ -131,6 +145,10 @@ public class DrawOnMap : MonoBehaviour
         foreach (var a in cellsGrid.cellBounds.allPositionsWithin)
         {
             cellsGrid.SetTile(a, null);
+        }
+        foreach (var a in characterGrid.cellBounds.allPositionsWithin)
+        {
+            characterGrid.SetTile(a, null);
         }
     }
 }
