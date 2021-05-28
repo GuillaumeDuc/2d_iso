@@ -132,6 +132,12 @@ public class GroundTile : Tile
     {
         tileData.sprite = m_Sprite;
         tileData.gameObject = tileGO;
+        if (tileData.gameObject != null)
+        {
+            Vector3 newPos = tileData.gameObject.transform.position;
+            newPos.y -= 0.28f;
+            tileData.gameObject.transform.position = newPos;
+        }
     }
 
 #if UNITY_EDITOR
