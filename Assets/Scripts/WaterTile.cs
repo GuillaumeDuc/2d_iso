@@ -31,7 +31,7 @@ public class WaterTile : GroundTile
                 Vector3 pos = currentTilemap.CellToWorld(location);
                 previousTileGO = Instantiate(
                     tileGO,
-                    new Vector3(pos.x, pos.y + 0.20f, pos.z),
+                    new Vector3(pos.x, pos.y + 0.19f, pos.z),
                     Quaternion.identity
                 );
                 previousNameGO = tileGO.name;

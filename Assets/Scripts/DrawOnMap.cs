@@ -11,7 +11,7 @@ public class DrawOnMap : MonoBehaviour
 
     private RangeUtils RangeUtils;
     private Tile transparentTile, characterTile;
-    public Color orange, white, red, black, blue, green;
+    private Color orange, white, red, black, blue, green;
     private float transparency = 0.5f;
 
     void Start()
