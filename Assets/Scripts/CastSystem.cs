@@ -11,13 +11,10 @@ public class CastSystem : MonoBehaviour
 
     public DrawOnMap DrawOnMap;
 
-    private RangeUtils RangeUtils;
-
     private Tile threeSidesTile, threeSidesBottomTile, twoSidesLeftTile, twoSidesRightTile, transparent;
 
     private void Start()
     {
-        RangeUtils = new RangeUtils();
         threeSidesTile = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_empty_three_sides_top_tile");
         threeSidesBottomTile = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_empty_three_sides_side_tile");
         twoSidesLeftTile = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_empty_two_sides_left_tile");

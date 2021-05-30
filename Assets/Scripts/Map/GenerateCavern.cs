@@ -6,14 +6,14 @@ using UnityEngine.Tilemaps;
 
 public static class GenerateCavern
 {
-    public static void createMapCavern(int width, int height, float percentWater, TileType tileType, Tilemap tilemap, TileList TileList)
+    public static void createMapCavern(int width, int height, float percentWater, GroundTile tile, WaterTile wt, Tilemap tilemap)
     {
-        randomFillMap(width, height, percentWater, tileType, tilemap, TileList);
-        makeCaverns(width, height, tileType, tilemap, TileList);
-        fillWithWater(width, height, tilemap, TileList);
+        randomFillMap(width, height, percentWater, tile, tilemap);
+        makeCaverns(width, height, tile, tilemap);
+        fillWithWater(width, height, wt, tilemap);
     }
 
-    private static void randomFillMap(int width, int height, float percentWater, TileType tileType, Tilemap tilemap, TileList TileList)
+    private static void randomFillMap(int width, int height, float percentWater, Tile tile, Tilemap tilemap)
     {
         int mapMiddle = 0;
         for (var row = 0; row < height; row++)
@@ -23,7 +23,7 @@ public static class GenerateCavern
                 mapMiddle = height / 2;
                 if (row == mapMiddle)
                 {
-                    setGround(column, row, tileType, tilemap, TileList);
+                    setGround(column, row, tile, tilemap);
                 }
                 else
                 {
@@ -33,7 +33,7 @@ public static class GenerateCavern
                     }
                     else
                     {
-                        setGround(column, row, tileType, tilemap, TileList);
+                        setGround(column, row, tile, tilemap);
                     }
                 }
 
@@ -41,18 +41,18 @@ public static class GenerateCavern
         }
     }
 
-    private static void makeCaverns(int width, int height, TileType tileType, Tilemap tilemap, TileList TileList)
+    private static void makeCaverns(int width, int height, Tile tileType, Tilemap tilemap)
     {
         for (var row = 0; row <= height; row++)
         {
             for (var column = 0; column < width; column++)
             {
-                placeWallLogic(width, height, column, row, tileType, tilemap, TileList);
+                placeWallLogic(width, height, column, row, tileType, tilemap);
             }
         }
     }
 
-    private static void placeWallLogic(int width, int height, int x, int y, TileType tileType, Tilemap tilemap, TileList TileList)
+    private static void placeWallLogic(int width, int height, int x, int y, Tile tileType, Tilemap tilemap)
     {
         int numWalls = getAdjacentWalls(x, y, 1, 1, width, height, tilemap);
 
@@ -64,7 +64,7 @@ public static class GenerateCavern
             }
             if (numWalls < 2)
             {
-                setGround(x, y, tileType, tilemap, TileList);
+                setGround(x, y, tileType, tilemap);
             }
         }
         else
@@ -75,7 +75,7 @@ public static class GenerateCavern
             }
             else
             {
-                setGround(x, y, tileType, tilemap, TileList);
+                setGround(x, y, tileType, tilemap);
             }
         }
     }
@@ -135,7 +135,7 @@ public static class GenerateCavern
         return false;
     }
 
-    private static void fillWithWater(int width, int height, Tilemap tilemap, TileList TileList)
+    private static void fillWithWater(int width, int height, WaterTile wt, Tilemap tilemap)
     {
         for (var row = 0; row < height; row++)
         {
@@ -143,13 +143,13 @@ public static class GenerateCavern
             {
                 if (tilemap.GetTile(new Vector3Int(column, row, 0)) == null)
                 {
-                    setWater(column, row, tilemap, TileList);
+                    setWater(column, row, wt, tilemap);
                 }
             }
         }
     }
 
-    private static void refreshGround(int height, int width, TileType tileType, Tilemap tilemap, TileList TileList)
+    private static void refreshGround(int height, int width, Tile tileType, Tilemap tilemap)
     {
         for (var row = 0; row < height; row++)
         {
@@ -159,7 +159,7 @@ public static class GenerateCavern
                 bool isWater = gt is WaterTile;
                 if (gt != null && !isWater)
                 {
-                    setGround(column, row, tileType, tilemap, TileList);
+                    setGround(column, row, tileType, tilemap);
                 }
             }
         }
@@ -171,29 +171,18 @@ public static class GenerateCavern
         tilemap.SetTile(pos, null);
     }
 
-    private static void setGround(int x, int y, TileType TileType, Tilemap tilemap, TileList TileList)
+    private static void setGround(int x, int y, Tile TileType, Tilemap tilemap)
     {
         GroundTile tile = ScriptableObject.CreateInstance<GroundTile>();
-        switch (TileType)
-        {
-            case TileType.BRICK:
-                tile.setTile(TileList.brick);
-                break;
-            case TileType.SAND:
-                tile.setTile(TileList.sand);
-                break;
-            default:
-                tile.setTile(TileList.grass);
-                break;
-        }
+        tile.setTile((GroundTile)TileType);
         Vector3Int pos = new Vector3Int(x, y, 0);
         tilemap.SetTile(pos, tile);
     }
 
-    private static void setWater(int x, int y, Tilemap tilemap, TileList TileList)
+    private static void setWater(int x, int y, WaterTile wt, Tilemap tilemap)
     {
         WaterTile tile = ScriptableObject.CreateInstance<WaterTile>();
-        tile.setTile(TileList.water);
+        tile.setTile(wt);
         Vector3Int pos = new Vector3Int(x, y, 0);
         tilemap.SetTile(pos, tile);
     }

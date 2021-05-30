@@ -10,13 +10,6 @@ public class SpellScrollView : MonoBehaviour
 
     public TurnBasedSystem turnBasedSystem;
 
-    private RangeUtils RangeUtils;
-
-    private void Start()
-    {
-        RangeUtils = new RangeUtils();
-    }
-
     public void addSpell(Spell spell, Unit unit)
     {
         // Instantiate button

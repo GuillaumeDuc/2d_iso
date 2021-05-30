@@ -1146,6 +1146,7 @@ GameObject:
   - component: {fileID: 489335839}
   - component: {fileID: 489335840}
   - component: {fileID: 489335841}
+  - component: {fileID: 489335838}
   m_Layer: 0
   m_Name: Map Generator
   m_TagString: Untagged
@@ -1153,6 +1154,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &489335838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489335837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ddff624ec21b7946bcb5eab725f5fb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TileList: {fileID: 1131004374}
+  tilemap: {fileID: 14874894}
+  width: 30
+  height: 30
+  waterHeightMin: 3
+  waterHeightMax: 6
 --- !u!4 &489335839
 Transform:
   m_ObjectHideFlags: 0
@@ -1174,7 +1193,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 489335837}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a328f87780a90c40bd118d2de2af774, type: 3}
   m_Name: 
@@ -1192,7 +1211,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 489335837}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a310ab1c7a9d984f8419aff493f15ac, type: 3}
   m_Name: 
@@ -1200,10 +1219,9 @@ MonoBehaviour:
   TileList: {fileID: 1131004374}
   tilemap: {fileID: 14874894}
   Tree: {fileID: 5321981901037820461, guid: d3930aa8a627466448756f98000aefa3, type: 3}
-  TileType: 2
   width: 30
   height: 30
-  spawnsTree: 4
+  spawnsTree: 5
   radius: 2
   rejection: 5
   spawnsWater: 4

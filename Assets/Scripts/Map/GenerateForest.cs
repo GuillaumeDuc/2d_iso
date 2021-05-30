@@ -3,17 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public enum TileType { SAND, BRICK, GRASS }
-
 public class GenerateForest : MonoBehaviour
 {
     public TileList TileList;
     public Tilemap tilemap;
     public GameObject Tree;
-    public TileType TileType;
     public int width, height, spawnsTree, radius = 2, rejection = 10, spawnsWater, widthWater;
-
-    RangeUtils RangeUtils = new RangeUtils();
 
     public List<Vector3Int> poissonDisk(int spawns, int radius, int rejection, int width, int height)
     {
@@ -116,42 +111,10 @@ public class GenerateForest : MonoBehaviour
         });
     }
 
-    void createMap(int width, int height, TileType TileType, Tilemap tilemap, TileList TileList)
-    {
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                setGround(x, y, TileType, tilemap, TileList);
-            }
-        }
-    }
-
-    private static void setGround(int x, int y, TileType TileType, Tilemap tilemap, TileList TileList)
-    {
-        GroundTile tile = ScriptableObject.CreateInstance<GroundTile>();
-        switch (TileType)
-        {
-            case TileType.BRICK:
-                tile.setTile(TileList.brick);
-                break;
-            case TileType.SAND:
-                tile.setTile(TileList.sand);
-                break;
-            default:
-                tile.setTile(TileList.grass);
-                break;
-        }
-        Vector3Int pos = new Vector3Int(x, y, 0);
-        tilemap.SetTile(pos, tile);
-    }
-
     // Start is called before the first frame update
     void Start()
     {
-        RangeUtils = new RangeUtils();
-        // GenerateCavern.createMapCavern(width, height, percentWater, TileType, tilemap, TileList);
-        createMap(width, height, TileType, tilemap, TileList);
+        GenerateGround.fillMap(width, height, TileList.grass, tilemap);
         GenerateWater.createLake(width, height, spawnsWater, widthWater, tilemap, TileList.water);
         randomGenerateForest(spawnsTree, radius, rejection, width, height);
     }

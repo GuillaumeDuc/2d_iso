@@ -18,13 +18,9 @@ public class SpellEffectList : MonoBehaviour
         Teleport
         ;
 
-    private RangeUtils RangeUtils;
 
     void Start()
     {
-        // Instantiate Utils to get area & calculations
-        RangeUtils = new RangeUtils();
-
         // Create Obstacle
         CreateObstacle = new SpellEffect("CreateObstacle");
         CreateObstacle.applyEffectAction = createObstacleEffect;

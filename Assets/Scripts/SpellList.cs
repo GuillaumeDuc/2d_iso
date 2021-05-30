@@ -21,13 +21,8 @@ public class SpellList : MonoBehaviour
 
     private string nameSpell;
 
-    private RangeUtils RangeUtils;
-
     void Start()
     {
-        // Instantiate Utils to get area & calculations
-        RangeUtils = new RangeUtils();
-
         // Explosion
         nameSpell = "Explosion";
         GameObject ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
