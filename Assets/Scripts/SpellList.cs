@@ -32,7 +32,7 @@ public class SpellList : MonoBehaviour
         nameSpell = "Explosion";
         GameObject ExplosionGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
         // GameObject, name, damage, range, area, line of sight, click nb, unique cell area
-        Explosion = new Spell(ExplosionGO, nameSpell, 10, 10, 0, true, 3, false, 50);
+        Explosion = new Spell(ExplosionGO, nameSpell, 10, 10, 1, true, 3, false, 50);
         Explosion.getRangeList = getRangeInCircleFullPlayer;
         Explosion.getAreaList = getAreaInCircleFull;
         Explosion.animate = animateInCircleFull;

@@ -314,6 +314,12 @@ public class TurnBasedSystem : MonoBehaviour
 
         // Init obstacle List
         obstacleList = new Dictionary<Vector3Int, GameObject>();
+        Obstacle[] obstacleScripts = (Obstacle[])GameObject.FindObjectsOfType(typeof(Obstacle));
+        foreach (var o in obstacleScripts)
+        {
+            Vector3Int pos = tilemap.WorldToCell(o.transform.position);
+            obstacleList.Add(pos, o.gameObject);
+        }
 
         // Init initiative list
         initiativeList = new Dictionary<Unit, bool>(getInitList());

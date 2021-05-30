@@ -231,34 +231,34 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: 1.084227e-19
-      e01: NaN
-      e02: NaN
-      e03: NaN
-      e10: 5.34e-43
-      e11: 6.2e-44
-      e12: 6.2e-44
-      e13: 6.2e-44
-      e20: -5.7341873e-22
-      e21: 3.736369e+19
-      e22: -4.497303
-      e23: 3.736369e+19
+      e00: -1.084227e-19
+      e01: -2.8902813e-22
+      e02: -2.8900592e-22
+      e03: -2.8900592e-22
+      e10: 5.14e-43
+      e11: 1.1e-43
+      e12: 1.1e-43
+      e13: 1.1e-43
+      e20: 7.534755e+17
+      e21: -3.7148645e+19
+      e22: 5.389576
+      e23: -3.7148645e+19
       e30: 4.5905e-41
-      e31: 5.35e-43
-      e32: 5.32e-43
-      e33: 5.35e-43
+      e31: 5.16e-43
+      e32: 5.14e-43
+      e33: 5.16e-43
   m_TileColorArray:
   - m_RefCount: 0
     m_Data: {r: 2.7463e-41, g: 2.7463e-41, b: 2.7463e-41, a: 2.7463e-41}
   - m_RefCount: 0
     m_Data: {r: 8.654406e+9, g: 8.654406e+9, b: 8.654406e+9, a: 8.654406e+9}
   - m_RefCount: 0
-    m_Data: {r: 3.7360455e+19, g: 3.7360455e+19, b: 3.7360455e+19, a: 3.7360455e+19}
+    m_Data: {r: -3.699841e+19, g: -3.699841e+19, b: -3.699841e+19, a: -3.699841e+19}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -14, y: -8, z: 0}
-  m_Size: {x: 28, y: 24, z: 1}
+  m_Size: {x: 32, y: 24, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -297,7 +297,13 @@ CompositeCollider2D:
   m_EdgeRadius: 0
   m_ColliderPaths:
   - m_Collider: {fileID: 14874897}
-    m_ColliderPaths: []
+    m_ColliderPaths:
+    - - X: 42800724
+        Y: 40145267
+      - X: 42800723
+        Y: 40145267
+      - X: 43400042
+        Y: 39900091
   m_CompositePaths:
     m_Paths: []
   m_VertexDistance: 0.0005
@@ -610,7 +616,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &139910981
 GameObject:
@@ -1129,78 +1135,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 428571588}
   m_CullTransparentMesh: 1
---- !u!1 &447119995
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 447119997}
-  - component: {fileID: 447119996}
-  m_Layer: 0
-  m_Name: Point Light 2D
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &447119996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 447119995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_LightType: 3
-  m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 000000005161703b
-  m_LightCookieSprite: {fileID: 0}
-  m_UseNormalMap: 1
-  m_LightOrder: 0
-  m_AlphaBlendOnOverlap: 0
-  m_ShadowIntensity: 0.4
-  m_ShadowVolumeIntensity: 0
-  m_PointLightInnerAngle: 360
-  m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 3
-  m_PointLightOuterRadius: 10
-  m_PointLightDistance: 3
-  m_PointLightQuality: 1
-  m_ShapeLightParametricSides: 5
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 0.5
-  m_ShapeLightFalloffOffset: {x: 0, y: 0}
-  m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
---- !u!4 &447119997
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 447119995}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &489335837
 GameObject:
   m_ObjectHideFlags: 0
@@ -1210,7 +1144,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 489335839}
-  - component: {fileID: 489335838}
   - component: {fileID: 489335840}
   - component: {fileID: 489335841}
   m_Layer: 0
@@ -1220,24 +1153,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &489335838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 489335837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 350cf3b0523cd6f4c8dab7c169a4766a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tilemap: {fileID: 14874894}
-  TileList: {fileID: 1131004374}
-  width: 20
-  height: 20
-  percentWater: 30
-  TileType: 0
 --- !u!4 &489335839
 Transform:
   m_ObjectHideFlags: 0
@@ -1250,7 +1165,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &489335840
 MonoBehaviour:
@@ -1282,8 +1197,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a310ab1c7a9d984f8419aff493f15ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TileList: {fileID: 1131004374}
   tilemap: {fileID: 14874894}
   Tree: {fileID: 5321981901037820461, guid: d3930aa8a627466448756f98000aefa3, type: 3}
+  TileType: 2
+  width: 30
+  height: 30
+  spawnsTree: 4
+  radius: 2
+  rejection: 5
+  spawnsWater: 4
+  widthWater: 15
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2593,7 +2517,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1131004369
 MonoBehaviour:
@@ -3212,7 +3136,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1462554745
 GameObject:
