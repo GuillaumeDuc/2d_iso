@@ -63,15 +63,8 @@ public class MoveSystem : MonoBehaviour
 {
     public DrawOnMap DrawOnMap;
 
-    private RangeUtils RangeUtils;
-
     private bool isMoving = false;
     private Queue<KeyValuePair<Transform, Vector3>> movingList = new Queue<KeyValuePair<Transform, Vector3>>();
-
-    private void Start()
-    {
-        RangeUtils = new RangeUtils();
-    }
 
     public void moveCharacter(
         GameObject player,

@@ -9,15 +9,7 @@ public class EnemyAI : MonoBehaviour
 {
     public GameObject Enemy;
     public Unit unit;
-
-    private RangeUtils RangeUtils;
-
-    private void Start()
-    {
-        // Instantiate Utils to get area & calculations
-        RangeUtils = new RangeUtils();
-    }
-
+    
     public virtual void play(
         MoveSystem MoveSystem,
         CastSystem CastSystem,

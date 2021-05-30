@@ -4,9 +4,9 @@ using System.Collections;
 using UnityEngine;
 using System.Linq;
 
-public class RangeUtils
+public static class RangeUtils
 {
-    public bool lineOfSight(
+    public static bool lineOfSight(
         Vector3Int playerPos,
         Vector3Int cellPos,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -26,7 +26,7 @@ public class RangeUtils
         return lineOS;
     }
 
-    public List<Vector3Int> getLine(Vector3Int playerPos, Vector3Int cellPos)
+    public static List<Vector3Int> getLine(Vector3Int playerPos, Vector3Int cellPos)
     {
         List<Vector3Int> lineOfSightArray = new List<Vector3Int>();
         int dx = Mathf.Abs(cellPos.x - playerPos.x);
@@ -58,7 +58,7 @@ public class RangeUtils
         return lineOfSightArray;
     }
 
-    public List<Vector3Int> getAreaCircleEmpty(Vector3Int cell, int area, Tilemap tilemap)
+    public static List<Vector3Int> getAreaCircleEmpty(Vector3Int cell, int area, Tilemap tilemap)
     {
         List<Vector3Int> areaList = new List<Vector3Int>(getAreaCircleFull(cell, area, tilemap));
         float highest = getFarthestSquareMD(areaList, cell);
@@ -66,13 +66,13 @@ public class RangeUtils
         return areaList;
     }
 
-    public List<Vector3Int> getAreaCircleFull(Vector3Int cell, int area, Tilemap tilemap)
+    public static List<Vector3Int> getAreaCircleFull(Vector3Int cell, int area, Tilemap tilemap, int min = 0)
     {
         List<Vector3Int> areaList = new List<Vector3Int>() { cell };
         List<Vector3Int> adjList = new List<Vector3Int>(getAdjacentSquares(cell));
         HashSet<Vector3Int> nextList = new HashSet<Vector3Int>();
 
-        for (int i = 0; i < area; i++)
+        for (int i = min; i < area; i++)
         {
             foreach (var c in adjList)
             {
@@ -92,7 +92,7 @@ public class RangeUtils
         return areaList;
     }
 
-    private List<Vector3Int> getAdjacentSquares(Vector3Int cell)
+    private static List<Vector3Int> getAdjacentSquares(Vector3Int cell)
     {
         Vector3Int up = new Vector3Int(cell.x, cell.y + 1, cell.z);
         Vector3Int down = new Vector3Int(cell.x, cell.y - 1, cell.z);
@@ -102,7 +102,7 @@ public class RangeUtils
         return new List<Vector3Int>() { up, down, left, right };
     }
 
-    public List<Vector3Int> getAreaInLine(
+    public static List<Vector3Int> getAreaInLine(
         Vector3Int to,
         Vector3Int from,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -129,7 +129,7 @@ public class RangeUtils
         return result;
     }
 
-    public List<Vector3Int> getAreaInLineFollowClick(Vector3Int to, Vector3Int from, Tilemap tilemap)
+    public static List<Vector3Int> getAreaInLineFollowClick(Vector3Int to, Vector3Int from, Tilemap tilemap)
     {
         Vector3Int current = new Vector3Int(to.x, to.y, to.z);
         List<Vector3Int> listCells = new List<Vector3Int>();
@@ -144,7 +144,7 @@ public class RangeUtils
         return listCells;
     }
 
-    public bool isWalkable(
+    public static bool isWalkable(
         Vector3Int cell,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
@@ -154,7 +154,7 @@ public class RangeUtils
         return gt != null && !obstacleList.ContainsKey(cell) && gt.walkable;
     }
 
-    public Vector3Int getFarthestWalkableNeighbour(
+    public static Vector3Int getFarthestWalkableNeighbour(
         Vector3Int to,
         Vector3Int from,
         List<Vector3Int> area,
@@ -188,7 +188,7 @@ public class RangeUtils
         return to;
     }
 
-    private Vector3Int getClosestNeighbour(Vector3Int to, Vector3Int from, Tilemap tilemap)
+    private static Vector3Int getClosestNeighbour(Vector3Int to, Vector3Int from, Tilemap tilemap)
     {
         Vector3Int up = new Vector3Int(to.x, to.y + 1, to.z);
         Vector3Int down = new Vector3Int(to.x, to.y - 1, to.z);
@@ -213,12 +213,12 @@ public class RangeUtils
         return neighbours.FirstOrDefault(x => x.Value == neighbours.Min(n => n.Value)).Key;
     }
 
-    private float getMDistance(Vector3Int to, Vector3Int from)
+    private static float getMDistance(Vector3Int to, Vector3Int from)
     {
         return Mathf.Abs(to.x - from.x) + Mathf.Abs(to.y - from.y);
     }
 
-    public int getNbFarthestAdjSquares(Tilemap tilemap, Vector3Int to, Vector3Int from)
+    public static int getNbFarthestAdjSquares(Tilemap tilemap, Vector3Int to, Vector3Int from)
     {
         List<Vector3Int> listSquare = new List<Vector3Int>(getAdjacentSquares(from));
         // Get highest value
@@ -236,7 +236,7 @@ public class RangeUtils
         return nbSquares;
     }
 
-    private float getFarthestSquareMD(List<Vector3Int> listSquare, Vector3Int to)
+    private static float getFarthestSquareMD(List<Vector3Int> listSquare, Vector3Int to)
     {
         float highestD = 0f;
         foreach (var s in listSquare)
@@ -250,7 +250,7 @@ public class RangeUtils
         return highestD;
     }
 
-    private List<Vector3Int> getSquareByMD(List<Vector3Int> listSquare, Vector3Int to, float mDistance)
+    private static List<Vector3Int> getSquareByMD(List<Vector3Int> listSquare, Vector3Int to, float mDistance)
     {
         List<Vector3Int> listRes = new List<Vector3Int>(listSquare);
         return listRes.FindAll(s =>

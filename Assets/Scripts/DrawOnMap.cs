@@ -9,14 +9,12 @@ public class DrawOnMap : MonoBehaviour
     public TurnBasedSystem TurnBasedSystem;
     public Tilemap cellsGrid, characterGrid;
 
-    private RangeUtils RangeUtils;
     private Tile transparentTile, characterTile;
-    public Color orange, white, red, black, blue, green;
+    private Color orange, white, red, black, blue, green;
     private float transparency = 0.5f;
 
     void Start()
     {
-        RangeUtils = new RangeUtils();
         transparentTile = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
         characterTile = Resources.Load<Tile>("Tilemaps/CellsGrid/character_circle_tile");
         orange = new Color(1, 0.5f, 0, transparency);
@@ -24,7 +22,7 @@ public class DrawOnMap : MonoBehaviour
         red = new Color(0.9f, 0.1f, 0.1f, transparency);
         green = new Color(0f, 0.9f, 0f, transparency);
         black = new Color(0f, 0f, 0f, transparency);
-        blue = new Color(0.4f, 1f, 1f, transparency);
+        blue = new Color(0f, 0.5f, 1f, transparency);
     }
 
     public void drawCharactersPosition()

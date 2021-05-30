@@ -7,15 +7,6 @@ using UnityEngine.Tilemaps;
 
 public class PhantomAI : EnemyAI
 {
-
-    private RangeUtils RangeUtils;
-
-    private void Start()
-    {
-        // Instantiate Utils to get area & calculations
-        RangeUtils = new RangeUtils();
-    }
-
     public override void play(
         MoveSystem MoveSystem, 
         CastSystem CastSystem, 
