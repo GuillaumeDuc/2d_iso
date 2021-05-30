@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 507836492683331615}
   - component: {fileID: 7225195753132525654}
   - component: {fileID: -6566116032371153621}
+  - component: {fileID: 4810393835309671517}
+  - component: {fileID: 2179891806404249019}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Untagged
@@ -97,3 +99,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 0
   currentHP: 0
+--- !u!114 &4810393835309671517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5321981901037820461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000276bc69e
+  m_ShapePath:
+  - {x: -0.8024279, y: 1.3366592, z: 0}
+  - {x: -0.11283745, y: 1.1041399, z: 0}
+  - {x: -0.046719536, y: 0.4058224, z: 0}
+  - {x: -0.32109323, y: 0.08399228, z: 0}
+  - {x: 0.5350142, y: 0.0682611, z: 0}
+  - {x: 0.2581374, y: 0.3537737, z: 0}
+  - {x: 0.2633057, y: 1.071899, z: 0}
+  - {x: 0.95261514, y: 1.4967194, z: 0}
+  - {x: 0.89502823, y: 1.9238559, z: 0}
+  - {x: 0.70553374, y: 1.7185016, z: 0}
+  - {x: 0.5048565, y: 1.4474714, z: 0}
+  - {x: -0.11555125, y: 1.424669, z: 0}
+  - {x: -0.60742927, y: 1.6662424, z: 0}
+  m_ShapePathHash: 720525639
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 29396
+--- !u!114 &2179891806404249019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5321981901037820461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38f48a8d66b2adc46887f23a3a88ac01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0

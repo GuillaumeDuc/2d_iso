@@ -66,13 +66,13 @@ public class RangeUtils
         return areaList;
     }
 
-    public List<Vector3Int> getAreaCircleFull(Vector3Int cell, int area, Tilemap tilemap)
+    public List<Vector3Int> getAreaCircleFull(Vector3Int cell, int area, Tilemap tilemap, int min = 0)
     {
         List<Vector3Int> areaList = new List<Vector3Int>() { cell };
         List<Vector3Int> adjList = new List<Vector3Int>(getAdjacentSquares(cell));
         HashSet<Vector3Int> nextList = new HashSet<Vector3Int>();
 
-        for (int i = 0; i < area; i++)
+        for (int i = min; i < area; i++)
         {
             foreach (var c in adjList)
             {
