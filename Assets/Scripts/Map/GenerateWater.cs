@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,14 +5,12 @@ using UnityEngine.Tilemaps;
 
 public static class GenerateWater
 {
-    public static void createLake(int width, int height, int numberLake, int depth, Tilemap tilemap, WaterTile water)
+    public static void createLake(int width, int height, int numberLake, int maxWidthLake, Tilemap tilemap, WaterTile water)
     {
-        List<Vector3Int> listLake = generateLake(width, height, numberLake, depth);
+        List<Vector3Int> listLake = generateLake(width, height, numberLake, maxWidthLake);
         listLake.ForEach(cell =>
         {
-            WaterTile tile = ScriptableObject.CreateInstance<WaterTile>();
-            tile.setTile(water);
-            tilemap.SetTile(cell, tile);
+            GenerateGround.setGround(cell.x, cell.y, water, tilemap);
         });
     }
 
@@ -24,11 +21,14 @@ public static class GenerateWater
         for (int i = 0; i < numberLake; i++)
         {
             Vector3Int randomPos = new Vector3Int(
-                UnityEngine.Random.Range(0, width -1),
-                UnityEngine.Random.Range(0, height -1),
+                UnityEngine.Random.Range(0, width),
+                UnityEngine.Random.Range(0, height),
                 0
                 );
-            waterList.Add(randomPos);
+            if (!waterList.Contains(randomPos))
+            {
+                waterList.Add(randomPos);
+            }
         }
 
         for (int i = 0; i < depth; i++)
@@ -37,14 +37,26 @@ public static class GenerateWater
             foreach (var w in waterList)
             {
                 Vector3Int rndCell = randomCell(w, width, height);
-                if (isValid(rndCell, width, height, waterList, neighbours))
+                if (isValid(rndCell, width, height, neighbours, waterList))
                 {
                     neighbours.Add(rndCell);
                 }
             }
-            waterList = waterList.Concat(neighbours).ToList();
+            if (neighbours.Any())
+            {
+                waterList = waterList.Concat(neighbours).ToList();
+            }
         }
         return waterList;
+    }
+
+    private static bool isEncircled(Vector3Int cell, List<Vector3Int> waterList)
+    {
+        Vector3Int up = new Vector3Int(cell.x, cell.y + 1, cell.z);
+        Vector3Int down = new Vector3Int(cell.x, cell.y - 1, cell.z);
+        Vector3Int left = new Vector3Int(cell.x - 1, cell.y, cell.z);
+        Vector3Int right = new Vector3Int(cell.x + 1, cell.y, cell.z);
+        return waterList.Contains(up) && waterList.Contains(down) && waterList.Contains(left) && waterList.Contains(right);
     }
 
     private static Vector3Int randomCell(Vector3Int cell, int width, int height)
@@ -55,18 +67,18 @@ public static class GenerateWater
         Vector3Int right = new Vector3Int(cell.x + 1, cell.y, cell.z);
 
         List<Vector3Int> randomList = new List<Vector3Int>() { up, down, left, right };
-        int rndInd = UnityEngine.Random.Range(1, randomList.Count);
+        int rndInd = UnityEngine.Random.Range(0, randomList.Count);
         return randomList[rndInd];
     }
 
-    private static bool isValid(Vector3Int cell, int width, int height, List<Vector3Int> waterList, List<Vector3Int> neighbours)
+    private static bool isValid(Vector3Int cell, int width, int height, List<Vector3Int> neighbours, List<Vector3Int> waterList)
     {
         if (cell.x < width &&
             cell.y < height &&
             cell.x >= 0 &&
             cell.y >= 0 &&
-            !waterList.Contains(cell) &&
-            !neighbours.Contains(cell)
+            !neighbours.Contains(cell) &&
+            !waterList.Contains(cell)
             )
         {
             return true;

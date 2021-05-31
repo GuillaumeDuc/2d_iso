@@ -1,27 +1,28 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class GenerateBeach : MonoBehaviour
+public class GenerateBeach
 {
-    public TileList TileList;
-    public Tilemap tilemap;
-    public int width, height, waterHeightMin, waterHeightMax;
-
-    public void createBeach(int width, int height, int waterHeightMin, int waterHeightMax)
+    public static void createBeach(
+        int width, 
+        int height, 
+        int waterHeightMin, 
+        int waterHeightMax, 
+        TileList TileList, 
+        Tilemap tilemap
+        )
     {
         // Fill beach with sand 
         GenerateGround.fillMap(width, height, TileList.sand, tilemap);
-        generateGrass(width, height);
-        generateOcean(width, waterHeightMin, waterHeightMax);
+        generateGrass(width, height, TileList, tilemap);
+        generateOcean(width, waterHeightMin, waterHeightMax, TileList, tilemap);
     }
 
-    private void generateOcean(int width, int waterHeightMin, int waterHeightMax)
+    private static void generateOcean(int width, int waterHeightMin, int waterHeightMax, TileList TileList, Tilemap tilemap)
     {
         int min = 0;
         int max = width;
-        int randHeight = UnityEngine.Random.Range(waterHeightMin, waterHeightMax+1);
+        int randHeight = UnityEngine.Random.Range(waterHeightMin, waterHeightMax + 1);
         for (int i = 0; i < randHeight; i++)
         {
             for (int j = min; j < max; j++)
@@ -33,7 +34,7 @@ public class GenerateBeach : MonoBehaviour
         }
     }
 
-    private void generateGrass(int width, int height)
+    private static void generateGrass(int width, int height, TileList TileList, Tilemap tilemap)
     {
         int currentHeight = height / 3;
         for (int i = 0; i < width; i++)
@@ -43,10 +44,10 @@ public class GenerateBeach : MonoBehaviour
                 GenerateGround.setGround(i, j, TileList.grass, tilemap);
             }
         }
-        generateRandom(width, 2, currentHeight);
+        generateRandom(width, 2, currentHeight, TileList, tilemap);
     }
 
-    private void generateRandom(int width, int height, int pos)
+    private static void generateRandom(int width, int height, int pos, TileList TileList, Tilemap tilemap)
     {
         for (int i = 0; i < width; i++)
         {
@@ -58,17 +59,5 @@ public class GenerateBeach : MonoBehaviour
                 GenerateGround.setGround(i, j, tile, tilemap);
             }
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        createBeach(width, height, waterHeightMin, waterHeightMax);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

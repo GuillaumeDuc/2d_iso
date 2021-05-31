@@ -468,8 +468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   contentContainer: {fileID: 1716382162}
-  SpellButtonPrefab: {fileID: 7971129681570069999, guid: d2149b30bf47a024a8f948d0015b84d4,
-    type: 3}
+  SpellButtonPrefab: {fileID: 7971129681570069999, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
   turnBasedSystem: {fileID: 1131004367}
 --- !u!1 &24009862
 GameObject:
@@ -651,8 +650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ContentContainer: {fileID: 770049548}
-  InfoPrefab: {fileID: 1663270179602338890, guid: 291ad0a3470df05448f19d368b98e24a,
-    type: 3}
+  InfoPrefab: {fileID: 1663270179602338890, guid: 291ad0a3470df05448f19d368b98e24a, type: 3}
 --- !u!224 &139910983
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1145,7 +1143,6 @@ GameObject:
   m_Component:
   - component: {fileID: 489335839}
   - component: {fileID: 489335840}
-  - component: {fileID: 489335841}
   - component: {fileID: 489335838}
   m_Layer: 0
   m_Name: Map Generator
@@ -1163,15 +1160,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 489335837}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ddff624ec21b7946bcb5eab725f5fb4, type: 3}
+  m_Script: {fileID: 11500000, guid: 86eff28bc31d53d42878648b65ddf309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TypeMap: 2
   TileList: {fileID: 1131004374}
   tilemap: {fileID: 14874894}
-  width: 30
-  height: 30
-  waterHeightMin: 3
-  waterHeightMax: 6
+  width: 50
+  height: 50
 --- !u!4 &489335839
 Transform:
   m_ObjectHideFlags: 0
@@ -1204,28 +1200,6 @@ MonoBehaviour:
   height: 20
   maxTunnels: 0
   maxLength: 15
---- !u!114 &489335841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 489335837}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a310ab1c7a9d984f8419aff493f15ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TileList: {fileID: 1131004374}
-  tilemap: {fileID: 14874894}
-  Tree: {fileID: 5321981901037820461, guid: d3930aa8a627466448756f98000aefa3, type: 3}
-  width: 30
-  height: 30
-  spawnsTree: 5
-  radius: 2
-  rejection: 5
-  spawnsWater: 4
-  widthWater: 15
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3916,8 +3890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ContentContainer: {fileID: 637663830}
-  InfoPrefab: {fileID: 1663270179602338890, guid: 291ad0a3470df05448f19d368b98e24a,
-    type: 3}
+  InfoPrefab: {fileID: 1663270179602338890, guid: 291ad0a3470df05448f19d368b98e24a, type: 3}
 --- !u!114 &1913935317
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,16 +1,29 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class GenerateForest : MonoBehaviour
 {
-    public TileList TileList;
-    public Tilemap tilemap;
-    public GameObject Tree;
-    public int width, height, spawnsTree, radius = 2, rejection = 10, spawnsWater, widthWater;
 
-    public List<Vector3Int> poissonDisk(int spawns, int radius, int rejection, int width, int height)
+    public static void createForest(
+        int spawnsTree,
+        int radius,
+        int rejection,
+        int widthWater,
+        int spawnsWater,
+        int width,
+        int height,
+        TileList TileList,
+        Tilemap tilemap,
+        GameObject Tree
+        )
+    {
+        GenerateGround.fillMap(width, height, TileList.grass, tilemap);
+        GenerateWater.createLake(width, height, spawnsWater, widthWater, tilemap, TileList.water);
+        randomGenerateForest(spawnsTree, radius, rejection, width, height, tilemap, Tree);
+    }
+
+    private static List<Vector3Int> poissonDisk(int spawns, int radius, int rejection, int width, int height)
     {
         float cellSize = (int)radius / Mathf.Sqrt(2);
 
@@ -56,15 +69,15 @@ public class GenerateForest : MonoBehaviour
         return points;
     }
 
-    public Vector3Int getCandidate(Vector3Int center, int radius)
+    private static Vector3Int getCandidate(Vector3Int center, int radius)
     {
-        List<Vector3Int> listCandidates = RangeUtils.getAreaCircleFull(center, radius * 2, tilemap, radius);
+        List<Vector3Int> listCandidates = RangeUtils.getAreaCircleFull(center, radius * 2, null, radius);
         int spawnIndex = UnityEngine.Random.Range(0, listCandidates.Count);
         Vector3Int candidate = listCandidates[spawnIndex];
         return candidate;
     }
 
-    bool isValid(Vector3Int candidate, int width, int height, float cellSize, float radius, List<Vector3Int> points, int[,] grid)
+    private static bool isValid(Vector3Int candidate, int width, int height, float cellSize, float radius, List<Vector3Int> points, int[,] grid)
     {
         if (candidate.x >= 0 && candidate.x < width && candidate.y >= 0 && candidate.y < height)
         {
@@ -95,7 +108,7 @@ public class GenerateForest : MonoBehaviour
         return false;
     }
 
-    void randomGenerateForest(int spawns, int radius, int rejection, int width, int height)
+    private static void randomGenerateForest(int spawns, int radius, int rejection, int width, int height, Tilemap tilemap, GameObject Tree)
     {
         List<Vector3Int> list = poissonDisk(spawns, radius, rejection, width, height);
         list.ForEach(a =>
@@ -109,19 +122,5 @@ public class GenerateForest : MonoBehaviour
                 Instantiate(Tree, posWorld, Quaternion.identity);
             }
         });
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        GenerateGround.fillMap(width, height, TileList.grass, tilemap);
-        GenerateWater.createLake(width, height, spawnsWater, widthWater, tilemap, TileList.water);
-        randomGenerateForest(spawnsTree, radius, rejection, width, height);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
