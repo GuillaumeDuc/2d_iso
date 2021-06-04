@@ -48,6 +48,6 @@ public class CreateMap : MonoBehaviour
                 break;
         }
         stopwatch.Stop();
-        Debug.Log("Elapsed Time is {0} ms " + stopwatch.ElapsedMilliseconds);
+        Debug.Log("Elapsed Time is " + stopwatch.ElapsedMilliseconds + " ms");
     }
 }

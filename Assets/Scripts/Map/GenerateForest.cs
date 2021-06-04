@@ -27,7 +27,7 @@ public class GenerateForest : MonoBehaviour
     {
         float cellSize = (int)radius / Mathf.Sqrt(2);
 
-        int[,] grid = new int[Mathf.CeilToInt(width / cellSize), Mathf.CeilToInt(width / cellSize)];
+        int[,] grid = new int[Mathf.CeilToInt(width / cellSize), Mathf.CeilToInt(height / cellSize)];
         List<Vector3Int> points = new List<Vector3Int>();
         List<Vector3Int> spawnPoints = new List<Vector3Int>();
 
