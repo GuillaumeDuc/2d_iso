@@ -8,15 +8,16 @@ public class SelectionMap : MonoBehaviour
 
     public void Start()
     {
+        int radius = 4, rejection = 30, width = 20, height = 10;
         // Height & width atch camera
-        List<Vector2> list = generatePoint(new Vector2(1, 5), 3, 10, 20, 10);
-        CreatePathSelection.createPath(list);
+        List<Vector2> list = generatePoint(radius, rejection, width, height);
+        CreatePathSelection.createPath(list, radius);
     }
 
-    private static List<Vector2> generatePoint(Vector2 spawn, int radius, int rejection, int width, int height)
+    private static List<Vector2> generatePoint(int radius, int rejection, int width, int height)
     {
         GameObject circle = Resources.Load<GameObject>("SelectionMap/desert_icon");
-        List<Vector2> list = poissonDisk(spawn, radius, rejection, width, height);
+        List<Vector2> list = poissonDisk(radius, rejection, width, height);
 
         list.ForEach(a =>
         {
@@ -26,12 +27,15 @@ public class SelectionMap : MonoBehaviour
         return list;
     }
 
-    private static List<Vector2> poissonDisk(Vector2 spawn, int radius, int rejection, int width, int height)
+    private static List<Vector2> poissonDisk(int radius, int rejection, int width, int height)
     {
         float cellSize = radius / Mathf.Sqrt(2);
 
         int[,] grid = new int[Mathf.CeilToInt(width / cellSize), Mathf.CeilToInt(height / cellSize)];
-        List<Vector2> points = new List<Vector2>();
+        Vector2 spawn = new Vector2(0.5f, height / 2);
+        // Add finish point
+        Vector2 finish = new Vector2(width - 0.5f, height / 2);
+        List<Vector2> points = new List<Vector2>() { spawn, finish };
         List<Vector2> spawnPoints = new List<Vector2>() { spawn };
 
         while (spawnPoints.Count > 0)
@@ -64,8 +68,8 @@ public class SelectionMap : MonoBehaviour
 
     private static bool isValid(Vector2 candidate, int width, int height, float cellSize, float radius, List<Vector2> points, int[,] grid)
     {
-        if (candidate.x >= 1 &&
-            candidate.x < width - 1 &&
+        if (candidate.x >= 2 &&
+            candidate.x < width - 2 &&
             candidate.y >= 1 &&
             candidate.y < height - 1)
         {

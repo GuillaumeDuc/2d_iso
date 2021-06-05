@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Positions
@@ -16,12 +17,47 @@ public class Positions
 
 public class CreatePathSelection : MonoBehaviour
 {
-    public void createPath(List<Vector2> list)
+    public void createPath(List<Vector2> list, int radius)
     {
-        for (int i = 0; i < list.Count - 1; i++)
+        Dictionary<Vector2, List<Vector2>> path = getPath(list, radius);
+        foreach (var p in path)
         {
-            createPathBetweenPoints(list[i], list[i + 1]);
+            p.Value.ForEach(v =>
+            {
+                Debug.Log("point : " + p.Key + " | next point : " + v);
+                createPathBetweenPoints(p.Key, v);
+            });
         }
+    }
+
+    private Dictionary<Vector2, List<Vector2>> getPath(List<Vector2> list, int radius)
+    {
+        // Key : point, Value : next points
+        Dictionary<Vector2, List<Vector2>> newList = new Dictionary<Vector2, List<Vector2>>();
+        list.ForEach(v =>
+        {
+            newList.Add(v, getNextPoints(list, v, radius));
+        });
+        return newList;
+    }
+
+    private List<Vector2> getNextPoints(List<Vector2> list, Vector2 v, int radius)
+    {
+        List<Vector2> nextPoints = new List<Vector2>();
+        list.ForEach(check =>
+        {
+            // Get only farther point
+            if (check.x > v.x)
+            {
+                // Get closest points in radius
+                float sqrDst = (v - check).sqrMagnitude;
+                if (sqrDst < radius * radius * 2)
+                {
+                    nextPoints.Add(check);
+                }
+            }
+        });
+        return nextPoints;
     }
 
     private void createPathBetweenPoints(Vector2 v1, Vector2 v2)
