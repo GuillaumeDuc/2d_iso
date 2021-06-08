@@ -250,6 +250,7 @@ GameObject:
   - component: {fileID: 2043008482}
   - component: {fileID: 2043008483}
   - component: {fileID: 2043008484}
+  - component: {fileID: 2043008485}
   m_Layer: 0
   m_Name: Selection System
   m_TagString: Untagged
@@ -283,7 +284,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1131616c5dee47043ac9dc9e0f82cdfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CreatePathSelection: {fileID: 2043008484}
+  CreatePathsSelection: {fileID: 2043008484}
+  PlacePointsSelection: {fileID: 2043008485}
 --- !u!114 &2043008484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +296,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e539be62dc99d474d85e4e1632ba9ac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2043008485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043008481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c24e9e388ac786d45928ac1d6877e89f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2110209842

@@ -15,42 +15,45 @@ public class Positions
     }
 }
 
-public class CreatePathSelection : MonoBehaviour
+public class CreatePathsSelection : MonoBehaviour
 {
-    public void createPath(List<Vector2> list, int radius)
+    public void createPath(List<LocationPoint> list, int radius)
     {
-        Dictionary<Vector2, List<Vector2>> path = getPath(list, radius);
+        List<LocationPoint> path = getPath(list, radius);
         foreach (var p in path)
         {
-            p.Value.ForEach(v =>
+            p.nextLocations.ForEach(v =>
             {
-                Debug.Log("point : " + p.Key + " | next point : " + v);
-                createPathBetweenPoints(p.Key, v);
+                createPathBetweenPoints(p, v);
             });
         }
     }
 
-    private Dictionary<Vector2, List<Vector2>> getPath(List<Vector2> list, int radius)
+    private List<LocationPoint> getPath(List<LocationPoint> list, int radius)
     {
-        // Key : point, Value : next points
-        Dictionary<Vector2, List<Vector2>> newList = new Dictionary<Vector2, List<Vector2>>();
+        List<LocationPoint> newList = new List<LocationPoint>();
         list.ForEach(v =>
         {
-            newList.Add(v, getNextPoints(list, v, radius));
+            // Set previous and next points
+            v.nextLocations = getNextPoints(list, v.gameObject.transform.position, radius);
+            v.previousLocations.ForEach(a =>
+            {
+                a.previousLocations.Add(v);
+            });
+            newList.Add(v);
         });
         return newList;
     }
 
-    private List<Vector2> getNextPoints(List<Vector2> list, Vector2 v, int radius)
+    private List<LocationPoint> getNextPoints(List<LocationPoint> list, Vector2 v, int radius)
     {
-        List<Vector2> nextPoints = new List<Vector2>();
+        List<LocationPoint> nextPoints = new List<LocationPoint>();
         list.ForEach(check =>
         {
-            // Get only farther point
-            if (check.x > v.x)
+            if (check.gameObject.transform.position.x > v.x)
             {
                 // Get closest points in radius
-                float sqrDst = (v - check).sqrMagnitude;
+                float sqrDst = (v - (Vector2)check.gameObject.transform.position).sqrMagnitude;
                 if (sqrDst < radius * radius * 2)
                 {
                     nextPoints.Add(check);
@@ -60,11 +63,11 @@ public class CreatePathSelection : MonoBehaviour
         return nextPoints;
     }
 
-    private void createPathBetweenPoints(Vector2 v1, Vector2 v2)
+    private void createPathBetweenPoints(LocationPoint v1, LocationPoint v2)
     {
         float height = 0.05f;
         float pieces = 5;
-        List<Positions> list = breakInPieces(v1, v2, height, pieces);
+        List<Positions> list = breakInPieces(v1.gameObject.transform.position, v2.gameObject.transform.position, height, pieces);
 
         list.ForEach(pos =>
         {
@@ -72,7 +75,7 @@ public class CreatePathSelection : MonoBehaviour
             RandomRectangle rRectangle = rectangle.AddComponent<RandomRectangle>();
 
             rRectangle.setRectangle(pos.upLeft, pos.upRight, pos.bottomLeft, pos.bottomRight);
-            GameObject go = Instantiate(rectangle, v1, Quaternion.identity);
+            GameObject go = Instantiate(rectangle, v1.gameObject.transform.position, Quaternion.identity);
             Destroy(go);
         });
     }
