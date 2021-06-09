@@ -34,9 +34,10 @@ public class CreatePathsSelection : MonoBehaviour
         List<LocationPoint> newList = new List<LocationPoint>();
         list.ForEach(v =>
         {
-            // Set previous and next points
+            // Set next points
             v.nextLocations = getNextPoints(list, v.gameObject.transform.position, radius);
-            v.previousLocations.ForEach(a =>
+            // Set previous points
+            v.nextLocations.ForEach(a =>
             {
                 a.previousLocations.Add(v);
             });
@@ -66,7 +67,7 @@ public class CreatePathsSelection : MonoBehaviour
     private void createPathBetweenPoints(LocationPoint v1, LocationPoint v2)
     {
         float height = 0.05f;
-        float pieces = 5;
+        float pieces = 4;
         List<Positions> list = breakInPieces(v1.gameObject.transform.position, v2.gameObject.transform.position, height, pieces);
 
         list.ForEach(pos =>
@@ -92,15 +93,17 @@ public class CreatePathsSelection : MonoBehaviour
     {
         List<Positions> listPos = new List<Positions>();
 
-        float lengthX = (v1.x - v2.x) / pieces;
-        float lengthY = (v1.y - v2.y) / pieces;
+        // +2 pieces total to get 2 space step
+        float lengthX = (v1.x - v2.x) / (pieces + 2);
+        float lengthY = (v1.y - v2.y) / (pieces + 2);
 
-        float stepX = lengthX / pieces;
-        float stepY = lengthY / pieces;
+        // Total space step is equal 2 pieces of a length
+        float stepX = (lengthX * 2 / (pieces + 1));
+        float stepY = (lengthY * 2 / (pieces + 1));
 
         Vector2 current = new Vector2(v1.x, v1.y);
 
-        for (int i = 0; i < pieces - 1; i++)
+        for (int i = 0; i < pieces; i++)
         {
             current.x = current.x -= stepX;
             current.y = current.y -= stepY;

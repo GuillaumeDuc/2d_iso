@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6388644922203184558}
   - component: {fileID: 2416636211998930507}
   - component: {fileID: -7684728242349475490}
+  - component: {fileID: 5558862916198376200}
   m_Layer: 0
   m_Name: LocationPoint
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   TypeMap: 0
   TypeLocation: 0
   visited: 0
+  clickable: 0
   nextLocations: []
   previousLocations: []
 --- !u!212 &-7684728242349475490
@@ -101,3 +103,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!65 &5558862916198376200
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2691609473235094148}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.5, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}

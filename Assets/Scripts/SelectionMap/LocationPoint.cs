@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public enum TypeLocation { Start, Location, End }
 
-public class LocationPoint : MonoBehaviour
+public class LocationPoint : MonoBehaviour, IPointerClickHandler
 {
     public string nameLocation;
     public TypeMap TypeMap;
     public TypeLocation TypeLocation = TypeLocation.Location;
-    public bool visited = false;
+    public bool visited = false, clickable = false;
     public List<LocationPoint> nextLocations = new List<LocationPoint>();
     public List<LocationPoint> previousLocations = new List<LocationPoint>();
+    public System.Action<LocationPoint> onClickAction;
+
     public void setIcon(TypeMap TypeMap)
     {
         this.TypeMap = TypeMap;
@@ -47,6 +50,20 @@ public class LocationPoint : MonoBehaviour
         gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
     }
 
+    public void setVisited(bool visited)
+    {
+        this.visited = visited;
+        SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
+        if (visited)
+        {
+            sr.color = Color.gray;
+        }
+        else
+        {
+            sr.color = Color.white;
+        }
+    }
+
     public override bool Equals(System.Object obj)
     {
         //Check for null and compare run-time types.
@@ -66,4 +83,8 @@ public class LocationPoint : MonoBehaviour
         return gameObject.transform.position.GetHashCode();
     }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        onClickAction(this);
+    }
 }
