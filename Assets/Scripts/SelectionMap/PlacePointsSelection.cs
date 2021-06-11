@@ -13,6 +13,8 @@ public class PlacePointsSelection : MonoBehaviour
         list.ForEach(a =>
         {
             GameObject go = Instantiate(circle, a, Quaternion.identity);
+            // set position
+            go.GetComponent<LocationPoint>().position = go.transform.position;
             locations.Add(go.GetComponent<LocationPoint>());
         });
 

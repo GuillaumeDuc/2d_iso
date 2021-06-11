@@ -6,14 +6,20 @@ using UnityEngine.Tilemaps;
 public enum TypeMap { Beach, Desert, Forest }
 public class CreateMap : MonoBehaviour
 {
-    public TypeMap TypeMap;
     public TileList TileList;
     public Tilemap tilemap;
-    public int width, height;
+
+    private TypeMap TypeMap;
+    private int width, height;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Get map dimensions
+        TypeMap = SceneInfo.TypeMap;
+        width = SceneInfo.width;
+        height = SceneInfo.height;
+
         System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
         stopwatch.Start();
         GameObject Tree = Resources.Load<GameObject>("Tilemaps/Tree");

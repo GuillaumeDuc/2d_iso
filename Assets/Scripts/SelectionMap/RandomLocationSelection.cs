@@ -28,7 +28,6 @@ public static class RandomLocationSelection
             // Beach
             if (l.gameObject.transform.position.y >= height - (height / 5))
             {
-                
                 l.setIcon(TypeMap.Beach);
             }
             // Forest & Desert

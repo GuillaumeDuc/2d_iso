@@ -167,7 +167,7 @@ public class TurnBasedSystem : MonoBehaviour
         //  Remove dead characters
         List<Unit> deadPlayerList = new List<Unit>();
         List<Unit> deadEnemyList = new List<Unit>();
-        
+
         foreach (var p in playerList)
         {
             // Take damages
@@ -224,7 +224,8 @@ public class TurnBasedSystem : MonoBehaviour
     {
         // Wait for anim to finish
         yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene("SelectionMap");
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     string getWinningSideText()
@@ -302,7 +303,7 @@ public class TurnBasedSystem : MonoBehaviour
         green1Stats.setSpellList(SpellList.Slash);
         green1Stats.setSpellList(SpellList.Teleportation);
         green1Stats.setStats(phantom, "Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
-        
+
         // Add characters in lists
         enemyList = new Dictionary<Unit, GameObject>() {
             { green1Stats, phantom },

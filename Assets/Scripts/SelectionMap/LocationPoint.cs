@@ -10,10 +10,35 @@ public class LocationPoint : MonoBehaviour, IPointerClickHandler
     public string nameLocation;
     public TypeMap TypeMap;
     public TypeLocation TypeLocation = TypeLocation.Location;
-    public bool visited = false, clickable = false;
+    public bool visited = false, clickable = false, cleared = false, currentLocation = false;
     public List<LocationPoint> nextLocations = new List<LocationPoint>();
     public List<LocationPoint> previousLocations = new List<LocationPoint>();
     public System.Action<LocationPoint> onClickAction;
+    public Vector2 position;
+
+    public void setLocationPoint(LocationPoint lp)
+    {
+        nameLocation = lp.nameLocation;
+        TypeMap = lp.TypeMap;
+        TypeLocation = lp.TypeLocation;
+        visited = lp.visited;
+        clickable = lp.clickable;
+        cleared = lp.cleared;
+        position = lp.position;
+        currentLocation = lp.currentLocation;
+    }
+
+    public void setNPClickable(bool clickable)
+    {
+        nextLocations.ForEach(a =>
+                {
+                    a.clickable = clickable;
+                });
+        previousLocations.ForEach(a =>
+        {
+            a.clickable = clickable;
+        });
+    }
 
     public void setIcon(TypeMap TypeMap)
     {
@@ -53,8 +78,23 @@ public class LocationPoint : MonoBehaviour, IPointerClickHandler
     public void setVisited(bool visited)
     {
         this.visited = visited;
+        setColor();
+    }
+
+    public void setCleared(bool cleared)
+    {
+        this.cleared = cleared;
+        setColor();
+    }
+
+    public void setColor()
+    {
         SpriteRenderer sr = gameObject.GetComponent<SpriteRenderer>();
-        if (visited)
+        if (cleared)
+        {
+            sr.color = Color.black;
+        }
+        else if (visited)
         {
             sr.color = Color.gray;
         }
@@ -74,7 +114,7 @@ public class LocationPoint : MonoBehaviour, IPointerClickHandler
         else
         {
             LocationPoint u = (LocationPoint)obj;
-            return gameObject.transform.position == u.gameObject.transform.position;
+            return position == u.position;
         }
     }
 
@@ -85,6 +125,6 @@ public class LocationPoint : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        onClickAction(this);
+        onClickAction?.Invoke(this);
     }
 }
