@@ -34,9 +34,9 @@ public static class GenerateWater
         for (int i = 0; i < depth; i++)
         {
             List<Vector3Int> neighbours = new List<Vector3Int>();
-            foreach (var w in waterList)
+            for (int j = 0; j < waterList.Count; j++)
             {
-                Vector3Int rndCell = randomCell(w, width, height);
+                Vector3Int rndCell = randomCell(waterList[j], width, height);
                 if (isValid(rndCell, width, height, neighbours, waterList))
                 {
                     neighbours.Add(rndCell);

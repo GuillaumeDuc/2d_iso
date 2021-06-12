@@ -16,9 +16,18 @@ public class CreateMap : MonoBehaviour
     void Start()
     {
         // Get map dimensions
-        TypeMap = SceneInfo.TypeMap;
-        width = SceneInfo.width;
-        height = SceneInfo.height;
+        if (SceneInfo.width == 0)
+        {
+            TypeMap = TypeMap.Forest;
+            width = 100;
+            height = 100;
+        }
+        else
+        {
+            TypeMap = SceneInfo.TypeMap;
+            width = SceneInfo.width;
+            height = SceneInfo.height;
+        }
 
         System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
         stopwatch.Start();
@@ -38,7 +47,7 @@ public class CreateMap : MonoBehaviour
                     spawnsTree = height / 6,
                     radius = 2,
                     rejection = 5,
-                    widthWater = height /3;
+                    widthWater = height / 3;
                 GenerateForest.createForest(
                     spawnsTree,
                     radius,
