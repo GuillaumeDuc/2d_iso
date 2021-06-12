@@ -18,7 +18,6 @@ public class SpellEffectList : MonoBehaviour
         Teleport
         ;
 
-
     void Start()
     {
         // Create Obstacle
@@ -69,7 +68,17 @@ public class SpellEffectList : MonoBehaviour
         area.ForEach(cell =>
         {
             // Apply status to obstacleList
-            // obstacleList[cell];
+            GameObject obstacleGO = null;
+            try { obstacleGO = obstacleList[cell]; }
+            catch { }
+            if (obstacleGO != null)
+            {
+                Obstacle obstacle = obstacleGO.GetComponent<Obstacle>();
+                spellEffect.statusList.ForEach(status =>
+                {
+                    obstacle.addStatus(new Status(status));
+                });
+            }
 
             // Apply status to characters
             Unit character = getUnitFromPos(allCharacters, cell);

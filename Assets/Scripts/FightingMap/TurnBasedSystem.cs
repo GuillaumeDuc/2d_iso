@@ -142,7 +142,7 @@ public class TurnBasedSystem : MonoBehaviour
     public void applyStatus()
     {
         // Update status for characters
-        applyStatusCharacter();
+        applyStatusEntities();
 
         // Update status for all tiles
         BoundsInt bounds = tilemap.cellBounds;
@@ -162,12 +162,14 @@ public class TurnBasedSystem : MonoBehaviour
         tilemap.RefreshAllTiles();
     }
 
-    void applyStatusCharacter()
+    void applyStatusEntities()
     {
         //  Remove dead characters
         List<Unit> deadPlayerList = new List<Unit>();
         List<Unit> deadEnemyList = new List<Unit>();
+        List<Vector3Int> destroyedObstacleList = new List<Vector3Int>();
 
+        // Players
         foreach (var p in playerList)
         {
             // Take damages
@@ -180,6 +182,7 @@ public class TurnBasedSystem : MonoBehaviour
                 deadPlayerList.Add(p.Key);
             }
         }
+        // Enemies
         foreach (var e in enemyList)
         {
             // Take damages
@@ -192,6 +195,20 @@ public class TurnBasedSystem : MonoBehaviour
                 deadEnemyList.Add(e.Key);
             }
         }
+        // Obstacle
+        foreach (var o in obstacleList)
+        {
+            Obstacle obstacle = o.Value.GetComponent<Obstacle>();
+            // Take damages
+            obstacle.takeStatus();
+            // Update status
+            obstacle.updateStatus();
+
+            if (obstacle.currentHP <= 0)
+            {
+                destroyedObstacleList.Add(o.Key);
+            }
+        }
 
         foreach (var s in deadPlayerList)
         {
@@ -202,6 +219,11 @@ public class TurnBasedSystem : MonoBehaviour
         {
             enemyList.Remove(s);
             Destroy(s.unitGO);
+        }
+        foreach (var s in destroyedObstacleList)
+        {
+            Destroy(obstacleList[s]);
+            obstacleList.Remove(s);
         }
         // Try end everytime character take damage
         tryEndGame();

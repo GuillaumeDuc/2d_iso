@@ -7,6 +7,12 @@ public class Obstacle : MonoBehaviour
     public int maxHP, currentHP;
     public List<Status> statusList = new List<Status>();
 
+    public void setHP(int hp)
+    {
+        maxHP = hp;
+        currentHP = hp;
+    }
+
     public bool takeDamage(int dmg)
     {
         currentHP -= dmg;
