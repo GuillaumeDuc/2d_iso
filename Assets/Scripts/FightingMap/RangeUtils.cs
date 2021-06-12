@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public static class RangeUtils
 {
@@ -58,6 +59,11 @@ public static class RangeUtils
         return lineOfSightArray;
     }
 
+    internal static IEnumerable<Vector3Int> getAreaCircleFull()
+    {
+        throw new NotImplementedException();
+    }
+
     public static List<Vector3Int> getAreaCircleEmpty(Vector3Int cell, int area, Tilemap tilemap)
     {
         List<Vector3Int> areaList = new List<Vector3Int>(getAreaCircleFull(cell, area, tilemap));
@@ -66,7 +72,7 @@ public static class RangeUtils
         return areaList;
     }
 
-    public static List<Vector3Int> getAreaCircleFull(Vector3Int cell, int area, Tilemap tilemap, int min = 0)
+    public static List<Vector3Int> getAreaCircleFull(Vector3Int cell, int area, Tilemap tilemap = null, int min = 0, List<Vector3Int> excludeList = null)
     {
         List<Vector3Int> areaList = new List<Vector3Int>() { cell };
         List<Vector3Int> adjList = new List<Vector3Int>(getAdjacentSquares(cell));
@@ -78,10 +84,13 @@ public static class RangeUtils
             {
                 if (!areaList.Contains(c))
                 {
-                    // Add cell to returned list
-                    areaList.Add(c);
-                    // Add adjacent squares to next list
-                    nextList.UnionWith(getAdjacentSquares(c));
+                    if (excludeList == null || !excludeList.Contains(c))
+                    {
+                        // Add cell to returned list
+                        areaList.Add(c);
+                        // Add adjacent squares to next list
+                        nextList.UnionWith(getAdjacentSquares(c));
+                    }
                 }
             }
             // Assign new adjacent squares

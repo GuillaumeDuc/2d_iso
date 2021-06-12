@@ -6,7 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/FightingMap.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/SelectionMap.unity
+    guid: d79e8490971d2434b96eb288359a0080
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: f935822db19dafb43ae1aaafe9a2ac11, type: 2}
