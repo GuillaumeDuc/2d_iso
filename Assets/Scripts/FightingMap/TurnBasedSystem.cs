@@ -222,7 +222,7 @@ public class TurnBasedSystem : MonoBehaviour
         }
         foreach (var s in destroyedObstacleList)
         {
-            Destroy(obstacleList[s]);
+            DestroyImmediate(obstacleList[s]);
             obstacleList.Remove(s);
         }
         // Try end everytime character take damage
@@ -307,12 +307,13 @@ public class TurnBasedSystem : MonoBehaviour
 
         // Init Player
         Unit PlayerStats = Player.GetComponent<Unit>();
-        PlayerStats.setSpellList(SpellList.Explosion);
-        PlayerStats.setSpellList(SpellList.Icycle);
-        PlayerStats.setSpellList(SpellList.Sandwall);
-        PlayerStats.setSpellList(SpellList.Blackhole);
-        PlayerStats.setSpellList(SpellList.Teleportation);
-        PlayerStats.setSpellList(SpellList.Slash);
+        PlayerStats.setSpellList(new Spell(SpellList.Explosion));
+        PlayerStats.setSpellList(new Spell(SpellList.Icycle));
+        PlayerStats.setSpellList(new Spell(SpellList.Sandwall));
+        PlayerStats.setSpellList(new Spell(SpellList.Blackhole));
+        PlayerStats.setSpellList(new Spell(SpellList.Teleportation));
+        PlayerStats.setSpellList(new Spell(SpellList.Slash));
+        PlayerStats.setSpellList(new Spell(SpellList.Meteor));
         PlayerStats.setStats(Player, "Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3, 110);
         PlayerStats.playable = true;
 
@@ -322,8 +323,8 @@ public class TurnBasedSystem : MonoBehaviour
         GameObject phantom = InstantiatePlayer(EnemyPrefab, new Vector3Int(10, 15, 0));
         Transform green1Transform = phantom.GetComponent<Transform>();
         Unit green1Stats = phantom.GetComponent<Unit>();
-        green1Stats.setSpellList(SpellList.Slash);
-        green1Stats.setSpellList(SpellList.Teleportation);
+        green1Stats.setSpellList(new Spell(SpellList.Slash));
+        green1Stats.setSpellList(new Spell(SpellList.Teleportation));
         green1Stats.setStats(phantom, "Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
 
         // Add characters in lists

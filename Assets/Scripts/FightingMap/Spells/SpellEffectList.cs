@@ -8,14 +8,15 @@ public class SpellEffectList : MonoBehaviour
 {
     public StatusList StatusList;
 
-    private Tile obstacleTile;
+    public TileList TileList;
 
     public SpellEffect
         CreateObstacle,
         PushFromPlayer,
         Fire,
         Freeze,
-        Teleport
+        Teleport,
+        BurnTile
         ;
 
     void Start()
@@ -45,6 +46,34 @@ public class SpellEffectList : MonoBehaviour
         // Teleport from a point to another point
         Teleport = new SpellEffect("TeleportEffect");
         Teleport.applyEffectAction = teleportPlayerEffect;
+
+        // Change Tile
+        BurnTile = new SpellEffect("ChangeTileEffect");
+        BurnTile.applyEffectAction = burnTileEffect;
+    }
+
+    public void burnTileEffect(
+        Spell spell,
+        Unit caster,
+        SpellEffect spellEffect,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        List<Vector3Int> area = spell.getArea(obstacleList, tilemap);
+
+        area.ForEach(a =>
+        {
+            TileBase t = tilemap.GetTile(a);
+            if (t != null)
+            {
+                GroundTile burnt = ScriptableObject.CreateInstance<GroundTile>();
+                burnt.setTile(TileList.burnt);
+                tilemap.SetTile(a, burnt);
+            }
+        });
     }
 
     public void applyEffect(

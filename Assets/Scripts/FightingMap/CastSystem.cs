@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
 using System.Linq;
+using System.Collections;
 
 public class CastSystem : MonoBehaviour
 {
@@ -12,15 +13,6 @@ public class CastSystem : MonoBehaviour
     public DrawOnMap DrawOnMap;
 
     private Tile threeSidesTile, threeSidesBottomTile, twoSidesLeftTile, twoSidesRightTile, transparent;
-
-    private void Start()
-    {
-        threeSidesTile = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_empty_three_sides_top_tile");
-        threeSidesBottomTile = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_empty_three_sides_side_tile");
-        twoSidesLeftTile = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_empty_two_sides_left_tile");
-        twoSidesRightTile = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_empty_two_sides_right_tile");
-        transparent = Resources.Load<Tile>("Tilemaps/CellsGrid/grid_transparent_tile");
-    }
 
     public CastState cast(
         Spell spell,
@@ -66,6 +58,7 @@ public class CastSystem : MonoBehaviour
                 castSpell(spell, player, playerList, enemyList, obstacleList, tilemap);
             }
             spell.spellPos.Clear();
+
             return CastState.DEFAULT;
         }
 
@@ -82,12 +75,25 @@ public class CastSystem : MonoBehaviour
         )
     {
         spell.doDamage(playerList, enemyList, obstacleList, tilemap);
-        spell.applyEffect(player, playerList, enemyList, obstacleList, tilemap);
+        StartCoroutine(delayEffect(new Spell(spell), player, playerList, enemyList, obstacleList, tilemap));
         spell.playAnimation(obstacleList, tilemap);
         spell.animateCaster(player);
 
         player.currentMana -= spell.manaCost;
         updateScrollViews(playerList, enemyList);
+    }
+
+    public IEnumerator delayEffect(
+        Spell spell,
+        Unit player,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        yield return new WaitForSeconds(spell.delayEffect);
+        spell.applyEffect(player, playerList, enemyList, obstacleList, tilemap);
     }
 
     public void updateScrollViews(
@@ -97,69 +103,5 @@ public class CastSystem : MonoBehaviour
     {
         EnemiesScrollView.updateScrollView();
         PlayersScrollView.updateScrollView();
-    }
-
-    public void showSpellRangeEmpty(Spell spell, Vector3Int playerPos, Tilemap tilemap)
-    {
-        // Get empty circle
-        List<Vector3Int> listSquare = RangeUtils.getAreaCircleEmpty(playerPos, spell.area, tilemap);
-
-        // Check each square to orientate picture
-        listSquare.ForEach(s =>
-        {
-            float x = s.x - playerPos.x;
-            float y = s.y - playerPos.y;
-
-            if (RangeUtils.getNbFarthestAdjSquares(tilemap, playerPos, s) == 3)
-            {
-                // Top
-                if (x <= 0 && y > 0)
-                {
-                    tilemap.SetTile(s, threeSidesTile);
-                }
-                // Bottom
-                else if (x <= 0 && y < 0)
-                {
-                    tilemap.SetTile(s, threeSidesTile);
-                    tilemap.SetTransformMatrix(s, Matrix4x4.Rotate(Quaternion.Euler(0, 0, 180f)));
-                }
-                // Left
-                else if (x < 0)
-                {
-                    tilemap.SetTile(s, threeSidesBottomTile);
-                }
-                // Right
-                else
-                {
-                    tilemap.SetTile(s, threeSidesBottomTile);
-                    tilemap.SetTransformMatrix(s, Matrix4x4.Rotate(Quaternion.Euler(0, 0, 180f)));
-                }
-            }
-            else
-            {
-                // Bottom left 
-                if (x < 0 && y < 0)
-                {
-                    tilemap.SetTile(s, twoSidesRightTile);
-                    tilemap.SetTransformMatrix(s, Matrix4x4.Rotate(Quaternion.Euler(0, 0, 180f)));
-                }
-                // Top Right
-                else if (x > 0 && y > 0)
-                {
-                    tilemap.SetTile(s, twoSidesRightTile);
-                }
-                // Top left
-                else if (x < 0)
-                {
-                    tilemap.SetTile(s, twoSidesLeftTile);
-                }
-                // Bottom right
-                else
-                {
-                    tilemap.SetTile(s, twoSidesLeftTile);
-                    tilemap.SetTransformMatrix(s, Matrix4x4.Rotate(Quaternion.Euler(0, 180f, 0)));
-                }
-            }
-        });
     }
 }

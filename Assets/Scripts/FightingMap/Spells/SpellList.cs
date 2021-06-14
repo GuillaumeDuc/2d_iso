@@ -16,7 +16,8 @@ public class SpellList : MonoBehaviour
         Sandwall,
         Blackhole,
         Teleportation,
-        Slash
+        Slash,
+        Meteor
         ;
 
     private string nameSpell;
@@ -99,6 +100,21 @@ public class SpellList : MonoBehaviour
         Slash.doDamageAction = doDamage;
         // Animate Caster
         Slash.animateCasterAction = animateCasterAttack;
+
+        // Meteor
+        nameSpell = "Meteor";
+        GameObject MeteorGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+        Meteor = new Spell(MeteorGO, nameSpell, 100, 15, 7, false, 1, false, 100);
+        Meteor.getRangeList = getRangeInCircleFullPlayer;
+        Meteor.getAreaList = getAreaInCircleFull;
+        Meteor.animate = animateOnCell;
+        Meteor.canCastOn = canCast;
+        // Damage
+        Meteor.doDamageAction = doDamage;
+        // Effects
+        Meteor.spellEffectList.Add(SpellEffectList.BurnTile);
+        // Delay
+        Meteor.delayEffect = 5.5f;
     }
 
     public bool canCast(
@@ -402,7 +418,7 @@ public class SpellList : MonoBehaviour
         foreach (var s in destroyedObstacleList)
         {
             obstacleList.Remove(s.Key);
-            Destroy(s.Value);
+            DestroyImmediate(s.Value);
         }
     }
 

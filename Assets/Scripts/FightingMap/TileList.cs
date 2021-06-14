@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class TileList : MonoBehaviour
 {
-    public GroundTile brick, grass, sand;
+    public GroundTile brick, grass, sand, burnt;
     public WaterTile water;
     public StatusList StatusList;
     public Tilemap tilemap;
@@ -33,6 +33,13 @@ public class TileList : MonoBehaviour
         sand.m_Sprite = sandSprite;
         sand.m_Preview = sandSprite;
         sand.name = "Sand";
+
+        // Burnt Tile
+        burnt = ScriptableObject.CreateInstance<GroundTile>();
+        Sprite burntSprite = Resources.Load<Sprite>("Tilemaps/Burnt/burnt_tile_iso");
+        burnt.m_Sprite = burntSprite;
+        burnt.m_Preview = burntSprite;
+        burnt.name = "Burnt";
 
         // Water Tile
         water = ScriptableObject.CreateInstance<WaterTile>();

@@ -8,6 +8,7 @@ public class Spell
     public Sprite sprite;
     string nameSpell;
     public int range, area, damage, clickNb, manaCost;
+    public float delayEffect;
     public bool lineOfSight, uniqueCellArea;
     public List<Vector3Int> spellPos;
     public List<SpellEffect> spellEffectList;
@@ -68,6 +69,30 @@ public class Spell
         });
     }
 
+    public Spell(Spell spell)
+    {
+        spellGO = spell.spellGO;
+        sprite = spell.sprite;
+        nameSpell = spell.nameSpell;
+        range = spell.range;
+        area = spell.area;
+        damage = spell.damage;
+        lineOfSight = spell.lineOfSight;
+        clickNb = spell.clickNb;
+        uniqueCellArea = spell.uniqueCellArea;
+        manaCost = spell.manaCost;
+        spellPos = new List<Vector3Int>(spell.spellPos);
+        spellEffectList = new List<SpellEffect>(spell.spellEffectList);
+        delayEffect = spell.delayEffect;
+
+        animate = spell.animate;
+        getAreaList = spell.getAreaList;
+        getRangeList = spell.getRangeList;
+        canCastOn = spell.canCastOn;
+        doDamageAction = spell.doDamageAction;
+        animateCasterAction = spell.animateCasterAction;
+    }
+
     public Spell(
         GameObject spellGO,
         string nameSpell,
@@ -92,6 +117,7 @@ public class Spell
         this.manaCost = manaCost;
         spellPos = new List<Vector3Int>();
         spellEffectList = new List<SpellEffect>();
+        delayEffect = 0;
     }
 
     override public string ToString()
