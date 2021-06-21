@@ -67,7 +67,7 @@ public class SpellEffectList : MonoBehaviour
         area.ForEach(a =>
         {
             TileBase t = tilemap.GetTile(a);
-            if (t != null)
+            if (t != null && !(t is WaterTile))
             {
                 GroundTile burnt = ScriptableObject.CreateInstance<GroundTile>();
                 burnt.setTile(TileList.burnt);

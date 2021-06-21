@@ -104,9 +104,9 @@ public class SpellList : MonoBehaviour
         // Meteor
         nameSpell = "Meteor";
         GameObject MeteorGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-        Meteor = new Spell(MeteorGO, nameSpell, 100, 15, 7, false, 1, false, 100);
+        Meteor = new Spell(MeteorGO, nameSpell, 100, 15, 4, false, 1, false, 100);
         Meteor.getRangeList = getRangeInCircleFullPlayer;
-        Meteor.getAreaList = getAreaInCircleFull;
+        Meteor.getAreaList = getAreaAndresCircle;
         Meteor.animate = animateOnCell;
         Meteor.canCastOn = canCast;
         // Damage
@@ -114,7 +114,8 @@ public class SpellList : MonoBehaviour
         // Effects
         Meteor.spellEffectList.Add(SpellEffectList.BurnTile);
         // Delay
-        Meteor.delayEffect = 5.5f;
+        Meteor.delayEffect = 6.7f;
+        Meteor.delayDamage = 4.1f;
     }
 
     public bool canCast(
@@ -347,14 +348,30 @@ public class SpellList : MonoBehaviour
         return area;
     }
 
-    // Damage
-    public void doDamage(
+    public List<Vector3Int> getAreaAndresCircle(
         Spell spell,
-        Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
+    {
+        List<Vector3Int> area = new List<Vector3Int>();
+
+        spell.spellPos.ForEach(s =>
+        {
+            area = area.Concat(RangeUtils.AndresCircle(s.x, s.y, spell.area)).ToList();
+        });
+
+        return area;
+    }
+
+    // Damage
+    public void doDamage(
+    Spell spell,
+    Dictionary<Unit, GameObject> playerList,
+    Dictionary<Unit, GameObject> enemyList,
+    Dictionary<Vector3Int, GameObject> obstacleList,
+    Tilemap tilemap
+    )
     {
         List<Vector3Int> areaSpell = spell.getArea(obstacleList, tilemap);
         Dictionary<Unit, GameObject> deadPlayerList = new Dictionary<Unit, GameObject>();

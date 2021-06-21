@@ -12,6 +12,8 @@ public class CastSystem : MonoBehaviour
 
     public DrawOnMap DrawOnMap;
 
+    public bool casted = false, isCasting = false, isDamaging = false, isEffect = false;
+
     private Tile threeSidesTile, threeSidesBottomTile, twoSidesLeftTile, twoSidesRightTile, transparent;
 
     public CastState cast(
@@ -66,7 +68,7 @@ public class CastSystem : MonoBehaviour
     }
 
     public void castSpell(
-        Spell spell,
+        Spell s,
         Unit player,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
@@ -74,13 +76,38 @@ public class CastSystem : MonoBehaviour
         Tilemap tilemap
         )
     {
-        spell.doDamage(playerList, enemyList, obstacleList, tilemap);
-        StartCoroutine(delayEffect(new Spell(spell), player, playerList, enemyList, obstacleList, tilemap));
+        // Save previous spell caracteristics
+        Spell spell = new Spell(s);
+
+        isCasting = true;
+        isDamaging = true;
+        isEffect = true;
+
+        // Damage
+        StartCoroutine(delayDamage(spell, playerList, enemyList, obstacleList, tilemap));
+
+        // Effect
+        if (spell.delayEffect != 0)
+        {
+            StartCoroutine(delayEffect(spell, player, playerList, enemyList, obstacleList, tilemap));
+        }
+        else
+        {
+            spell.applyEffect(player, playerList, enemyList, obstacleList, tilemap);
+            isEffect = false;
+        }
+
+        // Animation
         spell.playAnimation(obstacleList, tilemap);
+
+        // Animate caster
         spell.animateCaster(player);
 
+        // Mana
         player.currentMana -= spell.manaCost;
         updateScrollViews(playerList, enemyList);
+
+        updateIsCasting();
     }
 
     public IEnumerator delayEffect(
@@ -94,6 +121,23 @@ public class CastSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(spell.delayEffect);
         spell.applyEffect(player, playerList, enemyList, obstacleList, tilemap);
+        isEffect = false;
+        updateIsCasting();
+    }
+
+    public IEnumerator delayDamage(
+        Spell spell,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        yield return new WaitForSeconds(spell.delayDamage);
+        spell.doDamage(playerList, enemyList, obstacleList, tilemap);
+        updateScrollViews(playerList, enemyList);
+        isDamaging = false;
+        updateIsCasting();
     }
 
     public void updateScrollViews(
@@ -103,5 +147,14 @@ public class CastSystem : MonoBehaviour
     {
         EnemiesScrollView.updateScrollView();
         PlayersScrollView.updateScrollView();
+    }
+
+    private void updateIsCasting()
+    {
+        if (!isDamaging && !isEffect)
+        {
+            isCasting = false;
+            casted = true;
+        }
     }
 }

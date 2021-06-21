@@ -8,7 +8,7 @@ public class Spell
     public Sprite sprite;
     string nameSpell;
     public int range, area, damage, clickNb, manaCost;
-    public float delayEffect;
+    public float delayEffect, delayDamage;
     public bool lineOfSight, uniqueCellArea;
     public List<Vector3Int> spellPos;
     public List<SpellEffect> spellEffectList;
@@ -84,6 +84,7 @@ public class Spell
         spellPos = new List<Vector3Int>(spell.spellPos);
         spellEffectList = new List<SpellEffect>(spell.spellEffectList);
         delayEffect = spell.delayEffect;
+        delayDamage = spell.delayDamage;
 
         animate = spell.animate;
         getAreaList = spell.getAreaList;

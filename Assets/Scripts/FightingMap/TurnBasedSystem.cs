@@ -225,8 +225,6 @@ public class TurnBasedSystem : MonoBehaviour
             DestroyImmediate(obstacleList[s]);
             obstacleList.Remove(s);
         }
-        // Try end everytime character take damage
-        tryEndGame();
     }
 
     void tryEndGame()
@@ -383,6 +381,13 @@ public class TurnBasedSystem : MonoBehaviour
         Vector3 posPlayer = PlayerTransform ? PlayerTransform.position : CameraView.transform.position;
         CameraView.transform.position = new Vector3(posPlayer.x, posPlayer.y, -10);
 
+        // Everytime a spell has been casted
+        if (CastSystem.casted)
+        {
+            tryEndGame();
+            CastSystem.casted = false;
+        }
+
         // Play Enemies
         if (!currentUnit.playable && !IAisPlaying && currentUnit != null)
         {
@@ -398,8 +403,6 @@ public class TurnBasedSystem : MonoBehaviour
                 tilemap,
                 onClickEndTurn
             );
-            // Try end everytime character take damage
-            tryEndGame();
         }
 
         // Left mouse click
@@ -451,8 +454,6 @@ public class TurnBasedSystem : MonoBehaviour
                     }
                 }
             }
-            // Try end everytime character take damage
-            tryEndGame();
         }
     }
 }

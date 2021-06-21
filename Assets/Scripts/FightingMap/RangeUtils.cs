@@ -268,4 +268,72 @@ public static class RangeUtils
             }
         );
     }
+
+    public static List<Vector3Int> AndresCircle(int xc, int yc, int r)
+    {
+        List<Vector3Int> ret = new List<Vector3Int>();
+
+        int x = 0;
+        int y = r;
+        int d = r - 1;
+
+        while (y >= x)
+        {
+            ret.Add(new Vector3Int(xc + x, yc + y, 0));
+            ret.Add(new Vector3Int(xc + y, yc + x, 0));
+            ret.Add(new Vector3Int(xc - x, yc + y, 0));
+            ret.Add(new Vector3Int(xc - y, yc + x, 0));
+            ret.Add(new Vector3Int(xc + x, yc - y, 0));
+            ret.Add(new Vector3Int(xc + y, yc - x, 0));
+            ret.Add(new Vector3Int(xc - x, yc - y, 0));
+            ret.Add(new Vector3Int(xc - y, yc - x, 0));
+
+            if (d >= 2 * x)
+            {
+                d -= 2 * x + 1;
+                x++;
+            }
+            else if (d < 2 * (r - y))
+            {
+                d += 2 * y - 1;
+                y--;
+            }
+            else
+            {
+                d += 2 * (y - x - 1);
+                y--;
+                x++;
+            }
+        }
+        ret = ret.Distinct().ToList();
+        ret = fillCircle(ret);
+        return ret;
+    }
+
+    public static List<Vector3Int> fillCircle(List<Vector3Int> circle)
+    {
+        List<Vector3Int> filledCircle = new List<Vector3Int>(circle);
+
+        if (circle.Count == 0)
+        {
+            return filledCircle;
+        }
+
+        int higherY = circle.Max(v => v.y);
+        int lowerY = circle.Min(v => v.y);
+
+        for (int y = lowerY + 1; y < higherY; y++)
+        {
+            List<Vector3Int> line = circle.FindAll(v => v.y == y);
+            int higherX = line.Max(v => v.x);
+            int lowerX = line.Min(v => v.x);
+
+            for (int x = lowerX + 1; x < higherX; x++)
+            {
+                filledCircle.Add(new Vector3Int(x, y, 0));
+            }
+        }
+
+        return filledCircle;
+    }
 }
