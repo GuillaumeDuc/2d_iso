@@ -19,7 +19,8 @@ public static class RangeUtils
         lineOfSightArray.ForEach(a =>
         {
             GroundTile gt = (GroundTile)tilemap.GetTile(a);
-            if (obstacleList.ContainsKey(a) || !gt.lineOfSight)
+            // Ground tile is null, cell contains an obstacle on its path, cell contains a tile blocking LoS
+            if (gt == null || (obstacleList.ContainsKey(a) && a != cellPos) || (!gt.lineOfSight && a != cellPos))
             {
                 lineOS = false;
             };

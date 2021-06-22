@@ -9,7 +9,7 @@ public class Spell
     string nameSpell;
     public int range, area, damage, clickNb, manaCost;
     public float delayEffect, delayDamage;
-    public bool lineOfSight, uniqueCellArea;
+    public bool lineOfSight, uniqueCellArea, burst;
     public List<Vector3Int> spellPos;
     public List<SpellEffect> spellEffectList;
 
@@ -78,6 +78,7 @@ public class Spell
         area = spell.area;
         damage = spell.damage;
         lineOfSight = spell.lineOfSight;
+        burst = spell.burst;
         clickNb = spell.clickNb;
         uniqueCellArea = spell.uniqueCellArea;
         manaCost = spell.manaCost;
@@ -103,7 +104,8 @@ public class Spell
         bool lineOfSight = true,
         int clickNb = 1,
         bool uniqueCellArea = false,
-        int manaCost = 10
+        int manaCost = 10,
+        bool burst = false
         )
     {
         this.spellGO = spellGO;
@@ -113,6 +115,7 @@ public class Spell
         this.area = area;
         this.damage = damage;
         this.lineOfSight = lineOfSight;
+        this.burst = burst;
         this.clickNb = clickNb;
         this.uniqueCellArea = uniqueCellArea;
         this.manaCost = manaCost;

@@ -104,7 +104,7 @@ public class SpellList : MonoBehaviour
         // Meteor
         nameSpell = "Meteor";
         GameObject MeteorGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-        Meteor = new Spell(MeteorGO, nameSpell, 100, 15, 4, false, 1, false, 100);
+        Meteor = new Spell(MeteorGO, nameSpell, 100, 15, 4, false, 1, false, 1, true);
         Meteor.getRangeList = getRangeInCircleFullPlayer;
         Meteor.getAreaList = getAreaAndresCircle;
         Meteor.animate = animateOnCell;
@@ -129,11 +129,6 @@ public class SpellList : MonoBehaviour
     {
         // Tile is empty
         if (!tilemap.HasTile(cell))
-        {
-            return false;
-        }
-        // Tile contains an obstacle
-        if (obstacleList.ContainsKey(cell))
         {
             return false;
         }
@@ -358,7 +353,20 @@ public class SpellList : MonoBehaviour
 
         spell.spellPos.ForEach(s =>
         {
-            area = area.Concat(RangeUtils.AndresCircle(s.x, s.y, spell.area)).ToList();
+            List<Vector3Int> circle = RangeUtils.AndresCircle(s.x, s.y, spell.area);
+            if (spell.burst)
+            {
+                List<Vector3Int> newCircle = new List<Vector3Int>();
+                circle.ForEach(v =>
+                {
+                    if (RangeUtils.lineOfSight(s, v, obstacleList, tilemap))
+                    {
+                        newCircle.Add(v);
+                    }
+                });
+                circle = newCircle;
+            }
+            area = area.Concat(circle).ToList();
         });
 
         return area;
