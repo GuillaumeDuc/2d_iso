@@ -38,7 +38,7 @@ public class CastSystem : MonoBehaviour
 
             spell.spellPos.Add(cellClicked);
 
-            DrawOnMap.showSpellSelection(spell.spellPos, spell.getArea(obstacleList, tilemap));
+            DrawOnMap.showSpellSelection(spell.spellPos, spell.getArea(player, obstacleList, tilemap));
 
             if (!(spell.spellPos.Count() == spell.clickNb))
             {
@@ -47,7 +47,7 @@ public class CastSystem : MonoBehaviour
 
             if (spell.spellPos.Count() == spell.clickNb)
             {
-                DrawOnMap.showSpellArea(spell.getArea(obstacleList, tilemap));
+                DrawOnMap.showSpellArea(spell.getArea(player, obstacleList, tilemap));
                 return CastState.CAST_SPELL;
             }
         }
@@ -55,7 +55,7 @@ public class CastSystem : MonoBehaviour
         if (currentState == CastState.CAST_SPELL)
         {
             // If spell area is clear & mana is enough
-            if (spell.getArea(obstacleList, tilemap).Contains(cellClicked) && player.currentMana >= spell.manaCost)
+            if (spell.getArea(player, obstacleList, tilemap).Contains(cellClicked) && player.currentMana >= spell.manaCost)
             {
                 castSpell(spell, player, playerList, enemyList, obstacleList, tilemap);
             }
@@ -78,27 +78,20 @@ public class CastSystem : MonoBehaviour
     {
         // Save previous spell caracteristics
         Spell spell = new Spell(s);
+        Dictionary<Vector3Int, GameObject> oldObstacleList = new Dictionary<Vector3Int, GameObject>(obstacleList);
 
         isCasting = true;
         isDamaging = true;
         isEffect = true;
 
         // Damage
-        StartCoroutine(delayDamage(spell, playerList, enemyList, obstacleList, tilemap));
+        StartCoroutine(delayDamage(spell, player, playerList, enemyList, obstacleList, tilemap));
 
         // Effect
-        if (spell.delayEffect != 0)
-        {
-            StartCoroutine(delayEffect(spell, player, playerList, enemyList, obstacleList, tilemap));
-        }
-        else
-        {
-            spell.applyEffect(player, playerList, enemyList, obstacleList, tilemap);
-            isEffect = false;
-        }
+        StartCoroutine(delayEffect(spell, player, playerList, enemyList, oldObstacleList, tilemap));
 
         // Animation
-        spell.playAnimation(obstacleList, tilemap);
+        spell.playAnimation(player, obstacleList, tilemap);
 
         // Animate caster
         spell.animateCaster(player);
@@ -127,6 +120,7 @@ public class CastSystem : MonoBehaviour
 
     public IEnumerator delayDamage(
         Spell spell,
+        Unit player,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -134,7 +128,7 @@ public class CastSystem : MonoBehaviour
         )
     {
         yield return new WaitForSeconds(spell.delayDamage);
-        spell.doDamage(playerList, enemyList, obstacleList, tilemap);
+        spell.doDamage(player, playerList, enemyList, obstacleList, tilemap);
         updateScrollViews(playerList, enemyList);
         isDamaging = false;
         updateIsCasting();

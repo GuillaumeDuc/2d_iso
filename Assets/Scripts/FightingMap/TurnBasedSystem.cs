@@ -386,6 +386,7 @@ public class TurnBasedSystem : MonoBehaviour
         {
             tryEndGame();
             CastSystem.casted = false;
+            tilemap.RefreshAllTiles();
         }
 
         // Play Enemies

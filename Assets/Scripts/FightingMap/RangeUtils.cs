@@ -20,7 +20,7 @@ public static class RangeUtils
         {
             GroundTile gt = (GroundTile)tilemap.GetTile(a);
             // Ground tile is null, cell contains an obstacle on its path, cell contains a tile blocking LoS
-            if (gt == null || (obstacleList.ContainsKey(a) && a != cellPos) || (!gt.lineOfSight && a != cellPos))
+            if (gt == null || (obstacleList.ContainsKey(a) && a != cellPos) || (!gt.lineOfSight && a!= cellPos))
             {
                 lineOS = false;
             };
@@ -198,7 +198,7 @@ public static class RangeUtils
         return to;
     }
 
-    private static Vector3Int getClosestNeighbour(Vector3Int to, Vector3Int from, Tilemap tilemap)
+    public static Vector3Int getClosestNeighbour(Vector3Int to, Vector3Int from, Tilemap tilemap)
     {
         Vector3Int up = new Vector3Int(to.x, to.y + 1, to.z);
         Vector3Int down = new Vector3Int(to.x, to.y - 1, to.z);

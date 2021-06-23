@@ -171,11 +171,12 @@ public class SpellList : MonoBehaviour
     // Animation
     public void animateInCircleFull(
         Spell spell,
+        Unit unit,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
-        List<Vector3Int> listCells = getAreaInCircleFull(spell, obstacleList, tilemap);
+        List<Vector3Int> listCells = getAreaInCircleFull(spell, unit, obstacleList, tilemap);
 
         StartCoroutine(multipleAnimateOnCell(listCells, spell, obstacleList, tilemap));
     }
@@ -194,12 +195,14 @@ public class SpellList : MonoBehaviour
 
     public void animateInLineBetweenCells(
         Spell spell,
+        Unit unit,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
         List<Vector3Int> listCells = getAreaInLineBetweenCells(
             spell,
+            unit,
             obstacleList,
             tilemap
         );
@@ -244,11 +247,12 @@ public class SpellList : MonoBehaviour
 
     public void animateOnCell(
         Spell spell,
+        Unit unit,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
-        List<Vector3Int> listCells = getAreaInCircleFull(spell, obstacleList, tilemap);
+        List<Vector3Int> listCells = getAreaInCircleFull(spell, unit, obstacleList, tilemap);
 
         listCells.ForEach(s =>
         {
@@ -291,6 +295,7 @@ public class SpellList : MonoBehaviour
     // Area of Effect
     public List<Vector3Int> getAreaInCircleFull(
         Spell spell,
+        Unit caster,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
@@ -322,6 +327,7 @@ public class SpellList : MonoBehaviour
 
     public List<Vector3Int> getAreaInLineBetweenCells(
         Spell spell,
+        Unit caster,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
@@ -345,6 +351,7 @@ public class SpellList : MonoBehaviour
 
     public List<Vector3Int> getAreaAndresCircle(
         Spell spell,
+        Unit caster,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
@@ -353,13 +360,21 @@ public class SpellList : MonoBehaviour
 
         spell.spellPos.ForEach(s =>
         {
-            List<Vector3Int> circle = RangeUtils.AndresCircle(s.x, s.y, spell.area);
+            Vector3Int current = s;
+            List<Vector3Int> circle = RangeUtils.AndresCircle(current.x, current.y, spell.area);
+
             if (spell.burst)
             {
+                // If cell selected equals an obstacle move spellpos one cell toward player
+                if (obstacleList.ContainsKey(current))
+                {
+                    current = RangeUtils.getClosestNeighbour(current, caster.position, tilemap);
+                }
+
                 List<Vector3Int> newCircle = new List<Vector3Int>();
                 circle.ForEach(v =>
                 {
-                    if (RangeUtils.lineOfSight(s, v, obstacleList, tilemap))
+                    if (RangeUtils.lineOfSight(current, v, obstacleList, tilemap))
                     {
                         newCircle.Add(v);
                     }
@@ -374,14 +389,15 @@ public class SpellList : MonoBehaviour
 
     // Damage
     public void doDamage(
-    Spell spell,
-    Dictionary<Unit, GameObject> playerList,
-    Dictionary<Unit, GameObject> enemyList,
-    Dictionary<Vector3Int, GameObject> obstacleList,
-    Tilemap tilemap
+        Spell spell,
+        Unit caster,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
     )
     {
-        List<Vector3Int> areaSpell = spell.getArea(obstacleList, tilemap);
+        List<Vector3Int> areaSpell = spell.getArea(caster, obstacleList, tilemap);
         Dictionary<Unit, GameObject> deadPlayerList = new Dictionary<Unit, GameObject>();
         Dictionary<Unit, GameObject> deadEnemyList = new Dictionary<Unit, GameObject>();
         Dictionary<Vector3Int, GameObject> destroyedObstacleList = new Dictionary<Vector3Int, GameObject>();

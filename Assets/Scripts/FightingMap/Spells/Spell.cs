@@ -13,21 +13,22 @@ public class Spell
     public List<Vector3Int> spellPos;
     public List<SpellEffect> spellEffectList;
 
-    public System.Action<Spell, Dictionary<Vector3Int, GameObject>, Tilemap> animate { get; set; }
-    public System.Func<Spell, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>> getAreaList;
+    public System.Action<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap> animate { get; set; }
+    public System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>> getAreaList;
     public System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>> getRangeList;
     public System.Func<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool> canCastOn;
-    public System.Action<Spell, Dictionary<Unit, GameObject>, Dictionary<Unit, GameObject>, Dictionary<Vector3Int, GameObject>, Tilemap> doDamageAction;
+    public System.Action<Spell, Unit, Dictionary<Unit, GameObject>, Dictionary<Unit, GameObject>, Dictionary<Vector3Int, GameObject>, Tilemap> doDamageAction;
     public System.Action<Spell, Unit> animateCasterAction;
 
     public void doDamage(
+        Unit caster,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
-        doDamageAction?.Invoke(this, playerList, enemyList, obstacleList, tilemap);
+        doDamageAction?.Invoke(this, caster, playerList, enemyList, obstacleList, tilemap);
     }
 
     public void animateCaster(Unit caster)
@@ -45,14 +46,14 @@ public class Spell
         return getRangeList(this, caster, obstacleList, tilemap);
     }
 
-    public List<Vector3Int> getArea(Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    public List<Vector3Int> getArea(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
-        return getAreaList(this, obstacleList, tilemap);
+        return getAreaList(this, caster, obstacleList, tilemap);
     }
 
-    public void playAnimation(Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    public void playAnimation(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
-        animate?.Invoke(this, obstacleList, tilemap);
+        animate?.Invoke(this, caster, obstacleList, tilemap);
     }
 
     public void applyEffect(
