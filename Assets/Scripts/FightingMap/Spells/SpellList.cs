@@ -260,7 +260,7 @@ public class SpellList : MonoBehaviour
             // Instantiate animation one cells clicked
             if (spell.spellPos.Contains(s))
             {
-                Instantiate(spell.spellGO, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+                Instantiate(spell.spellGO, new Vector2(worldPos.x, worldPos.y + 0.195f), Quaternion.identity);
             }
             // Refresh tile
             tilemap.RefreshTile(s);
