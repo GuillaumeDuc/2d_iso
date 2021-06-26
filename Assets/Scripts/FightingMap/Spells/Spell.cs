@@ -13,7 +13,7 @@ public class Spell
     public List<Vector3Int> spellPos;
     public List<SpellEffect> spellEffectList;
 
-    public System.Action<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap> animate { get; set; }
+    public System.Action<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap> instantiateAction { get; set; }
     public System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>> getAreaList;
     public System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>> getRangeList;
     public System.Func<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool> canCastOn;
@@ -53,7 +53,7 @@ public class Spell
 
     public void playAnimation(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
-        animate?.Invoke(this, caster, obstacleList, tilemap);
+        instantiateAction?.Invoke(this, caster, obstacleList, tilemap);
     }
 
     public void applyEffect(
@@ -88,7 +88,7 @@ public class Spell
         delayEffect = spell.delayEffect;
         delayDamage = spell.delayDamage;
 
-        animate = spell.animate;
+        instantiateAction = spell.instantiateAction;
         getAreaList = spell.getAreaList;
         getRangeList = spell.getRangeList;
         canCastOn = spell.canCastOn;

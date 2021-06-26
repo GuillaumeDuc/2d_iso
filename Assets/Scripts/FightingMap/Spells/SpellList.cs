@@ -31,7 +31,7 @@ public class SpellList : MonoBehaviour
         Explosion = new Spell(ExplosionGO, nameSpell, 10, 10, 1, true, 3, false, 50);
         Explosion.getRangeList = getRangeInCircleFullPlayer;
         Explosion.getAreaList = getAreaInCircleFull;
-        Explosion.animate = animateInCircleFull;
+        Explosion.instantiateAction = instatiateAreaWithDelay;
         Explosion.canCastOn = canCast;
         // Effects
         Explosion.spellEffectList.Add(SpellEffectList.Fire);
@@ -44,7 +44,7 @@ public class SpellList : MonoBehaviour
         Icycle = new Spell(IcycleGO, nameSpell, 5, 10, 1, false, 5, false, 50);
         Icycle.getRangeList = getRangeInCircleFullPlayer;
         Icycle.getAreaList = getAreaInCircleFull;
-        Icycle.animate = animateOnCell;
+        Icycle.instantiateAction = instantiateOnCellClicked;
         Icycle.canCastOn = canCast;
         // Effects
         Icycle.spellEffectList.Add(SpellEffectList.Freeze);
@@ -57,11 +57,11 @@ public class SpellList : MonoBehaviour
         Sandwall = new Spell(SandwallGO, nameSpell, 0, 10, 1, false, 2, true, 100);
         Sandwall.getRangeList = getRangeInCircleFullPlayer;
         Sandwall.getAreaList = getAreaInLineBetweenCells;
-        // No animation for sandwall, walls are created in spell effect
+        // Walls are instantiated and modified here
+        Sandwall.instantiateAction = instantiateObstacles;
         Sandwall.canCastOn = canCast;
         //Add effect on spell
         Sandwall.spellEffectList.Add(SpellEffectList.PushFromPlayer);
-        Sandwall.spellEffectList.Add(SpellEffectList.CreateObstacle);
         // Damage
         Sandwall.doDamageAction = doDamage;
 
@@ -71,7 +71,7 @@ public class SpellList : MonoBehaviour
         Blackhole = new Spell(BlackholeGO, nameSpell, 90, 5, 0, true, 1, false, 70);
         Blackhole.getRangeList = getRangeInCircleFullPlayer;
         Blackhole.getAreaList = getAreaInCircleFull;
-        Blackhole.animate = animateOnCell;
+        Blackhole.instantiateAction = instantiateOnCellClicked;
         Blackhole.canCastOn = canCast;
         // Effects
         // Damage
@@ -107,7 +107,7 @@ public class SpellList : MonoBehaviour
         Meteor = new Spell(MeteorGO, nameSpell, 100, 15, 4, false, 1, false, 1, true);
         Meteor.getRangeList = getRangeInCircleFullPlayer;
         Meteor.getAreaList = getAreaAndresCircle;
-        Meteor.animate = animateOnCell;
+        Meteor.instantiateAction = instantiateOnCellClicked;
         Meteor.canCastOn = canCast;
         // Damage
         Meteor.doDamageAction = doDamage;
@@ -168,56 +168,20 @@ public class SpellList : MonoBehaviour
         return canCast(spell, caster, spell.getRange(caster, obstacleList, tilemap), cell, obstacleList, tilemap);
     }
 
-    // Animation
-    public void animateInCircleFull(
-        Spell spell,
-        Unit unit,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Tilemap tilemap
-        )
-    {
-        List<Vector3Int> listCells = getAreaInCircleFull(spell, unit, obstacleList, tilemap);
-
-        StartCoroutine(multipleAnimateOnCell(listCells, spell, obstacleList, tilemap));
-    }
-
-    public void animateInLine(
+    // Instantiation
+    public void instatiateAreaWithDelay(
         Spell spell,
         Unit caster,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
-        List<Vector3Int> listCells = getAreaInLine(spell, caster, obstacleList, tilemap);
+        List<Vector3Int> listCells = spell.getArea(caster, obstacleList, tilemap);
 
-        StartCoroutine(multipleAnimateOnCell(listCells, spell, obstacleList, tilemap));
+        StartCoroutine(multipleInstantiateOnCell(listCells, spell, obstacleList, tilemap));
     }
 
-    public void animateInLineBetweenCells(
-        Spell spell,
-        Unit unit,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Tilemap tilemap
-        )
-    {
-        List<Vector3Int> listCells = getAreaInLineBetweenCells(
-            spell,
-            unit,
-            obstacleList,
-            tilemap
-        );
-
-        StartCoroutine(
-            multipleAnimateOnCell(
-                listCells,
-                spell,
-                obstacleList,
-                tilemap
-            )
-        );
-    }
-
-    IEnumerator multipleAnimateOnCell(
+    IEnumerator multipleInstantiateOnCell(
         List<Vector3Int> listCells,
         Spell spell,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -227,44 +191,67 @@ public class SpellList : MonoBehaviour
         foreach (var c in listCells)
         {
             yield return new WaitForSeconds(0.1f);
-            animateOnOneCell(spell, c, obstacleList, tilemap);
+            instantiateOnOneCell(spell, c, tilemap);
         }
     }
 
-    public void animateOnOneCell(
+    public void instantiateOnOneCell(
         Spell spell,
         Vector3Int to,
-        Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
         Vector2 worldPos = tilemap.CellToWorld(to);
         // Instantiate animation
         Instantiate(spell.spellGO, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
-        // Refresh tile
-        tilemap.RefreshTile(to);
     }
 
-    public void animateOnCell(
+    public void instantiateOnCellClicked(
         Spell spell,
-        Unit unit,
+        Unit caster,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
-        List<Vector3Int> listCells = getAreaInCircleFull(spell, unit, obstacleList, tilemap);
-
-        listCells.ForEach(s =>
+        List<Vector3Int> listCells = spell.getArea(caster, obstacleList, tilemap);
+        spell.spellPos.ForEach(v =>
         {
-            Vector2 worldPos = tilemap.CellToWorld(s);
-            // Instantiate animation one cells clicked
-            if (spell.spellPos.Contains(s))
-            {
-                Instantiate(spell.spellGO, new Vector2(worldPos.x, worldPos.y + 0.195f), Quaternion.identity);
-            }
-            // Refresh tile
-            tilemap.RefreshTile(s);
+            instantiateOnOneCell(spell, v, tilemap);
         });
+    }
+
+    public void instantiateObstacles(
+        Spell spell,
+        Unit caster,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        List<Vector3Int> listCells = spell.getArea(caster, obstacleList, tilemap);
+        StartCoroutine(delayInstantiateObstacle(listCells, spell.spellGO, obstacleList, tilemap));
+    }
+
+    IEnumerator delayInstantiateObstacle(
+        List<Vector3Int> area,
+        GameObject spellGO,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        foreach (var pos in area)
+        {
+            yield return new WaitForSeconds(0.1f);
+            Vector2 worldPos = tilemap.CellToWorld(pos);
+            GameObject obstacle = Instantiate(spellGO, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+            try
+            {
+                obstacleList.Add(pos, obstacle);
+            }
+            catch
+            {
+                Destroy(obstacle);
+            }
+        };
     }
 
     // Range 
