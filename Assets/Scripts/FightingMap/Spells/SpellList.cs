@@ -17,7 +17,8 @@ public class SpellList : MonoBehaviour
         Blackhole,
         Teleportation,
         Slash,
-        Meteor
+        Meteor,
+        Fireball
         ;
 
     private string nameSpell;
@@ -116,6 +117,19 @@ public class SpellList : MonoBehaviour
         // Delay
         Meteor.delayEffect = 6.7f;
         Meteor.delayDamage = 4.1f;
+
+        // Fireball
+        nameSpell = "Fireball";
+        GameObject FireballGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+        Fireball = new Spell(FireballGO, nameSpell, 100, 15, 3, false, 1, false, 1, true);
+        Fireball.getRangeList = getRangeInCircleFullPlayer;
+        Fireball.getAreaList = getAreaInCircleFull;
+        Fireball.instantiateAction = instantiateThrowedSpell;
+        Fireball.canCastOn = canCast;
+        // Damage
+        Fireball.doDamageAction = doDamage;
+        // Effects
+        Fireball.spellEffectList.Add(SpellEffectList.Fire);
     }
 
     public bool canCast(
@@ -252,6 +266,16 @@ public class SpellList : MonoBehaviour
                 Destroy(obstacle);
             }
         };
+    }
+
+    public void instantiateThrowedSpell(
+        Spell spell,
+        Unit caster,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        
     }
 
     // Range 

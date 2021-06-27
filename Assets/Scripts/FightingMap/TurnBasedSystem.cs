@@ -312,6 +312,7 @@ public class TurnBasedSystem : MonoBehaviour
         PlayerStats.setSpellList(new Spell(SpellList.Teleportation));
         PlayerStats.setSpellList(new Spell(SpellList.Slash));
         PlayerStats.setSpellList(new Spell(SpellList.Meteor));
+        PlayerStats.setSpellList(new Spell(SpellList.Fireball));
         PlayerStats.setStats(Player, "Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3, 110);
         PlayerStats.playable = true;
 
