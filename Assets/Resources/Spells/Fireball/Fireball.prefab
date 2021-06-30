@@ -14768,6 +14768,7 @@ MonoBehaviour:
   speed: 4
   beforeImpactX: 0
   beforeImpactY: 0
+  destroyDelay: 2
 --- !u!1 &7701226099939767630
 GameObject:
   m_ObjectHideFlags: 0

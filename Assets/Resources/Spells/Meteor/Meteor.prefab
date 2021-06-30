@@ -14529,11 +14529,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextGO: {fileID: 7155715200403557941, guid: 320ee63c73a47cf4e9620fb2291e544e, type: 3}
-  positionX: -2.4
-  positionY: 8
   speed: 2
   beforeImpactX: 0
   beforeImpactY: 0.2
+  destroyDelay: 0
 --- !u!1 &3667406406456581573
 GameObject:
   m_ObjectHideFlags: 0
