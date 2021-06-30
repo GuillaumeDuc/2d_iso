@@ -5,6 +5,8 @@ using UnityEngine;
 public class MovingSpell : MonoBehaviour
 {
     public GameObject nextGO;
+    public float speed = 2f;
+
     public float beforeImpactX = 0, beforeImpactY = 0;
 
     private Transform rb;
@@ -17,9 +19,10 @@ public class MovingSpell : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Moving spell move the gameobject its attached to toward its parent
         if (rb != null && rb.position != target)
         {
-            rb.position = Vector3.MoveTowards(rb.position, target, Time.deltaTime * 2f);
+            rb.position = Vector3.MoveTowards(rb.position, target, Time.deltaTime * speed);
         }
         else if (rb != null && nextGO != null)
         {

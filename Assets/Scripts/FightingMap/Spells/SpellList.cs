@@ -121,7 +121,7 @@ public class SpellList : MonoBehaviour
         // Fireball
         nameSpell = "Fireball";
         GameObject FireballGO = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-        Fireball = new Spell(FireballGO, nameSpell, 100, 15, 3, false, 1, false, 1, true);
+        Fireball = new Spell(FireballGO, nameSpell, 100, 15, 2, false, 1, false, 1, true);
         Fireball.getRangeList = getRangeInCircleFullPlayer;
         Fireball.getAreaList = getAreaInCircleFull;
         Fireball.instantiateAction = instantiateThrowedSpell;
@@ -275,7 +275,22 @@ public class SpellList : MonoBehaviour
         Tilemap tilemap
         )
     {
-        
+        spell.spellPos.ForEach(s =>
+        {
+            Vector2 worldPos = tilemap.CellToWorld(s);
+            GameObject go = Instantiate(spell.spellGO, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+            GameObject goChild = go.transform.GetChild(0).gameObject;
+
+            Vector2 casterPos = tilemap.CellToWorld(caster.position);
+            casterPos.y += 0.2f;
+            // Change position of actual spell
+            goChild.transform.position = casterPos;
+
+            // Rotate spell toward clicked cell
+            Vector3 vectorToTarget = s - caster.position;
+            float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+            goChild.transform.Rotate(0, 0, angle - 45, Space.Self);
+        });
     }
 
     // Range 

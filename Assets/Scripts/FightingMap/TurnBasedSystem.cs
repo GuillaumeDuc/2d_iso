@@ -293,7 +293,7 @@ public class TurnBasedSystem : MonoBehaviour
     {
         // Get Player prefab from Assets/Resources
         GameObject PlayerPrefab = Resources.Load<GameObject>("Characters/PC/Player");
-        Player = InstantiatePlayer(PlayerPrefab, new Vector3Int(5, 0, 0));
+        Player = InstantiatePlayer(PlayerPrefab, new Vector3Int(15, 15, 0));
 
         // Instantiate state
         CurrentState = CurrentState.MOVE;

@@ -14506,7 +14506,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3667406406442555804}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.41, y: 8, z: 0}
+  m_LocalPosition: {x: -2.4, y: 8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3667406407731488721}
@@ -14529,6 +14529,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextGO: {fileID: 7155715200403557941, guid: 320ee63c73a47cf4e9620fb2291e544e, type: 3}
+  positionX: -2.4
+  positionY: 8
+  speed: 2
   beforeImpactX: 0
   beforeImpactY: 0.2
 --- !u!1 &3667406406456581573
