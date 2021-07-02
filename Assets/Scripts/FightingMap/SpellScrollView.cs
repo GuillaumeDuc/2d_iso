@@ -10,14 +10,14 @@ public class SpellScrollView : MonoBehaviour
 
     public TurnBasedSystem turnBasedSystem;
 
-    public void addSpell(Spell spell, Unit unit)
+    public void addSpell(GameObject spell, Unit unit)
     {
         // Instantiate button
         GameObject newSpellButton = Instantiate(SpellButtonPrefab);
         // Get GameObject and set sprite
         GameObject spellPicture = newSpellButton.transform.GetChild(0).gameObject;
         Image ImageSP = spellPicture.GetComponent<Image>();
-        ImageSP.sprite = spell.sprite;
+        ImageSP.sprite = spell.GetComponent<SpriteRenderer>().sprite;
         // Add onClick Effect
         Button buttonComponent = newSpellButton.GetComponent<Button>();
         buttonComponent.onClick.AddListener(() => { onClickSpell(spell, unit); });
@@ -25,8 +25,8 @@ public class SpellScrollView : MonoBehaviour
         newSpellButton.transform.SetParent(contentContainer.transform, false);
     }
 
-    void onClickSpell(Spell spell, Unit unit)
+    void onClickSpell(GameObject spell, Unit unit)
     {
-        turnBasedSystem.onClickSpell( spell,  unit);
+        turnBasedSystem.onClickSpell(spell, unit);
     }
 }

@@ -75,10 +75,12 @@ public class TurnBasedSystem : MonoBehaviour
         );
     }
 
-    public void onClickSpell(Spell spell, Unit unit)
+    public void onClickSpell(GameObject spellGO, Unit unit)
     {
-        unit.selectedSpell = spell;
+        unit.selectedSpell = spellGO;
         // Show on map
+
+        Spell spell = spellGO.GetComponent<Spell>();
         DrawOnMap.showRange(spell.getRange(unit, obstacleList, tilemap), true);
 
         CurrentState = CurrentState.CAST;
@@ -305,14 +307,7 @@ public class TurnBasedSystem : MonoBehaviour
 
         // Init Player
         Unit PlayerStats = Player.GetComponent<Unit>();
-        PlayerStats.setSpellList(new Spell(SpellList.Explosion));
-        PlayerStats.setSpellList(new Spell(SpellList.Icycle));
-        PlayerStats.setSpellList(new Spell(SpellList.Sandwall));
-        PlayerStats.setSpellList(new Spell(SpellList.Blackhole));
-        PlayerStats.setSpellList(new Spell(SpellList.Teleportation));
-        PlayerStats.setSpellList(new Spell(SpellList.Slash));
-        PlayerStats.setSpellList(new Spell(SpellList.Meteor));
-        PlayerStats.setSpellList(new Spell(SpellList.Fireball));
+        PlayerStats.setSpellList(SpellList.Fireball);
         PlayerStats.setStats(Player, "Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3, 110);
         PlayerStats.playable = true;
 
@@ -322,8 +317,8 @@ public class TurnBasedSystem : MonoBehaviour
         GameObject phantom = InstantiatePlayer(EnemyPrefab, new Vector3Int(10, 15, 0));
         Transform green1Transform = phantom.GetComponent<Transform>();
         Unit green1Stats = phantom.GetComponent<Unit>();
-        green1Stats.setSpellList(new Spell(SpellList.Slash));
-        green1Stats.setSpellList(new Spell(SpellList.Teleportation));
+        //green1Stats.setSpellList(new Spell(SpellList.Slash));
+        //green1Stats.setSpellList(new Spell(SpellList.Teleportation));
         green1Stats.setStats(phantom, "Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
 
         // Add characters in lists
@@ -369,6 +364,12 @@ public class TurnBasedSystem : MonoBehaviour
         }
         // Draw position on map
         DrawOnMap.resetMap();
+
+        // Store infos
+        FightingSceneStore.tilemap = tilemap;
+        FightingSceneStore.playerList = playerList;
+        FightingSceneStore.enemyList = enemyList;
+        FightingSceneStore.obstacleList = obstacleList;
     }
 
     void Update()

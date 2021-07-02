@@ -9734,6 +9734,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8836553016997228214}
   - component: {fileID: 829999311259712797}
+  - component: {fileID: 309532673645788789}
+  - component: {fileID: 1370958277336460783}
   m_Layer: 0
   m_Name: Fireball
   m_TagString: Untagged
@@ -9807,6 +9809,45 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &309532673645788789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2253697307115073443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fcf77bb7d4dbf544a864a6e68847b01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameSpell: Fireball
+  range: 10
+  area: 3
+  damage: 50
+  clickNb: 3
+  manaCost: 10
+  delayEffect: 0
+  delayDamage: 0
+  lineOfSight: 1
+  uniqueCellArea: 1
+  burst: 1
+  spellPos: []
+  _selectedArea: 0
+--- !u!114 &1370958277336460783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2253697307115073443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68322e435e3d7194d8b5853ab4fc950f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Spell: {fileID: 309532673645788789}
+  _selectedFunction: 0
 --- !u!1 &2847091581143399694
 GameObject:
   m_ObjectHideFlags: 0

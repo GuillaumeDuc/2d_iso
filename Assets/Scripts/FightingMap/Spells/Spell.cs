@@ -2,58 +2,84 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
 
-public class Spell
+public class Spell : MonoBehaviour
 {
-    public GameObject spellGO;
-    public Sprite sprite;
-    string nameSpell;
+    public string nameSpell;
     public int range, area, damage, clickNb, manaCost;
     public float delayEffect, delayDamage;
     public bool lineOfSight, uniqueCellArea, burst;
     public List<Vector3Int> spellPos;
     public List<SpellEffect> spellEffectList;
 
-    public System.Action<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap> instantiateAction { get; set; }
-    public System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>> getAreaList;
-    public System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>> getRangeList;
-    public System.Func<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool> canCastOn;
-    public System.Action<Spell, Unit, Dictionary<Unit, GameObject>, Dictionary<Unit, GameObject>, Dictionary<Vector3Int, GameObject>, Tilemap> doDamageAction;
-    public System.Action<Spell, Unit> animateCasterAction;
+    public Unit caster;
 
-    public void doDamage(
-        Unit caster,
-        Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Tilemap tilemap
-        )
+    // Area
+    private enum FunctionArea
     {
-        doDamageAction?.Invoke(this, caster, playerList, enemyList, obstacleList, tilemap);
-    }
+        Circle,
+        InLine,
+        InLineBetweenCells,
+        AndresCircle
+    };
 
-    public void animateCaster(Unit caster)
-    {
-        animateCasterAction?.Invoke(this, caster);
-    }
+    [SerializeField]
+    private FunctionArea selectedArea;
+    private Dictionary<FunctionArea, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>> functionAreaLookup;
 
-    public bool canCast(Unit caster, Vector3Int cell, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    // Range
+    private enum FunctionRange
     {
-        return canCastOn(this, caster, cell, obstacleList, tilemap);
-    }
+        Circle
+    };
 
-    public List<Vector3Int> getRange(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    [SerializeField]
+    private FunctionRange selectedRange;
+    private Dictionary<FunctionRange, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>> functionRangeLookup;
+
+    // Can Cast
+    private enum FunctionCanCast
     {
-        return getRangeList(this, caster, obstacleList, tilemap);
+        CanCast
+    };
+
+    [SerializeField]
+    private FunctionCanCast selectedCanCast;
+    private Dictionary<FunctionCanCast, System.Func<Spell, Unit, List<Vector3Int>, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool>> functionCanCastLookup;
+
+    private void Awake()
+    {
+        functionAreaLookup = new Dictionary<FunctionArea, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>>()
+        {
+            { FunctionArea.Circle, SpellAreaList.getAreaInCircleFull },
+            { FunctionArea.InLine, SpellAreaList.getAreaInLine },
+            { FunctionArea.InLineBetweenCells, SpellAreaList.getAreaInLineBetweenCells },
+            { FunctionArea.AndresCircle, SpellAreaList.getAreaAndresCircle },
+        };
+
+        functionRangeLookup = new Dictionary<FunctionRange, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>>()
+        {
+            { FunctionRange.Circle, SpellRangeList.getRangeInCircleFull},
+        };
+
+        functionCanCastLookup = new Dictionary<FunctionCanCast, System.Func<Spell, Unit, List<Vector3Int>, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool>>()
+        {
+            { FunctionCanCast.CanCast, SpellCanCastList.canCast},
+        };
     }
 
     public List<Vector3Int> getArea(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
-        return getAreaList(this, caster, obstacleList, tilemap);
+        return functionAreaLookup[selectedArea].Invoke(this, caster, obstacleList, tilemap);
     }
 
-    public void playAnimation(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    public List<Vector3Int> getRange(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
-        instantiateAction?.Invoke(this, caster, obstacleList, tilemap);
+        return functionRangeLookup[selectedRange].Invoke(this, caster, obstacleList, tilemap);
+    }
+
+    public bool canCast(Unit caster, List<Vector3Int> range, Vector3Int target, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    {
+        return functionCanCastLookup[selectedCanCast].Invoke(this, caster, range, target, obstacleList, tilemap);
     }
 
     public void applyEffect(
@@ -70,65 +96,9 @@ public class Spell
         });
     }
 
-    public Spell(Spell spell)
-    {
-        spellGO = spell.spellGO;
-        sprite = spell.sprite;
-        nameSpell = spell.nameSpell;
-        range = spell.range;
-        area = spell.area;
-        damage = spell.damage;
-        lineOfSight = spell.lineOfSight;
-        burst = spell.burst;
-        clickNb = spell.clickNb;
-        uniqueCellArea = spell.uniqueCellArea;
-        manaCost = spell.manaCost;
-        spellPos = new List<Vector3Int>(spell.spellPos);
-        spellEffectList = new List<SpellEffect>(spell.spellEffectList);
-        delayEffect = spell.delayEffect;
-        delayDamage = spell.delayDamage;
-
-        instantiateAction = spell.instantiateAction;
-        getAreaList = spell.getAreaList;
-        getRangeList = spell.getRangeList;
-        canCastOn = spell.canCastOn;
-        doDamageAction = spell.doDamageAction;
-        animateCasterAction = spell.animateCasterAction;
-    }
-
-    public Spell(
-        GameObject spellGO,
-        string nameSpell,
-        int damage,
-        int range,
-        int area = 0,
-        bool lineOfSight = true,
-        int clickNb = 1,
-        bool uniqueCellArea = false,
-        int manaCost = 10,
-        bool burst = false
-        )
-    {
-        this.spellGO = spellGO;
-        this.sprite = spellGO.GetComponent<SpriteRenderer>().sprite;
-        this.nameSpell = nameSpell;
-        this.range = range;
-        this.area = area;
-        this.damage = damage;
-        this.lineOfSight = lineOfSight;
-        this.burst = burst;
-        this.clickNb = clickNb;
-        this.uniqueCellArea = uniqueCellArea;
-        this.manaCost = manaCost;
-        spellPos = new List<Vector3Int>();
-        spellEffectList = new List<SpellEffect>();
-        delayEffect = 0;
-    }
-
     override public string ToString()
     {
-        return "spell go : " + spellGO + "\n" +
-            "name : " + nameSpell + "\n" +
+        return "name : " + nameSpell + "\n" +
             "damage|range|area : " + damage + "|" + range + "|" + area + "\n" +
             "line of sight : " + lineOfSight;
     }

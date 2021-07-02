@@ -9,7 +9,7 @@ public class EnemyAI : MonoBehaviour
 {
     public GameObject Enemy;
     public Unit unit;
-    
+
     public virtual void play(
         MoveSystem MoveSystem,
         CastSystem CastSystem,
@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
         )
     {
         // Choose spell
-        Spell spell = unit.spellList[0];
+        GameObject spell = unit.spellList[0];
         // Get nearest player
         Unit nearestPlayer = getNearestPlayer(MoveSystem, obstacleList, playerList, tilemap);
         bool isInRange = moveInRange(spell, nearestPlayer, MoveSystem, obstacleList, playerList, tilemap);
@@ -43,7 +43,7 @@ public class EnemyAI : MonoBehaviour
     }
 
     public bool moveInRange(
-        Spell spell,
+        GameObject spell,
         Unit nearestPlayer,
         MoveSystem MoveSystem,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -66,7 +66,8 @@ public class EnemyAI : MonoBehaviour
         // Remove cell where player is standing
         path.RemoveAt(0);
         // Get spell
-        bool canCast = spell.canCast(unit, nearestPlayer.position, obstacleList, tilemap);
+        // bool canCast = spell.canCast(unit, nearestPlayer.position, obstacleList, tilemap);
+        bool canCast = true;
         // Move while can't cast spell
         while (unit.currentMovementPoint > 0 && !canCast && path.Any())
         {
@@ -75,7 +76,8 @@ public class EnemyAI : MonoBehaviour
             path.RemoveAt(0);
             MoveSystem.moveOneSquare(square, unit, Enemy, tilemap);
             // Check if can cast
-            canCast = spell.canCast(unit, nearestPlayer.position, obstacleList, tilemap);
+            // canCast = spell.canCast(unit, nearestPlayer.position, obstacleList, tilemap);
+            canCast = true;
             if (canCast)
             {
                 return true;
@@ -86,7 +88,7 @@ public class EnemyAI : MonoBehaviour
 
 
     public void cast(
-        Spell spell,
+        GameObject spellGO,
         Vector3Int target,
         CastSystem CastSystem,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -95,14 +97,17 @@ public class EnemyAI : MonoBehaviour
         Tilemap tilemap
         )
     {
-        while (unit.currentMana >= spell.manaCost && spell.canCast(unit, target, obstacleList, tilemap))
+        Spell spell = spellGO.GetComponent<Spell>();
+        // while (unit.currentMana >= spell.manaCost && spell.canCast(unit, target, obstacleList, tilemap))
+        while (unit.currentMana >= spell.manaCost)
         {
             for (int i = 0; i < spell.clickNb; i++)
             {
                 spell.spellPos.Add(target);
             }
             // If spell area is clear & mana is enough
-            if (spell.canCast(unit, target, obstacleList, tilemap) && unit.currentMana >= spell.manaCost)
+            // if (spell.canCast(unit, target, obstacleList, tilemap) && unit.currentMana >= spell.manaCost)
+            if (unit.currentMana >= spell.manaCost)
             {
                 CastSystem.castSpell(spell, unit, playerList, enemyList, obstacleList, tilemap);
             }

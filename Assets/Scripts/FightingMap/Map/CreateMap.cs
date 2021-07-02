@@ -19,8 +19,8 @@ public class CreateMap : MonoBehaviour
         if (SceneInfo.width == 0)
         {
             TypeMap = TypeMap.Forest;
-            width = 30;
-            height = 30;
+            width = 50;
+            height = 50;
         }
         else
         {

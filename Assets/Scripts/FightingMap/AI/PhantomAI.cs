@@ -8,19 +8,19 @@ using UnityEngine.Tilemaps;
 public class PhantomAI : EnemyAI
 {
     public override void play(
-        MoveSystem MoveSystem, 
-        CastSystem CastSystem, 
-        Dictionary<Vector3Int, GameObject> obstacleList, 
-        Dictionary<Unit, GameObject> playerList, 
-        Dictionary<Unit, GameObject> enemyList, 
+        MoveSystem MoveSystem,
+        CastSystem CastSystem,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
         Tilemap tilemap,
         Action endTurn
         )
     {
 
         // Choose spell
-        Spell blackHole = unit.spellList[0];
-        Spell teleportation = unit.spellList[1];
+        GameObject blackHole = unit.spellList[0];
+        GameObject teleportation = unit.spellList[1];
         // Get nearest player
         Unit nearestPlayer = getNearestPlayer(MoveSystem, obstacleList, playerList, tilemap);
         bool isInRange = moveInRange(blackHole, nearestPlayer, MoveSystem, obstacleList, playerList, tilemap);
@@ -66,7 +66,7 @@ public class PhantomAI : EnemyAI
     }
 
     public IEnumerator castWithDelay(
-        Spell spell,
+        GameObject spell,
         Vector3Int target,
         CastSystem CastSystem,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -83,7 +83,7 @@ public class PhantomAI : EnemyAI
 
 
     public IEnumerator castToNearestPlayer(
-        Spell spell,
+        GameObject spellGO,
         Vector3Int target,
         CastSystem CastSystem,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -92,6 +92,7 @@ public class PhantomAI : EnemyAI
         Tilemap tilemap
         )
     {
+        Spell spell = spellGO.GetComponent<Spell>();
         yield return new WaitForSeconds(1.5f);
         List<Vector3Int> path = RangeUtils.getLine(unit.position, target);
         // Remove where player is standing
@@ -109,7 +110,8 @@ public class PhantomAI : EnemyAI
         while (path.Any() && !casted)
         {
             spell.spellPos.Add(path[path.Count() - 1]);
-            if (spell.canCast(unit, path[path.Count() - 1], obstacleList, tilemap))
+            // if (spell.canCast(unit, path[path.Count() - 1], obstacleList, tilemap))
+            if (true)
             {
                 casted = true;
                 CastSystem.castSpell(spell, unit, playerList, enemyList, obstacleList, tilemap);

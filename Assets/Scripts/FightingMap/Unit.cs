@@ -4,8 +4,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public string unitName;
-    public int
-        unitLevel,
+    public int unitLevel,
         maxHP,
         endurance,
         mana,
@@ -16,8 +15,8 @@ public class Unit : MonoBehaviour
         currentMovementPoint,
         currentMana
         ;
-    public List<Spell> spellList = new List<Spell>();
-    public Spell selectedSpell;
+    public List<GameObject> spellList = new List<GameObject>();
+    public GameObject selectedSpell;
     public Vector3Int position;
     public bool playable;
     public List<Status> statusList = new List<Status>();
@@ -30,15 +29,15 @@ public class Unit : MonoBehaviour
         return currentHP <= 0;
     }
 
-    public void setSpellList(List<Spell> newSpells)
+    public void setSpellList(List<GameObject> newSpells)
     {
         foreach (var s in newSpells)
         {
-            spellList.Add(s);
+            setSpellList(s);
         }
     }
 
-    public void setSpellList(Spell newSpells)
+    public void setSpellList(GameObject newSpells)
     {
         spellList.Add(newSpells);
     }

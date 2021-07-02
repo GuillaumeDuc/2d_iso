@@ -50,15 +50,6 @@ public static class GenerateWater
         return waterList;
     }
 
-    private static bool isEncircled(Vector3Int cell, List<Vector3Int> waterList)
-    {
-        Vector3Int up = new Vector3Int(cell.x, cell.y + 1, cell.z);
-        Vector3Int down = new Vector3Int(cell.x, cell.y - 1, cell.z);
-        Vector3Int left = new Vector3Int(cell.x - 1, cell.y, cell.z);
-        Vector3Int right = new Vector3Int(cell.x + 1, cell.y, cell.z);
-        return waterList.Contains(up) && waterList.Contains(down) && waterList.Contains(left) && waterList.Contains(right);
-    }
-
     private static Vector3Int randomCell(Vector3Int cell, int width, int height)
     {
         Vector3Int up = new Vector3Int(cell.x, cell.y + 1, cell.z);

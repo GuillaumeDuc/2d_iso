@@ -17,7 +17,7 @@ public class CastSystem : MonoBehaviour
     private Tile threeSidesTile, threeSidesBottomTile, twoSidesLeftTile, twoSidesRightTile, transparent;
 
     public CastState cast(
-        Spell spell,
+        GameObject spellGO,
         Unit player,
         Vector3Int cellClicked,
         Dictionary<Unit, GameObject> playerList,
@@ -28,9 +28,10 @@ public class CastSystem : MonoBehaviour
         Tilemap cellsGrid
         )
     {
+        Spell spell = spellGO.GetComponent<Spell>();
         if (currentState == CastState.SHOW_AREA)
         {
-            if (!spell.canCast(player, cellClicked, obstacleList, tilemap))
+            if (!spell.getRange(player, obstacleList, tilemap).Contains(cellClicked))
             {
                 spell.spellPos.Clear();
                 return CastState.DEFAULT;
@@ -77,6 +78,7 @@ public class CastSystem : MonoBehaviour
         )
     {
         // Save previous spell caracteristics
+        /*
         Spell spell = new Spell(s);
         Dictionary<Vector3Int, GameObject> oldObstacleList = new Dictionary<Vector3Int, GameObject>(obstacleList);
 
@@ -101,37 +103,7 @@ public class CastSystem : MonoBehaviour
         updateScrollViews(playerList, enemyList);
 
         updateIsCasting();
-    }
-
-    public IEnumerator delayEffect(
-        Spell spell,
-        Unit player,
-        Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Tilemap tilemap
-        )
-    {
-        yield return new WaitForSeconds(spell.delayEffect);
-        spell.applyEffect(player, playerList, enemyList, obstacleList, tilemap);
-        isEffect = false;
-        updateIsCasting();
-    }
-
-    public IEnumerator delayDamage(
-        Spell spell,
-        Unit player,
-        Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Tilemap tilemap
-        )
-    {
-        yield return new WaitForSeconds(spell.delayDamage);
-        spell.doDamage(player, playerList, enemyList, obstacleList, tilemap);
-        updateScrollViews(playerList, enemyList);
-        isDamaging = false;
-        updateIsCasting();
+        */
     }
 
     public void updateScrollViews(
