@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,7 +16,14 @@ public static class SpellAreaList
 
         spell.spellPos.ForEach(s =>
         {
-            area = area.Concat(RangeUtils.getAreaCircleFull(s, spell.area, tilemap)).ToList();
+            Vector3Int current = s;
+            List<Vector3Int> circle = RangeUtils.getAreaCircleFull(current, spell.area, tilemap);
+
+            if (spell.burst)
+            {
+                circle = burst(current, caster, circle, obstacleList, tilemap);
+            }
+            area = area.Concat(circle).ToList();
         });
         return area;
     }
@@ -78,25 +84,36 @@ public static class SpellAreaList
 
             if (spell.burst)
             {
-                // If cell selected equals an obstacle move spellpos one cell toward player
-                if (obstacleList.ContainsKey(current))
-                {
-                    current = RangeUtils.getClosestNeighbour(current, caster.position, tilemap);
-                }
-
-                List<Vector3Int> newCircle = new List<Vector3Int>();
-                circle.ForEach(v =>
-                {
-                    if (RangeUtils.lineOfSight(current, v, obstacleList, tilemap))
-                    {
-                        newCircle.Add(v);
-                    }
-                });
-                circle = newCircle;
+                circle = burst(current, caster, circle, obstacleList, tilemap);
             }
             area = area.Concat(circle).ToList();
         });
 
         return area;
+    }
+
+    private static List<Vector3Int> burst(
+        Vector3Int current,
+        Unit caster,
+        List<Vector3Int> circle,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        // If cell selected equals an obstacle move spellpos one cell toward player
+        if (obstacleList.ContainsKey(current))
+        {
+            current = RangeUtils.getClosestNeighbour(current, caster.position, tilemap);
+        }
+
+        List<Vector3Int> newCircle = new List<Vector3Int>();
+        circle.ForEach(v =>
+        {
+            if (RangeUtils.lineOfSight(current, v, obstacleList, tilemap))
+            {
+                newCircle.Add(v);
+            }
+        });
+        return newCircle;
     }
 }

@@ -24,7 +24,14 @@ public class Spell : MonoBehaviour
 
     [SerializeField]
     private FunctionArea selectedArea;
-    private Dictionary<FunctionArea, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>> functionAreaLookup;
+    private Dictionary<FunctionArea, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>> functionAreaLookup = new Dictionary<FunctionArea, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>>()
+        {
+            { FunctionArea.Circle, SpellAreaList.getAreaInCircleFull },
+            { FunctionArea.InLine, SpellAreaList.getAreaInLine },
+            { FunctionArea.InLineBetweenCells, SpellAreaList.getAreaInLineBetweenCells },
+            { FunctionArea.AndresCircle, SpellAreaList.getAreaAndresCircle },
+        };
+
 
     // Range
     private enum FunctionRange
@@ -34,8 +41,10 @@ public class Spell : MonoBehaviour
 
     [SerializeField]
     private FunctionRange selectedRange;
-    private Dictionary<FunctionRange, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>> functionRangeLookup;
-
+    private Dictionary<FunctionRange, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>> functionRangeLookup = new Dictionary<FunctionRange, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>>()
+        {
+            { FunctionRange.Circle, SpellRangeList.getRangeInCircleFull },
+        };
     // Can Cast
     private enum FunctionCanCast
     {
@@ -44,28 +53,10 @@ public class Spell : MonoBehaviour
 
     [SerializeField]
     private FunctionCanCast selectedCanCast;
-    private Dictionary<FunctionCanCast, System.Func<Spell, Unit, List<Vector3Int>, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool>> functionCanCastLookup;
-
-    private void Awake()
-    {
-        functionAreaLookup = new Dictionary<FunctionArea, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>>()
+    private Dictionary<FunctionCanCast, System.Func<Spell, Unit, List<Vector3Int>, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool>> functionCanCastLookup = new Dictionary<FunctionCanCast, System.Func<Spell, Unit, List<Vector3Int>, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool>>()
         {
-            { FunctionArea.Circle, SpellAreaList.getAreaInCircleFull },
-            { FunctionArea.InLine, SpellAreaList.getAreaInLine },
-            { FunctionArea.InLineBetweenCells, SpellAreaList.getAreaInLineBetweenCells },
-            { FunctionArea.AndresCircle, SpellAreaList.getAreaAndresCircle },
+            { FunctionCanCast.CanCast, SpellCanCastList.canCast },
         };
-
-        functionRangeLookup = new Dictionary<FunctionRange, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>>()
-        {
-            { FunctionRange.Circle, SpellRangeList.getRangeInCircleFull},
-        };
-
-        functionCanCastLookup = new Dictionary<FunctionCanCast, System.Func<Spell, Unit, List<Vector3Int>, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool>>()
-        {
-            { FunctionCanCast.CanCast, SpellCanCastList.canCast},
-        };
-    }
 
     public List<Vector3Int> getArea(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {

@@ -2528,13 +2528,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpellEffectList: {fileID: 1131004372}
-  Explosion: {fileID: 0}
-  Icycle: {fileID: 0}
-  Sandwall: {fileID: 0}
-  Blackhole: {fileID: 0}
-  Teleportation: {fileID: 0}
-  Slash: {fileID: 0}
-  Meteor: {fileID: 0}
   Fireball: {fileID: 0}
 --- !u!114 &1131004372
 MonoBehaviour:

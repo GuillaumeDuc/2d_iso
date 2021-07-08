@@ -367,6 +367,7 @@ public class TurnBasedSystem : MonoBehaviour
 
         // Store infos
         FightingSceneStore.tilemap = tilemap;
+        FightingSceneStore.cellsGrid = cellsGrid;
         FightingSceneStore.playerList = playerList;
         FightingSceneStore.enemyList = enemyList;
         FightingSceneStore.obstacleList = obstacleList;
@@ -441,12 +442,7 @@ public class TurnBasedSystem : MonoBehaviour
                         currentUnit.selectedSpell,
                         currentUnit,
                         cellPosition,
-                        playerList,
-                        enemyList,
-                        obstacleList,
-                        CastState,
-                        tilemap,
-                        cellsGrid
+                        CastState
                     );
                     if (CastState == CastState.DEFAULT)
                     {

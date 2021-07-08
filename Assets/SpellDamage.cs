@@ -15,37 +15,64 @@ public class SpellDamage : MonoBehaviour
 
     [SerializeField]
     private FunctionOption selectedFunction;
-    private Dictionary<FunctionOption, System.Action<Spell, Unit, Dictionary<Unit, GameObject>, Dictionary<Unit, GameObject>, Dictionary<Vector3Int, GameObject>, Tilemap>> functionLookup;
-
-    public void Start()
-    {
-        functionLookup = new Dictionary<FunctionOption, System.Action<Spell, Unit, Dictionary<Unit, GameObject>, Dictionary<Unit, GameObject>, Dictionary<Vector3Int, GameObject>, Tilemap>>()
+    private Dictionary<FunctionOption, System.Action<Spell, Unit, Dictionary<Unit, GameObject>, Dictionary<Unit, GameObject>, Dictionary<Vector3Int, GameObject>, Tilemap>> functionLookup = new Dictionary<FunctionOption, System.Action<Spell, Unit, Dictionary<Unit, GameObject>, Dictionary<Unit, GameObject>, Dictionary<Vector3Int, GameObject>, Tilemap>>()
         {
             { FunctionOption.DoDamage, SpellDamageList.doDamage }
         };
 
+    public void Start()
+    {
         doDamage(Spell, Spell.caster, FightingSceneStore.playerList, FightingSceneStore.enemyList, FightingSceneStore.obstacleList, FightingSceneStore.tilemap);
     }
 
     public void doDamage(Spell spell, Unit caster, Dictionary<Unit, GameObject> playerList, Dictionary<Unit, GameObject> enemyList, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
         functionLookup[selectedFunction].Invoke(spell, caster, playerList, enemyList, obstacleList, tilemap);
+        removeDead(playerList, enemyList, obstacleList);
+    }
 
-        // Remove dead
-        playerList = playerList
-        .Where(p => p.Key.currentHP > 0)
-        .ToDictionary(p => p.Key, p => p.Value);
+    private void removeDead(Dictionary<Unit, GameObject> playerList, Dictionary<Unit, GameObject> enemyList, Dictionary<Vector3Int, GameObject> obstacleList)
+    {
 
-        enemyList = enemyList
-        .Where(e => e.Key.currentHP > 0)
-        .ToDictionary(e => e.Key, e => e.Value);
+        List<Unit> deadPlayerList = new List<Unit>();
+        List<Unit> deadEnemyList = new List<Unit>();
+        List<Vector3Int> destroyedObstacleList = new List<Vector3Int>();
 
-        obstacleList = obstacleList
+        // Remove dead from list
+        deadPlayerList = playerList
+        .Where(p => p.Key.currentHP <= 0)
+        .Select(p => p.Key)
+        .ToList();
+
+        deadEnemyList = enemyList
+        .Where(e => e.Key.currentHP <= 0)
+        .Select(p => p.Key)
+        .ToList();
+
+        destroyedObstacleList = obstacleList
         .Where(o =>
         {
             Obstacle obs = o.Value.GetComponent<Obstacle>();
-            return obs.currentHP > 0;
+            return obs.currentHP <= 0;
         })
-        .ToDictionary(kv => kv.Key, kv => kv.Value);
+        .Select(p => p.Key)
+        .ToList();
+
+        // Remove dead
+        foreach (var s in deadPlayerList)
+        {
+            Destroy(playerList[s]);
+            playerList.Remove(s);
+        }
+        foreach (var s in deadEnemyList)
+        {
+            Destroy(enemyList[s]);
+            enemyList.Remove(s);
+        }
+        foreach (var s in destroyedObstacleList)
+        {
+            Destroy(obstacleList[s]);
+            obstacleList.Remove(s);
+        }
     }
 }

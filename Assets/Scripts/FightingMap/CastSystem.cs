@@ -20,18 +20,13 @@ public class CastSystem : MonoBehaviour
         GameObject spellGO,
         Unit player,
         Vector3Int cellClicked,
-        Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        CastState currentState,
-        Tilemap tilemap,
-        Tilemap cellsGrid
+        CastState currentState
         )
     {
         Spell spell = spellGO.GetComponent<Spell>();
         if (currentState == CastState.SHOW_AREA)
         {
-            if (!spell.getRange(player, obstacleList, tilemap).Contains(cellClicked))
+            if (!spell.getRange(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap).Contains(cellClicked))
             {
                 spell.spellPos.Clear();
                 return CastState.DEFAULT;
@@ -39,16 +34,16 @@ public class CastSystem : MonoBehaviour
 
             spell.spellPos.Add(cellClicked);
 
-            DrawOnMap.showSpellSelection(spell.spellPos, spell.getArea(player, obstacleList, tilemap));
+            DrawOnMap.showSpellSelection(spell.spellPos, spell.getArea(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap));
 
             if (!(spell.spellPos.Count() == spell.clickNb))
             {
-                DrawOnMap.showRange(spell.getRange(player, obstacleList, tilemap));
+                DrawOnMap.showRange(spell.getRange(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap));
             }
 
             if (spell.spellPos.Count() == spell.clickNb)
             {
-                DrawOnMap.showSpellArea(spell.getArea(player, obstacleList, tilemap));
+                DrawOnMap.showSpellArea(spell.getArea(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap));
                 return CastState.CAST_SPELL;
             }
         }
@@ -56,9 +51,9 @@ public class CastSystem : MonoBehaviour
         if (currentState == CastState.CAST_SPELL)
         {
             // If spell area is clear & mana is enough
-            if (spell.getArea(player, obstacleList, tilemap).Contains(cellClicked) && player.currentMana >= spell.manaCost)
+            if (spell.getArea(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap).Contains(cellClicked) && player.currentMana >= spell.manaCost)
             {
-                castSpell(spell, player, playerList, enemyList, obstacleList, tilemap);
+                castSpell(spellGO, spell, player);
             }
             spell.spellPos.Clear();
 
@@ -69,14 +64,16 @@ public class CastSystem : MonoBehaviour
     }
 
     public void castSpell(
-        Spell s,
-        Unit player,
-        Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Tilemap tilemap
+        GameObject spellGO,
+        Spell spell,
+        Unit player
         )
     {
+        spell.caster = player;
+        spell.spellPos.ForEach(pos =>
+        {
+            GameObject a = Instantiate(spellGO, FightingSceneStore.tilemap.CellToWorld(pos), Quaternion.identity);
+        });
         // Save previous spell caracteristics
         /*
         Spell spell = new Spell(s);
@@ -106,10 +103,7 @@ public class CastSystem : MonoBehaviour
         */
     }
 
-    public void updateScrollViews(
-        Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList
-        )
+    public void updateScrollViews()
     {
         EnemiesScrollView.updateScrollView();
         PlayersScrollView.updateScrollView();

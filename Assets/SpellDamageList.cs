@@ -16,10 +16,6 @@ public static class SpellDamageList
     )
     {
         List<Vector3Int> areaSpell = spell.getArea(caster, obstacleList, tilemap);
-        Dictionary<Unit, GameObject> deadPlayerList = new Dictionary<Unit, GameObject>();
-        Dictionary<Unit, GameObject> deadEnemyList = new Dictionary<Unit, GameObject>();
-        Dictionary<Vector3Int, GameObject> destroyedObstacleList = new Dictionary<Vector3Int, GameObject>();
-
         // Friends take damage
         foreach (var s in playerList)
         {
@@ -27,11 +23,7 @@ public static class SpellDamageList
             int selectedNb = areaSpell.Where(x => x.Equals(s.Key.position)).Count();
             if (selectedNb > 0)
             {
-                bool isDead = s.Key.takeDamage(spell.damage * selectedNb);
-                if (isDead)
-                {
-                    deadPlayerList.Add(s.Key, s.Value);
-                }
+                s.Key.takeDamage(spell.damage * selectedNb);
             }
         }
         // Enemies take damage
@@ -41,11 +33,7 @@ public static class SpellDamageList
             int selectedNb = areaSpell.Where(x => x.Equals(s.Key.position)).Count();
             if (selectedNb > 0)
             {
-                bool isDead = s.Key.takeDamage(spell.damage * selectedNb);
-                if (isDead)
-                {
-                    deadEnemyList.Add(s.Key, s.Value);
-                }
+                s.Key.takeDamage(spell.damage * selectedNb);
             }
         }
         // Obstacles take damage
@@ -56,11 +44,7 @@ public static class SpellDamageList
             if (selectedNb > 0)
             {
                 Obstacle obs = o.Value.GetComponent<Obstacle>();
-                bool isDestroyed = obs.takeDamage(spell.damage * selectedNb);
-                if (isDestroyed)
-                {
-                    destroyedObstacleList.Add(o.Key, o.Value);
-                }
+                obs.takeDamage(spell.damage * selectedNb);
             }
         }
     }

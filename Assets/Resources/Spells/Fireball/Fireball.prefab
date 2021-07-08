@@ -9830,10 +9830,13 @@ MonoBehaviour:
   delayEffect: 0
   delayDamage: 0
   lineOfSight: 1
-  uniqueCellArea: 1
-  burst: 1
+  uniqueCellArea: 0
+  burst: 0
   spellPos: []
-  _selectedArea: 0
+  caster: {fileID: 0}
+  selectedArea: 0
+  selectedRange: 0
+  selectedCanCast: 0
 --- !u!114 &1370958277336460783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9847,7 +9850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Spell: {fileID: 309532673645788789}
-  _selectedFunction: 0
+  selectedFunction: 0
 --- !u!1 &2847091581143399694
 GameObject:
   m_ObjectHideFlags: 0
@@ -14800,7 +14803,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7646009502894656625}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 564d99d27033ec549804faa965f53cad, type: 3}
   m_Name: 
