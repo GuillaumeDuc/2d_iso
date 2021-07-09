@@ -53,7 +53,7 @@ public class CastSystem : MonoBehaviour
             // If spell area is clear & mana is enough
             if (spell.getArea(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap).Contains(cellClicked) && player.currentMana >= spell.manaCost)
             {
-                castSpell(spellGO, spell, player);
+                castSpell(spell, player);
             }
             spell.spellPos.Clear();
 
@@ -64,7 +64,6 @@ public class CastSystem : MonoBehaviour
     }
 
     public void castSpell(
-        GameObject spellGO,
         Spell spell,
         Unit player
         )
@@ -72,7 +71,7 @@ public class CastSystem : MonoBehaviour
         spell.caster = player;
         spell.spellPos.ForEach(pos =>
         {
-            GameObject a = Instantiate(spellGO, FightingSceneStore.tilemap.CellToWorld(pos), Quaternion.identity);
+            spell.instantiateSpell(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap);
         });
         // Save previous spell caracteristics
         /*
@@ -101,12 +100,6 @@ public class CastSystem : MonoBehaviour
 
         updateIsCasting();
         */
-    }
-
-    public void updateScrollViews()
-    {
-        EnemiesScrollView.updateScrollView();
-        PlayersScrollView.updateScrollView();
     }
 
     private void updateIsCasting()

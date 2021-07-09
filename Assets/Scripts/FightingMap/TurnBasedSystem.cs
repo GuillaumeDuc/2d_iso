@@ -371,6 +371,8 @@ public class TurnBasedSystem : MonoBehaviour
         FightingSceneStore.playerList = playerList;
         FightingSceneStore.enemyList = enemyList;
         FightingSceneStore.obstacleList = obstacleList;
+        FightingSceneStore.PlayersScrollView = PlayersScrollView;
+        FightingSceneStore.EnemiesScrollView = EnemiesScrollView;
     }
 
     void Update()

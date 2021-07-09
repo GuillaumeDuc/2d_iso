@@ -114,7 +114,7 @@ public class PhantomAI : EnemyAI
             if (true)
             {
                 casted = true;
-                CastSystem.castSpell(spellGO, spell, unit);
+                CastSystem.castSpell(spell, unit);
             }
             path.RemoveAt(path.Count() - 1);
             spell.spellPos.Clear();

@@ -109,7 +109,7 @@ public class EnemyAI : MonoBehaviour
             // if (spell.canCast(unit, target, obstacleList, tilemap) && unit.currentMana >= spell.manaCost)
             if (unit.currentMana >= spell.manaCost)
             {
-                CastSystem.castSpell(spellGO, spell, unit);
+                CastSystem.castSpell(spell, unit);
             }
             spell.spellPos.Clear();
         }

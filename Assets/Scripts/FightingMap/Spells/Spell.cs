@@ -45,6 +45,7 @@ public class Spell : MonoBehaviour
         {
             { FunctionRange.Circle, SpellRangeList.getRangeInCircleFull },
         };
+
     // Can Cast
     private enum FunctionCanCast
     {
@@ -58,6 +59,28 @@ public class Spell : MonoBehaviour
             { FunctionCanCast.CanCast, SpellCanCastList.canCast },
         };
 
+    // Instantiate
+    public enum FunctionInstantiate
+    {
+        InstatiateAreaWithDelay,
+        InstantiateOnCellClicked,
+        InstantiateObstacles,
+        InstantiateThrowedSpell
+    };
+
+    [SerializeField]
+    private FunctionInstantiate selectedInstantiate;
+    static SpellInstantiateList si = new SpellInstantiateList();
+    Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap>> functionInstantiateLookup = new Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap>>()
+        {
+            { Spell.FunctionInstantiate.InstatiateAreaWithDelay, si.instantiateAreaWithDelay },
+            { Spell.FunctionInstantiate.InstantiateOnCellClicked, si.instantiateOnCellClicked },
+            { Spell.FunctionInstantiate.InstantiateObstacles, si.instantiateObstacles },
+            { Spell.FunctionInstantiate.InstantiateThrowedSpell, si.instantiateThrowedSpell },
+        };
+
+
+    // Lookup functions
     public List<Vector3Int> getArea(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
         return functionAreaLookup[selectedArea].Invoke(this, caster, obstacleList, tilemap);
@@ -71,6 +94,11 @@ public class Spell : MonoBehaviour
     public bool canCast(Unit caster, List<Vector3Int> range, Vector3Int target, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
         return functionCanCastLookup[selectedCanCast].Invoke(this, caster, range, target, obstacleList, tilemap);
+    }
+
+    public void instantiateSpell(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    {
+        functionInstantiateLookup[selectedInstantiate].Invoke(this, caster, obstacleList, tilemap);
     }
 
     public void applyEffect(

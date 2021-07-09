@@ -9837,6 +9837,7 @@ MonoBehaviour:
   selectedArea: 0
   selectedRange: 0
   selectedCanCast: 0
+  selectedInstantiate: 3
 --- !u!114 &1370958277336460783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14803,7 +14804,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7646009502894656625}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 564d99d27033ec549804faa965f53cad, type: 3}
   m_Name: 
@@ -14812,7 +14813,7 @@ MonoBehaviour:
   speed: 4
   beforeImpactX: 0
   beforeImpactY: 0
-  destroyDelay: 2
+  destroyDelay: 0
 --- !u!1 &7701226099939767630
 GameObject:
   m_ObjectHideFlags: 0

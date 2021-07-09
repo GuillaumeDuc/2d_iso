@@ -29,6 +29,7 @@ public class SpellDamage : MonoBehaviour
     {
         functionLookup[selectedFunction].Invoke(spell, caster, playerList, enemyList, obstacleList, tilemap);
         removeDead(playerList, enemyList, obstacleList);
+        updateScrollViews();
     }
 
     private void removeDead(Dictionary<Unit, GameObject> playerList, Dictionary<Unit, GameObject> enemyList, Dictionary<Vector3Int, GameObject> obstacleList)
@@ -74,5 +75,11 @@ public class SpellDamage : MonoBehaviour
             Destroy(obstacleList[s]);
             obstacleList.Remove(s);
         }
+    }
+
+    public void updateScrollViews()
+    {
+        FightingSceneStore.PlayersScrollView.updateScrollView();
+        FightingSceneStore.EnemiesScrollView.updateScrollView();
     }
 }
