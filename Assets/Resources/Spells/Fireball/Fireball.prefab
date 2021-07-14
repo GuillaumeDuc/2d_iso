@@ -9736,6 +9736,7 @@ GameObject:
   - component: {fileID: 829999311259712797}
   - component: {fileID: 309532673645788789}
   - component: {fileID: 1370958277336460783}
+  - component: {fileID: 7750511987680220643}
   m_Layer: 0
   m_Name: Fireball
   m_TagString: Untagged
@@ -9825,7 +9826,7 @@ MonoBehaviour:
   range: 10
   area: 3
   damage: 50
-  clickNb: 3
+  clickNb: 1
   manaCost: 10
   delayEffect: 0
   delayDamage: 0
@@ -9833,6 +9834,7 @@ MonoBehaviour:
   uniqueCellArea: 0
   burst: 0
   spellPos: []
+  spellEffectList: []
   caster: {fileID: 0}
   selectedArea: 0
   selectedRange: 0
@@ -9852,6 +9854,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Spell: {fileID: 309532673645788789}
   selectedFunction: 0
+--- !u!114 &7750511987680220643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2253697307115073443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ee48caefd9dd5409e444f4df206c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spell: {fileID: 309532673645788789}
+  selectedSpellEffects:
+  - FireEffect
 --- !u!1 &2847091581143399694
 GameObject:
   m_ObjectHideFlags: 0

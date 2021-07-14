@@ -373,6 +373,11 @@ public class TurnBasedSystem : MonoBehaviour
         FightingSceneStore.obstacleList = obstacleList;
         FightingSceneStore.PlayersScrollView = PlayersScrollView;
         FightingSceneStore.EnemiesScrollView = EnemiesScrollView;
+        FightingSceneStore.SpellList = SpellList;
+        FightingSceneStore.SpellInstantiateList = gameObject.AddComponent<SpellInstantiateList>();
+        FightingSceneStore.SpellEffectList = gameObject.GetComponent<SpellEffectList>();
+        FightingSceneStore.StatusList = gameObject.GetComponent<StatusList>();
+        FightingSceneStore.TileList = gameObject.GetComponent<TileList>();
     }
 
     void Update()

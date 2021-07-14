@@ -2431,8 +2431,8 @@ GameObject:
   - component: {fileID: 1131004369}
   - component: {fileID: 1131004370}
   - component: {fileID: 1131004371}
-  - component: {fileID: 1131004372}
   - component: {fileID: 1131004373}
+  - component: {fileID: 1131004372}
   - component: {fileID: 1131004374}
   - component: {fileID: 1131004375}
   m_Layer: 0
@@ -2527,23 +2527,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e827dbf9d53849e45943fb2c1727e170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpellEffectList: {fileID: 1131004372}
   Fireball: {fileID: 0}
 --- !u!114 &1131004372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1131004366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 435ff224acff7b448a1693a4797da376, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StatusList: {fileID: 1131004373}
-  TileList: {fileID: 1131004374}
---- !u!114 &1131004373
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2555,6 +2540,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee7198ffb49ef7c4381d023f55ed2157, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1131004373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131004366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 435ff224acff7b448a1693a4797da376, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StatusList: {fileID: 1131004372}
+  TileList: {fileID: 1131004374}
 --- !u!114 &1131004374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2572,7 +2571,7 @@ MonoBehaviour:
   sand: {fileID: 0}
   burnt: {fileID: 0}
   water: {fileID: 0}
-  StatusList: {fileID: 1131004373}
+  StatusList: {fileID: 1131004372}
   tilemap: {fileID: 14874894}
 --- !u!114 &1131004375
 MonoBehaviour:

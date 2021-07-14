@@ -10,22 +10,37 @@ public class SpellEffectList : MonoBehaviour
 
     public TileList TileList;
 
-    public SpellEffect
-        PushFromPlayer,
+
+    public SpellEffect PushFromPlayer,
         Fire,
         Freeze,
         Teleport,
-        BurnTile
-        ;
+        BurnTile;
+    public List<SpellEffect> spellEffects = new List<SpellEffect>();
+
+    // Static name for spell effect custom editor 
+    public static string PushFromPlayerName = "PushFromPlayer";
+    public static string FireName = "FireEffect";
+    public static string FreezeName = "FreezeEffect";
+    public static string TeleportName = "TeleportEffect";
+    public static string BurnTileName = "BurnTileEffect";
+    public static string[] spellEffectsName = new string[] {
+        PushFromPlayerName,
+        FireName,
+        FreezeName,
+        TeleportName,
+        BurnTileName
+    };
+
 
     void Start()
     {
         // Push Outside Area of effect
-        PushFromPlayer = new SpellEffect("PushFromPlayer");
+        PushFromPlayer = new SpellEffect(PushFromPlayerName);
         PushFromPlayer.applyEffectAction = pushFromPlayerEffect;
 
         // Apply Fire in a given area
-        Fire = new SpellEffect("FireEffect");
+        Fire = new SpellEffect(FireName);
         // Apply status to players
         Fire.statusList.Add(new Status(StatusList.Fire));
         // Apply status to tiles
@@ -33,18 +48,27 @@ public class SpellEffectList : MonoBehaviour
         Fire.applyEffectAction = applyEffect;
 
         // Apply freeze in a given area
-        Freeze = new SpellEffect("FreezeEffect");
+        Freeze = new SpellEffect(FreezeName);
         Freeze.statusList.Add(new Status(StatusList.Freeze));
         Freeze.statusTileList.Add(new Status(StatusList.Freeze));
         Freeze.applyEffectAction = applyEffect;
 
         // Teleport from a point to another point
-        Teleport = new SpellEffect("TeleportEffect");
+        Teleport = new SpellEffect(TeleportName);
         Teleport.applyEffectAction = teleportPlayerEffect;
 
         // Change Tile
-        BurnTile = new SpellEffect("ChangeTileEffect");
+        BurnTile = new SpellEffect(BurnTileName);
         BurnTile.applyEffectAction = burnTileEffect;
+
+        // Add effects in range, must match the name
+        spellEffects.AddRange(new List<SpellEffect>() {
+            PushFromPlayer,
+            Fire,
+            Freeze,
+            Teleport,
+            BurnTile
+        });
     }
 
     public void burnTileEffect(
@@ -57,8 +81,7 @@ public class SpellEffectList : MonoBehaviour
         Tilemap tilemap
         )
     {
-        // List<Vector3Int> area = spell.getArea(caster, obstacleList, tilemap);
-        List<Vector3Int> area = new List<Vector3Int>();
+        List<Vector3Int> area = spell.getArea(caster, obstacleList, tilemap);
 
         area.ForEach(a =>
         {
@@ -83,8 +106,7 @@ public class SpellEffectList : MonoBehaviour
         )
     {
         Dictionary<Unit, GameObject> allCharacters = playerList.Concat(enemyList).ToDictionary(x => x.Key, x => x.Value);
-        // List<Vector3Int> area = spell.getArea(caster, obstacleList, tilemap);
-        List<Vector3Int> area = new List<Vector3Int>();
+        List<Vector3Int> area = spell.getArea(caster, obstacleList, tilemap);
         // Check multiple effect can stack on same cell on a single cast
         if (!spellEffect.cumul)
         {
@@ -137,8 +159,7 @@ public class SpellEffectList : MonoBehaviour
         Tilemap tilemap
         )
     {
-        //List<Vector3Int> area = spell.getArea(caster, obstacleList, tilemap);
-        List<Vector3Int> area = new List<Vector3Int>();
+        List<Vector3Int> area = spell.getArea(caster, obstacleList, tilemap);
         // Move every ennemies and players one cell away
         area.ForEach(a =>
         {

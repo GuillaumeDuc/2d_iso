@@ -9,7 +9,6 @@ public class Spell : MonoBehaviour
     public float delayEffect, delayDamage;
     public bool lineOfSight, uniqueCellArea, burst;
     public List<Vector3Int> spellPos;
-    public List<SpellEffect> spellEffectList;
 
     public Unit caster;
 
@@ -99,20 +98,6 @@ public class Spell : MonoBehaviour
     public void instantiateSpell(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
         functionInstantiateLookup[selectedInstantiate].Invoke(this, caster, obstacleList, tilemap);
-    }
-
-    public void applyEffect(
-        Unit caster,
-        Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Tilemap tilemap
-        )
-    {
-        spellEffectList.ForEach(se =>
-        {
-            se.applyEffect(this, caster, playerList, enemyList, obstacleList, tilemap);
-        });
     }
 
     override public string ToString()

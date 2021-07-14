@@ -2,6 +2,7 @@ using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class SpellEffect
 {
     public string name;
@@ -46,7 +47,7 @@ public class SpellEffect
         }
         else
         {
-            Status s = (Status)obj;
+            SpellEffect s = (SpellEffect)obj;
             return name == s.name;
         }
     }

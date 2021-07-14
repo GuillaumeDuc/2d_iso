@@ -73,6 +73,7 @@ public class CastSystem : MonoBehaviour
         {
             spell.instantiateSpell(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap);
         });
+        player.currentMana -= spell.manaCost;
         // Save previous spell caracteristics
         /*
         Spell spell = new Spell(s);

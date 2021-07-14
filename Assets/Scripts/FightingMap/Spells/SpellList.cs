@@ -7,9 +7,6 @@ using System.Linq;
 public class SpellList : MonoBehaviour
 {
     private const string PATH = "Spells/";
-
-    public SpellEffectList SpellEffectList;
-
     public GameObject Fireball;
 
     /*
