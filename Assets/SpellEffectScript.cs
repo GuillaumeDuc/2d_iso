@@ -9,10 +9,15 @@ public class SpellEffectScript : MonoBehaviour
 {
     public Spell spell;
 
-    public List<string> selectedSpellEffects = new List<string>();
+    public List<SpellEffect> selectedSpellEffects = new List<SpellEffect>();
 
     private void Start()
     {
+        // Search for originals SpellEfects
+        selectedSpellEffects = selectedSpellEffects.Select(a =>
+        {
+            return SpellEffectList.spellEffects.Find(s => s.Equals(a));
+        }).ToList();
         applyEffect(
             FightingSceneStore.playerList,
             FightingSceneStore.enemyList,
@@ -31,10 +36,8 @@ public class SpellEffectScript : MonoBehaviour
     {
         selectedSpellEffects.ForEach(se =>
         {
-            SpellEffect spEff = FightingSceneStore.SpellEffectList.spellEffects.Find(x => x.name.Equals(se));
-            spEff.applyEffect(spell, spell.caster, playerList, enemyList, obstacleList, tilemap);
+            se.applyEffect(spell, spell.caster, playerList, enemyList, obstacleList, tilemap);
         });
-        tilemap.RefreshAllTiles();
     }
 }
 
@@ -48,7 +51,7 @@ public class CustomListEditor : Editor
     int ListSize;
 
     int _choiceIndex = 0;
-    string[] _choices = SpellEffectList.spellEffectsName;
+    string[] _choices = SpellEffectList.spellEffects.Select(a => a.name).ToArray();
 
     void OnEnable()
     {
@@ -93,9 +96,9 @@ public class CustomListEditor : Editor
 
         if (GUILayout.Button("Add New"))
         {
-            if (!t.selectedSpellEffects.Contains(_choices[_choiceIndex]))
+            if (!t.selectedSpellEffects.Contains(SpellEffectList.spellEffects[_choiceIndex]))
             {
-                t.selectedSpellEffects.Add(_choices[_choiceIndex]);
+                t.selectedSpellEffects.Add(SpellEffectList.spellEffects[_choiceIndex]);
             }
         }
 
@@ -106,11 +109,11 @@ public class CustomListEditor : Editor
         for (int i = 0; i < ThisList.arraySize; i++)
         {
             SerializedProperty MyListRef = ThisList.GetArrayElementAtIndex(i);
-            //SerializedProperty MyString = MyListRef.FindPropertyRelative("name");
+            SerializedProperty MyString = MyListRef.FindPropertyRelative("name");
 
             EditorGUILayout.LabelField("Spell effect");
-            //MyString.stringValue = EditorGUILayout.TextField("Name", MyString.stringValue);
-            MyListRef.stringValue = EditorGUILayout.TextField("Name", MyListRef.stringValue);
+            MyString.stringValue = EditorGUILayout.TextField("Name", MyString.stringValue);
+            //yListRef.stringValue = EditorGUILayout.TextField("Name", MyListRef.stringValue);
             EditorGUILayout.Space();
             if (GUILayout.Button("Remove Effect"))
             {

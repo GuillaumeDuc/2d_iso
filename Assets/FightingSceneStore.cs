@@ -14,10 +14,4 @@ public static class FightingSceneStore
 
     public static InfoScrollView EnemiesScrollView;
     public static InfoScrollView PlayersScrollView;
-
-    public static SpellList SpellList;
-    public static SpellInstantiateList SpellInstantiateList;
-    public static SpellEffectList SpellEffectList;
-    public static StatusList StatusList;
-    public static TileList TileList;
 }

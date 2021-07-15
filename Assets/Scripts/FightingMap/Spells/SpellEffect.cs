@@ -36,7 +36,7 @@ public class SpellEffect
 
     public override string ToString()
     {
-        return "Effect : " + value;
+        return "Effect : " + name;
     }
 
     public override bool Equals(System.Object obj)
