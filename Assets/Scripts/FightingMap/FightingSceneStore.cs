@@ -5,13 +5,16 @@ using UnityEngine.Tilemaps;
 
 public static class FightingSceneStore
 {
+    // Map
     public static Tilemap tilemap;
     public static Tilemap cellsGrid;
+
+    // Damageable items list
     public static Dictionary<Unit, GameObject> enemyList;
     public static Dictionary<Unit, GameObject> playerList;
-
     public static Dictionary<Vector3Int, GameObject> obstacleList;
 
+    // UI
     public static InfoScrollView EnemiesScrollView;
     public static InfoScrollView PlayersScrollView;
 }

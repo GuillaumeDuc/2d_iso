@@ -12,9 +12,7 @@ public class CastSystem : MonoBehaviour
 
     public DrawOnMap DrawOnMap;
 
-    public bool casted = false, isCasting = false, isDamaging = false, isEffect = false;
-
-    private Tile threeSidesTile, threeSidesBottomTile, twoSidesLeftTile, twoSidesRightTile, transparent;
+    public bool casted = false;
 
     public CastState cast(
         GameObject spellGO,
@@ -74,41 +72,10 @@ public class CastSystem : MonoBehaviour
             spell.instantiateSpell(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap);
         });
         player.currentMana -= spell.manaCost;
-        // Save previous spell caracteristics
+        casted = true;
         /*
-        Spell spell = new Spell(s);
-        Dictionary<Vector3Int, GameObject> oldObstacleList = new Dictionary<Vector3Int, GameObject>(obstacleList);
-
-        isCasting = true;
-        isDamaging = true;
-        isEffect = true;
-
-        // Damage
-        StartCoroutine(delayDamage(spell, player, playerList, enemyList, obstacleList, tilemap));
-
-        // Effect
-        StartCoroutine(delayEffect(spell, player, playerList, enemyList, oldObstacleList, tilemap));
-
-        // Animation
-        spell.playAnimation(player, obstacleList, tilemap);
-
         // Animate caster
         spell.animateCaster(player);
-
-        // Mana
-        player.currentMana -= spell.manaCost;
-        updateScrollViews(playerList, enemyList);
-
-        updateIsCasting();
         */
-    }
-
-    private void updateIsCasting()
-    {
-        if (!isDamaging && !isEffect)
-        {
-            isCasting = false;
-            casted = true;
-        }
     }
 }

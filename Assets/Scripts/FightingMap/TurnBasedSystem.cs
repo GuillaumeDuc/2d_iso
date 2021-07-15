@@ -27,7 +27,6 @@ public class TurnBasedSystem : MonoBehaviour
     public MoveSystem MoveSystem;
     public CastSystem CastSystem;
     public SpellList SpellList;
-    public TileList TileList;
     public DrawOnMap DrawOnMap;
 
     // UI
@@ -308,6 +307,7 @@ public class TurnBasedSystem : MonoBehaviour
         // Init Player
         Unit PlayerStats = Player.GetComponent<Unit>();
         PlayerStats.setSpellList(SpellList.Fireball);
+        PlayerStats.setSpellList(SpellList.Meteor);
         PlayerStats.setStats(Player, "Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3, 110);
         PlayerStats.playable = true;
 

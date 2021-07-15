@@ -3,12 +3,12 @@ using UnityEditor;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using System.Linq;
-using System.Collections;
 
 public class SpellEffectScript : MonoBehaviour
 {
     public Spell spell;
 
+    [HideInInspector]
     public List<SpellEffect> selectedSpellEffects = new List<SpellEffect>();
 
     private void Start()
@@ -112,8 +112,8 @@ public class CustomListEditor : Editor
             SerializedProperty MyString = MyListRef.FindPropertyRelative("name");
 
             EditorGUILayout.LabelField("Spell effect");
-            MyString.stringValue = EditorGUILayout.TextField("Name", MyString.stringValue);
-            //yListRef.stringValue = EditorGUILayout.TextField("Name", MyListRef.stringValue);
+            EditorGUILayout.LabelField("Name", MyString.stringValue);
+            // MyString.stringValue = EditorGUILayout.TextField("Name", MyString.stringValue);
             EditorGUILayout.Space();
             if (GUILayout.Button("Remove Effect"))
             {
