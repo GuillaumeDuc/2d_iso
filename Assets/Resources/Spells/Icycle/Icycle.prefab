@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 6704543020205789103}
   - component: {fileID: 6704543020205789088}
   - component: {fileID: 6704543020205789089}
+  - component: {fileID: -4871812002642153287}
+  - component: {fileID: -1579522458733475044}
+  - component: {fileID: -5287126096758546129}
   m_Layer: 0
   m_Name: Icycle
   m_TagString: Untagged
@@ -102,3 +105,60 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-4871812002642153287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6704543020205789090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fcf77bb7d4dbf544a864a6e68847b01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameSpell: 
+  range: 8
+  area: 5
+  damage: 15
+  clickNb: 3
+  manaCost: 0
+  lineOfSight: 0
+  uniqueCellArea: 0
+  burst: 0
+  spellPos: []
+  caster: {fileID: 0}
+  selectedArea: 0
+  selectedRange: 0
+  selectedCanCast: 0
+  selectedInstantiate: 1
+--- !u!114 &-1579522458733475044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6704543020205789090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68322e435e3d7194d8b5853ab4fc950f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedFunction: 0
+--- !u!114 &-5287126096758546129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6704543020205789090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ee48caefd9dd5409e444f4df206c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectDelay: 0
+  selectedSpellEffects:
+  - name: FreezeEffect
+    value: 0
+    cumul: 1

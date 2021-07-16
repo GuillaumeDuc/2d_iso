@@ -9,12 +9,12 @@ public class SpellList : MonoBehaviour
     private const string PATH = "Spells/";
     public GameObject Fireball,
     Meteor,
-    Teleportation;
+    Teleportation,
+    Icycle;
 
     /*
     public Spell
         Explosion,
-        Icycle,
         Sandwall,
         Blackhole,
         Slash,
@@ -31,9 +31,11 @@ public class SpellList : MonoBehaviour
         nameSpell = "Meteor";
         Meteor = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
 
-
         nameSpell = "Teleportation";
         Teleportation = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+
+        nameSpell = "Icycle";
+        Icycle = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
     }
 
     /*
