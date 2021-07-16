@@ -14490,7 +14490,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3667406406442555805}
-  - component: {fileID: 3667406406442555794}
   m_Layer: 0
   m_Name: MeteorContent
   m_TagString: Untagged
@@ -14516,23 +14515,6 @@ Transform:
   m_Father: {fileID: 3667406406966735229}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3667406406442555794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3667406406442555804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 564d99d27033ec549804faa965f53cad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextGO: {fileID: 7155715200403557941, guid: 320ee63c73a47cf4e9620fb2291e544e, type: 3}
-  speed: 2
-  beforeImpactX: 0
-  beforeImpactY: 0.2
-  destroyDelay: 0
 --- !u!1 &3667406406456581573
 GameObject:
   m_ObjectHideFlags: 0
@@ -14627,6 +14609,8 @@ GameObject:
   - component: {fileID: 3667406406966735218}
   - component: {fileID: 4267553816238557824}
   - component: {fileID: 426123047}
+  - component: {fileID: 4092812816673008621}
+  - component: {fileID: 3796437377780378457}
   m_Layer: 0
   m_Name: Meteor
   m_TagString: Untagged
@@ -14730,6 +14714,51 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4092812816673008621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3667406406966735228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fcf77bb7d4dbf544a864a6e68847b01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameSpell: 
+  range: 10
+  area: 4
+  damage: 50
+  clickNb: 1
+  manaCost: 10
+  lineOfSight: 1
+  uniqueCellArea: 0
+  burst: 1
+  spellPos: []
+  caster: {fileID: 0}
+  selectedArea: 3
+  selectedRange: 0
+  selectedCanCast: 0
+  selectedInstantiate: 1
+--- !u!114 &3796437377780378457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3667406406966735228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564d99d27033ec549804faa965f53cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movingGO: {fileID: 3667406406442555804}
+  nextGO: {fileID: 7155715200403557941, guid: 320ee63c73a47cf4e9620fb2291e544e, type: 3}
+  speed: 2
+  beforeImpactX: 0
+  beforeImpactY: 0.2
+  destroyDelay: 0
 --- !u!1 &3667406407191035717
 GameObject:
   m_ObjectHideFlags: 0

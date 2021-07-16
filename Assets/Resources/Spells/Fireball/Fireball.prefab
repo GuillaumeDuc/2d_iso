@@ -9737,6 +9737,7 @@ GameObject:
   - component: {fileID: 309532673645788789}
   - component: {fileID: 1370958277336460783}
   - component: {fileID: 6662491682508730375}
+  - component: {fileID: 3047445623148666509}
   m_Layer: 0
   m_Name: Fireball
   m_TagString: Untagged
@@ -9828,8 +9829,6 @@ MonoBehaviour:
   damage: 50
   clickNb: 1
   manaCost: 10
-  delayEffect: 0
-  delayDamage: 0
   lineOfSight: 1
   uniqueCellArea: 0
   burst: 0
@@ -9851,7 +9850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68322e435e3d7194d8b5853ab4fc950f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Spell: {fileID: 309532673645788789}
+  spell: {fileID: 309532673645788789}
   selectedFunction: 0
 --- !u!114 &6662491682508730375
 MonoBehaviour:
@@ -9870,6 +9869,24 @@ MonoBehaviour:
   - name: FireEffect
     value: 0
     cumul: 1
+--- !u!114 &3047445623148666509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2253697307115073443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564d99d27033ec549804faa965f53cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movingGO: {fileID: 7646009502894656625}
+  nextGO: {fileID: 3011477353448975112, guid: 6847e7928d5294044851065b2f9966f2, type: 3}
+  speed: 4
+  beforeImpactX: 0
+  beforeImpactY: 0
+  destroyDelay: 0
 --- !u!1 &2847091581143399694
 GameObject:
   m_ObjectHideFlags: 0
@@ -14741,7 +14758,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1018529302621455838}
   - component: {fileID: 1633591019458332480}
-  - component: {fileID: 8607417395056886476}
   m_Layer: 0
   m_Name: FireballContent
   m_TagString: Untagged
@@ -14815,23 +14831,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8607417395056886476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7646009502894656625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 564d99d27033ec549804faa965f53cad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nextGO: {fileID: 3011477353448975112, guid: 6847e7928d5294044851065b2f9966f2, type: 3}
-  speed: 4
-  beforeImpactX: 0
-  beforeImpactY: 0
-  destroyDelay: 0
 --- !u!1 &7701226099939767630
 GameObject:
   m_ObjectHideFlags: 0

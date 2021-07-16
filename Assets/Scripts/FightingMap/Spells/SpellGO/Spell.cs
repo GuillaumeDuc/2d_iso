@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class Spell : MonoBehaviour
 {
+    [HideInInspector]
     public string nameSpell;
     public int range, area, damage, clickNb, manaCost;
-    public float delayEffect, delayDamage;
     public bool lineOfSight, uniqueCellArea, burst;
+
+    [HideInInspector]
     public List<Vector3Int> spellPos;
 
+    [HideInInspector]
     public Unit caster;
 
     // Area
-    private enum FunctionArea
+    public enum FunctionArea
     {
         Circle,
         InLine,
@@ -21,8 +24,7 @@ public class Spell : MonoBehaviour
         AndresCircle
     };
 
-    [SerializeField]
-    private FunctionArea selectedArea;
+    public FunctionArea selectedArea;
     private Dictionary<FunctionArea, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>> functionAreaLookup = new Dictionary<FunctionArea, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>>()
         {
             { FunctionArea.Circle, SpellAreaList.getAreaInCircleFull },
@@ -33,26 +35,24 @@ public class Spell : MonoBehaviour
 
 
     // Range
-    private enum FunctionRange
+    public enum FunctionRange
     {
         Circle
     };
 
-    [SerializeField]
-    private FunctionRange selectedRange;
+    public FunctionRange selectedRange;
     private Dictionary<FunctionRange, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>> functionRangeLookup = new Dictionary<FunctionRange, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>>()
         {
             { FunctionRange.Circle, SpellRangeList.getRangeInCircleFull },
         };
 
     // Can Cast
-    private enum FunctionCanCast
+    public enum FunctionCanCast
     {
         CanCast
     };
 
-    [SerializeField]
-    private FunctionCanCast selectedCanCast;
+    public FunctionCanCast selectedCanCast;
     private Dictionary<FunctionCanCast, System.Func<Spell, Unit, List<Vector3Int>, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool>> functionCanCastLookup = new Dictionary<FunctionCanCast, System.Func<Spell, Unit, List<Vector3Int>, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap, bool>>()
         {
             { FunctionCanCast.CanCast, SpellCanCastList.canCast },
@@ -67,8 +67,7 @@ public class Spell : MonoBehaviour
         InstantiateThrowedSpell
     };
 
-    [SerializeField]
-    private FunctionInstantiate selectedInstantiate;
+    public FunctionInstantiate selectedInstantiate;
     static SpellInstantiateList si = new SpellInstantiateList();
     Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap>> functionInstantiateLookup = new Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap>>()
         {
@@ -98,6 +97,25 @@ public class Spell : MonoBehaviour
     public void instantiateSpell(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
         functionInstantiateLookup[selectedInstantiate].Invoke(this, caster, obstacleList, tilemap);
+    }
+
+    public void setSpell(Spell spell)
+    {
+        nameSpell = spell.nameSpell;
+        range = spell.range;
+        area = spell.area;
+        damage = spell.damage;
+        clickNb = spell.clickNb;
+        manaCost = spell.manaCost;
+        lineOfSight = spell.lineOfSight;
+        uniqueCellArea = spell.uniqueCellArea;
+        burst = spell.burst;
+        spellPos = new List<Vector3Int>(spell.spellPos);
+        caster = spell.caster;
+        selectedArea = spell.selectedArea;
+        selectedRange = spell.selectedRange;
+        selectedCanCast = spell.selectedCanCast;
+        selectedInstantiate = spell.selectedInstantiate;
     }
 
     override public string ToString()

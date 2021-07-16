@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using UnityEditor;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
@@ -6,18 +7,29 @@ using System.Linq;
 
 public class SpellEffectScript : MonoBehaviour
 {
-    public Spell spell;
-
+    private Spell spell;
+    public float effectDelay = 0;
     [HideInInspector]
     public List<SpellEffect> selectedSpellEffects = new List<SpellEffect>();
 
     private void Start()
     {
+        // Set spell
+        Spell spellGo = gameObject.GetComponent<Spell>();
+        if (spellGo != null) { spell = spellGo; }
+
         // Search for originals SpellEfects
         selectedSpellEffects = selectedSpellEffects.Select(a =>
         {
             return SpellEffectList.spellEffects.Find(s => s.Equals(a));
         }).ToList();
+
+        StartCoroutine(delayEffect());
+    }
+
+    private IEnumerator delayEffect()
+    {
+        yield return new WaitForSeconds(effectDelay);
         applyEffect(
             FightingSceneStore.playerList,
             FightingSceneStore.enemyList,
@@ -25,7 +37,6 @@ public class SpellEffectScript : MonoBehaviour
             FightingSceneStore.tilemap
         );
     }
-
 
     public void applyEffect(
         Dictionary<Unit, GameObject> playerList,

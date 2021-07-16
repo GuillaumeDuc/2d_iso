@@ -4980,6 +4980,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7155715200403557931}
   - component: {fileID: 1737469079}
+  - component: {fileID: 8181798471461944055}
+  - component: {fileID: -8823746381263327387}
   m_Layer: 0
   m_Name: MeteorExplosion
   m_TagString: Untagged
@@ -5023,3 +5025,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8181798471461944055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7155715200403557941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ee48caefd9dd5409e444f4df206c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectDelay: 2
+  selectedSpellEffects:
+  - name: BurnTileEffect
+    value: 0
+    cumul: 1
+--- !u!114 &-8823746381263327387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7155715200403557941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68322e435e3d7194d8b5853ab4fc950f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedFunction: 0

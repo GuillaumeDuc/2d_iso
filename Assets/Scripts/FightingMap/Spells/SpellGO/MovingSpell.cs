@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MovingSpell : MonoBehaviour
 {
+    public GameObject movingGO;
     public GameObject nextGO;
     public float speed = 2f;
 
@@ -16,14 +17,24 @@ public class MovingSpell : MonoBehaviour
     private bool reached = false;
     void Start()
     {
-        rb = transform.GetComponent<Transform>();
-        target = new Vector3(transform.parent.position.x + (float)beforeImpactX, transform.parent.position.y + (float)beforeImpactY, 0);
+        rb = movingGO.GetComponent<Transform>();
+        target = new Vector3(transform.position.x + (float)beforeImpactX, transform.position.y + (float)beforeImpactY, 0);
     }
 
     private IEnumerator delayDestroy()
     {
         yield return new WaitForSeconds(destroyDelay);
-        Destroy(transform.parent.gameObject);
+        Destroy(this.gameObject);
+    }
+
+    private void instantiateNextSpell()
+    {
+        // Instantiate
+        GameObject next = Instantiate(nextGO, target, Quaternion.identity);
+        // Set spell script to next gameobject
+        Spell spell = gameObject.GetComponent<Spell>();
+        Spell nextSpell = next.AddComponent<Spell>();
+        nextSpell.setSpell(spell);
     }
 
     void FixedUpdate()
@@ -35,7 +46,7 @@ public class MovingSpell : MonoBehaviour
         }
         else if (rb != null && nextGO != null && reached == false)
         {
-            Instantiate(nextGO, target, Quaternion.identity);
+            instantiateNextSpell();
             StartCoroutine(delayDestroy());
             reached = true;
         }

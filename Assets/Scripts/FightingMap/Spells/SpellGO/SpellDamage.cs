@@ -6,7 +6,7 @@ using System.Linq;
 
 public class SpellDamage : MonoBehaviour
 {
-    public Spell Spell;
+    private Spell spell;
 
     private enum FunctionOption
     {
@@ -22,7 +22,10 @@ public class SpellDamage : MonoBehaviour
 
     public void Start()
     {
-        doDamage(Spell, Spell.caster, FightingSceneStore.playerList, FightingSceneStore.enemyList, FightingSceneStore.obstacleList, FightingSceneStore.tilemap);
+        // Set spell
+        Spell spellGo = gameObject.GetComponent<Spell>();
+        if (spellGo != null) { spell = spellGo; }
+        doDamage(spell, spell.caster, FightingSceneStore.playerList, FightingSceneStore.enemyList, FightingSceneStore.obstacleList, FightingSceneStore.tilemap);
     }
 
     public void doDamage(Spell spell, Unit caster, Dictionary<Unit, GameObject> playerList, Dictionary<Unit, GameObject> enemyList, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
