@@ -10,7 +10,10 @@ public class Spell : MonoBehaviour
     public bool lineOfSight, uniqueCellArea, burst;
 
     [HideInInspector]
-    public List<Vector3Int> spellPos;
+    public Vector3Int position;
+
+    //[HideInInspector]
+    //public List<Vector3Int> spellPos;
 
     [HideInInspector]
     public Unit caster;
@@ -69,7 +72,7 @@ public class Spell : MonoBehaviour
 
     public FunctionInstantiate selectedInstantiate;
     static SpellInstantiateList si = new SpellInstantiateList();
-    Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap>> functionInstantiateLookup = new Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap>>()
+    Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap>> functionInstantiateLookup = new Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap>>()
         {
             { Spell.FunctionInstantiate.InstatiateAreaWithDelay, si.instantiateAreaWithDelay },
             { Spell.FunctionInstantiate.InstantiateOnCellClicked, si.instantiateOnCellClicked },
@@ -94,9 +97,9 @@ public class Spell : MonoBehaviour
         return functionCanCastLookup[selectedCanCast].Invoke(this, caster, range, target, obstacleList, tilemap);
     }
 
-    public void instantiateSpell(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    public void instantiateSpell(Unit caster, Vector3Int target, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
-        functionInstantiateLookup[selectedInstantiate].Invoke(this, caster, obstacleList, tilemap);
+        functionInstantiateLookup[selectedInstantiate].Invoke(this, caster, target, obstacleList, tilemap);
     }
 
     public void setSpell(Spell spell)
@@ -110,7 +113,8 @@ public class Spell : MonoBehaviour
         lineOfSight = spell.lineOfSight;
         uniqueCellArea = spell.uniqueCellArea;
         burst = spell.burst;
-        spellPos = new List<Vector3Int>(spell.spellPos);
+        position = spell.position;
+        //spellPos = new List<Vector3Int>(spell.spellPos);
         caster = spell.caster;
         selectedArea = spell.selectedArea;
         selectedRange = spell.selectedRange;

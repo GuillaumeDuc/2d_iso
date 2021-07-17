@@ -12,20 +12,13 @@ public static class SpellAreaList
     Tilemap tilemap
     )
     {
-        List<Vector3Int> area = new List<Vector3Int>();
+        List<Vector3Int> circle = RangeUtils.getAreaCircleFull(spell.position, spell.area, tilemap);
 
-        spell.spellPos.ForEach(s =>
+        if (spell.burst)
         {
-            Vector3Int current = s;
-            List<Vector3Int> circle = RangeUtils.getAreaCircleFull(current, spell.area, tilemap);
-
-            if (spell.burst)
-            {
-                circle = burst(current, caster, circle, obstacleList, tilemap);
-            }
-            area = area.Concat(circle).ToList();
-        });
-        return area;
+            circle = burst(spell.position, caster, circle, obstacleList, tilemap);
+        }
+        return circle;
     }
 
     public static List<Vector3Int> getAreaInLine(
@@ -37,10 +30,7 @@ public static class SpellAreaList
     {
         List<Vector3Int> area = new List<Vector3Int>();
 
-        spell.spellPos.ForEach(s =>
-        {
-            area = area.Concat(RangeUtils.getAreaInLine(caster.position, s, obstacleList, tilemap, spell.uniqueCellArea)).ToList();
-        });
+        area = area.Concat(RangeUtils.getAreaInLine(caster.position, spell.position, obstacleList, tilemap, spell.uniqueCellArea)).ToList();
         return area;
     }
 
@@ -52,7 +42,7 @@ public static class SpellAreaList
         )
     {
         List<Vector3Int> area = new List<Vector3Int>();
-
+        /*
         for (int i = 0; i < spell.spellPos.Count() - 1; i++)
         {
             area = area.Concat(
@@ -64,7 +54,7 @@ public static class SpellAreaList
                     spell.uniqueCellArea
                     )
                 ).ToList();
-        }
+        }*/
         return area;
     }
 
@@ -75,21 +65,14 @@ public static class SpellAreaList
         Tilemap tilemap
         )
     {
-        List<Vector3Int> area = new List<Vector3Int>();
+        List<Vector3Int> circle = RangeUtils.AndresCircle(spell.position.x, spell.position.y, spell.area);
 
-        spell.spellPos.ForEach(s =>
+        if (spell.burst)
         {
-            Vector3Int current = s;
-            List<Vector3Int> circle = RangeUtils.AndresCircle(current.x, current.y, spell.area);
+            circle = burst(spell.position, caster, circle, obstacleList, tilemap);
+        }
 
-            if (spell.burst)
-            {
-                circle = burst(current, caster, circle, obstacleList, tilemap);
-            }
-            area = area.Concat(circle).ToList();
-        });
-
-        return area;
+        return circle;
     }
 
     private static List<Vector3Int> burst(

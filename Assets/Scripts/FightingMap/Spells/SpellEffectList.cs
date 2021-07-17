@@ -50,7 +50,6 @@ public class SpellEffectList : MonoBehaviour
 
     public void burnTileEffect(
         Spell spell,
-        Unit caster,
         SpellEffect spellEffect,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
@@ -58,7 +57,7 @@ public class SpellEffectList : MonoBehaviour
         Tilemap tilemap
         )
     {
-        List<Vector3Int> area = spell.getArea(caster, obstacleList, tilemap);
+        List<Vector3Int> area = spell.getArea(spell.caster, obstacleList, tilemap);
 
         area.ForEach(a =>
         {
@@ -74,7 +73,6 @@ public class SpellEffectList : MonoBehaviour
 
     public void applyEffect(
         Spell spell,
-        Unit caster,
         SpellEffect spellEffect,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
@@ -83,7 +81,7 @@ public class SpellEffectList : MonoBehaviour
         )
     {
         Dictionary<Unit, GameObject> allCharacters = playerList.Concat(enemyList).ToDictionary(x => x.Key, x => x.Value);
-        List<Vector3Int> area = spell.getArea(caster, obstacleList, tilemap);
+        List<Vector3Int> area = spell.getArea(spell.caster, obstacleList, tilemap);
         // Check multiple effect can stack on same cell on a single cast
         if (!spellEffect.cumul)
         {
@@ -129,7 +127,6 @@ public class SpellEffectList : MonoBehaviour
 
     public void pushFromPlayerEffect(
         Spell spell,
-        Unit caster,
         SpellEffect spellEffect,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
@@ -137,20 +134,19 @@ public class SpellEffectList : MonoBehaviour
         Tilemap tilemap
         )
     {
-        List<Vector3Int> area = spell.getArea(caster, obstacleList, tilemap);
+        List<Vector3Int> area = spell.getArea(spell.caster, obstacleList, tilemap);
         // Move every ennemies and players one cell away
         area.ForEach(a =>
         {
             // Players
-            movePlayer(spell, caster, playerList, a, area, obstacleList, tilemap);
+            movePlayer(spell, playerList, a, area, obstacleList, tilemap);
             // Enemies
-            movePlayer(spell, caster, enemyList, a, area, obstacleList, tilemap);
+            movePlayer(spell, enemyList, a, area, obstacleList, tilemap);
         });
     }
 
     private void teleportPlayerEffect(
         Spell spell,
-        Unit caster,
         SpellEffect spellEffect,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
@@ -158,22 +154,20 @@ public class SpellEffectList : MonoBehaviour
         Tilemap tilemap
         )
     {
-        KeyValuePair<Unit, GameObject> player = getUnitFromPlayersAndEnemies(playerList, enemyList, caster);
+        KeyValuePair<Unit, GameObject> player = getUnitFromPlayersAndEnemies(playerList, enemyList, spell.caster);
         Vector3 originalScale = player.Value.transform.localScale;
-        spell.spellPos.ForEach(pos =>
-        {
-            // Make player disappear
-            StartCoroutine(scaleGO(player.Value, originalScale.x, 0f, originalScale));
-            // Get cell to world position
-            Vector3 cellPos = tilemap.CellToWorld(pos);
-            cellPos.y += 0.2f;
-            // Move unit to position
-            player.Key.position = pos;
-            // Move gameobject to position
-            player.Value.transform.position = cellPos;
-            // Make player reappear
-            StartCoroutine(scaleGO(player.Value, 0f, originalScale.x, originalScale));
-        });
+
+        // Make player disappear
+        StartCoroutine(scaleGO(player.Value, originalScale.x, 0f, originalScale));
+        // Get cell to world position
+        Vector3 cellPos = tilemap.CellToWorld(spell.position);
+        cellPos.y += 0.2f;
+        // Move unit to position
+        player.Key.position = spell.position;
+        // Move gameobject to position
+        player.Value.transform.position = cellPos;
+        // Make player reappear
+        StartCoroutine(scaleGO(player.Value, 0f, originalScale.x, originalScale));
     }
 
     IEnumerator scaleGO(GameObject go, float from, float to, Vector3 originalScale)
@@ -200,7 +194,6 @@ public class SpellEffectList : MonoBehaviour
 
     private void movePlayer(
     Spell spell,
-    Unit caster,
     Dictionary<Unit, GameObject> dict,
     Vector3Int cell,
     List<Vector3Int> area,
@@ -215,7 +208,7 @@ public class SpellEffectList : MonoBehaviour
             dict.Remove(unitPlayer);
             unitPlayer.position = RangeUtils.getFarthestWalkableNeighbour(
                 cell,
-                caster.position,
+                spell.caster.position,
                 area, obstacleList,
                 tilemap: tilemap
             );

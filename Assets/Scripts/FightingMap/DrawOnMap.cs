@@ -85,11 +85,18 @@ public class DrawOnMap : MonoBehaviour
         transparentTile.color = white;
     }
 
-    public void showSpellArea(List<Vector3Int> area)
+    public void showSpellArea(Spell spell, Unit caster)
     {
         resetMap();
 
         transparentTile.color = red;
+        List<Vector3Int> area = new List<Vector3Int>();
+        // Spell area concatenate each instance of a spell
+        caster.selectedSpellPos.ForEach(pos =>
+        {
+            spell.position = pos;
+            area = area.Concat(spell.getArea(caster, FightingSceneStore.obstacleList, FightingSceneStore.tilemap)).ToList();
+        });
         // Spell area of effect supersede character pos
         forceSetTile(area);
         transparentTile.color = white;

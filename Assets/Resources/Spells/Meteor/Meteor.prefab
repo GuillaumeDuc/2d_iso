@@ -14732,10 +14732,10 @@ MonoBehaviour:
   damage: 50
   clickNb: 1
   manaCost: 10
-  lineOfSight: 1
+  lineOfSight: 0
   uniqueCellArea: 0
   burst: 1
-  spellPos: []
+  position: {x: 14, y: 25, z: 0}
   caster: {fileID: 0}
   selectedArea: 3
   selectedRange: 0

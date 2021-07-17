@@ -22,26 +22,28 @@ public class CastSystem : MonoBehaviour
         )
     {
         Spell spell = spellGO.GetComponent<Spell>();
+
         if (currentState == CastState.SHOW_AREA)
         {
             if (!spell.getRange(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap).Contains(cellClicked))
             {
-                spell.spellPos.Clear();
+                player.selectedSpellPos.Clear();
                 return CastState.DEFAULT;
             }
 
-            spell.spellPos.Add(cellClicked);
+            player.selectedSpellPos.Add(cellClicked);
+            spell.position = cellClicked;
 
-            DrawOnMap.showSpellSelection(spell.spellPos, spell.getArea(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap));
+            DrawOnMap.showSpellSelection(player.selectedSpellPos, spell.getArea(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap));
 
-            if (!(spell.spellPos.Count() == spell.clickNb))
+            if (!(player.selectedSpellPos.Count() == spell.clickNb))
             {
                 DrawOnMap.showRange(spell.getRange(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap));
             }
 
-            if (spell.spellPos.Count() == spell.clickNb)
+            if (player.selectedSpellPos.Count() == spell.clickNb)
             {
-                DrawOnMap.showSpellArea(spell.getArea(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap));
+                DrawOnMap.showSpellArea(spell, player);
                 return CastState.CAST_SPELL;
             }
         }
@@ -53,7 +55,7 @@ public class CastSystem : MonoBehaviour
             {
                 castSpell(spell, player);
             }
-            spell.spellPos.Clear();
+            player.selectedSpellPos.Clear();
 
             return CastState.DEFAULT;
         }
@@ -67,9 +69,10 @@ public class CastSystem : MonoBehaviour
         )
     {
         spell.caster = player;
-        spell.spellPos.ForEach(pos =>
+        player.selectedSpellPos.ForEach(sp =>
         {
-            spell.instantiateSpell(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap);
+            spell.position = sp;
+            spell.instantiateSpell(player, sp, FightingSceneStore.obstacleList, FightingSceneStore.tilemap);
         });
         player.currentMana -= spell.manaCost;
         casted = true;

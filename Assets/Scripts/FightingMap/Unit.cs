@@ -21,6 +21,7 @@ public class Unit : MonoBehaviour
     public bool playable;
     public List<Status> statusList = new List<Status>();
     public GameObject unitGO;
+    public List<Vector3Int> selectedSpellPos = new List<Vector3Int>();
 
     public bool takeDamage(int dmg)
     {

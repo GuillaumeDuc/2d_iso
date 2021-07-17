@@ -23,18 +23,29 @@ public class SpellEffectScript : MonoBehaviour
         {
             return SpellEffectList.spellEffects.Find(s => s.Equals(a));
         }).ToList();
-
-        StartCoroutine(delayEffect());
+        // Save obstacles before impact
+        Dictionary<Vector3Int, GameObject> obstacleList = FightingSceneStore.obstacleList.ToDictionary(entry => entry.Key, entry => entry.Value);
+        StartCoroutine(delayEffect(
+            FightingSceneStore.playerList,
+            FightingSceneStore.enemyList,
+            obstacleList,
+            FightingSceneStore.tilemap
+        ));
     }
 
-    private IEnumerator delayEffect()
+    private IEnumerator delayEffect(
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
     {
         yield return new WaitForSeconds(effectDelay);
         applyEffect(
-            FightingSceneStore.playerList,
-            FightingSceneStore.enemyList,
-            FightingSceneStore.obstacleList,
-            FightingSceneStore.tilemap
+            playerList,
+            enemyList,
+            obstacleList,
+            tilemap
         );
     }
 
@@ -47,7 +58,7 @@ public class SpellEffectScript : MonoBehaviour
     {
         selectedSpellEffects.ForEach(se =>
         {
-            se.applyEffect(spell, spell.caster, playerList, enemyList, obstacleList, tilemap);
+            se.applyEffect(spell, playerList, enemyList, obstacleList, tilemap);
         });
     }
 }

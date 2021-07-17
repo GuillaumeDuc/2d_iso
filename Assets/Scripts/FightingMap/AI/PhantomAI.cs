@@ -109,7 +109,7 @@ public class PhantomAI : EnemyAI
         // Try to cast on every cell from path 
         while (path.Any() && !casted)
         {
-            spell.spellPos.Add(path[path.Count() - 1]);
+            unit.selectedSpellPos.Add(path[path.Count() - 1]);
             // if (spell.canCast(unit, path[path.Count() - 1], obstacleList, tilemap))
             if (true)
             {
@@ -117,7 +117,7 @@ public class PhantomAI : EnemyAI
                 CastSystem.castSpell(spell, unit);
             }
             path.RemoveAt(path.Count() - 1);
-            spell.spellPos.Clear();
+            unit.selectedSpellPos.Clear();
         }
     }
 }

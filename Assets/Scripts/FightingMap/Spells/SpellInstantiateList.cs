@@ -8,17 +8,19 @@ public class SpellInstantiateList : MonoBehaviour
     public void instantiateAreaWithDelay(
         Spell spell,
         Unit caster,
+        Vector3Int target,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
         List<Vector3Int> listCells = spell.getArea(caster, obstacleList, tilemap);
 
-        StartCoroutine(multipleInstantiateOnCell(listCells, spell, obstacleList, tilemap));
+        StartCoroutine(multipleInstantiateOnCell(listCells, caster, spell, obstacleList, tilemap));
     }
 
     IEnumerator multipleInstantiateOnCell(
         List<Vector3Int> listCells,
+        Unit caster,
         Spell spell,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
@@ -27,38 +29,27 @@ public class SpellInstantiateList : MonoBehaviour
         foreach (var c in listCells)
         {
             yield return new WaitForSeconds(0.1f);
-            instantiateOnOneCell(spell, c, tilemap);
+            instantiateOnCellClicked(spell, caster, c, obstacleList, tilemap);
         }
-    }
-
-    public void instantiateOnOneCell(
-        Spell spell,
-        Vector3Int to,
-        Tilemap tilemap
-        )
-    {
-        Vector2 worldPos = tilemap.CellToWorld(to);
-        // Instantiate animation
-        Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
     }
 
     public void instantiateOnCellClicked(
         Spell spell,
         Unit caster,
+        Vector3Int target,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
-        List<Vector3Int> listCells = spell.getArea(caster, obstacleList, tilemap);
-        spell.spellPos.ForEach(v =>
-        {
-            instantiateOnOneCell(spell, v, tilemap);
-        });
+        Vector2 worldPos = tilemap.CellToWorld(target);
+        // Instantiate animation
+        Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
     }
 
     public void instantiateObstacles(
         Spell spell,
         Unit caster,
+        Vector3Int target,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
@@ -93,25 +84,23 @@ public class SpellInstantiateList : MonoBehaviour
     public void instantiateThrowedSpell(
         Spell spell,
         Unit caster,
+        Vector3Int target,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
-        spell.spellPos.ForEach(s =>
-        {
-            Vector2 worldPos = tilemap.CellToWorld(s);
-            GameObject go = Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
-            GameObject goChild = go.transform.GetChild(0).gameObject;
+        Vector2 worldPos = tilemap.CellToWorld(target);
+        GameObject go = Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+        GameObject goChild = go.transform.GetChild(0).gameObject;
 
-            Vector2 casterPos = tilemap.CellToWorld(caster.position);
-            casterPos.y += 0.2f;
-            // Change position of actual spell
-            goChild.transform.position = casterPos;
+        Vector2 casterPos = tilemap.CellToWorld(caster.position);
+        casterPos.y += 0.2f;
+        // Change position of actual spell
+        goChild.transform.position = casterPos;
 
-            // Rotate spell toward clicked cell
-            Vector3 vectorToTarget = s - caster.position;
-            float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
-            goChild.transform.Rotate(0, 0, angle - 45, Space.Self);
-        });
+        // Rotate spell toward clicked cell
+        Vector3 vectorToTarget = target - caster.position;
+        float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+        goChild.transform.Rotate(0, 0, angle - 45, Space.Self);
     }
 }

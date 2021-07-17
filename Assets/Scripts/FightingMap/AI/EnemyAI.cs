@@ -103,7 +103,7 @@ public class EnemyAI : MonoBehaviour
         {
             for (int i = 0; i < spell.clickNb; i++)
             {
-                spell.spellPos.Add(target);
+                unit.selectedSpellPos.Add(target);
             }
             // If spell area is clear & mana is enough
             // if (spell.canCast(unit, target, obstacleList, tilemap) && unit.currentMana >= spell.manaCost)
@@ -111,7 +111,7 @@ public class EnemyAI : MonoBehaviour
             {
                 CastSystem.castSpell(spell, unit);
             }
-            spell.spellPos.Clear();
+            unit.selectedSpellPos.Clear();
         }
     }
 

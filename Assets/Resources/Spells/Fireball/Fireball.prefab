@@ -9831,8 +9831,8 @@ MonoBehaviour:
   manaCost: 10
   lineOfSight: 1
   uniqueCellArea: 0
-  burst: 0
-  spellPos: []
+  burst: 1
+  position: {x: 12, y: 20, z: 0}
   caster: {fileID: 0}
   selectedArea: 0
   selectedRange: 0
@@ -9850,7 +9850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68322e435e3d7194d8b5853ab4fc950f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spell: {fileID: 309532673645788789}
+  damageDelay: 0
   selectedFunction: 0
 --- !u!114 &6662491682508730375
 MonoBehaviour:
@@ -9864,7 +9864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ee48caefd9dd5409e444f4df206c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spell: {fileID: 309532673645788789}
+  effectDelay: 0
   selectedSpellEffects:
   - name: FireEffect
     value: 0

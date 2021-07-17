@@ -80,7 +80,7 @@ public class TurnBasedSystem : MonoBehaviour
         // Show on map
 
         Spell spell = spellGO.GetComponent<Spell>();
-        DrawOnMap.showRange(spell.getRange(unit, obstacleList, tilemap), true);
+        DrawOnMap.showRange(spell.getRange(currentUnit, obstacleList, tilemap), true);
 
         CurrentState = CurrentState.CAST;
         CastState = CastState.SHOW_AREA;
