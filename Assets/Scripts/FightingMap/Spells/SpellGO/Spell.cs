@@ -6,7 +6,7 @@ public class Spell : MonoBehaviour
 {
     [HideInInspector]
     public string nameSpell;
-    public int range, area, damage, clickNb, manaCost;
+    public int range = 1, area, damage, clickNb = 1, manaCost;
     public bool lineOfSight, uniqueCellArea, burst;
 
     [HideInInspector]
@@ -64,7 +64,8 @@ public class Spell : MonoBehaviour
         InstatiateAreaWithDelay,
         InstantiateOnCellClicked,
         InstantiateObstacles,
-        InstantiateThrowedSpell
+        InstantiateThrowedSpell,
+        InstantiateAttack
     };
 
     public FunctionInstantiate selectedInstantiate;
@@ -74,6 +75,7 @@ public class Spell : MonoBehaviour
             { Spell.FunctionInstantiate.InstantiateOnCellClicked, SpellInstantiateList.instantiateOnCellClicked },
             { Spell.FunctionInstantiate.InstantiateObstacles, SpellInstantiateList.instantiateObstacles },
             { Spell.FunctionInstantiate.InstantiateThrowedSpell, SpellInstantiateList.instantiateThrowedSpell },
+            { Spell.FunctionInstantiate.InstantiateAttack, SpellInstantiateList.instantiateAttack },
         };
 
 

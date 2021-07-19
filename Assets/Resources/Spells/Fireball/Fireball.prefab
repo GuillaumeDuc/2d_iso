@@ -9826,13 +9826,13 @@ MonoBehaviour:
   nameSpell: Fireball
   range: 10
   area: 3
-  damage: 50
+  damage: 30
   clickNb: 1
   manaCost: 10
   lineOfSight: 1
   uniqueCellArea: 0
   burst: 1
-  position: {x: 12, y: 20, z: 0}
+  position: {x: 19, y: 18, z: 0}
   caster: {fileID: 0}
   selectedArea: 0
   selectedRange: 0

@@ -11,13 +11,13 @@ public class SpellList : MonoBehaviour
     Meteor,
     Teleportation,
     Icycle,
-    Sandwall;
+    Sandwall,
+    Slash;
 
     /*
     public Spell
         Explosion,
         Blackhole,
-        Slash,
         ;
     */
 
@@ -39,21 +39,8 @@ public class SpellList : MonoBehaviour
 
         nameSpell = "Sandwall";
         Sandwall = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-    }
 
-    /*
-        // Animate Caster
-        public void animateCasterAttack(Spell spell, Unit caster)
-        {
-            Animator animator = caster.unitGO.GetComponent<Animator>();
-            string paramName = "Attack";
-            foreach (AnimatorControllerParameter param in animator.parameters)
-            {
-                if (param.name == paramName)
-                {
-                    animator.SetTrigger(paramName);
-                }
-            }
-        }
-    */
+        nameSpell = "Slash";
+        Slash = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+    }
 }

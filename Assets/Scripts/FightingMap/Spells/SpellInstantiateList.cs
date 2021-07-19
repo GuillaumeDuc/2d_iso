@@ -109,4 +109,32 @@ public class SpellInstantiateList : MonoBehaviour
         float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
         goChild.transform.Rotate(0, 0, angle - 45, Space.Self);
     }
+
+    public static void instantiateAttack(
+       Spell spell,
+       Unit caster,
+       Vector3Int target,
+       Dictionary<Vector3Int, GameObject> obstacleList,
+       Tilemap tilemap
+       )
+    {
+        Vector2 worldPos = tilemap.CellToWorld(target);
+        // Instantiate player attack animation
+        animateCasterAttack(caster);
+        // Instantiate animation
+        Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+    }
+
+    private static void animateCasterAttack(Unit caster)
+    {
+        Animator animator = caster.unitGO.GetComponent<Animator>();
+        string paramName = "Attack";
+        foreach (AnimatorControllerParameter param in animator.parameters)
+        {
+            if (param.name == paramName)
+            {
+                animator.SetTrigger(paramName);
+            }
+        }
+    }
 }
