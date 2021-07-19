@@ -49,7 +49,8 @@ public class SpellInstantiateList : MonoBehaviour
     {
         Vector2 worldPos = tilemap.CellToWorld(target);
         // Instantiate animation
-        Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+        GameObject go = Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+        setSpellPosition(go, target);
     }
 
     public static void instantiateObstacles(
@@ -76,6 +77,7 @@ public class SpellInstantiateList : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             Vector2 worldPos = tilemap.CellToWorld(pos);
             GameObject obstacle = Instantiate(spellGO, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+            setSpellPosition(obstacle, pos);
             try
             {
                 obstacleList.Add(pos, obstacle);
@@ -97,6 +99,7 @@ public class SpellInstantiateList : MonoBehaviour
     {
         Vector2 worldPos = tilemap.CellToWorld(target);
         GameObject go = Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+        setSpellPosition(go, target);
         GameObject goChild = go.transform.GetChild(0).gameObject;
 
         Vector2 casterPos = tilemap.CellToWorld(caster.position);
@@ -122,7 +125,8 @@ public class SpellInstantiateList : MonoBehaviour
         // Instantiate player attack animation
         animateCasterAttack(caster);
         // Instantiate animation
-        Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+        GameObject go = Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+        setSpellPosition(go, target);
     }
 
     private static void animateCasterAttack(Unit caster)
@@ -136,5 +140,11 @@ public class SpellInstantiateList : MonoBehaviour
                 animator.SetTrigger(paramName);
             }
         }
+    }
+
+    private static void setSpellPosition(GameObject go, Vector3Int target)
+    {
+        Spell spell = go.GetComponent<Spell>();
+        spell.position = target;
     }
 }

@@ -71,7 +71,6 @@ public class CastSystem : MonoBehaviour
         spell.caster = player;
         player.selectedSpellPos.ForEach(sp =>
         {
-            spell.position = sp;
             spell.instantiateSpell(player, sp, FightingSceneStore.obstacleList, FightingSceneStore.tilemap);
         });
         player.currentMana -= spell.manaCost;

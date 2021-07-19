@@ -112,7 +112,6 @@ public class Spell : MonoBehaviour
         uniqueCellArea = spell.uniqueCellArea;
         burst = spell.burst;
         position = spell.position;
-        //spellPos = new List<Vector3Int>(spell.spellPos);
         caster = spell.caster;
         selectedArea = spell.selectedArea;
         selectedRange = spell.selectedRange;
