@@ -7,6 +7,7 @@ using System.Linq;
 public class SpellDamage : MonoBehaviour
 {
     private Spell spell;
+    public float damageDelay = 0;
 
     private enum FunctionOption
     {
@@ -25,7 +26,27 @@ public class SpellDamage : MonoBehaviour
         // Set spell
         Spell spellGo = gameObject.GetComponent<Spell>();
         if (spellGo != null) { spell = spellGo; }
-        doDamage(spell, spell.caster, FightingSceneStore.playerList, FightingSceneStore.enemyList, FightingSceneStore.obstacleList, FightingSceneStore.tilemap);
+        StartCoroutine(delayDamage(spell, spell.caster, FightingSceneStore.playerList, FightingSceneStore.enemyList, FightingSceneStore.obstacleList, FightingSceneStore.tilemap));
+    }
+
+    private IEnumerator delayDamage(
+        Spell spell,
+        Unit caster,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        yield return new WaitForSeconds(damageDelay);
+        doDamage(
+            spell,
+            caster,
+            playerList,
+            enemyList,
+            obstacleList,
+            tilemap
+        );
     }
 
     public void doDamage(Spell spell, Unit caster, Dictionary<Unit, GameObject> playerList, Dictionary<Unit, GameObject> enemyList, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
