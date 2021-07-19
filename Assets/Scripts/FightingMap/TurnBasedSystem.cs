@@ -321,8 +321,8 @@ public class TurnBasedSystem : MonoBehaviour
         GameObject phantom = InstantiatePlayer(EnemyPrefab, new Vector3Int(10, 15, 0));
         Transform green1Transform = phantom.GetComponent<Transform>();
         Unit green1Stats = phantom.GetComponent<Unit>();
-        //green1Stats.setSpellList(new Spell(SpellList.Slash));
-        //green1Stats.setSpellList(new Spell(SpellList.Teleportation));
+        green1Stats.setSpellList(SpellList.Slash);
+        green1Stats.setSpellList(SpellList.Teleportation);
         green1Stats.setStats(phantom, "Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
 
         // Add characters in lists

@@ -19,8 +19,8 @@ public class PhantomAI : EnemyAI
     {
 
         // Choose spell
-        GameObject blackHole = unit.spellList[0];
-        GameObject teleportation = unit.spellList[1];
+        Spell blackHole = unit.spellList[0].GetComponent<Spell>();
+        Spell teleportation = unit.spellList[1].GetComponent<Spell>();
         // Get nearest player
         Unit nearestPlayer = getNearestPlayer(MoveSystem, obstacleList, playerList, tilemap);
         bool isInRange = moveInRange(blackHole, nearestPlayer, MoveSystem, obstacleList, playerList, tilemap);
@@ -66,7 +66,7 @@ public class PhantomAI : EnemyAI
     }
 
     public IEnumerator castWithDelay(
-        GameObject spell,
+        Spell spell,
         Vector3Int target,
         CastSystem CastSystem,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -83,7 +83,7 @@ public class PhantomAI : EnemyAI
 
 
     public IEnumerator castToNearestPlayer(
-        GameObject spellGO,
+        Spell spell,
         Vector3Int target,
         CastSystem CastSystem,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -92,7 +92,6 @@ public class PhantomAI : EnemyAI
         Tilemap tilemap
         )
     {
-        Spell spell = spellGO.GetComponent<Spell>();
         yield return new WaitForSeconds(1.5f);
         List<Vector3Int> path = RangeUtils.getLine(unit.position, target);
         // Remove where player is standing
@@ -110,8 +109,7 @@ public class PhantomAI : EnemyAI
         while (path.Any() && !casted)
         {
             unit.selectedSpellPos.Add(path[path.Count() - 1]);
-            // if (spell.canCast(unit, path[path.Count() - 1], obstacleList, tilemap))
-            if (true)
+            if (spell.canCast(unit, spell.getRange(unit, obstacleList, tilemap), path[path.Count() - 1], obstacleList, tilemap))
             {
                 casted = true;
                 CastSystem.castSpell(spell, unit);
