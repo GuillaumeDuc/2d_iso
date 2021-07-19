@@ -2431,6 +2431,7 @@ GameObject:
   - component: {fileID: 1131004369}
   - component: {fileID: 1131004370}
   - component: {fileID: 1131004371}
+  - component: {fileID: 1131004376}
   - component: {fileID: 1131004373}
   - component: {fileID: 1131004372}
   - component: {fileID: 1131004374}
@@ -2460,7 +2461,6 @@ MonoBehaviour:
   MoveSystem: {fileID: 1131004369}
   CastSystem: {fileID: 1131004370}
   SpellList: {fileID: 1131004371}
-  TileList: {fileID: 1131004374}
   DrawOnMap: {fileID: 1131004375}
   SpellScrollView: {fileID: 15146474}
   EnemiesScrollView: {fileID: 1913935315}
@@ -2512,9 +2512,6 @@ MonoBehaviour:
   PlayersScrollView: {fileID: 139910982}
   DrawOnMap: {fileID: 1131004375}
   casted: 0
-  isCasting: 0
-  isDamaging: 0
-  isEffect: 0
 --- !u!114 &1131004371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2528,6 +2525,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Fireball: {fileID: 0}
+  Meteor: {fileID: 0}
+  Teleportation: {fileID: 0}
+  Icycle: {fileID: 0}
+  Sandwall: {fileID: 0}
 --- !u!114 &1131004372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2588,6 +2589,18 @@ MonoBehaviour:
   TurnBasedSystem: {fileID: 1131004367}
   cellsGrid: {fileID: 157593983}
   characterGrid: {fileID: 1483598760}
+--- !u!114 &1131004376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131004366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa7bf917eed8bc479336ba72ea98aa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1256664111
 GameObject:
   m_ObjectHideFlags: 0

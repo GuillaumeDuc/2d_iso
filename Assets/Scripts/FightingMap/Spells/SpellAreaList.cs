@@ -41,20 +41,19 @@ public static class SpellAreaList
         Tilemap tilemap
         )
     {
-        List<Vector3Int> area = new List<Vector3Int>();
-        /*
-        for (int i = 0; i < spell.spellPos.Count() - 1; i++)
+        int index = caster.selectedSpellPos.IndexOf(spell.position);
+        if (index - 1 < 0)
         {
-            area = area.Concat(
-                RangeUtils.getAreaInLine(
-                    spell.spellPos[i],
-                    spell.spellPos[i + 1],
-                    obstacleList,
-                    tilemap,
-                    spell.uniqueCellArea
-                    )
-                ).ToList();
-        }*/
+            return new List<Vector3Int>();
+        }
+        Vector3Int previousPos = caster.selectedSpellPos[index - 1];
+        List<Vector3Int> area = RangeUtils.getAreaInLine(
+            previousPos,
+            spell.position,
+            obstacleList,
+            tilemap,
+            spell.uniqueCellArea
+        );
         return area;
     }
 

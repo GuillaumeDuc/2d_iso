@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7281843324146592911}
   - component: {fileID: 1852905798405404563}
   - component: {fileID: 1682680173513532166}
+  - component: {fileID: 1495340181689123617}
   m_Layer: 0
   m_Name: Sandwall
   m_TagString: Untagged
@@ -158,3 +159,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 15
   currentHP: 15
+--- !u!114 &1495340181689123617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3128274454820993149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fcf77bb7d4dbf544a864a6e68847b01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameSpell: 
+  range: 10
+  area: 0
+  damage: 0
+  clickNb: 4
+  manaCost: 10
+  lineOfSight: 0
+  uniqueCellArea: 0
+  burst: 0
+  position: {x: 17, y: 8, z: 0}
+  caster: {fileID: 0}
+  selectedArea: 2
+  selectedRange: 0
+  selectedCanCast: 0
+  selectedInstantiate: 2
