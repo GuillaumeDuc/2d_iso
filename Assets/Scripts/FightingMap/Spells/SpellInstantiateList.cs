@@ -5,7 +5,13 @@ using UnityEngine.Tilemaps;
 
 public class SpellInstantiateList : MonoBehaviour
 {
-    public void instantiateAreaWithDelay(
+    static SpellInstantiateList instance;
+    void Start()
+    {
+        instance = this;
+    }
+
+    public static void instantiateAreaWithDelay(
         Spell spell,
         Unit caster,
         Vector3Int target,
@@ -15,10 +21,10 @@ public class SpellInstantiateList : MonoBehaviour
     {
         List<Vector3Int> listCells = spell.getArea(caster, obstacleList, tilemap);
 
-        StartCoroutine(multipleInstantiateOnCell(listCells, caster, spell, obstacleList, tilemap));
+        instance.StartCoroutine(multipleInstantiateOnCell(listCells, caster, spell, obstacleList, tilemap));
     }
 
-    IEnumerator multipleInstantiateOnCell(
+    static IEnumerator multipleInstantiateOnCell(
         List<Vector3Int> listCells,
         Unit caster,
         Spell spell,
@@ -33,7 +39,7 @@ public class SpellInstantiateList : MonoBehaviour
         }
     }
 
-    public void instantiateOnCellClicked(
+    public static void instantiateOnCellClicked(
         Spell spell,
         Unit caster,
         Vector3Int target,
@@ -46,7 +52,7 @@ public class SpellInstantiateList : MonoBehaviour
         Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
     }
 
-    public void instantiateObstacles(
+    public static void instantiateObstacles(
         Spell spell,
         Unit caster,
         Vector3Int target,
@@ -55,10 +61,10 @@ public class SpellInstantiateList : MonoBehaviour
         )
     {
         List<Vector3Int> listCells = spell.getArea(caster, obstacleList, tilemap);
-        StartCoroutine(delayInstantiateObstacle(listCells, spell.gameObject, obstacleList, tilemap));
+        instance.StartCoroutine(delayInstantiateObstacle(listCells, spell.gameObject, obstacleList, tilemap));
     }
 
-    IEnumerator delayInstantiateObstacle(
+    static IEnumerator delayInstantiateObstacle(
         List<Vector3Int> area,
         GameObject spellGO,
         Dictionary<Vector3Int, GameObject> obstacleList,
@@ -81,7 +87,7 @@ public class SpellInstantiateList : MonoBehaviour
         };
     }
 
-    public void instantiateThrowedSpell(
+    public static void instantiateThrowedSpell(
         Spell spell,
         Unit caster,
         Vector3Int target,

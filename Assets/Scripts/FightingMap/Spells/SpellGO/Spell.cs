@@ -12,9 +12,6 @@ public class Spell : MonoBehaviour
     [HideInInspector]
     public Vector3Int position;
 
-    //[HideInInspector]
-    //public List<Vector3Int> spellPos;
-
     [HideInInspector]
     public Unit caster;
 
@@ -71,13 +68,12 @@ public class Spell : MonoBehaviour
     };
 
     public FunctionInstantiate selectedInstantiate;
-    static SpellInstantiateList si = new SpellInstantiateList();
     Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap>> functionInstantiateLookup = new Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap>>()
         {
-            { Spell.FunctionInstantiate.InstatiateAreaWithDelay, si.instantiateAreaWithDelay },
-            { Spell.FunctionInstantiate.InstantiateOnCellClicked, si.instantiateOnCellClicked },
-            { Spell.FunctionInstantiate.InstantiateObstacles, si.instantiateObstacles },
-            { Spell.FunctionInstantiate.InstantiateThrowedSpell, si.instantiateThrowedSpell },
+            { Spell.FunctionInstantiate.InstatiateAreaWithDelay, SpellInstantiateList.instantiateAreaWithDelay },
+            { Spell.FunctionInstantiate.InstantiateOnCellClicked, SpellInstantiateList.instantiateOnCellClicked },
+            { Spell.FunctionInstantiate.InstantiateObstacles, SpellInstantiateList.instantiateObstacles },
+            { Spell.FunctionInstantiate.InstantiateThrowedSpell, SpellInstantiateList.instantiateThrowedSpell },
         };
 
 

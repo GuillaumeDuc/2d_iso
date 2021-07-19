@@ -10,12 +10,12 @@ public class SpellList : MonoBehaviour
     public GameObject Fireball,
     Meteor,
     Teleportation,
-    Icycle;
+    Icycle,
+    Sanwall;
 
     /*
     public Spell
         Explosion,
-        Sandwall,
         Blackhole,
         Slash,
         ;
@@ -36,6 +36,8 @@ public class SpellList : MonoBehaviour
 
         nameSpell = "Icycle";
         Icycle = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+
+        nameSpell = ""
     }
 
     /*

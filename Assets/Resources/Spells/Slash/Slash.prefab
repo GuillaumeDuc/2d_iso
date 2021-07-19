@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9176446933081488575}
   - component: {fileID: 9051983902504114682}
+  - component: {fileID: 3816883068887668332}
   m_Layer: 0
   m_Name: Slash
   m_TagString: Untagged
@@ -82,3 +83,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3816883068887668332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6775718935185108242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fcf77bb7d4dbf544a864a6e68847b01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameSpell: 
+  range: 1
+  area: 1
+  damage: 30
+  clickNb: 0
+  manaCost: 30
+  lineOfSight: 0
+  uniqueCellArea: 0
+  burst: 0
+  position: {x: 0, y: 0, z: 0}
+  caster: {fileID: 0}
+  selectedArea: 0
+  selectedRange: 0
+  selectedCanCast: 0
+  selectedInstantiate: 1
