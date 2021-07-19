@@ -14730,12 +14730,12 @@ MonoBehaviour:
   range: 10
   area: 4
   damage: 50
-  clickNb: 1
+  clickNb: 2
   manaCost: 10
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 1
-  position: {x: 14, y: 25, z: 0}
+  position: {x: 20, y: 15, z: 0}
   caster: {fileID: 0}
   selectedArea: 3
   selectedRange: 0

@@ -57,7 +57,7 @@ public class SpellEffectList : MonoBehaviour
         Tilemap tilemap
         )
     {
-        List<Vector3Int> area = spell.getArea(spell.caster, obstacleList, tilemap);
+        List<Vector3Int> area = spell.getArea(spell.position, spell.caster, obstacleList, tilemap);
 
         area.ForEach(a =>
         {
@@ -81,7 +81,7 @@ public class SpellEffectList : MonoBehaviour
         )
     {
         Dictionary<Unit, GameObject> allCharacters = playerList.Concat(enemyList).ToDictionary(x => x.Key, x => x.Value);
-        List<Vector3Int> area = spell.getArea(spell.caster, obstacleList, tilemap);
+        List<Vector3Int> area = spell.getArea(spell.position, spell.caster, obstacleList, tilemap);
         // Check multiple effect can stack on same cell on a single cast
         if (!spellEffect.cumul)
         {
@@ -134,7 +134,7 @@ public class SpellEffectList : MonoBehaviour
         Tilemap tilemap
         )
     {
-        List<Vector3Int> area = spell.getArea(spell.caster, obstacleList, tilemap);
+        List<Vector3Int> area = spell.getArea(spell.position, spell.caster, obstacleList, tilemap);
         // Move every ennemies and players one cell away
         area.ForEach(a =>
         {

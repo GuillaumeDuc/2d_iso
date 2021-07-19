@@ -15,7 +15,7 @@ public static class SpellDamageList
         Tilemap tilemap
     )
     {
-        List<Vector3Int> areaSpell = spell.getArea(caster, obstacleList, tilemap);
+        List<Vector3Int> areaSpell = spell.getArea(spell.position, caster, obstacleList, tilemap);
         // Friends take damage
         foreach (var s in playerList)
         {

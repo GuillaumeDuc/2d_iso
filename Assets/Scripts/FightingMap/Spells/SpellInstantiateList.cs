@@ -19,7 +19,7 @@ public class SpellInstantiateList : MonoBehaviour
         Tilemap tilemap
         )
     {
-        List<Vector3Int> listCells = spell.getArea(caster, obstacleList, tilemap);
+        List<Vector3Int> listCells = spell.getArea(target, caster, obstacleList, tilemap);
 
         instance.StartCoroutine(multipleInstantiateOnCell(listCells, caster, spell, obstacleList, tilemap));
     }
@@ -61,7 +61,7 @@ public class SpellInstantiateList : MonoBehaviour
         Tilemap tilemap
         )
     {
-        List<Vector3Int> listCells = spell.getArea(caster, obstacleList, tilemap);
+        List<Vector3Int> listCells = spell.getArea(target, caster, obstacleList, tilemap);
         instance.StartCoroutine(delayInstantiateObstacle(listCells, spell.gameObject, obstacleList, tilemap));
     }
 

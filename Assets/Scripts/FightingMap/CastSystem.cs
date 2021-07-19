@@ -32,9 +32,8 @@ public class CastSystem : MonoBehaviour
             }
 
             player.selectedSpellPos.Add(cellClicked);
-            spell.position = cellClicked;
 
-            DrawOnMap.showSpellSelection(player.selectedSpellPos, spell.getArea(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap));
+            DrawOnMap.showSpellSelection(player.selectedSpellPos, spell.getArea(cellClicked, player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap));
 
             if (!(player.selectedSpellPos.Count() == spell.clickNb))
             {
@@ -43,7 +42,7 @@ public class CastSystem : MonoBehaviour
 
             if (player.selectedSpellPos.Count() == spell.clickNb)
             {
-                DrawOnMap.showSpellArea(spell, player);
+                DrawOnMap.showSpellArea(getTotalArea(spell, player));
                 return CastState.CAST_SPELL;
             }
         }
@@ -51,7 +50,7 @@ public class CastSystem : MonoBehaviour
         if (currentState == CastState.CAST_SPELL)
         {
             // If spell area is clear & mana is enough
-            if (spell.getArea(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap).Contains(cellClicked) && player.currentMana >= spell.manaCost)
+            if (getTotalArea(spell, player).Contains(cellClicked) && player.currentMana >= spell.manaCost)
             {
                 castSpell(spell, player);
             }
@@ -74,10 +73,19 @@ public class CastSystem : MonoBehaviour
             spell.instantiateSpell(player, sp, FightingSceneStore.obstacleList, FightingSceneStore.tilemap);
         });
         player.currentMana -= spell.manaCost;
+        FightingSceneStore.EnemiesScrollView.updateScrollView();
+        FightingSceneStore.PlayersScrollView.updateScrollView();
         casted = true;
-        /*
-        // Animate caster
-        spell.animateCaster(player);
-        */
+    }
+
+    private List<Vector3Int> getTotalArea(Spell spell, Unit caster)
+    {
+        List<Vector3Int> area = new List<Vector3Int>();
+        // Spell area concatenate each instance of a spell
+        caster.selectedSpellPos.ForEach(pos =>
+        {
+            area = area.Concat(spell.getArea(pos, caster, FightingSceneStore.obstacleList, FightingSceneStore.tilemap)).ToList();
+        });
+        return area;
     }
 }

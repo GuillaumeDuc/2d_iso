@@ -25,7 +25,7 @@ public class Spell : MonoBehaviour
     };
 
     public FunctionArea selectedArea;
-    private Dictionary<FunctionArea, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>> functionAreaLookup = new Dictionary<FunctionArea, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>>()
+    private Dictionary<FunctionArea, System.Func<Spell, Vector3Int, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>> functionAreaLookup = new Dictionary<FunctionArea, System.Func<Spell, Vector3Int, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>>()
         {
             { FunctionArea.Circle, SpellAreaList.getAreaInCircleFull },
             { FunctionArea.InLine, SpellAreaList.getAreaInLine },
@@ -80,9 +80,9 @@ public class Spell : MonoBehaviour
 
 
     // Lookup functions
-    public List<Vector3Int> getArea(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    public List<Vector3Int> getArea(Vector3Int target, Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
     {
-        return functionAreaLookup[selectedArea].Invoke(this, caster, obstacleList, tilemap);
+        return functionAreaLookup[selectedArea].Invoke(this, target, caster, obstacleList, tilemap);
     }
 
     public List<Vector3Int> getRange(Unit caster, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)

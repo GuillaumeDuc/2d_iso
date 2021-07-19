@@ -7,22 +7,24 @@ public static class SpellAreaList
 {
     public static List<Vector3Int> getAreaInCircleFull(
     Spell spell,
+    Vector3Int target,
     Unit caster,
     Dictionary<Vector3Int, GameObject> obstacleList,
     Tilemap tilemap
     )
     {
-        List<Vector3Int> circle = RangeUtils.getAreaCircleFull(spell.position, spell.area, tilemap);
+        List<Vector3Int> circle = RangeUtils.getAreaCircleFull(target, spell.area, tilemap);
 
         if (spell.burst)
         {
-            circle = burst(spell.position, caster, circle, obstacleList, tilemap);
+            circle = burst(target, caster, circle, obstacleList, tilemap);
         }
         return circle;
     }
 
     public static List<Vector3Int> getAreaInLine(
         Spell spell,
+        Vector3Int target,
         Unit caster,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
@@ -30,18 +32,19 @@ public static class SpellAreaList
     {
         List<Vector3Int> area = new List<Vector3Int>();
 
-        area = area.Concat(RangeUtils.getAreaInLine(caster.position, spell.position, obstacleList, tilemap, spell.uniqueCellArea)).ToList();
+        area = area.Concat(RangeUtils.getAreaInLine(caster.position, target, obstacleList, tilemap, spell.uniqueCellArea)).ToList();
         return area;
     }
 
     public static List<Vector3Int> getAreaInLineBetweenCells(
         Spell spell,
+        Vector3Int target,
         Unit caster,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
-        int index = caster.selectedSpellPos.IndexOf(spell.position);
+        int index = caster.selectedSpellPos.IndexOf(target);
         if (index - 1 < 0)
         {
             return new List<Vector3Int>();
@@ -49,7 +52,7 @@ public static class SpellAreaList
         Vector3Int previousPos = caster.selectedSpellPos[index - 1];
         List<Vector3Int> area = RangeUtils.getAreaInLine(
             previousPos,
-            spell.position,
+            target,
             obstacleList,
             tilemap,
             spell.uniqueCellArea
@@ -59,16 +62,17 @@ public static class SpellAreaList
 
     public static List<Vector3Int> getAreaAndresCircle(
         Spell spell,
+        Vector3Int target,
         Unit caster,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
-        List<Vector3Int> circle = RangeUtils.AndresCircle(spell.position.x, spell.position.y, spell.area);
+        List<Vector3Int> circle = RangeUtils.AndresCircle(target.x, target.y, spell.area);
 
         if (spell.burst)
         {
-            circle = burst(spell.position, caster, circle, obstacleList, tilemap);
+            circle = burst(target, caster, circle, obstacleList, tilemap);
         }
 
         return circle;
