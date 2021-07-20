@@ -5,6 +5,9 @@ using UnityEngine.Tilemaps;
 
 public static class FightingSceneStore
 {
+    // Game Script
+    public static CastSystem CastSystem;
+
     // Map
     public static Tilemap tilemap;
     public static Tilemap cellsGrid;

@@ -54,6 +54,7 @@ public class SpellDamage : MonoBehaviour
         functionLookup[selectedFunction].Invoke(spell, caster, playerList, enemyList, obstacleList, tilemap);
         removeDead(playerList, enemyList, obstacleList);
         updateScrollViews();
+        FightingSceneStore.CastSystem.casted = true;
     }
 
     private void removeDead(Dictionary<Unit, GameObject> playerList, Dictionary<Unit, GameObject> enemyList, Dictionary<Vector3Int, GameObject> obstacleList)

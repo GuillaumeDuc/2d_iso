@@ -370,6 +370,7 @@ public class TurnBasedSystem : MonoBehaviour
         DrawOnMap.resetMap();
 
         // Store infos
+        FightingSceneStore.CastSystem = CastSystem;
         FightingSceneStore.tilemap = tilemap;
         FightingSceneStore.cellsGrid = cellsGrid;
         FightingSceneStore.playerList = playerList;
