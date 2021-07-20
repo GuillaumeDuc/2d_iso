@@ -308,6 +308,7 @@ public class TurnBasedSystem : MonoBehaviour
         Unit PlayerStats = Player.GetComponent<Unit>();
         PlayerStats.setSpellList(SpellList.Fireball);
         PlayerStats.setSpellList(SpellList.Meteor);
+        PlayerStats.setSpellList(SpellList.Explosion);
         PlayerStats.setSpellList(SpellList.Teleportation);
         PlayerStats.setSpellList(SpellList.Icycle);
         PlayerStats.setSpellList(SpellList.Sandwall);

@@ -12,11 +12,11 @@ public class SpellList : MonoBehaviour
     Teleportation,
     Icycle,
     Sandwall,
-    Slash;
+    Slash,
+    Explosion;
 
     /*
     public Spell
-        Explosion,
         Blackhole,
         ;
     */
@@ -25,6 +25,7 @@ public class SpellList : MonoBehaviour
     {
         string nameSpell;
 
+        // Spells
         nameSpell = "Fireball";
         Fireball = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
 
@@ -40,7 +41,12 @@ public class SpellList : MonoBehaviour
         nameSpell = "Sandwall";
         Sandwall = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
 
+        nameSpell = "Explosion";
+        Explosion = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+
+        // Attacks
         nameSpell = "Slash";
         Slash = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+
     }
 }

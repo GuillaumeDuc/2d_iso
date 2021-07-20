@@ -14727,7 +14727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameSpell: 
-  range: 10
+  range: 15
   area: 4
   damage: 50
   clickNb: 2

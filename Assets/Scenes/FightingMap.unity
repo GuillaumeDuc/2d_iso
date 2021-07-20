@@ -2529,6 +2529,8 @@ MonoBehaviour:
   Teleportation: {fileID: 0}
   Icycle: {fileID: 0}
   Sandwall: {fileID: 0}
+  Slash: {fileID: 0}
+  Explosion: {fileID: 0}
 --- !u!114 &1131004372
 MonoBehaviour:
   m_ObjectHideFlags: 0
