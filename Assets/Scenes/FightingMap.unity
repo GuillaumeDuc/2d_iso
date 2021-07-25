@@ -232,33 +232,33 @@ Tilemap:
   - m_RefCount: 0
     m_Data:
       e00: -1.084227e-19
-      e01: -2.8902813e-22
-      e02: -2.8900592e-22
-      e03: -2.8900592e-22
-      e10: 5.14e-43
-      e11: 1.1e-43
-      e12: 1.1e-43
-      e13: 1.1e-43
-      e20: 7.534755e+17
-      e21: -3.7148645e+19
-      e22: 5.389576
-      e23: -3.7148645e+19
+      e01: -1.2065012e-29
+      e02: -1.206435e-29
+      e03: -1.206435e-29
+      e10: 7.51e-43
+      e11: 2.42e-43
+      e12: 2.42e-43
+      e13: 2.42e-43
+      e20: 17865792
+      e21: -2.0252342
+      e22: 8.622353
+      e23: -2.0252342
       e30: 4.5905e-41
-      e31: 5.16e-43
-      e32: 5.14e-43
-      e33: 5.16e-43
+      e31: 7.52e-43
+      e32: 7.51e-43
+      e33: 7.52e-43
   m_TileColorArray:
   - m_RefCount: 0
     m_Data: {r: 2.7463e-41, g: 2.7463e-41, b: 2.7463e-41, a: 2.7463e-41}
   - m_RefCount: 0
     m_Data: {r: 8.654406e+9, g: 8.654406e+9, b: 8.654406e+9, a: 8.654406e+9}
   - m_RefCount: 0
-    m_Data: {r: -3.699841e+19, g: -3.699841e+19, b: -3.699841e+19, a: -3.699841e+19}
+    m_Data: {r: -2.0250587, g: -2.0250587, b: -2.0250587, a: -2.0250587}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -14, y: -8, z: 0}
-  m_Size: {x: 32, y: 24, z: 1}
+  m_Size: {x: 32, y: 26, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -297,7 +297,13 @@ CompositeCollider2D:
   m_EdgeRadius: 0
   m_ColliderPaths:
   - m_Collider: {fileID: 14874897}
-    m_ColliderPaths: []
+    m_ColliderPaths:
+    - - X: -117763176
+        Y: 17419608
+      - X: -117763177
+        Y: 17419608
+      - X: -117800047
+        Y: 17400088
   m_CompositePaths:
     m_Paths: []
   m_VertexDistance: 0.0005
@@ -572,7 +578,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.3
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 000000005161703b
   m_LightCookieSprite: {fileID: 0}
