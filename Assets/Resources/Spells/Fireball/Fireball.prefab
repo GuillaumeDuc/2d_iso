@@ -26,11 +26,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 459731155166717406}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.15, z: 0}
+  m_LocalPosition: {x: 0, y: -0.099999994, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 8635097291143308793}
-  m_RootOrder: 1
+  m_Father: {fileID: 1018529302621455838}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2286438527351739141
 MonoBehaviour:
@@ -133,7 +133,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 874125346359301667}
   serializedVersion: 7
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -4949,7 +4949,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1803149035303317693}
   serializedVersion: 7
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -9735,8 +9735,6 @@ GameObject:
   - component: {fileID: 8836553016997228214}
   - component: {fileID: 829999311259712797}
   - component: {fileID: 309532673645788789}
-  - component: {fileID: 1370958277336460783}
-  - component: {fileID: 6662491682508730375}
   - component: {fileID: 3047445623148666509}
   m_Layer: 0
   m_Name: Fireball
@@ -9757,6 +9755,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1018529302621455838}
+  - {fileID: 2749089083107649508}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9825,7 +9824,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameSpell: Fireball
   range: 10
-  area: 3
+  area: 0
   damage: 30
   clickNb: 1
   manaCost: 10
@@ -9838,37 +9837,6 @@ MonoBehaviour:
   selectedRange: 0
   selectedCanCast: 0
   selectedInstantiate: 3
---- !u!114 &1370958277336460783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2253697307115073443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68322e435e3d7194d8b5853ab4fc950f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageDelay: 0
-  selectedFunction: 0
---- !u!114 &6662491682508730375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2253697307115073443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39ee48caefd9dd5409e444f4df206c7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effectDelay: 0
-  selectedSpellEffects:
-  - name: FireEffect
-    value: 0
-    cumul: 1
 --- !u!114 &3047445623148666509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9882,11 +9850,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movingGO: {fileID: 7646009502894656625}
-  nextGO: {fileID: 3011477353448975112, guid: 6847e7928d5294044851065b2f9966f2, type: 3}
+  movingParticles: {fileID: 2847091581143399694}
+  nextGO: {fileID: 1070071166781981779, guid: 27c187178ffb24946aa051af510d2a2c, type: 3}
   speed: 4
   beforeImpactX: 0
   beforeImpactY: 0
-  destroyDelay: 0
+  destroyDelay: 5
 --- !u!1 &2847091581143399694
 GameObject:
   m_ObjectHideFlags: 0
@@ -9898,7 +9867,7 @@ GameObject:
   - component: {fileID: 2749089083107649508}
   - component: {fileID: 2201921353630409692}
   m_Layer: 0
-  m_Name: FireWrapper
+  m_Name: FireballParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9912,14 +9881,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2847091581143399694}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.175, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children:
   - {fileID: 1652772697540704000}
   - {fileID: 7789373385990715483}
   - {fileID: 1924364360812412924}
-  m_Father: {fileID: 8635097291143308793}
-  m_RootOrder: 0
+  m_Father: {fileID: 8836553016997228214}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!210 &2201921353630409692
 SortingGroup:
@@ -9973,7 +9942,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7487054105785422643}
   serializedVersion: 7
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -14776,7 +14745,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children:
-  - {fileID: 8635097291143308793}
+  - {fileID: 7480089969022607343}
   m_Father: {fileID: 8836553016997228214}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14831,35 +14800,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &7701226099939767630
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8635097291143308793}
-  m_Layer: 0
-  m_Name: ExtremeFireEffect
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8635097291143308793
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7701226099939767630}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.25, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2749089083107649508}
-  - {fileID: 7480089969022607343}
-  m_Father: {fileID: 1018529302621455838}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
