@@ -13,13 +13,8 @@ public class SpellList : MonoBehaviour
     Icycle,
     Sandwall,
     Slash,
-    Explosion;
-
-    /*
-    public Spell
-        Blackhole,
-        ;
-    */
+    Explosion,
+    Blackhole;
 
     void Start()
     {
@@ -43,6 +38,9 @@ public class SpellList : MonoBehaviour
 
         nameSpell = "Explosion";
         Explosion = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+
+        nameSpell = "Blackhole";
+        Blackhole = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
 
         // Attacks
         nameSpell = "Slash";
