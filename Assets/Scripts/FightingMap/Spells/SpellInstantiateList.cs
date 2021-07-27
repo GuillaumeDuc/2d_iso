@@ -131,7 +131,7 @@ public class SpellInstantiateList : MonoBehaviour
 
     private static void animateCasterAttack(Unit caster)
     {
-        Animator animator = caster.unitGO.GetComponent<Animator>();
+        Animator animator = caster.gameObject.GetComponent<Animator>();
         string paramName = "Attack";
         foreach (AnimatorControllerParameter param in animator.parameters)
         {

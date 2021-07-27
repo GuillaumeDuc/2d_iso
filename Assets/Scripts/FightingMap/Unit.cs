@@ -5,23 +5,29 @@ public class Unit : MonoBehaviour
 {
     public string unitName;
     public int unitLevel,
-        maxHP,
-        endurance,
-        mana,
-        spellSlot,
-        initiative,
-        movementPoint,
+        maxHP = 100,
+        endurance = 0,
+        mana = 100,
+        spellSlot = 3,
+        movementPoint = 6;
+
+    [HideInInspector]
+    public int initiative,
         currentHP,
         currentMovementPoint,
-        currentMana
-        ;
+        currentMana;
     public List<GameObject> spellList = new List<GameObject>();
+    [HideInInspector]
     public GameObject selectedSpell;
+    [HideInInspector]
     public Vector3Int position;
-    public bool playable;
+    [HideInInspector]
+    public bool playable = false;
     public List<Status> statusList = new List<Status>();
-    public GameObject unitGO;
+    [HideInInspector]
     public List<Vector3Int> selectedSpellPos = new List<Vector3Int>();
+
+    private bool isSet = false;
 
     public bool takeDamage(int dmg)
     {
@@ -50,7 +56,6 @@ public class Unit : MonoBehaviour
     }
 
     public void setStats(
-        GameObject unitGO,
         string name,
         Vector3Int position,
         int maxHP = 100,
@@ -60,8 +65,6 @@ public class Unit : MonoBehaviour
         int spellSlot = 3
         )
     {
-        this.unitGO = unitGO;
-
         this.unitName = name;
         this.maxHP = (int)(maxHP * (1 + (double)endurance / 10));
         this.currentHP = this.maxHP;
@@ -76,7 +79,7 @@ public class Unit : MonoBehaviour
 
         initiative = mana + endurance;
 
-        this.playable = false;
+        this.isSet = true;
     }
 
     public string getSpellList()
@@ -146,5 +149,22 @@ public class Unit : MonoBehaviour
         return "Unit : " + unitName + " | HP : " + currentHP + "\n" +
             "Movement : " + currentMovementPoint + " | Mana : " + currentMana + "\n" +
             "list status : \n" + list;
+    }
+
+    void Start()
+    {
+        // If unit was not set programatically
+        if (!isSet)
+        {
+            this.setStats(
+                name,
+                FightingSceneStore.tilemap.WorldToCell(gameObject.transform.position),
+                maxHP,
+                endurance,
+                mana,
+                movementPoint,
+                spellSlot
+            );
+        }
     }
 }

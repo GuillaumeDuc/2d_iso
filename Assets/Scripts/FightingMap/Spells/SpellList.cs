@@ -14,7 +14,8 @@ public class SpellList : MonoBehaviour
     Sandwall,
     Slash,
     Explosion,
-    Blackhole;
+    Blackhole,
+    Grogoulem;
 
     void Start()
     {
@@ -41,6 +42,9 @@ public class SpellList : MonoBehaviour
 
         nameSpell = "Blackhole";
         Blackhole = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+
+        nameSpell = "Grogoulem";
+        Grogoulem = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
 
         // Attacks
         nameSpell = "Slash";

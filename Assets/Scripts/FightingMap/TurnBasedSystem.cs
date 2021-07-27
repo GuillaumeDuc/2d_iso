@@ -214,12 +214,12 @@ public class TurnBasedSystem : MonoBehaviour
         foreach (var s in deadPlayerList)
         {
             playerList.Remove(s);
-            Destroy(s.unitGO);
+            Destroy(s.gameObject);
         }
         foreach (var s in deadEnemyList)
         {
             enemyList.Remove(s);
-            Destroy(s.unitGO);
+            Destroy(s.gameObject);
         }
         foreach (var s in destroyedObstacleList)
         {
@@ -314,7 +314,8 @@ public class TurnBasedSystem : MonoBehaviour
         PlayerStats.setSpellList(SpellList.Sandwall);
         PlayerStats.setSpellList(SpellList.Slash);
         PlayerStats.setSpellList(SpellList.Blackhole);
-        PlayerStats.setStats(Player, "Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3, 110);
+        PlayerStats.setSpellList(SpellList.Grogoulem);
+        PlayerStats.setStats("Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3, 110);
         PlayerStats.playable = true;
 
         // Init Ennemies
@@ -325,7 +326,7 @@ public class TurnBasedSystem : MonoBehaviour
         Unit green1Stats = phantom.GetComponent<Unit>();
         green1Stats.setSpellList(SpellList.Slash);
         green1Stats.setSpellList(SpellList.Teleportation);
-        green1Stats.setStats(phantom, "Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
+        green1Stats.setStats("Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
 
         // Add characters in lists
         enemyList = new Dictionary<Unit, GameObject>() {
@@ -404,7 +405,7 @@ public class TurnBasedSystem : MonoBehaviour
         // Play Enemies
         if (!currentUnit.playable && !IAisPlaying && currentUnit != null)
         {
-            GameObject currentEnemy = currentUnit.unitGO;
+            GameObject currentEnemy = currentUnit.gameObject;
             EnemyAI enemyAI = currentUnit.GetComponent<EnemyAI>();
             IAisPlaying = true;
             enemyAI.play(
@@ -433,7 +434,7 @@ public class TurnBasedSystem : MonoBehaviour
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
             Vector3Int cellPosition = tilemap.WorldToCell(worldPosition);
 
-            GameObject currentPlayer = currentUnit.unitGO;
+            GameObject currentPlayer = currentUnit.gameObject;
             if (currentUnit.playable)
             {
                 if (CurrentState == CurrentState.MOVE && !IsPointerOverUIElement())
