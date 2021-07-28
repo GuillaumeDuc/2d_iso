@@ -47,6 +47,7 @@ public class SpellEffectScript : MonoBehaviour
             obstacleList,
             tilemap
         );
+        FightingSceneStore.TurnBasedSystem.DrawOnMap.resetMap();
     }
 
     public void applyEffect(

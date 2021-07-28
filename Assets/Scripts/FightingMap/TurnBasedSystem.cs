@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.Tilemaps;
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.EventSystems;
@@ -42,7 +41,7 @@ public class TurnBasedSystem : MonoBehaviour
     public Dictionary<Unit, GameObject> enemyList;
     public Dictionary<Unit, GameObject> playerList;
     public Dictionary<Vector3Int, GameObject> obstacleList;
-    private Dictionary<Unit, bool> initiativeList;
+    private Dictionary<Unit, bool> initiativeList = new Dictionary<Unit, bool>();
     private Unit currentUnit;
     private int currentTurn = 1;
 
@@ -86,16 +85,20 @@ public class TurnBasedSystem : MonoBehaviour
         CastState = CastState.SHOW_AREA;
     }
 
-    private Dictionary<Unit, bool> getInitList()
+    public void addUnitInInitList(Unit unit)
     {
-        Dictionary<Unit, bool> fullList = new Dictionary<Unit, bool>(
-            playerList
-            .Concat(enemyList)
-            .OrderBy(x => x.Key.initiative)
-            .Reverse()
-            .ToDictionary(x => x.Key, x => false)
-        );
-        return fullList;
+        initiativeList.Add(unit, false);
+        initiativeList = initiativeList.OrderBy(x => x.Key.initiative).Reverse().ToDictionary(x => x.Key, x => x.Value);
+        if (currentUnit != null)
+        {
+            initiativeList[currentUnit] = false;
+        }
+        currentUnit = getUnitTurn();
+        initiativeList[currentUnit] = true;
+
+        DrawOnMap.resetMap();
+        PlayersScrollView.updateScrollView();
+        EnemiesScrollView.updateScrollView();
     }
 
     private Unit getUnitTurn()
@@ -292,31 +295,22 @@ public class TurnBasedSystem : MonoBehaviour
 
     void Start()
     {
-        // Get Player prefab from Assets/Resources
-        GameObject PlayerPrefab = Resources.Load<GameObject>("Characters/PC/Player");
-        Player = InstantiatePlayer(PlayerPrefab, new Vector3Int(15, 15, 0));
+        FightingSceneStore.TurnBasedSystem = this;
 
         // Instantiate state
         CurrentState = CurrentState.MOVE;
         // Casting state
         CastState = CastState.DEFAULT;
 
+        // Get Player prefab from Assets/Resources
+        GameObject PlayerPrefab = Resources.Load<GameObject>("Characters/PC/Player");
+        Player = InstantiatePlayer(PlayerPrefab, new Vector3Int(15, 15, 0));
+
         // Get transform
         PlayerTransform = Player.GetComponent<Transform>();
 
         // Init Player
         Unit PlayerStats = Player.GetComponent<Unit>();
-        PlayerStats.setSpellList(SpellList.Fireball);
-        PlayerStats.setSpellList(SpellList.Meteor);
-        PlayerStats.setSpellList(SpellList.Explosion);
-        PlayerStats.setSpellList(SpellList.Teleportation);
-        PlayerStats.setSpellList(SpellList.Icycle);
-        PlayerStats.setSpellList(SpellList.Sandwall);
-        PlayerStats.setSpellList(SpellList.Slash);
-        PlayerStats.setSpellList(SpellList.Blackhole);
-        PlayerStats.setSpellList(SpellList.Grogoulem);
-        PlayerStats.setStats("Player", tilemap.WorldToCell(PlayerTransform.position), 100, 3, 110);
-        PlayerStats.playable = true;
 
         // Init Ennemies
         GameObject EnemyPrefab = Resources.Load<GameObject>("Characters/NPC/Phantom/Phantom");
@@ -324,9 +318,6 @@ public class TurnBasedSystem : MonoBehaviour
         GameObject phantom = InstantiatePlayer(EnemyPrefab, new Vector3Int(10, 15, 0));
         Transform green1Transform = phantom.GetComponent<Transform>();
         Unit green1Stats = phantom.GetComponent<Unit>();
-        green1Stats.setSpellList(SpellList.Slash);
-        green1Stats.setSpellList(SpellList.Teleportation);
-        green1Stats.setStats("Phantom", tilemap.WorldToCell(green1Transform.position), 100, 0, 100, 10, 3);
 
         // Add characters in lists
         enemyList = new Dictionary<Unit, GameObject>() {
@@ -345,13 +336,6 @@ public class TurnBasedSystem : MonoBehaviour
             Vector3Int pos = tilemap.WorldToCell(o.transform.position);
             obstacleList.Add(pos, o.gameObject);
         }
-
-        // Init initiative list
-        initiativeList = new Dictionary<Unit, bool>(getInitList());
-
-        // Init current turn
-        currentUnit = getUnitTurn();
-        initiativeList[currentUnit] = true;
 
         // Init UI
         // Spell scrollview

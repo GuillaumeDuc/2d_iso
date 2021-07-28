@@ -166,15 +166,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Player
   unitLevel: 10
-  maxHP: 150
-  endurance: 0
-  mana: 0
-  spellSlot: 0
+  maxHP: 100
+  endurance: 3
+  mana: 110
+  spellSlot: 3
+  movementPoint: 6
   initiative: 0
-  movementPoint: 0
   currentHP: 150
   currentMovementPoint: 0
   currentMana: 0
+  spellList:
+  - {fileID: 2253697307115073443, guid: 8aa0aa7ec32f761478d098b8fc638203, type: 3}
+  - {fileID: 3575874839522709577, guid: 2edfcadb7c9c88845ad0098448eed602, type: 3}
+  selectedSpell: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
-  playable: 0
-  unitGO: {fileID: 0}
+  playable: 1
+  selectedSpellPos: []

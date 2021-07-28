@@ -117,20 +117,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0612908294e50d94eb4063cdedd3cd5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: 
-  unitLevel: 0
-  maxHP: 0
+  unitName: Phantom
+  unitLevel: 100
+  maxHP: 100
   endurance: 0
-  mana: 0
-  spellSlot: 0
+  mana: 100
+  spellSlot: 3
+  movementPoint: 10
   initiative: 0
-  movementPoint: 0
   currentHP: 0
   currentMovementPoint: 0
   currentMana: 0
+  spellList:
+  - {fileID: 6775718935185108242, guid: d4f944b19f6cd6b48a5e3b52ddce1cb1, type: 3}
+  - {fileID: 3575874839522709577, guid: 2edfcadb7c9c88845ad0098448eed602, type: 3}
+  selectedSpell: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
   playable: 0
-  unitGO: {fileID: 0}
+  selectedSpellPos: []
 --- !u!114 &-1393795127508593893
 MonoBehaviour:
   m_ObjectHideFlags: 0

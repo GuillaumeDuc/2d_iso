@@ -13,21 +13,20 @@ public class Unit : MonoBehaviour
 
     [HideInInspector]
     public int initiative,
-        currentHP,
-        currentMovementPoint,
-        currentMana;
+            currentHP,
+            currentMovementPoint,
+            currentMana;
     public List<GameObject> spellList = new List<GameObject>();
     [HideInInspector]
     public GameObject selectedSpell;
     [HideInInspector]
     public Vector3Int position;
-    [HideInInspector]
     public bool playable = false;
+    [HideInInspector]
     public List<Status> statusList = new List<Status>();
     [HideInInspector]
     public List<Vector3Int> selectedSpellPos = new List<Vector3Int>();
 
-    private bool isSet = false;
 
     public bool takeDamage(int dmg)
     {
@@ -53,43 +52,6 @@ public class Unit : MonoBehaviour
     {
         currentMovementPoint = movementPoint;
         currentMana = mana;
-    }
-
-    public void setStats(
-        string name,
-        Vector3Int position,
-        int maxHP = 100,
-        int endurance = 0,
-        int mana = 100,
-        int movementPoint = 6,
-        int spellSlot = 3
-        )
-    {
-        this.unitName = name;
-        this.maxHP = (int)(maxHP * (1 + (double)endurance / 10));
-        this.currentHP = this.maxHP;
-
-        this.position = position;
-
-        this.endurance = endurance;
-        this.mana = mana;
-        this.movementPoint = movementPoint + (int)(endurance / 10);
-        this.currentMana = mana;
-        this.currentMovementPoint = movementPoint;
-
-        initiative = mana + endurance;
-
-        this.isSet = true;
-    }
-
-    public string getSpellList()
-    {
-        string spellList = "";
-        foreach (var s in spellList)
-        {
-            spellList += s.ToString() + "\n";
-        }
-        return spellList;
     }
 
     public void addStatus(Status status)
@@ -153,18 +115,18 @@ public class Unit : MonoBehaviour
 
     void Start()
     {
-        // If unit was not set programatically
-        if (!isSet)
-        {
-            this.setStats(
-                name,
-                FightingSceneStore.tilemap.WorldToCell(gameObject.transform.position),
-                maxHP,
-                endurance,
-                mana,
-                movementPoint,
-                spellSlot
-            );
-        }
+        this.maxHP = (int)(maxHP * (1 + (double)endurance / 10));
+        this.currentHP = this.maxHP;
+
+        this.position = FightingSceneStore.tilemap.WorldToCell(gameObject.transform.position);
+
+        this.movementPoint = movementPoint + (int)(endurance / 10);
+        this.currentMovementPoint = movementPoint;
+
+        this.currentMana = mana;
+
+        initiative = mana + endurance;
+
+        FightingSceneStore.TurnBasedSystem.addUnitInInitList(this);
     }
 }
