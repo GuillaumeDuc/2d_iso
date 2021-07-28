@@ -40,8 +40,8 @@ public class TurnBasedSystem : MonoBehaviour
 
     public Dictionary<Unit, GameObject> enemyList;
     public Dictionary<Unit, GameObject> playerList;
-    public Dictionary<Vector3Int, GameObject> obstacleList;
-    private Dictionary<Unit, bool> initiativeList = new Dictionary<Unit, bool>();
+    public Dictionary<Vector3Int, GameObject> obstacleList = new Dictionary<Vector3Int, GameObject>();
+    public Dictionary<Unit, bool> initiativeList = new Dictionary<Unit, bool>();
     private Unit currentUnit;
     private int currentTurn = 1;
 
@@ -87,6 +87,13 @@ public class TurnBasedSystem : MonoBehaviour
 
     public void addUnitInInitList(Unit unit)
     {
+        Debug.Log(unit);
+        string listS = "";
+        foreach (var a in initiativeList)
+        {
+            listS += a.Key + "\n ----------------- \n";
+        }
+        Debug.Log(listS);
         initiativeList.Add(unit, false);
         initiativeList = initiativeList.OrderBy(x => x.Key.initiative).Reverse().ToDictionary(x => x.Key, x => x.Value);
         if (currentUnit != null)
@@ -97,8 +104,7 @@ public class TurnBasedSystem : MonoBehaviour
         initiativeList[currentUnit] = true;
 
         DrawOnMap.resetMap();
-        PlayersScrollView.updateScrollView();
-        EnemiesScrollView.updateScrollView();
+        updateScrollViews();
     }
 
     private Unit getUnitTurn()
@@ -217,11 +223,13 @@ public class TurnBasedSystem : MonoBehaviour
         foreach (var s in deadPlayerList)
         {
             playerList.Remove(s);
+            initiativeList.Remove(s);
             Destroy(s.gameObject);
         }
         foreach (var s in deadEnemyList)
         {
             enemyList.Remove(s);
+            initiativeList.Remove(s);
             Destroy(s.gameObject);
         }
         foreach (var s in destroyedObstacleList)
@@ -329,7 +337,6 @@ public class TurnBasedSystem : MonoBehaviour
         };
 
         // Init obstacle List
-        obstacleList = new Dictionary<Vector3Int, GameObject>();
         Obstacle[] obstacleScripts = (Obstacle[])GameObject.FindObjectsOfType(typeof(Obstacle));
         foreach (var o in obstacleScripts)
         {
@@ -353,6 +360,7 @@ public class TurnBasedSystem : MonoBehaviour
         {
             PlayersScrollView.addInfo(e.Key);
         }
+
         // Draw position on map
         DrawOnMap.resetMap();
 
@@ -363,6 +371,7 @@ public class TurnBasedSystem : MonoBehaviour
         FightingSceneStore.playerList = playerList;
         FightingSceneStore.enemyList = enemyList;
         FightingSceneStore.obstacleList = obstacleList;
+        FightingSceneStore.initiativeList = initiativeList;
         FightingSceneStore.PlayersScrollView = PlayersScrollView;
         FightingSceneStore.EnemiesScrollView = EnemiesScrollView;
     }

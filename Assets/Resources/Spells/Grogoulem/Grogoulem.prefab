@@ -14652,7 +14652,7 @@ GameObject:
   - component: {fileID: 7701960558974574164}
   - component: {fileID: 7386444822679592672}
   m_Layer: 0
-  m_Name: GrogoulemMeteor
+  m_Name: Grogoulem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14770,9 +14770,9 @@ MonoBehaviour:
   nameSpell: 
   range: 15
   area: 4
-  damage: 50
+  damage: 10
   clickNb: 1
-  manaCost: 10
+  manaCost: 100
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 1

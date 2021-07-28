@@ -92,7 +92,7 @@ public class Unit : MonoBehaviour
         else
         {
             Unit u = (Unit)obj;
-            return unitName == u.unitName && position == u.position;
+            return name == u.name && position == u.position;
         }
     }
 
@@ -108,7 +108,7 @@ public class Unit : MonoBehaviour
         {
             list += s + "\n";
         });
-        return "Unit : " + unitName + " | HP : " + currentHP + "\n" +
+        return "Unit : " + name + " | name : " + unitName + " | HP : " + currentHP + "\n" +
             "Movement : " + currentMovementPoint + " | Mana : " + currentMana + "\n" +
             "list status : \n" + list;
     }

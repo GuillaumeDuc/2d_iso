@@ -17,6 +17,7 @@ public static class FightingSceneStore
     public static Dictionary<Unit, GameObject> enemyList;
     public static Dictionary<Unit, GameObject> playerList;
     public static Dictionary<Vector3Int, GameObject> obstacleList;
+    public static Dictionary<Unit, bool> initiativeList;
 
     // UI
     public static InfoScrollView EnemiesScrollView;

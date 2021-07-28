@@ -26,7 +26,16 @@ public class SpellDamage : MonoBehaviour
         // Set spell
         Spell spellGo = gameObject.GetComponent<Spell>();
         if (spellGo != null) { spell = spellGo; }
-        StartCoroutine(delayDamage(spell, spell.caster, FightingSceneStore.playerList, FightingSceneStore.enemyList, FightingSceneStore.obstacleList, FightingSceneStore.tilemap));
+        StartCoroutine(delayDamage(
+            spell,
+            spell.caster,
+            FightingSceneStore.playerList,
+            FightingSceneStore.enemyList,
+            FightingSceneStore.obstacleList,
+            FightingSceneStore.initiativeList,
+            FightingSceneStore.tilemap
+            )
+        );
     }
 
     private IEnumerator delayDamage(
@@ -35,6 +44,7 @@ public class SpellDamage : MonoBehaviour
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
         Dictionary<Vector3Int, GameObject> obstacleList,
+        Dictionary<Unit, bool> initiativeList,
         Tilemap tilemap
         )
     {
@@ -45,19 +55,33 @@ public class SpellDamage : MonoBehaviour
             playerList,
             enemyList,
             obstacleList,
+            initiativeList,
             tilemap
         );
     }
 
-    public void doDamage(Spell spell, Unit caster, Dictionary<Unit, GameObject> playerList, Dictionary<Unit, GameObject> enemyList, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    public void doDamage(
+        Spell spell,
+        Unit caster,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Dictionary<Unit, bool> initiativeList,
+        Tilemap tilemap
+        )
     {
         functionLookup[selectedFunction].Invoke(spell, caster, playerList, enemyList, obstacleList, tilemap);
-        removeDead(playerList, enemyList, obstacleList);
+        removeDead(playerList, enemyList, obstacleList, initiativeList);
         updateScrollViews();
         FightingSceneStore.CastSystem.casted = true;
     }
 
-    private void removeDead(Dictionary<Unit, GameObject> playerList, Dictionary<Unit, GameObject> enemyList, Dictionary<Vector3Int, GameObject> obstacleList)
+    private void removeDead(
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Dictionary<Unit, bool> initiativeList
+        )
     {
 
         List<Unit> deadPlayerList = new List<Unit>();
@@ -87,17 +111,19 @@ public class SpellDamage : MonoBehaviour
         // Remove dead
         foreach (var s in deadPlayerList)
         {
-            Destroy(playerList[s]);
+            DestroyImmediate(playerList[s]);
             playerList.Remove(s);
+            initiativeList.Remove(s);
         }
         foreach (var s in deadEnemyList)
         {
-            Destroy(enemyList[s]);
+            DestroyImmediate(enemyList[s]);
             enemyList.Remove(s);
+            initiativeList.Remove(s);
         }
         foreach (var s in destroyedObstacleList)
         {
-            Destroy(obstacleList[s]);
+            DestroyImmediate(obstacleList[s]);
             obstacleList.Remove(s);
         }
     }

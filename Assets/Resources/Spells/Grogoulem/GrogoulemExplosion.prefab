@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7222218514250824109}
   - component: {fileID: 1563293489829408717}
   - component: {fileID: 7039610087304723039}
-  - component: {fileID: -8562505288862043001}
+  - component: {fileID: -4049485534899330202}
   m_Layer: 0
   m_Name: GrogoulemExplosion
   m_TagString: Untagged
@@ -87,7 +87,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageDelay: 0
   selectedFunction: 0
---- !u!114 &-8562505288862043001
+--- !u!114 &-4049485534899330202
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,10 +96,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 537138328580791055}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02648e83d3fcdcf4da27e9fdab223b42, type: 3}
+  m_Script: {fileID: 11500000, guid: ad762b04a1aec55408990044a6bdac49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSpell: {fileID: 7457318626343297415, guid: 4e4da585c29765749a454fcda1c9bc69, type: 3}
+  summonedUnit: {fileID: 7457318626343297415, guid: 4e4da585c29765749a454fcda1c9bc69, type: 3}
   delayInstantiate: 2
 --- !u!1 &7222218514399256532
 GameObject:

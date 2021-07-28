@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6063755036826627339}
   - component: {fileID: 2684185659675360532}
   - component: {fileID: 5793449199647767576}
+  - component: {fileID: -6051194604348838438}
   m_Layer: 0
   m_Name: GrogoulemUnit
   m_TagString: Untagged
@@ -106,8 +107,22 @@ MonoBehaviour:
   currentHP: 0
   currentMovementPoint: 0
   currentMana: 0
-  spellList: []
+  spellList:
+  - {fileID: 6974797582085391557, guid: 38733b82c351c6940b7582219ca9296e, type: 3}
   selectedSpell: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
   playable: 0
   selectedSpellPos: []
+--- !u!114 &-6051194604348838438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7457318626343297415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6590483b2a5c2724f873e56ff07a1f6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 5793449199647767576}

@@ -7,7 +7,6 @@ using UnityEngine.Tilemaps;
 
 public class EnemyAI : MonoBehaviour
 {
-    public GameObject Enemy;
     public Unit unit;
 
     public virtual void play(
@@ -74,7 +73,7 @@ public class EnemyAI : MonoBehaviour
             // Move one square
             Square square = path[0];
             path.RemoveAt(0);
-            MoveSystem.moveOneSquare(square, unit, Enemy, tilemap);
+            MoveSystem.moveOneSquare(square, unit, gameObject, tilemap);
             // Check if can cast
             canCast = spell.canCast(unit, spell.getRange(unit, obstacleList, tilemap), nearestPlayer.position, obstacleList, tilemap);
             if (canCast)
