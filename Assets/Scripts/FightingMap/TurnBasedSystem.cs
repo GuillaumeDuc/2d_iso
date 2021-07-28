@@ -87,14 +87,7 @@ public class TurnBasedSystem : MonoBehaviour
 
     public void addUnitInInitList(Unit unit)
     {
-        Debug.Log(unit);
-        string listS = "";
-        foreach (var a in initiativeList)
-        {
-            listS += a.Key + "\n ----------------- \n";
-        }
-        Debug.Log(listS);
-        initiativeList.Add(unit, false);
+        initiativeList.Add(unit, unit.summon);
         initiativeList = initiativeList.OrderBy(x => x.Key.initiative).Reverse().ToDictionary(x => x.Key, x => x.Value);
         if (currentUnit != null)
         {
@@ -378,11 +371,12 @@ public class TurnBasedSystem : MonoBehaviour
 
     void Update()
     {
+        /*
         dialogueText.text = "Current State : " + CurrentState + "\n" +
             "Cast State : " + CastState + "\n" +
             "Turn : " + currentTurn + "\n" +
             "Current unit : \n" + currentUnit;
-
+        */
         // Move Camera
         Vector3 posPlayer = PlayerTransform ? PlayerTransform.position : CameraView.transform.position;
         CameraView.transform.position = new Vector3(posPlayer.x, posPlayer.y, -10);
@@ -396,7 +390,7 @@ public class TurnBasedSystem : MonoBehaviour
         }
 
         // Play Enemies
-        if (!currentUnit.playable && !IAisPlaying && currentUnit != null)
+        if (currentUnit != null && !currentUnit.playable && !IAisPlaying)
         {
             GameObject currentEnemy = currentUnit.gameObject;
             EnemyAI enemyAI = currentUnit.GetComponent<EnemyAI>();

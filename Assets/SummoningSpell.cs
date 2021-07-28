@@ -31,6 +31,7 @@ public class SummoningSpell : MonoBehaviour
         Spell spell = gameObject.GetComponent<Spell>();
         Dictionary<Unit, GameObject> team = getTeam(spell.caster);
         Unit unit = go.GetComponent<Unit>();
+        unit.summon = true;
         team.Add(unit, go);
     }
     void Start()

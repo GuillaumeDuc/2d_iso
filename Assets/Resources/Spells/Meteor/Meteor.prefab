@@ -14698,9 +14698,9 @@ MonoBehaviour:
   nameSpell: 
   range: 15
   area: 4
-  damage: 50
+  damage: 100
   clickNb: 1
-  manaCost: 10
+  manaCost: 1
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 1

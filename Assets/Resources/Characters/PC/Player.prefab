@@ -179,7 +179,10 @@ MonoBehaviour:
   - {fileID: 2253697307115073443, guid: 8aa0aa7ec32f761478d098b8fc638203, type: 3}
   - {fileID: 3575874839522709577, guid: 2edfcadb7c9c88845ad0098448eed602, type: 3}
   - {fileID: 6974797582085391557, guid: 38733b82c351c6940b7582219ca9296e, type: 3}
+  - {fileID: 3128274454820993149, guid: fcd47b0630ad6be4888ce876f773a5a5, type: 3}
+  - {fileID: 3667406406966735228, guid: aa4649a6bc9b97044be842b8a64799b3, type: 3}
   selectedSpell: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
   playable: 1
+  summon: 0
   selectedSpellPos: []

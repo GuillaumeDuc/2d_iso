@@ -23,9 +23,12 @@ public class Unit : MonoBehaviour
     public Vector3Int position;
     public bool playable = false;
     [HideInInspector]
+    public bool summon = false;
+    [HideInInspector]
     public List<Status> statusList = new List<Status>();
     [HideInInspector]
     public List<Vector3Int> selectedSpellPos = new List<Vector3Int>();
+
 
 
     public bool takeDamage(int dmg)
