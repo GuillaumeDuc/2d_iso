@@ -133,11 +133,14 @@ public class SpellInstantiateList : MonoBehaviour
     {
         Animator animator = caster.gameObject.GetComponent<Animator>();
         string paramName = "Attack";
-        foreach (AnimatorControllerParameter param in animator.parameters)
+        if (animator != null)
         {
-            if (param.name == paramName)
+            foreach (AnimatorControllerParameter param in animator.parameters)
             {
-                animator.SetTrigger(paramName);
+                if (param.name == paramName)
+                {
+                    animator.SetTrigger(paramName);
+                }
             }
         }
     }

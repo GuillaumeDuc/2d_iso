@@ -8,11 +8,6 @@ public class SummoningSpell : MonoBehaviour
 
     public float delayInstantiate = 0;
 
-    private Dictionary<Unit, GameObject> getTeam(Unit unit)
-    {
-        return FightingSceneStore.playerList.ContainsKey(unit) ? FightingSceneStore.playerList : FightingSceneStore.enemyList;
-    }
-
     private IEnumerator instantiateDelay()
     {
         yield return new WaitForSeconds(delayInstantiate);
@@ -29,7 +24,7 @@ public class SummoningSpell : MonoBehaviour
 
         // Add summoned unit in list
         Spell spell = gameObject.GetComponent<Spell>();
-        Dictionary<Unit, GameObject> team = getTeam(spell.caster);
+        Dictionary<Unit, GameObject> team = spell.caster.getTeam();
         Unit unit = go.GetComponent<Unit>();
         unit.summon = true;
         team.Add(unit, go);

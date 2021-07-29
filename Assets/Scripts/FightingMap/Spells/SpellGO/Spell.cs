@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Spell : MonoBehaviour
 {
-    [HideInInspector]
-    public string nameSpell;
     public int range = 1, area, damage, clickNb = 1, manaCost;
     public bool lineOfSight, uniqueCellArea, burst;
 
@@ -102,7 +100,6 @@ public class Spell : MonoBehaviour
 
     public void setSpell(Spell spell)
     {
-        nameSpell = spell.nameSpell;
         range = spell.range;
         area = spell.area;
         damage = spell.damage;
@@ -121,7 +118,7 @@ public class Spell : MonoBehaviour
 
     override public string ToString()
     {
-        return "name : " + nameSpell + "\n" +
+        return "name : " + name + "\n" +
             "damage|range|area : " + damage + "|" + range + "|" + area + "\n" +
             "line of sight : " + lineOfSight;
     }

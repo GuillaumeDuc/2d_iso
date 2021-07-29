@@ -22,8 +22,8 @@ public class PhantomAI : EnemyAI
         Spell blackHole = unit.spellList[0].GetComponent<Spell>();
         Spell teleportation = unit.spellList[1].GetComponent<Spell>();
         // Get nearest player
-        Unit nearestPlayer = getNearestPlayer(MoveSystem, obstacleList, playerList, tilemap);
-        bool isInRange = moveInRange(blackHole, nearestPlayer, MoveSystem, obstacleList, playerList, tilemap);
+        Unit nearestPlayer = getNearestPlayer(MoveSystem, obstacleList, unit.getEnemyTeam(), tilemap);
+        bool isInRange = moveInRange(blackHole, nearestPlayer, MoveSystem, obstacleList, tilemap);
         // If is in range
         if (isInRange)
         {
@@ -109,11 +109,7 @@ public class PhantomAI : EnemyAI
         while (path.Any() && !casted)
         {
             unit.selectedSpellPos.Add(path[path.Count() - 1]);
-            if (spell.canCast(unit, spell.getRange(unit, obstacleList, tilemap), path[path.Count() - 1], obstacleList, tilemap))
-            {
-                casted = true;
-                CastSystem.castSpell(spell, unit);
-            }
+            casted = CastSystem.castSpell(path[path.Count() - 1], spell, unit);
             path.RemoveAt(path.Count() - 1);
             unit.selectedSpellPos.Clear();
         }

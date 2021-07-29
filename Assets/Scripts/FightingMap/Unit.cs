@@ -29,7 +29,15 @@ public class Unit : MonoBehaviour
     [HideInInspector]
     public List<Vector3Int> selectedSpellPos = new List<Vector3Int>();
 
+    public Dictionary<Unit, GameObject> getTeam()
+    {
+        return FightingSceneStore.playerList.ContainsKey(this) ? FightingSceneStore.playerList : FightingSceneStore.enemyList;
+    }
 
+    public Dictionary<Unit, GameObject> getEnemyTeam()
+    {
+        return FightingSceneStore.enemyList.ContainsKey(this) ? FightingSceneStore.playerList : FightingSceneStore.enemyList;
+    }
 
     public bool takeDamage(int dmg)
     {

@@ -89,6 +89,8 @@ public class TurnBasedSystem : MonoBehaviour
     {
         initiativeList.Add(unit, unit.summon);
         initiativeList = initiativeList.OrderBy(x => x.Key.initiative).Reverse().ToDictionary(x => x.Key, x => x.Value);
+        // Initiative list changed
+        FightingSceneStore.initiativeList = initiativeList;
         if (currentUnit != null)
         {
             initiativeList[currentUnit] = false;
@@ -217,13 +219,13 @@ public class TurnBasedSystem : MonoBehaviour
         {
             playerList.Remove(s);
             initiativeList.Remove(s);
-            Destroy(s.gameObject);
+            DestroyImmediate(s.gameObject);
         }
         foreach (var s in deadEnemyList)
         {
             enemyList.Remove(s);
             initiativeList.Remove(s);
-            Destroy(s.gameObject);
+            DestroyImmediate(s.gameObject);
         }
         foreach (var s in destroyedObstacleList)
         {

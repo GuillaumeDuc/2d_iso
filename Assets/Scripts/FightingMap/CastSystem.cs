@@ -50,10 +50,8 @@ public class CastSystem : MonoBehaviour
         if (currentState == CastState.CAST_SPELL)
         {
             // If spell area is clear & mana is enough
-            if (getTotalArea(spell, player).Contains(cellClicked) && player.currentMana >= spell.manaCost)
-            {
-                castSpell(spell, player);
-            }
+            castSpell(cellClicked, spell, player);
+
             player.selectedSpellPos.Clear();
 
             return CastState.DEFAULT;
@@ -62,11 +60,18 @@ public class CastSystem : MonoBehaviour
         return currentState;
     }
 
-    public void castSpell(
+    public bool castSpell(
+        Vector3Int cellClicked,
         Spell spell,
         Unit player
         )
     {
+        // Cell clicked is in area of effect, current mana is enough, player is in range 
+        if (!getTotalArea(spell, player).Contains(cellClicked) || !(player.currentMana >= spell.manaCost) || !spell.getRange(player, FightingSceneStore.obstacleList, FightingSceneStore.tilemap).Contains(cellClicked))
+        {
+            return false;
+        }
+
         spell.caster = player;
         player.selectedSpellPos.ForEach(sp =>
         {
@@ -76,6 +81,7 @@ public class CastSystem : MonoBehaviour
         FightingSceneStore.EnemiesScrollView.updateScrollView();
         FightingSceneStore.PlayersScrollView.updateScrollView();
         casted = true;
+        return true;
     }
 
     private List<Vector3Int> getTotalArea(Spell spell, Unit caster)

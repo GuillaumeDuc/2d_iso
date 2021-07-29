@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7457318626343297415
+--- !u!1 &5563531396013085682
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6063755036826627339}
-  - component: {fileID: 2684185659675360532}
-  - component: {fileID: 5793449199647767576}
-  - component: {fileID: -6051194604348838438}
+  - component: {fileID: 7810609507318628959}
+  - component: {fileID: 7972085255626598170}
+  - component: {fileID: 2865935085621733516}
+  - component: {fileID: 2632962901427124058}
   m_Layer: 0
-  m_Name: GrogoulemUnit
+  m_Name: Slam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6063755036826627339
+--- !u!4 &7810609507318628959
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7457318626343297415}
+  m_GameObject: {fileID: 5563531396013085682}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.2654269, y: 5.1550894, z: 0}
+  m_LocalPosition: {x: -10.827078, y: 4.9665127, z: -0.5754837}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2684185659675360532
+--- !u!212 &7972085255626598170
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7457318626343297415}
-  m_Enabled: 1
+  m_GameObject: {fileID: 5563531396013085682}
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -72,58 +72,55 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: e6eab75dfe8d183408e7de623d3c77c0, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 5e33798faffb13147ae2b72a7c49e291, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 9.55, y: 13.76}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5793449199647767576
+--- !u!114 &2865935085621733516
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7457318626343297415}
+  m_GameObject: {fileID: 5563531396013085682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0612908294e50d94eb4063cdedd3cd5f, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fcf77bb7d4dbf544a864a6e68847b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Grogoulem
-  unitLevel: 1
-  maxHP: 100
-  endurance: 3
-  mana: 100
-  spellSlot: 1
-  movementPoint: 6
-  initiative: 0
-  currentHP: 0
-  currentMovementPoint: 0
-  currentMana: 0
-  spellList:
-  - {fileID: 5563531396013085682, guid: f5567a589d4e31f49951116e15b95a31, type: 3}
-  selectedSpell: {fileID: 0}
-  position: {x: 0, y: 0, z: 0}
-  playable: 0
-  summon: 0
-  selectedSpellPos: []
---- !u!114 &-6051194604348838438
+  range: 1
+  area: 0
+  damage: 10
+  clickNb: 1
+  manaCost: 30
+  lineOfSight: 0
+  uniqueCellArea: 0
+  burst: 0
+  position: {x: 10, y: 15, z: 0}
+  caster: {fileID: 0}
+  selectedArea: 0
+  selectedRange: 0
+  selectedCanCast: 0
+  selectedInstantiate: 4
+--- !u!114 &2632962901427124058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7457318626343297415}
+  m_GameObject: {fileID: 5563531396013085682}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6590483b2a5c2724f873e56ff07a1f6c, type: 3}
+  m_Script: {fileID: 11500000, guid: 68322e435e3d7194d8b5853ab4fc950f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 5793449199647767576}
+  damageDelay: 0
+  selectedFunction: 0
