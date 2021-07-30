@@ -45,6 +45,8 @@ public class TurnBasedSystem : MonoBehaviour
     private Unit currentUnit;
     private int currentTurn = 1;
 
+    public bool gameOver = false;
+
     GameObject InstantiatePlayer(GameObject PlayerPrefab, Vector3Int pos)
     {
         GroundTile tile = (GroundTile)tilemap.GetTile(pos);
@@ -244,6 +246,7 @@ public class TurnBasedSystem : MonoBehaviour
         string text = getWinningSideText();
         if (text != null)
         {
+            gameOver = true;
             Text endText = EndResultUI.GetComponentInChildren<Text>();
             Animator animator = EndResultUI.GetComponent<Animator>();
             endText.text = text;

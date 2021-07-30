@@ -7,45 +7,32 @@ using UnityEngine.Tilemaps;
 
 public class PhantomAI : EnemyAI
 {
-    /*
     public override void play(
         MoveSystem MoveSystem,
         CastSystem CastSystem,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
-        Tilemap tilemap,
-        Action endTurn
+        Tilemap tilemap
         )
     {
-
         // Choose spell
         Spell blackHole = unit.spellList[0].GetComponent<Spell>();
         Spell teleportation = unit.spellList[1].GetComponent<Spell>();
         // Get nearest player
         Unit nearestPlayer = getNearestPlayer(MoveSystem, obstacleList, unit.getEnemyTeam(), tilemap);
         bool isInRange = moveInRange(blackHole, nearestPlayer, MoveSystem, obstacleList, tilemap);
-        // If is in range
-        if (isInRange)
+        // If no nearest player found
+        if (nearestPlayer == null)
         {
-            cast(
-                blackHole,
-                nearestPlayer.position,
-                CastSystem,
-                obstacleList,
-                playerList,
-                enemyList,
-                tilemap,
-                endTurn
-            );
-            endTurn();
+            endTurn = true;
         }
-        // If is not in range tp in then try casting again
-        if (!isInRange)
+
+        // If is in range
+        if (isInRange && nearestPlayer != null)
         {
-            // Cast Teleportation
-            StartCoroutine(castToNearestPlayer(
-                teleportation,
+            StartCoroutine(cast(
+                blackHole,
                 nearestPlayer.position,
                 CastSystem,
                 obstacleList,
@@ -53,38 +40,34 @@ public class PhantomAI : EnemyAI
                 enemyList,
                 tilemap
             ));
+        }
+        // If is not in range tp in then try casting again
+        if (!isInRange && nearestPlayer != null)
+        {
+            // Cast Teleportation
+            castToNearestPlayer(
+                teleportation,
+                nearestPlayer.position,
+                CastSystem,
+                obstacleList,
+                playerList,
+                enemyList,
+                tilemap
+            );
             // Then cast attack
-            StartCoroutine(castWithDelay(
+            StartCoroutine(cast(
                 blackHole,
                 nearestPlayer.position,
                 CastSystem,
                 obstacleList,
                 playerList,
                 enemyList,
-                tilemap,
-                endTurn
+                tilemap
             ));
         }
     }
 
-    public IEnumerator castWithDelay(
-        Spell spell,
-        Vector3Int target,
-        CastSystem CastSystem,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList,
-        Tilemap tilemap,
-        Action endTurn
-        )
-    {
-        yield return new WaitForSeconds(1.7f);
-        cast(spell, target, CastSystem, obstacleList, playerList, enemyList, tilemap, endTurn);
-        endTurn();
-    }
-
-
-    public IEnumerator castToNearestPlayer(
+    public void castToNearestPlayer(
         Spell spell,
         Vector3Int target,
         CastSystem CastSystem,
@@ -94,7 +77,6 @@ public class PhantomAI : EnemyAI
         Tilemap tilemap
         )
     {
-        yield return new WaitForSeconds(1.5f);
         List<Vector3Int> path = RangeUtils.getLine(unit.position, target);
         // Remove where player is standing
         if (path.Any())
@@ -115,5 +97,5 @@ public class PhantomAI : EnemyAI
             path.RemoveAt(path.Count() - 1);
             unit.selectedSpellPos.Clear();
         }
-    }*/
+    }
 }

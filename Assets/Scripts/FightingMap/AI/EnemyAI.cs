@@ -7,30 +7,40 @@ using UnityEngine.Tilemaps;
 
 public class EnemyAI : MonoBehaviour
 {
+    [HideInInspector]
     public Unit unit;
 
     [HideInInspector]
     public bool endTurn = false, casting = false;
+
+    void Start()
+    {
+        unit = gameObject.GetComponent<Unit>();
+    }
+
     void Update()
     {
-        if (unit.isPlaying && !casting)
+        if (!FightingSceneStore.TurnBasedSystem.gameOver)
         {
-            play(
-                FightingSceneStore.MoveSystem,
-                FightingSceneStore.CastSystem,
-                FightingSceneStore.obstacleList,
-                FightingSceneStore.playerList,
-                FightingSceneStore.enemyList,
-                FightingSceneStore.tilemap
-            );
-            casting = true;
-        }
+            if (unit.isPlaying && !casting)
+            {
+                play(
+                    FightingSceneStore.MoveSystem,
+                    FightingSceneStore.CastSystem,
+                    FightingSceneStore.obstacleList,
+                    FightingSceneStore.playerList,
+                    FightingSceneStore.enemyList,
+                    FightingSceneStore.tilemap
+                );
+                casting = true;
+            }
 
-        if (endTurn)
-        {
-            endTurn = false;
-            casting = false;
-            FightingSceneStore.TurnBasedSystem.onClickEndTurn();
+            if (endTurn)
+            {
+                endTurn = false;
+                casting = false;
+                FightingSceneStore.TurnBasedSystem.onClickEndTurn();
+            }
         }
     }
     public virtual void play(
@@ -78,6 +88,10 @@ public class EnemyAI : MonoBehaviour
         Tilemap tilemap
         )
     {
+        if (nearestPlayer == null)
+        {
+            return false;
+        }
         // Get path to nearest player
         List<Square> path = MoveSystem.getPathCharacter(
                 new Square(unit.position),
