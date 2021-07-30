@@ -9,14 +9,37 @@ public class EnemyAI : MonoBehaviour
 {
     public Unit unit;
 
+    [HideInInspector]
+    public bool endTurn = false, casting = false;
+    void Update()
+    {
+        if (unit.isPlaying && !casting)
+        {
+            play(
+                FightingSceneStore.MoveSystem,
+                FightingSceneStore.CastSystem,
+                FightingSceneStore.obstacleList,
+                FightingSceneStore.playerList,
+                FightingSceneStore.enemyList,
+                FightingSceneStore.tilemap
+            );
+            casting = true;
+        }
+
+        if (endTurn)
+        {
+            endTurn = false;
+            casting = false;
+            FightingSceneStore.TurnBasedSystem.onClickEndTurn();
+        }
+    }
     public virtual void play(
         MoveSystem MoveSystem,
         CastSystem CastSystem,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
-        Tilemap tilemap,
-        Action endTurn
+        Tilemap tilemap
         )
     {
         // Choose spell
@@ -30,7 +53,7 @@ public class EnemyAI : MonoBehaviour
             // If is in range
             if (isInRange)
             {
-                cast(
+                StartCoroutine(cast(
                     spell,
                     nearestPlayer.position,
                     CastSystem,
@@ -38,11 +61,13 @@ public class EnemyAI : MonoBehaviour
                     playerList,
                     enemyList,
                     tilemap
-                );
+                ));
+            }
+            else
+            {
+                endTurn = true;
             }
         }
-        // End playing
-        endTurn();
     }
 
     public bool moveInRange(
@@ -86,8 +111,7 @@ public class EnemyAI : MonoBehaviour
         return canCast;
     }
 
-
-    public void cast(
+    public IEnumerator cast(
         Spell spell,
         Vector3Int target,
         CastSystem CastSystem,
@@ -95,35 +119,23 @@ public class EnemyAI : MonoBehaviour
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
         Tilemap tilemap
-        )
+    )
     {
+        yield return new WaitForSeconds(1f);
+        // Always in range
         bool canCast = true;
-        while (unit.currentMana >= spell.manaCost && canCast)
+        while (canCast)
         {
             for (int i = 0; i < spell.clickNb; i++)
             {
                 unit.selectedSpellPos.Add(target);
             }
-            // Try casting on player
+            // Casting on player
             canCast = CastSystem.castSpell(target, spell, unit);
             unit.selectedSpellPos.Clear();
+            yield return new WaitForSeconds(0.5f);
         }
-    }
-
-    public IEnumerator waitBetweenSpell(
-        Spell spell,
-        Vector3Int target,
-        CastSystem CastSystem,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList,
-        Tilemap tilemap,
-        bool canCast
-        )
-    {
-        yield return new WaitForSeconds(5f);
-        canCast = CastSystem.castSpell(target, spell, unit);
-        unit.selectedSpellPos.Clear();
+        endTurn = true;
     }
 
     public Unit getNearestPlayer(

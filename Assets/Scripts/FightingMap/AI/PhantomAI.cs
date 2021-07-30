@@ -7,6 +7,7 @@ using UnityEngine.Tilemaps;
 
 public class PhantomAI : EnemyAI
 {
+    /*
     public override void play(
         MoveSystem MoveSystem,
         CastSystem CastSystem,
@@ -34,7 +35,8 @@ public class PhantomAI : EnemyAI
                 obstacleList,
                 playerList,
                 enemyList,
-                tilemap
+                tilemap,
+                endTurn
             );
             endTurn();
         }
@@ -77,7 +79,7 @@ public class PhantomAI : EnemyAI
         )
     {
         yield return new WaitForSeconds(1.7f);
-        cast(spell, target, CastSystem, obstacleList, playerList, enemyList, tilemap);
+        cast(spell, target, CastSystem, obstacleList, playerList, enemyList, tilemap, endTurn);
         endTurn();
     }
 
@@ -113,5 +115,5 @@ public class PhantomAI : EnemyAI
             path.RemoveAt(path.Count() - 1);
             unit.selectedSpellPos.Clear();
         }
-    }
+    }*/
 }

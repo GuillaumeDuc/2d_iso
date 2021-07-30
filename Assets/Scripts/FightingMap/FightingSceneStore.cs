@@ -7,6 +7,7 @@ public static class FightingSceneStore
 {
     // Game Script
     public static CastSystem CastSystem;
+    public static MoveSystem MoveSystem;
     public static TurnBasedSystem TurnBasedSystem;
 
     // Map

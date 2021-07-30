@@ -45,8 +45,6 @@ public class TurnBasedSystem : MonoBehaviour
     private Unit currentUnit;
     private int currentTurn = 1;
 
-    private bool IAisPlaying;
-
     GameObject InstantiatePlayer(GameObject PlayerPrefab, Vector3Int pos)
     {
         GroundTile tile = (GroundTile)tilemap.GetTile(pos);
@@ -91,32 +89,38 @@ public class TurnBasedSystem : MonoBehaviour
         initiativeList = initiativeList.OrderBy(x => x.Key.initiative).Reverse().ToDictionary(x => x.Key, x => x.Value);
         // Initiative list changed
         FightingSceneStore.initiativeList = initiativeList;
+        // Previous playing unit changed
         if (currentUnit != null)
         {
             initiativeList[currentUnit] = false;
+            currentUnit.isPlaying = false;
         }
-        currentUnit = getUnitTurn();
+        // New playing unit
+        currentUnit = getNextUnitTurn();
         initiativeList[currentUnit] = true;
+        currentUnit.isPlaying = true;
 
         DrawOnMap.resetMap();
         updateScrollViews();
     }
 
-    private Unit getUnitTurn()
+    private Unit getNextUnitTurn()
     {
         return initiativeList.FirstOrDefault(x => !x.Value).Key;
     }
 
     public void onClickEndTurn()
     {
-        currentUnit = getUnitTurn();
-        // IA finished playing
-        IAisPlaying = false;
+        // Unit finished playing
+        currentUnit.isPlaying = false;
+
+        currentUnit = getNextUnitTurn();
         DrawOnMap.resetMap();
         // Next character
         if (currentUnit != null)
         {
             initiativeList[currentUnit] = true;
+            currentUnit.isPlaying = true;
         }
         // All characters have played, next turn
         if (currentUnit == null)
@@ -130,8 +134,9 @@ public class TurnBasedSystem : MonoBehaviour
                 key.resetStats();
             }
             // New turn
-            currentUnit = getUnitTurn();
+            currentUnit = getNextUnitTurn();
             initiativeList[currentUnit] = true;
+            currentUnit.isPlaying = true;
             // Apply all status on players then update
             applyStatus();
             updateScrollViews();
@@ -361,6 +366,7 @@ public class TurnBasedSystem : MonoBehaviour
 
         // Store infos
         FightingSceneStore.CastSystem = CastSystem;
+        FightingSceneStore.MoveSystem = MoveSystem;
         FightingSceneStore.tilemap = tilemap;
         FightingSceneStore.cellsGrid = cellsGrid;
         FightingSceneStore.playerList = playerList;
@@ -373,12 +379,14 @@ public class TurnBasedSystem : MonoBehaviour
 
     void Update()
     {
-        /*
-        dialogueText.text = "Current State : " + CurrentState + "\n" +
-            "Cast State : " + CastState + "\n" +
-            "Turn : " + currentTurn + "\n" +
-            "Current unit : \n" + currentUnit;
-        */
+        if (currentUnit != null)
+        {
+            dialogueText.text = "Current State : " + CurrentState + "\n" +
+                "Cast State : " + CastState + "\n" +
+                "Turn : " + currentTurn + "\n" +
+                "Current unit : \n" + currentUnit;
+        }
+
         // Move Camera
         Vector3 posPlayer = PlayerTransform ? PlayerTransform.position : CameraView.transform.position;
         CameraView.transform.position = new Vector3(posPlayer.x, posPlayer.y, -10);
@@ -389,23 +397,6 @@ public class TurnBasedSystem : MonoBehaviour
             tryEndGame();
             CastSystem.casted = false;
             tilemap.RefreshAllTiles();
-        }
-
-        // Play Enemies
-        if (currentUnit != null && !currentUnit.playable && !IAisPlaying)
-        {
-            GameObject currentEnemy = currentUnit.gameObject;
-            EnemyAI enemyAI = currentUnit.GetComponent<EnemyAI>();
-            IAisPlaying = true;
-            enemyAI.play(
-                MoveSystem,
-                CastSystem,
-                obstacleList,
-                playerList,
-                enemyList,
-                tilemap,
-                onClickEndTurn
-            );
         }
 
         // Left mouse click

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1242469316633480265}
   - component: {fileID: 1242469316633480266}
   - component: {fileID: -8697452396025057502}
-  - component: {fileID: -1393795127508593893}
+  - component: {fileID: -2172475508158904147}
   m_Layer: 0
   m_Name: Phantom
   m_TagString: Untagged
@@ -134,8 +134,9 @@ MonoBehaviour:
   selectedSpell: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
   playable: 0
+  summon: 0
   selectedSpellPos: []
---- !u!114 &-1393795127508593893
+--- !u!114 &-2172475508158904147
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,10 +145,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1242469316633480267}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e82db5a54c727e0428dee63dcfb383a7, type: 3}
+  m_Script: {fileID: 11500000, guid: 6590483b2a5c2724f873e56ff07a1f6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemy: {fileID: 1242469316633480267}
   unit: {fileID: -8697452396025057502}
 --- !u!1 &1242469317768781209
 GameObject:
