@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad762b04a1aec55408990044a6bdac49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  summonedUnit: {fileID: 7457318626343297415, guid: 4e4da585c29765749a454fcda1c9bc69, type: 3}
+  summonedUnit: {fileID: 6026587742465586942, guid: 824721bb1ff5adb4385091316511146e, type: 3}
   delayInstantiate: 2
 --- !u!1 &7222218514399256532
 GameObject:

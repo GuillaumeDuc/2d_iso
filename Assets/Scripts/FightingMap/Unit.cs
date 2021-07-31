@@ -21,9 +21,9 @@ public class Unit : MonoBehaviour
     public GameObject selectedSpell;
     [HideInInspector]
     public Vector3Int position;
-    public bool playable = false, isPlaying = false;
+    public bool playable = false;
     [HideInInspector]
-    public bool summon = false;
+    public bool summon = false, isPlaying = false;
     [HideInInspector]
     public List<Status> statusList = new List<Status>();
     [HideInInspector]

@@ -14,20 +14,24 @@ public class SummoningSpell : MonoBehaviour
         GameObject go = Instantiate(summonedUnit, transform.position, Quaternion.identity);
 
         // Set unique name if already exists
-        foreach (var gameObj in FindObjectsOfType(typeof(GameObject)) as GameObject[])
+        foreach (var a in FightingSceneStore.initiativeList)
         {
-            if (gameObj.name == go.name)
+            if (a.Key.name == go.name)
             {
-                go.name += System.DateTime.Now;
+                go.name += System.Guid.NewGuid();
             }
-        }
+        };
 
-        // Add summoned unit in list
+        // Get Spell
         Spell spell = gameObject.GetComponent<Spell>();
+        // Get caster's team
         Dictionary<Unit, GameObject> team = spell.caster.getTeam();
+        // Set summoned unit to summoned
         Unit unit = go.GetComponent<Unit>();
         unit.summon = true;
+        // Add to caster's team
         team.Add(unit, go);
+        // Add to ScrollView
     }
     void Start()
     {

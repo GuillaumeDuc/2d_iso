@@ -20,8 +20,6 @@ public class TurnBasedSystem : MonoBehaviour
     public GameObject CameraView;
 
     private GameObject Player;
-    private Transform PlayerTransform;
-
     // Scripts
     public MoveSystem MoveSystem;
     public CastSystem CastSystem;
@@ -35,16 +33,25 @@ public class TurnBasedSystem : MonoBehaviour
     public GameObject EndResultUI;
     public Text dialogueText;
 
+    [HideInInspector]
     public CurrentState CurrentState;
+    [HideInInspector]
     public CastState CastState;
 
+    [HideInInspector]
     public Dictionary<Unit, GameObject> enemyList;
+    [HideInInspector]
     public Dictionary<Unit, GameObject> playerList;
+    [HideInInspector]
     public Dictionary<Vector3Int, GameObject> obstacleList = new Dictionary<Vector3Int, GameObject>();
+
+    [HideInInspector]
     public Dictionary<Unit, bool> initiativeList = new Dictionary<Unit, bool>();
+
     private Unit currentUnit;
     private int currentTurn = 1;
 
+    [HideInInspector]
     public bool gameOver = false;
 
     GameObject InstantiatePlayer(GameObject PlayerPrefab, Vector3Int pos)
@@ -318,7 +325,7 @@ public class TurnBasedSystem : MonoBehaviour
         Player = InstantiatePlayer(PlayerPrefab, new Vector3Int(15, 15, 0));
 
         // Get transform
-        PlayerTransform = Player.GetComponent<Transform>();
+        Transform PlayerTransform = Player.GetComponent<Transform>();
 
         // Init Player
         Unit PlayerStats = Player.GetComponent<Unit>();
@@ -391,7 +398,7 @@ public class TurnBasedSystem : MonoBehaviour
         }
 
         // Move Camera
-        Vector3 posPlayer = PlayerTransform ? PlayerTransform.position : CameraView.transform.position;
+        Vector3 posPlayer = Player ? Player.transform.position : CameraView.transform.position;
         CameraView.transform.position = new Vector3(posPlayer.x, posPlayer.y, -10);
 
         // Everytime a spell has been casted
