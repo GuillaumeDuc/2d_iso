@@ -29,6 +29,20 @@ public class Unit : MonoBehaviour
     [HideInInspector]
     public List<Vector3Int> selectedSpellPos = new List<Vector3Int>();
 
+    public void addToTeam(Dictionary<Unit, GameObject> team)
+    {
+        team.Add(this, gameObject);
+        // Add to ScrollView
+        if (team == FightingSceneStore.enemyList)
+        {
+            FightingSceneStore.EnemiesScrollView.addInfo(this);
+        }
+        else
+        {
+            FightingSceneStore.PlayersScrollView.addInfo(this);
+        }
+    }
+
     public Dictionary<Unit, GameObject> getTeam()
     {
         return FightingSceneStore.playerList.ContainsKey(this) ? FightingSceneStore.playerList : FightingSceneStore.enemyList;
@@ -96,7 +110,7 @@ public class Unit : MonoBehaviour
     public override bool Equals(System.Object obj)
     {
         //Check for null and compare run-time types.
-        if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+        if ((obj == null) || (this == null) || !this.GetType().Equals(obj.GetType()))
         {
             return false;
         }

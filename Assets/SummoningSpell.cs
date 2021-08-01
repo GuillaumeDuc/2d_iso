@@ -30,8 +30,10 @@ public class SummoningSpell : MonoBehaviour
         Unit unit = go.GetComponent<Unit>();
         unit.summon = true;
         // Add to caster's team
-        team.Add(unit, go);
-        // Add to ScrollView
+        if (unit != null)
+        {
+            unit.addToTeam(team);
+        }
     }
     void Start()
     {
