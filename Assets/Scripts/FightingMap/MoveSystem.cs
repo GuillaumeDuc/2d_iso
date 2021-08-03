@@ -347,11 +347,13 @@ public class MoveSystem : MonoBehaviour
         }
     }
 
-    private void animateMovement(GameObject unitGO, Vector3 to)
+    private void animateMovement(GameObject unitGO, Vector3 toV3)
     {
         Animator animator = unitGO.GetComponent<Animator>();
+        Vector3Int to = FightingSceneStore.tilemap.WorldToCell(toV3);
+        Vector3Int pos = FightingSceneStore.tilemap.WorldToCell(unitGO.transform.position);
 
-        if (unitGO.transform.position.x < to.x || unitGO.transform.position.y < to.y)
+        if (pos.x < to.x || pos.y > to.y)
         {
             // Check if state exists & is not already walking right
             if (animator != null && animator.HasState(0, Animator.StringToHash(AnimationState.WalkRight.ToString())) && !animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationState.WalkRight.ToString()))
@@ -361,7 +363,7 @@ public class MoveSystem : MonoBehaviour
         }
         else
         {
-            if (animator != null && animator.HasState(0, Animator.StringToHash(AnimationState.WalkRight.ToString())) && !animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationState.WalkLeft.ToString()))
+            if (animator != null && animator.HasState(0, Animator.StringToHash(AnimationState.WalkLeft.ToString())) && !animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationState.WalkLeft.ToString()))
             {
                 animator.Play(AnimationState.WalkLeft.ToString(), -1, 0);
             }
