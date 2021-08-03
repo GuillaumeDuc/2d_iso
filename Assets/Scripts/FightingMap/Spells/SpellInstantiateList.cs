@@ -134,7 +134,8 @@ public class SpellInstantiateList : MonoBehaviour
     private static void animateCasterAttack(Unit caster)
     {
         Animator animator = caster.gameObject.GetComponent<Animator>();
-        if (animator != null)
+        // If GO has an animator component & attack state exists
+        if (animator != null && animator.HasState(0, Animator.StringToHash(AnimationState.Attack.ToString())))
         {
             animator.Play(AnimationState.Attack.ToString(), -1, 0);
         }

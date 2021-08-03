@@ -188,10 +188,11 @@ public class MoveSystem : MonoBehaviour
         while (movingList.Any())
         {
             var pos = movingList.Dequeue();
+            animateMovement(pos.Key.gameObject, pos.Value);
             while (pos.Key != null && pos.Key.position != pos.Value)
             {
                 yield return new WaitForSeconds(0.001f);
-                float smooth = 5f;
+                float smooth = 4f;
                 if (pos.Key != null)
                 {
                     pos.Key.position = Vector3.MoveTowards(pos.Key.position, pos.Value, Time.deltaTime * smooth);
@@ -342,6 +343,27 @@ public class MoveSystem : MonoBehaviour
 
                 // Move player
                 Move(unitGO.transform, new List<Square>() { square }, tilemap);
+            }
+        }
+    }
+
+    private void animateMovement(GameObject unitGO, Vector3 to)
+    {
+        Animator animator = unitGO.GetComponent<Animator>();
+
+        if (unitGO.transform.position.x < to.x || unitGO.transform.position.y < to.y)
+        {
+            // Check if state exists & is not already walking right
+            if (animator != null && animator.HasState(0, Animator.StringToHash(AnimationState.WalkRight.ToString())) && !animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationState.WalkRight.ToString()))
+            {
+                animator.Play(AnimationState.WalkRight.ToString(), -1, 0);
+            }
+        }
+        else
+        {
+            if (animator != null && animator.HasState(0, Animator.StringToHash(AnimationState.WalkRight.ToString())) && !animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationState.WalkLeft.ToString()))
+            {
+                animator.Play(AnimationState.WalkLeft.ToString(), -1, 0);
             }
         }
     }

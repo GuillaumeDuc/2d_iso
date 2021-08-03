@@ -539,7 +539,7 @@ MonoBehaviour:
   endurance: 10
   mana: 100
   spellSlot: 1
-  movementPoint: 6
+  movementPoint: 20
   initiative: 0
   currentHP: 0
   currentMovementPoint: 0
