@@ -181,8 +181,10 @@ MonoBehaviour:
   - {fileID: 6974797582085391557, guid: 38733b82c351c6940b7582219ca9296e, type: 3}
   - {fileID: 3128274454820993149, guid: fcd47b0630ad6be4888ce876f773a5a5, type: 3}
   - {fileID: 3667406406966735228, guid: aa4649a6bc9b97044be842b8a64799b3, type: 3}
+  - {fileID: 6775718935185108242, guid: d4f944b19f6cd6b48a5e3b52ddce1cb1, type: 3}
   selectedSpell: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
   playable: 1
   summon: 0
+  isPlaying: 0
   selectedSpellPos: []

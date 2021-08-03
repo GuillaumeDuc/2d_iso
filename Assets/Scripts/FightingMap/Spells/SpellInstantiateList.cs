@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+public enum AnimationState { Idle, Attack, Cast, WalkLeft, WalkRight }
+
 public class SpellInstantiateList : MonoBehaviour
 {
     static SpellInstantiateList instance;
@@ -132,16 +134,9 @@ public class SpellInstantiateList : MonoBehaviour
     private static void animateCasterAttack(Unit caster)
     {
         Animator animator = caster.gameObject.GetComponent<Animator>();
-        string paramName = "Attack";
         if (animator != null)
         {
-            foreach (AnimatorControllerParameter param in animator.parameters)
-            {
-                if (param.name == paramName)
-                {
-                    animator.SetTrigger(paramName);
-                }
-            }
+            animator.Play(AnimationState.Attack.ToString(), -1, 0);
         }
     }
 
