@@ -56,8 +56,19 @@ public class Unit : MonoBehaviour
     public bool takeDamage(int dmg)
     {
         currentHP -= dmg;
+        animateDamage();
 
         return currentHP <= 0;
+    }
+
+    private void animateDamage()
+    {
+        Animator animator = gameObject.GetComponent<Animator>();
+        // Check if state exists
+        if (animator != null && animator.HasState(0, Animator.StringToHash(AnimationState.Hurt.ToString())))
+        {
+            animator.Play(AnimationState.Hurt.ToString(), -1, 0);
+        }
     }
 
     public void setSpellList(List<GameObject> newSpells)

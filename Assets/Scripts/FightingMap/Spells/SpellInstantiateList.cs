@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public enum AnimationState { Idle, Attack, Cast, WalkLeft, WalkRight }
+public enum AnimationState { Idle, Attack, Cast, WalkLeft, WalkRight, Hurt }
 
 public class SpellInstantiateList : MonoBehaviour
 {
