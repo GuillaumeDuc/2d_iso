@@ -62,6 +62,8 @@ public class MovingSpell : MonoBehaviour
         // Move movingGO & Particles toward current GameObject
         if (rb != null && rb.position != target)
         {
+            Debug.Log(rb.position + "move");
+            Debug.Log(target);
             rb.position = Vector3.MoveTowards(rb.position, target, Time.deltaTime * speed);
             if (rbParticles != null)
             {

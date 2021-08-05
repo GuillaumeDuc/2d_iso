@@ -188,7 +188,12 @@ public class MoveSystem : MonoBehaviour
         while (movingList.Any())
         {
             var pos = movingList.Dequeue();
-            animateMovement(pos.Key.gameObject, pos.Value);
+
+            if (pos.Key != null)
+            {
+                animateMovement(pos.Key.gameObject, pos.Value);
+            }
+
             while (pos.Key != null && pos.Key.position != pos.Value)
             {
                 yield return new WaitForSeconds(0.001f);
