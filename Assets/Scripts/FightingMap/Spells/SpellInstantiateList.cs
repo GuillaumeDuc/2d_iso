@@ -141,6 +141,26 @@ public class SpellInstantiateList : MonoBehaviour
         }
     }
 
+    public static void instantiateMoveInLineFromPlayer(
+        Spell spell,
+        Unit caster,
+        Vector3Int target,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+
+        Vector2 worldPos = tilemap.CellToWorld(target);
+        GameObject go = Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+        setSpellPosition(go, target);
+        GameObject goChild = go.transform.GetChild(0).gameObject;
+
+        Vector2 casterPos = tilemap.CellToWorld(caster.position);
+        casterPos.y += 0.2f;
+        // Change position of actual spell
+        goChild.transform.position = casterPos;
+    }
+
     private static void setSpellPosition(GameObject go, Vector3Int target)
     {
         Spell spell = go.GetComponent<Spell>();

@@ -62,17 +62,18 @@ public class MovingSpell : MonoBehaviour
         // Move movingGO & Particles toward current GameObject
         if (rb != null && rb.position != target)
         {
-            Debug.Log(rb.position + "move");
-            Debug.Log(target);
             rb.position = Vector3.MoveTowards(rb.position, target, Time.deltaTime * speed);
             if (rbParticles != null)
             {
                 rbParticles.position = Vector3.MoveTowards(rbParticles.position, target, Time.deltaTime * speed);
             }
         }
-        else if (rb != null && nextGO != null && !reached)
+        else if (rb != null && !reached)
         {
-            instantiateNextSpell();
+            if (nextGO != null)
+            {
+                instantiateNextSpell();
+            }
             // Destroy moving go
             Destroy(movingGO);
             // Destroy current go with delay

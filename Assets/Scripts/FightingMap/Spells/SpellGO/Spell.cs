@@ -59,21 +59,23 @@ public class Spell : MonoBehaviour
     // Instantiate
     public enum FunctionInstantiate
     {
-        InstatiateAreaWithDelay,
-        InstantiateOnCellClicked,
-        InstantiateObstacles,
-        InstantiateThrowedSpell,
-        InstantiateAttack
+        AreaWithDelay,
+        OnCellClicked,
+        Obstacles,
+        ThrowedSpell,
+        MoveInLineFromPlayer,
+        Attack
     };
 
     public FunctionInstantiate selectedInstantiate;
     Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap>> functionInstantiateLookup = new Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap>>()
         {
-            { Spell.FunctionInstantiate.InstatiateAreaWithDelay, SpellInstantiateList.instantiateAreaWithDelay },
-            { Spell.FunctionInstantiate.InstantiateOnCellClicked, SpellInstantiateList.instantiateOnCellClicked },
-            { Spell.FunctionInstantiate.InstantiateObstacles, SpellInstantiateList.instantiateObstacles },
-            { Spell.FunctionInstantiate.InstantiateThrowedSpell, SpellInstantiateList.instantiateThrowedSpell },
-            { Spell.FunctionInstantiate.InstantiateAttack, SpellInstantiateList.instantiateAttack },
+            { Spell.FunctionInstantiate.AreaWithDelay, SpellInstantiateList.instantiateAreaWithDelay },
+            { Spell.FunctionInstantiate.OnCellClicked, SpellInstantiateList.instantiateOnCellClicked },
+            { Spell.FunctionInstantiate.Obstacles, SpellInstantiateList.instantiateObstacles },
+            { Spell.FunctionInstantiate.ThrowedSpell, SpellInstantiateList.instantiateThrowedSpell },
+            { Spell.FunctionInstantiate.MoveInLineFromPlayer, SpellInstantiateList.instantiateMoveInLineFromPlayer },
+            { Spell.FunctionInstantiate.Attack, SpellInstantiateList.instantiateAttack },
         };
 
 

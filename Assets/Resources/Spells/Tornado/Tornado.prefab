@@ -26,10 +26,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518572204}
   m_LocalRotation: {x: 0.76604444, y: -0, z: -0, w: 0.64278764}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.7999997, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 6639043133137146264}
+  m_Father: {fileID: 4226870702738227382}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 100, y: 0, z: 0}
 --- !u!198 &518572207
@@ -4804,105 +4804,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!1 &1889650354889458276
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1889650354889458274}
-  - component: {fileID: 1889650354889458277}
-  - component: {fileID: 1889650354889458275}
-  m_Layer: 0
-  m_Name: Tornado Light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1889650354889458274
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1889650354889458276}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.21833539, y: 3.4142652, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6639043133137146264}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1889650354889458277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1889650354889458276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_LightType: 1
-  m_BlendStyleIndex: 0
-  m_FalloffIntensity: 1
-  m_Color: {r: 0, g: 1, b: 0.9184537, a: 1}
-  m_Intensity: 0
-  m_LightVolumeOpacity: 0.3
-  m_ApplyToSortingLayers: 00000000
-  m_LightCookieSprite: {fileID: 0}
-  m_UseNormalMap: 0
-  m_LightOrder: 0
-  m_AlphaBlendOnOverlap: 0
-  m_ShadowIntensity: 0
-  m_ShadowVolumeIntensity: 0
-  m_PointLightInnerAngle: 360
-  m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1
-  m_PointLightDistance: 3
-  m_PointLightQuality: 1
-  m_ShapeLightParametricSides: 5
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 1.66
-  m_ShapeLightFalloffOffset: {x: 0, y: 0}
-  m_ShapePath:
-  - {x: -0.42649794, y: -3.0817492, z: 0}
-  - {x: 0.17178869, y: -3.061925, z: 0}
-  - {x: 0.20332122, y: 1.611773, z: 0}
-  - {x: 0.9187, y: 2.2118134, z: 0}
-  - {x: 1.1886034, y: 3.2480445, z: 0}
-  - {x: 0.8323865, y: 4.014586, z: 0}
-  - {x: -0.09729946, y: 4.429643, z: 0}
-  - {x: -1.0320363, y: 4.1365952, z: 0}
-  - {x: -1.5842894, y: 3.1959653, z: 0}
-  - {x: -1.324117, y: 2.285026, z: 0}
-  - {x: -0.54822636, y: 1.6687398, z: 0}
---- !u!95 &1889650354889458275
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1889650354889458276}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1f8f7b4e69371344b960649df4a9f6b4, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6639043133137146266
 GameObject:
   m_ObjectHideFlags: 0
@@ -4913,10 +4814,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6639043133137146264}
   - component: {fileID: 6639043133137146265}
-  - component: {fileID: 1889650354309321767}
   - component: {fileID: 3522272649193252125}
   - component: {fileID: -1407045693806205233}
   - component: {fileID: -3026777813180754722}
+  - component: {fileID: 8853279023897801110}
   m_Layer: 0
   m_Name: Tornado
   m_TagString: Untagged
@@ -4935,8 +4836,7 @@ Transform:
   m_LocalPosition: {x: -1.9983354, y: 7.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 518572208}
-  - {fileID: 1889650354889458274}
+  - {fileID: 4226870702738227382}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4951,25 +4851,6 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
---- !u!95 &1889650354309321767
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6639043133137146266}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 868daf2d0e3857b4db7955472e2b6f94, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &3522272649193252125
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5046,7 +4927,7 @@ MonoBehaviour:
   selectedArea: 3
   selectedRange: 0
   selectedCanCast: 0
-  selectedInstantiate: 1
+  selectedInstantiate: 4
 --- !u!114 &-3026777813180754722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5061,3 +4942,73 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageDelay: 0
   selectedFunction: 0
+--- !u!114 &8853279023897801110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6639043133137146266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564d99d27033ec549804faa965f53cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movingGO: {fileID: 8181163113471715409}
+  movingParticles: {fileID: 0}
+  nextGO: {fileID: 0}
+  speed: 0.5
+  beforeImpactX: 0
+  beforeImpactY: 0
+  destroyDelay: 0
+--- !u!1 &8181163113471715409
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4226870702738227382}
+  - component: {fileID: 2964735704598879407}
+  m_Layer: 0
+  m_Name: TornadoContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4226870702738227382
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8181163113471715409}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 518572208}
+  m_Father: {fileID: 6639043133137146264}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &2964735704598879407
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8181163113471715409}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 868daf2d0e3857b4db7955472e2b6f94, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
