@@ -20,7 +20,7 @@ public static class RangeUtils
         {
             GroundTile gt = (GroundTile)tilemap.GetTile(a);
             // Ground tile is null, cell contains an obstacle on its path, cell contains a tile blocking LoS
-            if (gt == null || (obstacleList.ContainsKey(a) && a != cellPos) || (!gt.lineOfSight && a!= cellPos))
+            if (gt == null || (obstacleList.ContainsKey(a) && a != cellPos) || (!gt.lineOfSight && a != cellPos))
             {
                 lineOS = false;
             };
@@ -58,11 +58,6 @@ public static class RangeUtils
             }
         }
         return lineOfSightArray;
-    }
-
-    internal static IEnumerable<Vector3Int> getAreaCircleFull()
-    {
-        throw new NotImplementedException();
     }
 
     public static List<Vector3Int> getAreaCircleEmpty(Vector3Int cell, int area, Tilemap tilemap)
@@ -115,13 +110,39 @@ public static class RangeUtils
     public static List<Vector3Int> getAreaInLine(
         Vector3Int to,
         Vector3Int from,
+        int area,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap,
         bool uniqueCellArea = false
         )
     {
+        // List cells and og list to iterate through
         List<Vector3Int> listCells = new List<Vector3Int>(getLine(from, to));
         listCells.Reverse();
+        bool removePlayer = false;
+
+        // Remove player position
+        if (listCells.Count > 1)
+        {
+            listCells.RemoveAt(0);
+            removePlayer = !removePlayer;
+        }
+
+        List<Vector3Int> originalList = new List<Vector3Int>(listCells);
+        // Set size area
+        originalList.ForEach(v =>
+        {
+            List<Vector3Int> circle = getAreaCircleFull(v, area);
+            listCells = listCells.Concat(circle).ToList();
+        });
+        listCells = listCells.Distinct().ToList();
+
+        // Remove player position again
+        if (removePlayer)
+        {
+            listCells.Remove(to);
+        }
+
         if (!uniqueCellArea)
         {
             return listCells;
@@ -137,21 +158,6 @@ public static class RangeUtils
             }
         });
         return result;
-    }
-
-    public static List<Vector3Int> getAreaInLineFollowClick(Vector3Int to, Vector3Int from, Tilemap tilemap)
-    {
-        Vector3Int current = new Vector3Int(to.x, to.y, to.z);
-        List<Vector3Int> listCells = new List<Vector3Int>();
-
-        while (current != from)
-        {
-            listCells.Add(current);
-            current = getClosestNeighbour(current, from, tilemap);
-        }
-
-        listCells.Reverse();
-        return listCells;
     }
 
     public static bool isWalkable(

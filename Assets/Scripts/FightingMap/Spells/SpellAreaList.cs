@@ -30,9 +30,8 @@ public static class SpellAreaList
         Tilemap tilemap
         )
     {
-        List<Vector3Int> area = new List<Vector3Int>();
-
-        area = area.Concat(RangeUtils.getAreaInLine(caster.position, target, obstacleList, tilemap, spell.uniqueCellArea)).ToList();
+        List<Vector3Int> area = new List<Vector3Int>(RangeUtils.getAreaInLine(caster.position, target, spell.area, obstacleList, tilemap, spell.uniqueCellArea));
+        Debug.Log(area.Count);
         return area;
     }
 
@@ -53,6 +52,7 @@ public static class SpellAreaList
         List<Vector3Int> area = RangeUtils.getAreaInLine(
             previousPos,
             target,
+            spell.area,
             obstacleList,
             tilemap,
             spell.uniqueCellArea

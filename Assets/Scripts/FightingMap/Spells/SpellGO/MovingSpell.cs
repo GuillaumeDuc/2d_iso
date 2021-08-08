@@ -21,8 +21,15 @@ public class MovingSpell : MonoBehaviour
     private bool reached = false;
     void Start()
     {
-        // Moving go
-        rb = movingGO.GetComponent<Transform>();
+        // Rigid body of moving object
+        if (movingGO != null)
+        {
+            rb = movingGO.GetComponent<Transform>();
+        }
+        else
+        {
+            rb = movingParticles.GetComponent<Transform>();
+        }
 
         // Particles go
         if (movingParticles != null)

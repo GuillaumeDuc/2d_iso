@@ -151,7 +151,7 @@ public class SpellInstantiateList : MonoBehaviour
     {
 
         Vector2 worldPos = tilemap.CellToWorld(target);
-        GameObject go = Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+        GameObject go = Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.19f), Quaternion.identity);
         setSpellPosition(go, target);
         GameObject goChild = go.transform.GetChild(0).gameObject;
 
