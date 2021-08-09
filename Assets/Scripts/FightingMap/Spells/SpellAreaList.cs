@@ -31,7 +31,6 @@ public static class SpellAreaList
         )
     {
         List<Vector3Int> area = new List<Vector3Int>(RangeUtils.getAreaInLine(caster.position, target, spell.area, obstacleList, tilemap, spell.uniqueCellArea));
-        Debug.Log(area.Count);
         return area;
     }
 

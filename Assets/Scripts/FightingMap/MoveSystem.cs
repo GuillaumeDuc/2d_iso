@@ -63,7 +63,8 @@ public class MoveSystem : MonoBehaviour
 {
     public DrawOnMap DrawOnMap;
 
-    private bool isMoving = false;
+    [HideInInspector]
+    public bool isMoving = false;
     private Queue<KeyValuePair<Transform, Vector3>> movingList = new Queue<KeyValuePair<Transform, Vector3>>();
 
     public void moveCharacter(

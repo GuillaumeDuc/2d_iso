@@ -96,7 +96,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcf77bb7d4dbf544a864a6e68847b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameSpell: 
   range: 1
   area: 0
   damage: 30
@@ -110,7 +109,7 @@ MonoBehaviour:
   selectedArea: 0
   selectedRange: 0
   selectedCanCast: 0
-  selectedInstantiate: 4
+  selectedInstantiate: 5
 --- !u!114 &-5208487855972218438
 MonoBehaviour:
   m_ObjectHideFlags: 0

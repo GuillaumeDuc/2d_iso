@@ -109,7 +109,7 @@ MonoBehaviour:
   selectedArea: 0
   selectedRange: 0
   selectedCanCast: 0
-  selectedInstantiate: 4
+  selectedInstantiate: 5
 --- !u!114 &2632962901427124058
 MonoBehaviour:
   m_ObjectHideFlags: 0
