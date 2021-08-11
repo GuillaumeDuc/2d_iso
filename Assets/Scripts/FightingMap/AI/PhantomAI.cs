@@ -7,63 +7,92 @@ using UnityEngine.Tilemaps;
 
 public class PhantomAI : EnemyAI
 {
-    public override void play(
-        MoveSystem MoveSystem,
-        CastSystem CastSystem,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList,
-        Tilemap tilemap
-        )
+    protected bool isInRange = false;
+    Spell blackHole, teleportation;
+    void Start()
     {
+        unit = gameObject.GetComponent<Unit>();
         // Choose spell
-        Spell blackHole = unit.spellList[0].GetComponent<Spell>();
-        Spell teleportation = unit.spellList[1].GetComponent<Spell>();
-        // Get nearest player
-        Unit nearestPlayer = getNearestPlayer(MoveSystem, obstacleList, unit.getEnemyTeam(), tilemap);
-        bool isInRange = moveInRange(blackHole, nearestPlayer, MoveSystem, obstacleList, tilemap);
-        // If no nearest player found
-        if (nearestPlayer == null)
-        {
-            endTurn = true;
-        }
+        GameObject blackholeGO = unit.spellList[0];
+        blackHole = blackholeGO.GetComponent<Spell>();
 
-        // If is in range
-        if (isInRange && nearestPlayer != null)
+        GameObject teleportationGO = unit.spellList[1];
+        teleportation = teleportationGO.GetComponent<Spell>();
+    }
+
+    protected override void Update()
+    {
+        if (!FightingSceneStore.TurnBasedSystem.gameOver)
         {
-            StartCoroutine(cast(
-                blackHole,
-                nearestPlayer.position,
-                CastSystem,
-                obstacleList,
-                playerList,
-                enemyList,
-                tilemap
-            ));
-        }
-        // If is not in range tp in then try casting again
-        if (!isInRange && nearestPlayer != null)
-        {
-            // Cast Teleportation
-            castToNearestPlayer(
-                teleportation,
-                nearestPlayer.position,
-                CastSystem,
-                obstacleList,
-                playerList,
-                enemyList,
-                tilemap
-            );
-            // Then cast attack
-            StartCoroutine(cast(
-                blackHole,
-                nearestPlayer.position,
-                CastSystem,
-                obstacleList,
-                playerList,
-                enemyList,
-                tilemap
-            ));
+            if (unit.isPlaying)
+            {
+                // Move player
+                if (move)
+                {
+                    // Get nearest player
+                    nearestPlayer = getNearestPlayer(
+                        FightingSceneStore.MoveSystem,
+                        FightingSceneStore.obstacleList,
+                        unit.getEnemyTeam(),
+                        FightingSceneStore.tilemap
+                    );
+                    // Move
+                    if (nearestPlayer != null)
+                    {
+                        isInRange = moveInRange(
+                            blackHole,
+                            nearestPlayer,
+                            FightingSceneStore.MoveSystem,
+                            FightingSceneStore.obstacleList,
+                            FightingSceneStore.tilemap
+                        );
+                    }
+                    else
+                    {
+                        endTurn = true;
+                    }
+                    move = false;
+                    casting = true;
+                }
+
+                // Cast only when finished moving
+                if (casting && !move && !FightingSceneStore.MoveSystem.isMoving)
+                {
+                    // If phantom is not in range, cast tp
+                    if (!isInRange)
+                    {
+                        castToNearestPlayer(
+                            teleportation,
+                            nearestPlayer.position,
+                            FightingSceneStore.CastSystem,
+                            FightingSceneStore.obstacleList,
+                            FightingSceneStore.playerList,
+                            FightingSceneStore.enemyList,
+                            FightingSceneStore.tilemap
+                        );
+                    }
+                    // Cast blackhole
+                    StartCoroutine(cast(
+                        blackHole,
+                        nearestPlayer.position,
+                        FightingSceneStore.CastSystem,
+                        FightingSceneStore.obstacleList,
+                        FightingSceneStore.playerList,
+                        FightingSceneStore.enemyList,
+                        FightingSceneStore.tilemap
+                    ));
+                    casting = false;
+                }
+
+                //End turn
+                if (endTurn)
+                {
+                    endTurn = false;
+                    move = true;
+                    casting = true;
+                    FightingSceneStore.TurnBasedSystem.onClickEndTurn();
+                }
+            }
         }
     }
 

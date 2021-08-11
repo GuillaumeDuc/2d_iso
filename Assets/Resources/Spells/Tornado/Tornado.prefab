@@ -1753,7 +1753,7 @@ ParticleSystem:
     orbitalZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 6
+      scalar: 9
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4960,7 +4960,7 @@ MonoBehaviour:
   speed: 0.8
   beforeImpactX: 0
   beforeImpactY: 0
-  destroyDelay: 5
+  destroyDelay: 10
 --- !u!1 &7192617054714465570
 GameObject:
   m_ObjectHideFlags: 0

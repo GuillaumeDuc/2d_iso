@@ -2503,6 +2503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DrawOnMap: {fileID: 1131004375}
+  isMoving: 0
 --- !u!114 &1131004370
 MonoBehaviour:
   m_ObjectHideFlags: 0

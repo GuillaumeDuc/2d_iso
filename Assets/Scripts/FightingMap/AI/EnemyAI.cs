@@ -7,75 +7,84 @@ using UnityEngine.Tilemaps;
 
 public class EnemyAI : MonoBehaviour
 {
-    [HideInInspector]
-    public Unit unit;
+    protected Unit unit;
 
-    [HideInInspector]
-    public bool endTurn = false, casting = false;
+    protected bool endTurn = false, casting = false, move = true;
+
+    protected Spell spell;
+    protected Unit nearestPlayer;
 
     void Start()
     {
         unit = gameObject.GetComponent<Unit>();
+        // Choose spell
+        GameObject spellGO = unit.spellList[0];
+        spell = spellGO.GetComponent<Spell>();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (!FightingSceneStore.TurnBasedSystem.gameOver)
         {
-            if (unit.isPlaying && !casting)
+            if (unit.isPlaying)
             {
-                play(
-                    FightingSceneStore.MoveSystem,
-                    FightingSceneStore.CastSystem,
-                    FightingSceneStore.obstacleList,
-                    FightingSceneStore.playerList,
-                    FightingSceneStore.enemyList,
-                    FightingSceneStore.tilemap
-                );
-                casting = true;
-            }
+                // Move player
+                if (move)
+                {
+                    // Get nearest player
+                    nearestPlayer = getNearestPlayer(
+                        FightingSceneStore.MoveSystem,
+                        FightingSceneStore.obstacleList,
+                        unit.getEnemyTeam(),
+                        FightingSceneStore.tilemap
+                        );
+                    // Move
+                    if (nearestPlayer != null)
+                    {
+                        bool isInRange = moveInRange(
+                            spell,
+                            nearestPlayer,
+                            FightingSceneStore.MoveSystem,
+                            FightingSceneStore.obstacleList,
+                            FightingSceneStore.tilemap
+                            );
+                        // Is not in range
+                        if (!isInRange)
+                        {
+                            endTurn = true;
+                        }
+                    }
+                    else
+                    {
+                        endTurn = true;
+                    }
+                    move = false;
+                    casting = true;
+                }
 
-            if (endTurn)
-            {
-                endTurn = false;
-                casting = false;
-                FightingSceneStore.TurnBasedSystem.onClickEndTurn();
-            }
-        }
-    }
-    public virtual void play(
-        MoveSystem MoveSystem,
-        CastSystem CastSystem,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList,
-        Tilemap tilemap
-        )
-    {
-        // Choose spell
-        GameObject spellGO = unit.spellList[0];
-        Spell spell = spellGO.GetComponent<Spell>();
-        // Get nearest player
-        Unit nearestPlayer = getNearestPlayer(MoveSystem, obstacleList, unit.getEnemyTeam(), tilemap);
-        if (nearestPlayer != null)
-        {
-            bool isInRange = moveInRange(spell, nearestPlayer, MoveSystem, obstacleList, tilemap);
-            // If is in range
-            if (isInRange)
-            {
-                StartCoroutine(cast(
-                    spell,
-                    nearestPlayer.position,
-                    CastSystem,
-                    obstacleList,
-                    playerList,
-                    enemyList,
-                    tilemap
-                ));
-            }
-            else
-            {
-                endTurn = true;
+                // Cast only when finished moving
+                if (casting && !move && !FightingSceneStore.MoveSystem.isMoving)
+                {
+                    StartCoroutine(cast(
+                        spell,
+                        nearestPlayer.position,
+                        FightingSceneStore.CastSystem,
+                        FightingSceneStore.obstacleList,
+                        FightingSceneStore.playerList,
+                        FightingSceneStore.enemyList,
+                        FightingSceneStore.tilemap
+                    ));
+                    casting = false;
+                }
+
+                //End turn
+                if (endTurn)
+                {
+                    endTurn = false;
+                    move = true;
+                    casting = true;
+                    FightingSceneStore.TurnBasedSystem.onClickEndTurn();
+                }
             }
         }
     }
@@ -135,7 +144,7 @@ public class EnemyAI : MonoBehaviour
         Tilemap tilemap
     )
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.1f);
         // Always in range
         bool canCast = true;
         while (canCast)
