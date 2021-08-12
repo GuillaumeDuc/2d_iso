@@ -16,7 +16,8 @@ public class SelectionMap : MonoBehaviour
     private LocationPoint currentSelectedLocation;
     private GameObject currentLocationGO;
     private GameObject currentSelectedLocationGO;
-    private List<LocationPoint> list;
+    private bool movePoint;
+    private List<LocationPoint> list = new List<LocationPoint>();
 
     public void Start()
     {
@@ -24,15 +25,35 @@ public class SelectionMap : MonoBehaviour
         if (SceneInfo.list == null)
         {
             int rejection = 30, width = 20, height = 10;
-            // Height & width match camera
-            list = PlacePointsSelection.generatePoint(radius, rejection, width, height);
-            RandomLocationSelection.randomize(list, width, height);
+            bool isValid = false;
+            // Re init when ending is not possible
+            do
+            {
+                // Remove GO & clear list
+                foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
+                {
+                    if (o.name == "rectangle" || o.name == "LocationPoint(Clone)")
+                    {
+                        Destroy(o);
+                    }
+                }
+                list.Clear();
 
-            // Init selectable locations
-            currentLocation = list[0];
-            list[0].currentLocation = true;
+                // Height & width match camera
+                list = PlacePointsSelection.generatePoint(radius, rejection, width, height);
+                RandomLocationSelection.randomize(list, width, height);
 
-            initMap(radius);
+                // Init selectable locations
+                currentLocation = list[0];
+                list[0].currentLocation = true;
+
+                initMap(radius);
+
+                List<LocationPoint> visited = new List<LocationPoint>();
+                dfs(currentLocation, visited);
+                isValid = visited.Contains(list.Find(a => { return a.TypeLocation == TypeLocation.End; }));
+
+            } while (!isValid);
         }
         else
         {
@@ -61,6 +82,18 @@ public class SelectionMap : MonoBehaviour
         }
         currentLocation.setCleared(true);
         currentLocation.setVisited(true);
+    }
+
+    void dfs(LocationPoint locationPoint, List<LocationPoint> visited)
+    {
+        visited.Add(locationPoint);
+        for (int i = 0; i < locationPoint.nextLocations.Count; i++)
+        {
+            if (!visited.Contains(locationPoint.nextLocations[i]))
+            {
+                dfs(locationPoint.nextLocations[i], visited);
+            }
+        }
     }
 
     public void initMap(int radius)
@@ -132,7 +165,7 @@ public class SelectionMap : MonoBehaviour
 
         currentLocation = currentSelectedLocation;
         // Move location GO
-        currentLocationGO.transform.position = currentSelectedLocation.position;
+        movePoint = true;
 
         // Show or hide Load Scene Button
         if (!currentLocation.cleared)
@@ -149,7 +182,7 @@ public class SelectionMap : MonoBehaviour
     public void onClickLocation(LocationPoint lp)
     {
         // Show travel button
-        if (lp.clickable && (currentLocation.cleared || lp.visited))
+        if (lp.clickable && (currentLocation.cleared || lp.visited) && !movePoint)
         {
             // Move GameObject
             currentSelectedLocationGO.SetActive(true);
@@ -160,6 +193,19 @@ public class SelectionMap : MonoBehaviour
             TravelButtonUI.SetActive(true);
             // Change selected location
             currentSelectedLocation = lp;
+        }
+    }
+
+    public void Update()
+    {
+        if (movePoint)
+        {
+            currentLocationGO.transform.position = Vector3.MoveTowards(currentLocationGO.transform.position, currentSelectedLocationGO.transform.position, 0.005f);
+            // Stop moving
+            if (currentLocationGO.transform.position == currentSelectedLocationGO.transform.position)
+            {
+                movePoint = false;
+            }
         }
     }
 }
