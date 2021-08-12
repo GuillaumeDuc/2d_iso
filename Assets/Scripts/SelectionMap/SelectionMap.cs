@@ -10,9 +10,12 @@ public class SelectionMap : MonoBehaviour
     public PlacePointsSelection PlacePointsSelection;
 
     public GameObject LoadSceneButtonUI;
+    public GameObject TravelButtonUI;
 
     private LocationPoint currentLocation;
+    private LocationPoint currentSelectedLocation;
     private GameObject currentLocationGO;
+    private GameObject currentSelectedLocationGO;
     private List<LocationPoint> list;
 
     public void Start()
@@ -75,9 +78,18 @@ public class SelectionMap : MonoBehaviour
         currentLocationGO = Resources.Load<GameObject>("SelectionMap/CurrentPosition/CurrentPosition");
         currentLocationGO = Instantiate(currentLocationGO, currentLocation.position, Quaternion.identity);
 
+        // Indicate selected location
+        currentSelectedLocationGO = Resources.Load<GameObject>("SelectionMap/SelectedLocation/SelectedLocation");
+        currentSelectedLocationGO = Instantiate(currentSelectedLocationGO, currentLocation.position, Quaternion.identity);
+        currentSelectedLocationGO.SetActive(false);
+
         // Load Scene button
         Button LoadSceneButton = LoadSceneButtonUI.GetComponentInChildren<Button>();
         LoadSceneButton.onClick.AddListener(onClickLoadScene);
+
+        // Set up Travel button
+        Button TravelButton = TravelButtonUI.GetComponentInChildren<Button>();
+        TravelButton.onClick.AddListener(onClickTravel);
 
         // Set parameters to scene
         SceneInfo.TypeMap = currentLocation.TypeMap;
@@ -102,31 +114,52 @@ public class SelectionMap : MonoBehaviour
         SceneManager.LoadScene("FightingMap");
     }
 
+    public void onClickTravel()
+    {
+        // Hide selected location GameObject
+        currentSelectedLocationGO.SetActive(false);
+        // Hide travel location button
+        TravelButtonUI.SetActive(false);
+
+        // Move location GO
+        currentLocation.setVisited(true);
+        currentLocation.currentLocation = false;
+        currentSelectedLocation.currentLocation = true;
+
+        // Clickable set to false, new clickable location
+        currentLocation.setNPClickable(false);
+        currentSelectedLocation.setNPClickable(true);
+
+        currentLocation = currentSelectedLocation;
+        // Move location GO
+        currentLocationGO.transform.position = currentSelectedLocation.position;
+
+        // Show or hide Load Scene Button
+        if (!currentLocation.cleared)
+        {
+            LoadSceneButtonUI.SetActive(true);
+            LoadSceneButtonUI.GetComponentInChildren<Button>().GetComponentInChildren<Text>().text = "Enter " + currentLocation.nameLocation;
+        }
+        else
+        {
+            LoadSceneButtonUI.SetActive(false);
+        }
+    }
+
     public void onClickLocation(LocationPoint lp)
     {
-        // Move
+        // Show travel button
         if (lp.clickable && (currentLocation.cleared || lp.visited))
         {
-            currentLocation.setVisited(true);
-            currentLocation.currentLocation = false;
-            lp.currentLocation = true;
-            // Clickable set to false, new clickable location
-            currentLocation.setNPClickable(false);
-            lp.setNPClickable(true);
-
-            currentLocation = lp;
-            // Move location GO
-            currentLocationGO.transform.position = lp.position;
-            // Show or hide Load Scene Button
-            if (!currentLocation.cleared)
-            {
-                LoadSceneButtonUI.SetActive(true);
-                LoadSceneButtonUI.GetComponentInChildren<Button>().GetComponentInChildren<Text>().text = "Go to " + currentLocation.nameLocation;
-            }
-            else
-            {
-                LoadSceneButtonUI.SetActive(false);
-            }
+            // Move GameObject
+            currentSelectedLocationGO.SetActive(true);
+            currentSelectedLocationGO.transform.position = lp.position;
+            // Set button
+            string text = "Go to " + lp.nameLocation;
+            TravelButtonUI.GetComponentInChildren<Button>().GetComponentInChildren<Text>().text = text;
+            TravelButtonUI.SetActive(true);
+            // Change selected location
+            currentSelectedLocation = lp;
         }
     }
 }
