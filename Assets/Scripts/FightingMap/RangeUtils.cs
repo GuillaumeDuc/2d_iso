@@ -19,7 +19,8 @@ public static class RangeUtils
         lineOfSightArray.ForEach(a =>
         {
             GroundTile gt = (GroundTile)tilemap.GetTile(a);
-            if (obstacleList.ContainsKey(a) || !gt.lineOfSight)
+            // Ground tile is null, cell contains an obstacle on its path, cell contains a tile blocking LoS
+            if (gt == null || (obstacleList.ContainsKey(a) && a != cellPos) || (!gt.lineOfSight && a != cellPos))
             {
                 lineOS = false;
             };
@@ -57,11 +58,6 @@ public static class RangeUtils
             }
         }
         return lineOfSightArray;
-    }
-
-    internal static IEnumerable<Vector3Int> getAreaCircleFull()
-    {
-        throw new NotImplementedException();
     }
 
     public static List<Vector3Int> getAreaCircleEmpty(Vector3Int cell, int area, Tilemap tilemap)
@@ -114,13 +110,39 @@ public static class RangeUtils
     public static List<Vector3Int> getAreaInLine(
         Vector3Int to,
         Vector3Int from,
+        int area,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap,
         bool uniqueCellArea = false
         )
     {
+        // List cells and og list to iterate through
         List<Vector3Int> listCells = new List<Vector3Int>(getLine(from, to));
         listCells.Reverse();
+        bool removePlayer = false;
+
+        // Remove player position
+        if (listCells.Count > 1)
+        {
+            listCells.RemoveAt(0);
+            removePlayer = !removePlayer;
+        }
+
+        List<Vector3Int> originalList = new List<Vector3Int>(listCells);
+        // Set size area
+        originalList.ForEach(v =>
+        {
+            List<Vector3Int> circle = getAreaCircleFull(v, area);
+            listCells = listCells.Concat(circle).ToList();
+        });
+        listCells = listCells.Distinct().ToList();
+
+        // Remove player position again
+        if (removePlayer)
+        {
+            listCells.Remove(to);
+        }
+
         if (!uniqueCellArea)
         {
             return listCells;
@@ -136,21 +158,6 @@ public static class RangeUtils
             }
         });
         return result;
-    }
-
-    public static List<Vector3Int> getAreaInLineFollowClick(Vector3Int to, Vector3Int from, Tilemap tilemap)
-    {
-        Vector3Int current = new Vector3Int(to.x, to.y, to.z);
-        List<Vector3Int> listCells = new List<Vector3Int>();
-
-        while (current != from)
-        {
-            listCells.Add(current);
-            current = getClosestNeighbour(current, from, tilemap);
-        }
-
-        listCells.Reverse();
-        return listCells;
     }
 
     public static bool isWalkable(
@@ -197,7 +204,7 @@ public static class RangeUtils
         return to;
     }
 
-    private static Vector3Int getClosestNeighbour(Vector3Int to, Vector3Int from, Tilemap tilemap)
+    public static Vector3Int getClosestNeighbour(Vector3Int to, Vector3Int from, Tilemap tilemap)
     {
         Vector3Int up = new Vector3Int(to.x, to.y + 1, to.z);
         Vector3Int down = new Vector3Int(to.x, to.y - 1, to.z);
@@ -267,5 +274,73 @@ public static class RangeUtils
                 return getMDistance(to, s) == mDistance;
             }
         );
+    }
+
+    public static List<Vector3Int> AndresCircle(int xc, int yc, int r)
+    {
+        List<Vector3Int> ret = new List<Vector3Int>();
+
+        int x = 0;
+        int y = r;
+        int d = r - 1;
+
+        while (y >= x)
+        {
+            ret.Add(new Vector3Int(xc + x, yc + y, 0));
+            ret.Add(new Vector3Int(xc + y, yc + x, 0));
+            ret.Add(new Vector3Int(xc - x, yc + y, 0));
+            ret.Add(new Vector3Int(xc - y, yc + x, 0));
+            ret.Add(new Vector3Int(xc + x, yc - y, 0));
+            ret.Add(new Vector3Int(xc + y, yc - x, 0));
+            ret.Add(new Vector3Int(xc - x, yc - y, 0));
+            ret.Add(new Vector3Int(xc - y, yc - x, 0));
+
+            if (d >= 2 * x)
+            {
+                d -= 2 * x + 1;
+                x++;
+            }
+            else if (d < 2 * (r - y))
+            {
+                d += 2 * y - 1;
+                y--;
+            }
+            else
+            {
+                d += 2 * (y - x - 1);
+                y--;
+                x++;
+            }
+        }
+        ret = ret.Distinct().ToList();
+        ret = fillCircle(ret);
+        return ret;
+    }
+
+    public static List<Vector3Int> fillCircle(List<Vector3Int> circle)
+    {
+        List<Vector3Int> filledCircle = new List<Vector3Int>(circle);
+
+        if (circle.Count == 0)
+        {
+            return filledCircle;
+        }
+
+        int higherY = circle.Max(v => v.y);
+        int lowerY = circle.Min(v => v.y);
+
+        for (int y = lowerY + 1; y < higherY; y++)
+        {
+            List<Vector3Int> line = circle.FindAll(v => v.y == y);
+            int higherX = line.Max(v => v.x);
+            int lowerX = line.Min(v => v.x);
+
+            for (int x = lowerX + 1; x < higherX; x++)
+            {
+                filledCircle.Add(new Vector3Int(x, y, 0));
+            }
+        }
+
+        return filledCircle;
     }
 }

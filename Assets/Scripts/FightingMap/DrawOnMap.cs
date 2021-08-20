@@ -90,6 +90,7 @@ public class DrawOnMap : MonoBehaviour
         resetMap();
 
         transparentTile.color = red;
+
         // Spell area of effect supersede character pos
         forceSetTile(area);
         transparentTile.color = white;

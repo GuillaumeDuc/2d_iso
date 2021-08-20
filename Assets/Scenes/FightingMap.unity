@@ -232,33 +232,33 @@ Tilemap:
   - m_RefCount: 0
     m_Data:
       e00: -1.084227e-19
-      e01: -2.8902813e-22
-      e02: -2.8900592e-22
-      e03: -2.8900592e-22
-      e10: 5.14e-43
-      e11: 1.1e-43
-      e12: 1.1e-43
-      e13: 1.1e-43
-      e20: 7.534755e+17
-      e21: -3.7148645e+19
-      e22: 5.389576
-      e23: -3.7148645e+19
+      e01: -1.2065012e-29
+      e02: -1.206435e-29
+      e03: -1.206435e-29
+      e10: 7.51e-43
+      e11: 2.42e-43
+      e12: 2.42e-43
+      e13: 2.42e-43
+      e20: 17865792
+      e21: -2.0252342
+      e22: 8.622353
+      e23: -2.0252342
       e30: 4.5905e-41
-      e31: 5.16e-43
-      e32: 5.14e-43
-      e33: 5.16e-43
+      e31: 7.52e-43
+      e32: 7.51e-43
+      e33: 7.52e-43
   m_TileColorArray:
   - m_RefCount: 0
     m_Data: {r: 2.7463e-41, g: 2.7463e-41, b: 2.7463e-41, a: 2.7463e-41}
   - m_RefCount: 0
     m_Data: {r: 8.654406e+9, g: 8.654406e+9, b: 8.654406e+9, a: 8.654406e+9}
   - m_RefCount: 0
-    m_Data: {r: -3.699841e+19, g: -3.699841e+19, b: -3.699841e+19, a: -3.699841e+19}
+    m_Data: {r: -2.0250587, g: -2.0250587, b: -2.0250587, a: -2.0250587}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -14, y: -8, z: 0}
-  m_Size: {x: 32, y: 24, z: 1}
+  m_Size: {x: 32, y: 26, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -298,12 +298,12 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 14874897}
     m_ColliderPaths:
-    - - X: 42800724
-        Y: 40145267
-      - X: 42800723
-        Y: 40145267
-      - X: 43400042
-        Y: 39900091
+    - - X: -117763176
+        Y: 17419608
+      - X: -117763177
+        Y: 17419608
+      - X: -117800047
+        Y: 17400088
   m_CompositePaths:
     m_Paths: []
   m_VertexDistance: 0.0005
@@ -578,7 +578,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.3
+  m_Intensity: 1
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 000000005161703b
   m_LightCookieSprite: {fileID: 0}
@@ -1142,7 +1142,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 489335839}
-  - component: {fileID: 489335840}
   - component: {fileID: 489335838}
   m_Layer: 0
   m_Name: Map Generator
@@ -1163,11 +1162,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86eff28bc31d53d42878648b65ddf309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TypeMap: 2
   TileList: {fileID: 1131004374}
   tilemap: {fileID: 14874894}
-  width: 50
-  height: 50
 --- !u!4 &489335839
 Transform:
   m_ObjectHideFlags: 0
@@ -1182,24 +1178,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &489335840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 489335837}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a328f87780a90c40bd118d2de2af774, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tilemap: {fileID: 14874894}
-  TileList: {fileID: 1131004374}
-  width: 20
-  height: 20
-  maxTunnels: 0
-  maxLength: 15
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2459,8 +2437,9 @@ GameObject:
   - component: {fileID: 1131004369}
   - component: {fileID: 1131004370}
   - component: {fileID: 1131004371}
-  - component: {fileID: 1131004372}
+  - component: {fileID: 1131004376}
   - component: {fileID: 1131004373}
+  - component: {fileID: 1131004372}
   - component: {fileID: 1131004374}
   - component: {fileID: 1131004375}
   m_Layer: 0
@@ -2488,7 +2467,6 @@ MonoBehaviour:
   MoveSystem: {fileID: 1131004369}
   CastSystem: {fileID: 1131004370}
   SpellList: {fileID: 1131004371}
-  TileList: {fileID: 1131004374}
   DrawOnMap: {fileID: 1131004375}
   SpellScrollView: {fileID: 15146474}
   EnemiesScrollView: {fileID: 1913935315}
@@ -2497,6 +2475,7 @@ MonoBehaviour:
   dialogueText: {fileID: 534003852}
   CurrentState: 0
   CastState: 0
+  gameOver: 0
 --- !u!4 &1131004368
 Transform:
   m_ObjectHideFlags: 0
@@ -2524,6 +2503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DrawOnMap: {fileID: 1131004375}
+  isMoving: 0
 --- !u!114 &1131004370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2539,6 +2519,7 @@ MonoBehaviour:
   EnemiesScrollView: {fileID: 1913935315}
   PlayersScrollView: {fileID: 139910982}
   DrawOnMap: {fileID: 1131004375}
+  casted: 0
 --- !u!114 &1131004371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2551,21 +2532,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e827dbf9d53849e45943fb2c1727e170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpellEffectList: {fileID: 1131004372}
+  Fireball: {fileID: 0}
+  Meteor: {fileID: 0}
+  Teleportation: {fileID: 0}
+  Icycle: {fileID: 0}
+  Sandwall: {fileID: 0}
+  Slash: {fileID: 0}
+  Explosion: {fileID: 0}
+  Blackhole: {fileID: 0}
+  Grogoulem: {fileID: 0}
 --- !u!114 &1131004372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1131004366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 435ff224acff7b448a1693a4797da376, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StatusList: {fileID: 1131004373}
---- !u!114 &1131004373
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2577,6 +2553,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee7198ffb49ef7c4381d023f55ed2157, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1131004373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131004366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 435ff224acff7b448a1693a4797da376, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StatusList: {fileID: 1131004372}
+  TileList: {fileID: 1131004374}
 --- !u!114 &1131004374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2592,8 +2582,9 @@ MonoBehaviour:
   brick: {fileID: 0}
   grass: {fileID: 0}
   sand: {fileID: 0}
+  burnt: {fileID: 0}
   water: {fileID: 0}
-  StatusList: {fileID: 1131004373}
+  StatusList: {fileID: 1131004372}
   tilemap: {fileID: 14874894}
 --- !u!114 &1131004375
 MonoBehaviour:
@@ -2610,6 +2601,18 @@ MonoBehaviour:
   TurnBasedSystem: {fileID: 1131004367}
   cellsGrid: {fileID: 157593983}
   characterGrid: {fileID: 1483598760}
+--- !u!114 &1131004376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131004366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa7bf917eed8bc479336ba72ea98aa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1256664111
 GameObject:
   m_ObjectHideFlags: 0
@@ -3612,7 +3615,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.000030517578, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1716382164

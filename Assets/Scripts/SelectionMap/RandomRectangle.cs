@@ -15,13 +15,13 @@ public class RandomRectangle : MonoBehaviour
             new Vector2(bottomRight.x, bottomRight.y - 0.05f),
             bottomRight,
         };
-        List<Vector2> bézierList = new List<Vector2>();
+        List<Vector2> bezierList = new List<Vector2>();
 
         Vector2 tmp;
         for (float t = 0; t <= 1; t += 0.01f)
         {
             tmp = getCasteljauPoint(points.Count - 1, 0, t, points);
-            bézierList.Add(tmp);
+            bezierList.Add(tmp);
         }
 
         // Top points
@@ -35,18 +35,18 @@ public class RandomRectangle : MonoBehaviour
         for (float t = 0; t <= 1; t += 0.01f)
         {
             tmp = getCasteljauPoint(pointsTop.Count - 1, 0, t, pointsTop);
-            bézierList.Add(tmp);
+            bezierList.Add(tmp);
         }
 
         // Use the triangulator to get indices for creating triangles
-        Triangulator tr = new Triangulator(bézierList.ToArray());
+        Triangulator tr = new Triangulator(bezierList.ToArray());
         int[] indices = tr.Triangulate();
 
         // Create the Vector3 vertices
-        Vector3[] vertices = new Vector3[bézierList.Count];
+        Vector3[] vertices = new Vector3[bezierList.Count];
         for (int i = 0; i < vertices.Length; i++)
         {
-            vertices[i] = new Vector3(bézierList[i].x, bézierList[i].y, 0);
+            vertices[i] = new Vector3(bezierList[i].x, bezierList[i].y, 0);
         }
 
         // Create the mesh

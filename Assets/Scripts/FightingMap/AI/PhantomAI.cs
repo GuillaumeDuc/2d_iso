@@ -7,82 +7,96 @@ using UnityEngine.Tilemaps;
 
 public class PhantomAI : EnemyAI
 {
-    public override void play(
-        MoveSystem MoveSystem, 
-        CastSystem CastSystem, 
-        Dictionary<Vector3Int, GameObject> obstacleList, 
-        Dictionary<Unit, GameObject> playerList, 
-        Dictionary<Unit, GameObject> enemyList, 
-        Tilemap tilemap,
-        Action endTurn
-        )
+    protected bool isInRange = false;
+    Spell blackHole, teleportation;
+    void Start()
     {
-
+        unit = gameObject.GetComponent<Unit>();
         // Choose spell
-        Spell blackHole = unit.spellList[0];
-        Spell teleportation = unit.spellList[1];
-        // Get nearest player
-        Unit nearestPlayer = getNearestPlayer(MoveSystem, obstacleList, playerList, tilemap);
-        bool isInRange = moveInRange(blackHole, nearestPlayer, MoveSystem, obstacleList, playerList, tilemap);
-        // If is in range
-        if (isInRange)
-        {
-            cast(
-                blackHole,
-                nearestPlayer.position,
-                CastSystem,
-                obstacleList,
-                playerList,
-                enemyList,
-                tilemap
-            );
-            endTurn();
-        }
-        // If is not in range tp in then try casting again
-        if (!isInRange)
-        {
-            // Cast Teleportation
-            StartCoroutine(castToNearestPlayer(
-                teleportation,
-                nearestPlayer.position,
-                CastSystem,
-                obstacleList,
-                playerList,
-                enemyList,
-                tilemap
-            ));
-            // Then cast attack
-            StartCoroutine(castWithDelay(
-                blackHole,
-                nearestPlayer.position,
-                CastSystem,
-                obstacleList,
-                playerList,
-                enemyList,
-                tilemap,
-                endTurn
-            ));
-        }
+        GameObject blackholeGO = unit.spellList[0];
+        blackHole = blackholeGO.GetComponent<Spell>();
+
+        GameObject teleportationGO = unit.spellList[1];
+        teleportation = teleportationGO.GetComponent<Spell>();
     }
 
-    public IEnumerator castWithDelay(
-        Spell spell,
-        Vector3Int target,
-        CastSystem CastSystem,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList,
-        Tilemap tilemap,
-        Action endTurn
-        )
+    protected override void Update()
     {
-        yield return new WaitForSeconds(1.7f);
-        cast(spell, target, CastSystem, obstacleList, playerList, enemyList, tilemap);
-        endTurn();
+        if (!FightingSceneStore.TurnBasedSystem.gameOver)
+        {
+            if (unit.isPlaying)
+            {
+                // Move player
+                if (move)
+                {
+                    // Get nearest player
+                    nearestPlayer = getNearestPlayer(
+                        FightingSceneStore.MoveSystem,
+                        FightingSceneStore.obstacleList,
+                        unit.getEnemyTeam(),
+                        FightingSceneStore.tilemap
+                    );
+                    // Move
+                    if (nearestPlayer != null)
+                    {
+                        isInRange = moveInRange(
+                            blackHole,
+                            nearestPlayer,
+                            FightingSceneStore.MoveSystem,
+                            FightingSceneStore.obstacleList,
+                            FightingSceneStore.tilemap
+                        );
+                    }
+                    else
+                    {
+                        endTurn = true;
+                    }
+                    move = false;
+                    casting = true;
+                }
+
+                // Cast only when finished moving
+                if (casting && !move && !FightingSceneStore.MoveSystem.isMoving)
+                {
+                    // If phantom is not in range, cast tp
+                    if (!isInRange)
+                    {
+                        castToNearestPlayer(
+                            teleportation,
+                            nearestPlayer.position,
+                            FightingSceneStore.CastSystem,
+                            FightingSceneStore.obstacleList,
+                            FightingSceneStore.playerList,
+                            FightingSceneStore.enemyList,
+                            FightingSceneStore.tilemap
+                        );
+                    }
+                    // Cast blackhole
+                    StartCoroutine(cast(
+                        blackHole,
+                        nearestPlayer.position,
+                        FightingSceneStore.CastSystem,
+                        FightingSceneStore.obstacleList,
+                        FightingSceneStore.playerList,
+                        FightingSceneStore.enemyList,
+                        FightingSceneStore.tilemap
+                    ));
+                    casting = false;
+                }
+
+                //End turn
+                if (endTurn)
+                {
+                    endTurn = false;
+                    move = true;
+                    casting = true;
+                    FightingSceneStore.TurnBasedSystem.onClickEndTurn();
+                }
+            }
+        }
     }
 
-
-    public IEnumerator castToNearestPlayer(
+    public void castToNearestPlayer(
         Spell spell,
         Vector3Int target,
         CastSystem CastSystem,
@@ -92,7 +106,6 @@ public class PhantomAI : EnemyAI
         Tilemap tilemap
         )
     {
-        yield return new WaitForSeconds(1.5f);
         List<Vector3Int> path = RangeUtils.getLine(unit.position, target);
         // Remove where player is standing
         if (path.Any())
@@ -108,14 +121,10 @@ public class PhantomAI : EnemyAI
         // Try to cast on every cell from path 
         while (path.Any() && !casted)
         {
-            spell.spellPos.Add(path[path.Count() - 1]);
-            if (spell.canCast(unit, path[path.Count() - 1], obstacleList, tilemap))
-            {
-                casted = true;
-                CastSystem.castSpell(spell, unit, playerList, enemyList, obstacleList, tilemap);
-            }
+            unit.selectedSpellPos.Add(path[path.Count() - 1]);
+            casted = CastSystem.castSpell(path[path.Count() - 1], spell, unit);
             path.RemoveAt(path.Count() - 1);
-            spell.spellPos.Clear();
+            unit.selectedSpellPos.Clear();
         }
     }
 }

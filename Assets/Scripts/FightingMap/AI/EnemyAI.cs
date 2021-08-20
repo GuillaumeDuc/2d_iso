@@ -7,39 +7,86 @@ using UnityEngine.Tilemaps;
 
 public class EnemyAI : MonoBehaviour
 {
-    public GameObject Enemy;
-    public Unit unit;
-    
-    public virtual void play(
-        MoveSystem MoveSystem,
-        CastSystem CastSystem,
-        Dictionary<Vector3Int, GameObject> obstacleList,
-        Dictionary<Unit, GameObject> playerList,
-        Dictionary<Unit, GameObject> enemyList,
-        Tilemap tilemap,
-        Action endTurn
-        )
+    protected Unit unit;
+
+    protected bool endTurn = false, casting = false, move = true;
+
+    protected Spell spell;
+    protected Unit nearestPlayer;
+
+    void Start()
     {
+        unit = gameObject.GetComponent<Unit>();
         // Choose spell
-        Spell spell = unit.spellList[0];
-        // Get nearest player
-        Unit nearestPlayer = getNearestPlayer(MoveSystem, obstacleList, playerList, tilemap);
-        bool isInRange = moveInRange(spell, nearestPlayer, MoveSystem, obstacleList, playerList, tilemap);
-        // If is in range
-        if (isInRange)
+        GameObject spellGO = unit.spellList[0];
+        spell = spellGO.GetComponent<Spell>();
+    }
+
+    protected virtual void Update()
+    {
+        if (!FightingSceneStore.TurnBasedSystem.gameOver)
         {
-            cast(
-                spell,
-                nearestPlayer.position,
-                CastSystem,
-                obstacleList,
-                playerList,
-                enemyList,
-                tilemap
-            );
+            if (unit.isPlaying)
+            {
+                // Move player
+                if (move)
+                {
+                    // Get nearest player
+                    nearestPlayer = getNearestPlayer(
+                        FightingSceneStore.MoveSystem,
+                        FightingSceneStore.obstacleList,
+                        unit.getEnemyTeam(),
+                        FightingSceneStore.tilemap
+                        );
+                    // Move
+                    if (nearestPlayer != null)
+                    {
+                        bool isInRange = moveInRange(
+                            spell,
+                            nearestPlayer,
+                            FightingSceneStore.MoveSystem,
+                            FightingSceneStore.obstacleList,
+                            FightingSceneStore.tilemap
+                            );
+                        // Is not in range
+                        if (!isInRange)
+                        {
+                            endTurn = true;
+                        }
+                    }
+                    else
+                    {
+                        endTurn = true;
+                    }
+                    move = false;
+                    casting = true;
+                }
+
+                // Cast only when finished moving
+                if (casting && !move && !FightingSceneStore.MoveSystem.isMoving)
+                {
+                    StartCoroutine(cast(
+                        spell,
+                        nearestPlayer.position,
+                        FightingSceneStore.CastSystem,
+                        FightingSceneStore.obstacleList,
+                        FightingSceneStore.playerList,
+                        FightingSceneStore.enemyList,
+                        FightingSceneStore.tilemap
+                    ));
+                    casting = false;
+                }
+
+                //End turn
+                if (endTurn)
+                {
+                    endTurn = false;
+                    move = true;
+                    casting = true;
+                    FightingSceneStore.TurnBasedSystem.onClickEndTurn();
+                }
+            }
         }
-        // End playing
-        endTurn();
     }
 
     public bool moveInRange(
@@ -47,10 +94,13 @@ public class EnemyAI : MonoBehaviour
         Unit nearestPlayer,
         MoveSystem MoveSystem,
         Dictionary<Vector3Int, GameObject> obstacleList,
-        Dictionary<Unit, GameObject> playerList,
         Tilemap tilemap
         )
     {
+        if (nearestPlayer == null)
+        {
+            return false;
+        }
         // Get path to nearest player
         List<Square> path = MoveSystem.getPathCharacter(
                 new Square(unit.position),
@@ -66,16 +116,16 @@ public class EnemyAI : MonoBehaviour
         // Remove cell where player is standing
         path.RemoveAt(0);
         // Get spell
-        bool canCast = spell.canCast(unit, nearestPlayer.position, obstacleList, tilemap);
+        bool canCast = spell.canCast(unit, spell.getRange(unit, obstacleList, tilemap), nearestPlayer.position, obstacleList, tilemap);
         // Move while can't cast spell
         while (unit.currentMovementPoint > 0 && !canCast && path.Any())
         {
             // Move one square
             Square square = path[0];
             path.RemoveAt(0);
-            MoveSystem.moveOneSquare(square, unit, Enemy, tilemap);
+            MoveSystem.moveOneSquare(square, unit, gameObject, tilemap);
             // Check if can cast
-            canCast = spell.canCast(unit, nearestPlayer.position, obstacleList, tilemap);
+            canCast = spell.canCast(unit, spell.getRange(unit, obstacleList, tilemap), nearestPlayer.position, obstacleList, tilemap);
             if (canCast)
             {
                 return true;
@@ -84,8 +134,7 @@ public class EnemyAI : MonoBehaviour
         return canCast;
     }
 
-
-    public void cast(
+    public IEnumerator cast(
         Spell spell,
         Vector3Int target,
         CastSystem CastSystem,
@@ -93,21 +142,23 @@ public class EnemyAI : MonoBehaviour
         Dictionary<Unit, GameObject> playerList,
         Dictionary<Unit, GameObject> enemyList,
         Tilemap tilemap
-        )
+    )
     {
-        while (unit.currentMana >= spell.manaCost && spell.canCast(unit, target, obstacleList, tilemap))
+        yield return new WaitForSeconds(0.1f);
+        // Always in range
+        bool canCast = true;
+        while (canCast)
         {
             for (int i = 0; i < spell.clickNb; i++)
             {
-                spell.spellPos.Add(target);
+                unit.selectedSpellPos.Add(target);
             }
-            // If spell area is clear & mana is enough
-            if (spell.canCast(unit, target, obstacleList, tilemap) && unit.currentMana >= spell.manaCost)
-            {
-                CastSystem.castSpell(spell, unit, playerList, enemyList, obstacleList, tilemap);
-            }
-            spell.spellPos.Clear();
+            // Casting on player
+            canCast = CastSystem.castSpell(target, spell, unit);
+            unit.selectedSpellPos.Clear();
+            yield return new WaitForSeconds(0.5f);
         }
+        endTurn = true;
     }
 
     public Unit getNearestPlayer(

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1242469316633480265}
   - component: {fileID: 1242469316633480266}
   - component: {fileID: -8697452396025057502}
-  - component: {fileID: -1393795127508593893}
+  - component: {fileID: -4335795430046486931}
   m_Layer: 0
   m_Name: Phantom
   m_TagString: Untagged
@@ -117,21 +117,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0612908294e50d94eb4063cdedd3cd5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: 
-  unitLevel: 0
-  maxHP: 0
+  unitName: Phantom
+  unitLevel: 100
+  maxHP: 100
   endurance: 0
-  mana: 0
-  spellSlot: 0
+  mana: 100
+  spellSlot: 3
+  movementPoint: 10
   initiative: 0
-  movementPoint: 0
   currentHP: 0
   currentMovementPoint: 0
   currentMana: 0
+  spellList:
+  - {fileID: 6775718935185108242, guid: d4f944b19f6cd6b48a5e3b52ddce1cb1, type: 3}
+  - {fileID: 3575874839522709577, guid: 2edfcadb7c9c88845ad0098448eed602, type: 3}
+  selectedSpell: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
   playable: 0
-  unitGO: {fileID: 0}
---- !u!114 &-1393795127508593893
+  summon: 0
+  isPlaying: 0
+  selectedSpellPos: []
+--- !u!114 &-4335795430046486931
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,8 +149,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e82db5a54c727e0428dee63dcfb383a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemy: {fileID: 1242469316633480267}
-  unit: {fileID: -8697452396025057502}
 --- !u!1 &1242469317768781209
 GameObject:
   m_ObjectHideFlags: 0
