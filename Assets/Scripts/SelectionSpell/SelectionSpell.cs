@@ -34,12 +34,36 @@ public class SelectionSpell : MonoBehaviour
 
     void onClickSpell(GameObject spell)
     {
-        selectedSpellSlot = spell;
+        // Change picture
+        selectedSpellSlot.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
+        selectedSpellSlot.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = spell.GetComponent<SpriteRenderer>().sprite;
+    }
+
+    void initializeSpellSlot()
+    {
+        addListenerSpellSlot(FirstSpellSlot);
+        addListenerSpellSlot(SecondSpellSlot);
+    }
+
+    void addListenerSpellSlot(GameObject spellSlot)
+    {
+        Button buttonFirst = spellSlot.GetComponent<Button>();
+        buttonFirst.onClick.AddListener(() => { setSelectedSpellSlot(spellSlot); });
+    }
+
+    void setSelectedSpellSlot(GameObject spellSlot)
+    {
+        selectedSpellSlot = spellSlot;
     }
 
     void Start()
     {
+        // Set spell list
         setSpells();
+        // Initialize spell slots
+        initializeSpellSlot();
+        // Selected spell slot is First spell slot by default
+        setSelectedSpellSlot(FirstSpellSlot);
     }
 
     void Update()
