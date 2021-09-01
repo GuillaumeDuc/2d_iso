@@ -23,7 +23,6 @@ public class TurnBasedSystem : MonoBehaviour
     // Scripts
     public MoveSystem MoveSystem;
     public CastSystem CastSystem;
-    public SpellList SpellList;
     public DrawOnMap DrawOnMap;
 
     // UI
