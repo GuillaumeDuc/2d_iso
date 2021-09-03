@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ public class SelectionSpell : MonoBehaviour
     public GameObject SpellButtonPrefab;
 
     public GameObject FirstSpellSlotUI, SecondSpellSlotUI, ThirdSpellSlotUI;
+
+    public GameObject TravelButtonUI;
 
     private SpellSlot FirstSpellSlot, SecondSpellSlot, ThirdSpellSlot;
     private SpellSlot selectedSpellSlot;
@@ -58,7 +61,21 @@ public class SelectionSpell : MonoBehaviour
                 ThirdSpellSlot.spellSlotUI.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
                 ThirdSpellSlot.spellSlotUI.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = ThirdSpellSlot.spell.GetComponent<SpriteRenderer>().sprite;
             }
+            TravelButtonUI.SetActive(true);
         }
+    }
+
+    void initializeTravelButton()
+    {
+        TravelButtonUI.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            SceneStore.selectedSpellList = new List<GameObject>(){
+                FirstSpellSlot.spell,
+                SecondSpellSlot.spell,
+                ThirdSpellSlot.spell
+            };
+            SceneManager.LoadScene("SelectionMap");
+        });
     }
 
     void initializeSpellSlot()
@@ -91,5 +108,6 @@ public class SelectionSpell : MonoBehaviour
         initializeSpellSlot();
         // Selected spell slot is First spell slot by default
         setSelectedSpellSlot(FirstSpellSlot);
+        initializeTravelButton();
     }
 }

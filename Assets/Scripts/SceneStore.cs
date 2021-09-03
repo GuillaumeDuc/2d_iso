@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class SceneInfo
+public static class SceneStore
 {
     // Fighting map
     public static TypeMap TypeMap;
@@ -11,4 +11,7 @@ public static class SceneInfo
     // Selection map
     public static List<LocationPoint> list;
     public static LocationPoint currentLocation;
+
+    // Selection spell
+    public static List<GameObject> selectedSpellList;
 }

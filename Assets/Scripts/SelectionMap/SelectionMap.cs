@@ -22,7 +22,7 @@ public class SelectionMap : MonoBehaviour
     public void Start()
     {
         int radius = 4;
-        if (SceneInfo.list == null)
+        if (SceneStore.list == null)
         {
             int rejection = 30, width = 20, height = 10;
             bool isValid = false;
@@ -60,7 +60,7 @@ public class SelectionMap : MonoBehaviour
             // Search saved list and re instantiate location points
             GameObject lpGO = Resources.Load<GameObject>("SelectionMap/LocationPoint");
             List<LocationPoint> newList = new List<LocationPoint>();
-            SceneInfo.list.ForEach(lp =>
+            SceneStore.list.ForEach(lp =>
             {
                 GameObject go = Instantiate(lpGO, lp.position, Quaternion.identity);
                 LocationPoint newLP = go.GetComponent<LocationPoint>();
@@ -125,14 +125,14 @@ public class SelectionMap : MonoBehaviour
         TravelButton.onClick.AddListener(onClickTravel);
 
         // Set parameters to scene
-        SceneInfo.TypeMap = currentLocation.TypeMap;
-        SceneInfo.width = 50;
-        SceneInfo.height = 50;
+        SceneStore.TypeMap = currentLocation.TypeMap;
+        SceneStore.width = 50;
+        SceneStore.height = 50;
     }
 
     public void onClickLoadScene()
     {
-        SceneInfo.TypeMap = currentLocation.TypeMap;
+        SceneStore.TypeMap = currentLocation.TypeMap;
 
         // Save new list
         List<LocationPoint> newListLP = new List<LocationPoint>();
@@ -142,7 +142,7 @@ public class SelectionMap : MonoBehaviour
             newLocationPoint.setLocationPoint(a);
             newListLP.Add(newLocationPoint);
         });
-        SceneInfo.list = newListLP;
+        SceneStore.list = newListLP;
 
         SceneManager.LoadScene("FightingMap");
     }

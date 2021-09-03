@@ -16,7 +16,7 @@ public class CreateMap : MonoBehaviour
     void Start()
     {
         // Get map dimensions
-        if (SceneInfo.width == 0)
+        if (SceneStore.width == 0)
         {
             TypeMap = TypeMap.Forest;
             width = 25;
@@ -24,9 +24,9 @@ public class CreateMap : MonoBehaviour
         }
         else
         {
-            TypeMap = SceneInfo.TypeMap;
-            width = SceneInfo.width;
-            height = SceneInfo.height;
+            TypeMap = SceneStore.TypeMap;
+            width = SceneStore.width;
+            height = SceneStore.height;
         }
 
         System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
