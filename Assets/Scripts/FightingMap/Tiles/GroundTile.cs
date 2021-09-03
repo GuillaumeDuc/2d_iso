@@ -8,7 +8,6 @@ using System;
 
 public class GroundTile : Tile
 {
-    public Sprite m_Sprite;
     public Sprite m_Preview;
     public Sprite[] animatedSprites;
     public GameObject tileGO;
@@ -22,7 +21,7 @@ public class GroundTile : Tile
 
     public virtual void setTile(GroundTile gt)
     {
-        m_Sprite = gt.m_Sprite;
+        sprite = gt.sprite;
         m_Preview = gt.m_Preview;
         animatedSprites = gt.animatedSprites;
         tileGO = gt.tileGO;
@@ -131,7 +130,7 @@ public class GroundTile : Tile
 
     public override void GetTileData(Vector3Int location, ITilemap tilemap, ref TileData tileData)
     {
-        tileData.sprite = m_Sprite;
+        tileData.sprite = sprite;
         tileData.gameObject = tileGO;
         if (tileData.gameObject != null)
         {

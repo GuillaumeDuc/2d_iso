@@ -16,28 +16,28 @@ public class TileList : MonoBehaviour
         // Brick Tile
         brick = ScriptableObject.CreateInstance<GroundTile>();
         Sprite brickSprite = Resources.Load<Sprite>("Tilemaps/Brick/brick_short_tile_iso");
-        brick.m_Sprite = brickSprite;
+        brick.sprite = brickSprite;
         brick.m_Preview = brickSprite;
         brick.name = "Brick";
 
         // Grass Tile
         grass = ScriptableObject.CreateInstance<GroundTile>();
         Sprite grassSprite = Resources.Load<Sprite>("Tilemaps/Grass/grass_elevated_tile_iso");
-        grass.m_Sprite = grassSprite;
+        grass.sprite = grassSprite;
         grass.m_Preview = grassSprite;
         grass.name = "Grass";
 
         // Sand Tile
         sand = ScriptableObject.CreateInstance<GroundTile>();
         Sprite sandSprite = Resources.Load<Sprite>("Tilemaps/Sand/sand_elevated_tile_iso");
-        sand.m_Sprite = sandSprite;
+        sand.sprite = sandSprite;
         sand.m_Preview = sandSprite;
         sand.name = "Sand";
 
         // Burnt Tile
         burnt = ScriptableObject.CreateInstance<GroundTile>();
         Sprite burntSprite = Resources.Load<Sprite>("Tilemaps/Burnt/burnt_tile_iso");
-        burnt.m_Sprite = burntSprite;
+        burnt.sprite = burntSprite;
         burnt.m_Preview = burntSprite;
         burnt.name = "Burnt";
 
@@ -45,7 +45,7 @@ public class TileList : MonoBehaviour
         water = ScriptableObject.CreateInstance<WaterTile>();
         Sprite waterSprite = Resources.Load<Sprite>("Tilemaps/Water/water_tile_full_iso");
         GameObject waterGO = Resources.Load<GameObject>("Tilemaps/Water/water_tile_cartoon_iso");
-        water.m_Sprite = null;
+        water.sprite = null;
         water.m_Preview = waterSprite;
         water.defaultGO = waterGO;
         water.name = "Water";
