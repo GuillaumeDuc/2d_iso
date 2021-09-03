@@ -27,8 +27,8 @@ public class SelectionSpell : MonoBehaviour
             buttonComponent.onClick.AddListener(() => { onClickSpell(spell); });
             // Put button in scrollviewer
             newSpellButton.transform.SetParent(contentContainer.transform, false);
-            RectTransform rt = newSpellButton.GetComponent<RectTransform>();
-            rt.sizeDelta = new Vector2(300, 100);
+            // RectTransform rt = newSpellButton.GetComponent<RectTransform>();
+            // rt.sizeDelta = new Vector2(300, 100);
         });
     }
 

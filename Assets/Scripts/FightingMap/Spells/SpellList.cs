@@ -12,35 +12,39 @@ public static class SpellList
     {
         string nameSpell;
 
-        // Spells
+        ////// Spells //////
+        // Fire
         nameSpell = "Fireball";
         GameObject Fireball = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-
-        nameSpell = "Meteor";
-        GameObject Meteor = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-
-        nameSpell = "Teleportation";
-        GameObject Teleportation = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-
-        nameSpell = "Icycle";
-        GameObject Icycle = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-
-        nameSpell = "Sandwall";
-        GameObject Sandwall = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
 
         nameSpell = "Explosion";
         GameObject Explosion = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
 
-        nameSpell = "Blackhole";
-        GameObject Blackhole = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-
-        nameSpell = "Grogoulem";
-        GameObject Grogoulem = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-
+        // Wind
         nameSpell = "Tornado";
         GameObject Tornado = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
 
-        // Attacks
+        // Water
+        nameSpell = "Icycle";
+        GameObject Icycle = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+
+        // Earth
+        nameSpell = "Sandwall";
+        GameObject Sandwall = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+
+        // Dark
+        nameSpell = "Teleportation";
+        GameObject Teleportation = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+
+        nameSpell = "Blackhole";
+        GameObject Blackhole = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+
+        /// Mix ///
+        // Fire + Earth
+        nameSpell = "Grogoulem";
+        GameObject Grogoulem = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+
+        ////// Attacks //////
         nameSpell = "Slash";
         GameObject Slash = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
 
@@ -49,14 +53,13 @@ public static class SpellList
 
         return new List<GameObject>(){
             Fireball,
-            Meteor,
-            Teleportation,
+            Explosion,
+            Tornado,
             Icycle,
             Sandwall,
-            Explosion,
             Blackhole,
+            Teleportation,
             Grogoulem,
-            Tornado,
             Slash,
             Slam
         };

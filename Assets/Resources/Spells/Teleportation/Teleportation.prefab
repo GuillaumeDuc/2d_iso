@@ -73,12 +73,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 887e3286a5f581a4c8c6e47c10f6a2ac, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 049192fc2f40e9246880409183d65478, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 0.5}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -96,7 +96,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcf77bb7d4dbf544a864a6e68847b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameSpell: 
   range: 10
   area: 0
   damage: 0
@@ -105,7 +104,7 @@ MonoBehaviour:
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 0
-  spellPos: []
+  position: {x: 0, y: 0, z: 0}
   caster: {fileID: 0}
   selectedArea: 0
   selectedRange: 0

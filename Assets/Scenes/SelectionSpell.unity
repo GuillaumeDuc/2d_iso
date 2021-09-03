@@ -148,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_AnchorMin.x
@@ -156,7 +156,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_SizeDelta.x
@@ -200,7 +200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 375
+      value: 151
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -217,6 +217,22 @@ PrefabInstance:
     - target: {fileID: 7971129681570069999, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_Name
       value: First Spell Slot
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971129681842555531, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 98
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971129681842555532, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971129681842555532, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971129681842555533, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
@@ -396,9 +412,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contentContainer: {fileID: 520484872}
   SpellButtonPrefab: {fileID: 7971129681570069999, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
-  FirstSpellSlot: {fileID: 0}
-  SecondSpellSlot: {fileID: 0}
-  ThirdSpellSlot: {fileID: 0}
+  FirstSpellSlot: {fileID: 1458463614}
+  SecondSpellSlot: {fileID: 1042443514}
+  ThirdSpellSlot: {fileID: 416611631}
+--- !u!1 &416611631 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7971129681570069999, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
+  m_PrefabInstance: {fileID: 1359399775}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &435764633
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,8 +563,8 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
-  m_Spacing: 0
+  m_ChildAlignment: 4
+  m_Spacing: 1
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -715,7 +736,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_AnchorMin.x
@@ -723,7 +744,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_SizeDelta.x
@@ -767,7 +788,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 225
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -784,6 +805,14 @@ PrefabInstance:
     - target: {fileID: 7971129681570069999, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_Name
       value: Second Spell Slot
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971129681842555531, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 98
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971129681842555532, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
@@ -828,6 +857,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1042443514 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7971129681570069999, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
+  m_PrefabInstance: {fileID: 1015340602}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1359399775
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -853,7 +887,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_AnchorMin.x
@@ -861,7 +895,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_SizeDelta.x
@@ -905,7 +939,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 75
+      value: -149
       objectReference: {fileID: 0}
     - target: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -923,12 +957,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Third Spell Slot
       objectReference: {fileID: 0}
+    - target: {fileID: 7971129681842555531, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 98
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971129681842555532, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
 --- !u!224 &1359399776 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7971129681570069984, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
   m_PrefabInstance: {fileID: 1359399775}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1458463614 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7971129681570069999, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
+  m_PrefabInstance: {fileID: 31193680}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1617915296
 GameObject:
@@ -1443,7 +1490,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 225, y: 0.5}
-  m_SizeDelta: {x: 300, y: 400}
+  m_SizeDelta: {x: 150, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1942032232
 MonoBehaviour:
