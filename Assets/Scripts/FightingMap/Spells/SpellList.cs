@@ -4,51 +4,64 @@ using System.Collections;
 using UnityEngine;
 using System.Linq;
 
-public class SpellList : MonoBehaviour
+public static class SpellList
 {
     private const string PATH = "Spells/";
-    public GameObject Fireball,
-    Meteor,
-    Teleportation,
-    Icycle,
-    Sandwall,
-    Slash,
-    Explosion,
-    Blackhole,
-    Grogoulem;
 
-    void Start()
+    ////// Spells //////
+    // Fire
+    static GameObject Fireball = Resources.Load<GameObject>(PATH + "Fireball" + "/" + "Fireball");
+    static GameObject Explosion = Resources.Load<GameObject>(PATH + "Explosion" + "/" + "Explosion");
+
+    // Wind
+    static GameObject Tornado = Resources.Load<GameObject>(PATH + "Tornado" + "/" + "Tornado");
+
+    // Water
+    static GameObject Icycle = Resources.Load<GameObject>(PATH + "Icycle" + "/" + "Icycle");
+
+    // Earth
+    static GameObject Sandwall = Resources.Load<GameObject>(PATH + "Sandwall" + "/" + "Sandwall");
+
+    // Dark
+    static GameObject Teleportation = Resources.Load<GameObject>(PATH + "Teleportation" + "/" + "Teleportation");
+    static GameObject Blackhole = Resources.Load<GameObject>(PATH + "Blackhole" + "/" + "Blackhole");
+
+    /// Mix ///
+    // Fire + Earth
+    static GameObject Grogoulem = Resources.Load<GameObject>(PATH + "Grogoulem" + "/" + "Grogoulem");
+
+    ////// Attacks //////
+    static GameObject Slash = Resources.Load<GameObject>(PATH + "Slash" + "/" + "Slash");
+    static GameObject Slam = Resources.Load<GameObject>(PATH + "Slam" + "/" + "Slam");
+
+    public static List<GameObject> getSpellList()
     {
-        string nameSpell;
+        return new List<GameObject>(){
+            Fireball,
+            Explosion,
+            Tornado,
+            Icycle,
+            Sandwall,
+            Blackhole,
+            Teleportation,
+            Slash,
+            Slam
+        };
+    }
 
-        // Spells
-        nameSpell = "Fireball";
-        Fireball = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
+    public static List<GameObject> getMixedSpellList()
+    {
+        return new List<GameObject>(){
+            Grogoulem,
+        };
+    }
 
-        nameSpell = "Meteor";
-        Meteor = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-
-        nameSpell = "Teleportation";
-        Teleportation = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-
-        nameSpell = "Icycle";
-        Icycle = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-
-        nameSpell = "Sandwall";
-        Sandwall = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-
-        nameSpell = "Explosion";
-        Explosion = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-
-        nameSpell = "Blackhole";
-        Blackhole = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-
-        nameSpell = "Grogoulem";
-        Grogoulem = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-
-        // Attacks
-        nameSpell = "Slash";
-        Slash = Resources.Load<GameObject>(PATH + nameSpell + "/" + nameSpell);
-
+    public static GameObject getMixedSpell(SpellType type)
+    {
+        return getMixedSpellList().Find(spell =>
+        {
+            Spell spellScript = spell.GetComponent<Spell>();
+            return spellScript.type == type;
+        });
     }
 }

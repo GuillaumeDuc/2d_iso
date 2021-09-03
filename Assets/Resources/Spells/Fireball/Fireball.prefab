@@ -9799,7 +9799,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 719a06f68c05be64ba91de3d594e9605, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ee904b3c8cfc1a74a898abc38119e56e, type: 3}
   m_Color: {r: 0.9245283, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9822,7 +9822,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcf77bb7d4dbf544a864a6e68847b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameSpell: Fireball
   range: 10
   area: 0
   damage: 30

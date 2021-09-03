@@ -14725,7 +14725,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 08a10b7548eb3ce48983d7d63942123a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: def4ff0b53e75d041a93611a07712bc2, type: 3}
   m_Color: {r: 0.9607843, g: 0.4351482, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -14775,6 +14775,7 @@ MonoBehaviour:
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 1
+  type: 5
   position: {x: 20, y: 15, z: 0}
   caster: {fileID: 0}
   selectedArea: 3

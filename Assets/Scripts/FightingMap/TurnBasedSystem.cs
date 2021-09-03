@@ -23,7 +23,6 @@ public class TurnBasedSystem : MonoBehaviour
     // Scripts
     public MoveSystem MoveSystem;
     public CastSystem CastSystem;
-    public SpellList SpellList;
     public DrawOnMap DrawOnMap;
 
     // UI
@@ -323,6 +322,8 @@ public class TurnBasedSystem : MonoBehaviour
         // Get Player prefab from Assets/Resources
         GameObject PlayerPrefab = Resources.Load<GameObject>("Characters/PC/Player");
         Player = InstantiatePlayer(PlayerPrefab, new Vector3Int(15, 15, 0));
+        // Init SpellList
+        Player.GetComponent<Unit>().spellList = SceneStore.selectedSpellList;
 
         // Get transform
         Transform PlayerTransform = Player.GetComponent<Transform>();

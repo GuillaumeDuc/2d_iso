@@ -2,10 +2,24 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
 
+public enum SpellType
+{
+    Fire,
+    Water,
+    Wind,
+    Earth,
+    Dark,
+    Magma,
+    Ice,
+    Steam,
+    Physical
+};
+
 public class Spell : MonoBehaviour
 {
     public int range = 1, area, damage, clickNb = 1, manaCost;
     public bool lineOfSight, uniqueCellArea, burst;
+    public SpellType type;
 
     [HideInInspector]
     public Vector3Int position;
