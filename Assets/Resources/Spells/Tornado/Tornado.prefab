@@ -4922,6 +4922,7 @@ MonoBehaviour:
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 0
+  type: 2
   position: {x: 0, y: 0, z: 0}
   caster: {fileID: 0}
   selectedArea: 1
@@ -4957,7 +4958,7 @@ MonoBehaviour:
   movingGO: {fileID: 0}
   movingParticles: {fileID: 7192617054714465570}
   nextGO: {fileID: 0}
-  speed: 0.8
+  speed: 1.5
   beforeImpactX: 0
   beforeImpactY: 0
   destroyDelay: 10

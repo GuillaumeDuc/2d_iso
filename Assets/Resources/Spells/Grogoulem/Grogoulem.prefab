@@ -14775,6 +14775,7 @@ MonoBehaviour:
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 1
+  type: 5
   position: {x: 20, y: 15, z: 0}
   caster: {fileID: 0}
   selectedArea: 3

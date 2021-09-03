@@ -179,6 +179,7 @@ MonoBehaviour:
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 0
+  type: 3
   position: {x: 17, y: 8, z: 0}
   caster: {fileID: 0}
   selectedArea: 2
