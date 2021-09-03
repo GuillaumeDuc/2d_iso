@@ -494,6 +494,7 @@ MonoBehaviour:
   FirstSpellSlotUI: {fileID: 1458463614}
   SecondSpellSlotUI: {fileID: 1042443514}
   ThirdSpellSlotUI: {fileID: 416611631}
+  TravelButtonUI: {fileID: 1077590812}
 --- !u!1 &416611631 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7971129681570069999, guid: d2149b30bf47a024a8f948d0015b84d4, type: 3}
