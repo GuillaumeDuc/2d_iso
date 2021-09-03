@@ -24,7 +24,10 @@ public class SelectionMap : MonoBehaviour
         int radius = 4;
         if (SceneStore.list == null)
         {
-            int rejection = 30, width = 20, height = 10;
+            int rejection = 30;
+            int height = 10;
+            int width = 20;
+
             bool isValid = false;
             // Re init when ending is not possible
             do
