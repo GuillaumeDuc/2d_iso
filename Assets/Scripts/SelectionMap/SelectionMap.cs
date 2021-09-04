@@ -35,7 +35,7 @@ public class SelectionMap : MonoBehaviour
                 // Remove GO & clear list
                 foreach (GameObject o in Object.FindObjectsOfType<GameObject>())
                 {
-                    if (o.name == "rectangle" || o.name == "LocationPoint(Clone)")
+                    if (o.name == "rectangle" || o.name == "LocationPoint(Clone)" || o.name == "CurrentPosition(Clone)")
                     {
                         Destroy(o);
                     }
