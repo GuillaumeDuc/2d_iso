@@ -1,0 +1,840 @@
+fileFormatVersion: 2
+guid: 6c5c7ff10801bf84cae0352b71eaa1ca
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2936031815686916348
+    second: sprite-game-ice-2d-computer-graphics-normalmap_0
+  - first:
+      213: -963344906324743943
+    second: sprite-game-ice-2d-computer-graphics-normalmap_1
+  - first:
+      213: 379323739544957535
+    second: sprite-game-ice-2d-computer-graphics-normalmap_2
+  - first:
+      213: -111917960003319718
+    second: sprite-game-ice-2d-computer-graphics-normalmap_3
+  - first:
+      213: -1184454751855632162
+    second: sprite-game-ice-2d-computer-graphics-normalmap_4
+  - first:
+      213: 3474143898392210036
+    second: sprite-game-ice-2d-computer-graphics-normalmap_5
+  - first:
+      213: -3728198817763476438
+    second: sprite-game-ice-2d-computer-graphics-normalmap_6
+  - first:
+      213: 4243891022712058444
+    second: sprite-game-ice-2d-computer-graphics-normalmap_7
+  - first:
+      213: -3966637809751825695
+    second: sprite-game-ice-2d-computer-graphics-normalmap_8
+  - first:
+      213: 1893090525177051634
+    second: sprite-game-ice-2d-computer-graphics-normalmap_9
+  - first:
+      213: -3152587092379974210
+    second: sprite-game-ice-2d-computer-graphics-normalmap_10
+  - first:
+      213: -3007166309897025545
+    second: sprite-game-ice-2d-computer-graphics-normalmap_11
+  - first:
+      213: 6631775793924507081
+    second: sprite-game-ice-2d-computer-graphics-normalmap_12
+  - first:
+      213: -6856362143638071101
+    second: sprite-game-ice-2d-computer-graphics-normalmap_13
+  - first:
+      213: -3703259959753807331
+    second: sprite-game-ice-2d-computer-graphics-normalmap_14
+  - first:
+      213: -3110733067017629480
+    second: sprite-game-ice-2d-computer-graphics-normalmap_15
+  - first:
+      213: -1879989436546855858
+    second: sprite-game-ice-2d-computer-graphics-normalmap_16
+  - first:
+      213: 2761508276431125677
+    second: sprite-game-ice-2d-computer-graphics-normalmap_17
+  - first:
+      213: 6531147934312205354
+    second: sprite-game-ice-2d-computer-graphics-normalmap_18
+  - first:
+      213: -7607005758477690103
+    second: sprite-game-ice-2d-computer-graphics-normalmap_19
+  - first:
+      213: -7671423483290689443
+    second: sprite-game-ice-2d-computer-graphics-normalmap_20
+  - first:
+      213: -2020465202473215072
+    second: sprite-game-ice-2d-computer-graphics-normalmap_21
+  - first:
+      213: 7321436183669930668
+    second: sprite-game-ice-2d-computer-graphics-normalmap_22
+  - first:
+      213: -7740501321807389258
+    second: sprite-game-ice-2d-computer-graphics-normalmap_23
+  - first:
+      213: 432857189060938306
+    second: sprite-game-ice-2d-computer-graphics-normalmap_24
+  - first:
+      213: 9187584662346841722
+    second: sprite-game-ice-2d-computer-graphics-normalmap_25
+  - first:
+      213: 2158018017581081176
+    second: sprite-game-ice-2d-computer-graphics-normalmap_26
+  - first:
+      213: 7276703924393821422
+    second: sprite-game-ice-2d-computer-graphics-normalmap_27
+  - first:
+      213: -8585407458793067953
+    second: sprite-game-ice-2d-computer-graphics-normalmap_28
+  - first:
+      213: -4954004730598009384
+    second: sprite-game-ice-2d-computer-graphics-normalmap_29
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1033.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4077cb09e9e1147d0800000000000000
+      internalID: -2936031815686916348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_1
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 1033.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f8e45669e281a2f0800000000000000
+      internalID: -963344906324743943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_2
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 1033.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f52337e6ee0a34500800000000000000
+      internalID: 379323739544957535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_3
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 1033.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5804065533627ef0800000000000000
+      internalID: -111917960003319718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_4
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 1033.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed02f1fbda8ff8fe0800000000000000
+      internalID: -1184454751855632162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_5
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 1033.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47a22420873a63030800000000000000
+      internalID: 3474143898392210036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 775.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2c3d279de6c24cc0800000000000000
+      internalID: -3728198817763476438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_7
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 775.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c42b83a666455ea30800000000000000
+      internalID: 4243891022712058444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_8
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 775.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e2eb1d9deba3f8c0800000000000000
+      internalID: -3966637809751825695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_9
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 775.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f9f5d87dcb954a10800000000000000
+      internalID: 1893090525177051634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_10
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 775.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb5c53b1eb2cf34d0800000000000000
+      internalID: -3152587092379974210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_11
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 775.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f7c01e7c266446d0800000000000000
+      internalID: -3007166309897025545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 517.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c587eaa2fcc80c50800000000000000
+      internalID: 6631775793924507081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_13
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 517.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c85409f4fe49d0a0800000000000000
+      internalID: -6856362143638071101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_14
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 517.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1a62f3ffa06b9cc0800000000000000
+      internalID: -3703259959753807331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_15
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 517.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d05a55c1c474d4d0800000000000000
+      internalID: -3110733067017629480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_16
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 517.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4c432d619fe8e5e0800000000000000
+      internalID: -1879989436546855858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_17
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 517.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dac7af47529d25620800000000000000
+      internalID: 2761508276431125677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 259.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2c8438517c43aa50800000000000000
+      internalID: 6531147934312205354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_19
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 259.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90b1699f09c7e6690800000000000000
+      internalID: -7607005758477690103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_20
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 259.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d506ed4acf0a98590800000000000000
+      internalID: -7671423483290689443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_21
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 259.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0abdb8d6a9dd5f3e0800000000000000
+      internalID: -2020465202473215072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_22
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 259.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: caa765d1b67fa9560800000000000000
+      internalID: 7321436183669930668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_23
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 259.6
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bd9a3a0f07349490800000000000000
+      internalID: -7740501321807389258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1.6000061
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24a8370f151d10600800000000000000
+      internalID: 432857189060938306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_25
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 1.6000061
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7eb20f829bd08f70800000000000000
+      internalID: 9187584662346841722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_26
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 1.6000061
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85220dc04f1d2fd10800000000000000
+      internalID: 2158018017581081176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_27
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 1.6000061
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee44f256aab0cf460800000000000000
+      internalID: 7276703924393821422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_28
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 1.6000061
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4a66a657618ad880800000000000000
+      internalID: -8585407458793067953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sprite-game-ice-2d-computer-graphics-normalmap_29
+      rect:
+        serializedVersion: 2
+        x: 690
+        y: 1.6000061
+        width: 138.33333
+        height: 258.4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d5d919e1f6df3bb0800000000000000
+      internalID: -4954004730598009384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

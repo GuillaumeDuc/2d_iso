@@ -1,0 +1,379 @@
+fileFormatVersion: 2
+guid: ceb430c050e8fe848953f6853e237a0b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5353841184698615464
+    second: fireball_0
+  - first:
+      213: 750297706712597742
+    second: fireball_1
+  - first:
+      213: -8127487528002223245
+    second: fireball_2
+  - first:
+      213: -3915765450054648673
+    second: fireball_3
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: fireball_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 15, y: 4}
+        - {x: 8, y: 11}
+        - {x: -3, y: 11}
+        - {x: -5, y: 9}
+        - {x: -10, y: 9}
+        - {x: -15, y: 6}
+        - {x: -19, y: 2}
+        - {x: -19, y: -1}
+        - {x: -18, y: -3}
+        - {x: -14, y: -4}
+        - {x: -15, y: -6}
+        - {x: -13, y: -10}
+        - {x: -7, y: -11}
+        - {x: -5, y: -13}
+        - {x: -2, y: -13}
+        - {x: -1, y: -12}
+        - {x: 9, y: -12}
+        - {x: 15, y: -8}
+      physicsShape: []
+      tessellationDetail: 1
+      bones: []
+      spriteID: 8a641dd013aac4a40800000000000000
+      internalID: 5353841184698615464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireball_1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 24, y: 6}
+        - {x: 21, y: 9}
+        - {x: 16, y: 11}
+        - {x: 14, y: 11}
+        - {x: 13, y: 12}
+        - {x: 1, y: 12}
+        - {x: -4, y: 8}
+        - {x: -14, y: 7}
+        - {x: -16, y: 5}
+        - {x: -16, y: 3}
+        - {x: -14, y: 1}
+        - {x: -22, y: 1}
+        - {x: -24, y: -1}
+        - {x: -27, y: -1}
+        - {x: -29, y: -3}
+        - {x: -29, y: -6}
+        - {x: -27, y: -8}
+        - {x: -19, y: -8}
+        - {x: -20, y: -9}
+        - {x: -20, y: -11}
+        - {x: -18, y: -13}
+        - {x: -16, y: -13}
+        - {x: -15, y: -14}
+        - {x: 4, y: -14}
+        - {x: 6, y: -16}
+        - {x: 9, y: -16}
+        - {x: 10, y: -17}
+        - {x: 18, y: -16}
+        - {x: 21, y: -14}
+        - {x: 25, y: -12}
+        - {x: 25, y: 3}
+      physicsShape: []
+      tessellationDetail: 1
+      bones: []
+      spriteID: ee4056cf9c7996a00800000000000000
+      internalID: 750297706712597742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireball_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 32, y: 4}
+        - {x: 28, y: 8}
+        - {x: 24, y: 8}
+        - {x: 22, y: 10}
+        - {x: 6, y: 10}
+        - {x: 4, y: 8}
+        - {x: -2, y: 8}
+        - {x: -4, y: 10}
+        - {x: -9, y: 10}
+        - {x: -11, y: 6}
+        - {x: -13, y: 6}
+        - {x: -14, y: 5}
+        - {x: -14, y: 8}
+        - {x: -16, y: 10}
+        - {x: -22, y: 10}
+        - {x: -26, y: 6}
+        - {x: -28, y: 8}
+        - {x: -29, y: 8}
+        - {x: -32, y: 5}
+        - {x: -32, y: 4}
+        - {x: -30, y: 2}
+        - {x: -26, y: 3}
+        - {x: -23, y: 1}
+        - {x: -24, y: 0}
+        - {x: -26, y: 0}
+        - {x: -28, y: -2}
+        - {x: -28, y: -4}
+        - {x: -26, y: -6}
+        - {x: -24, y: -6}
+        - {x: -22, y: -4}
+        - {x: -21, y: -4}
+        - {x: -23, y: -7}
+        - {x: -25, y: -7}
+        - {x: -26, y: -8}
+        - {x: -28, y: -5}
+        - {x: -30, y: -5}
+        - {x: -32, y: -7}
+        - {x: -32, y: -9}
+        - {x: -30, y: -11}
+        - {x: -28, y: -11}
+        - {x: -23, y: -15}
+        - {x: -18, y: -15}
+        - {x: -15, y: -12}
+        - {x: -13, y: -15}
+        - {x: -7, y: -15}
+        - {x: -6, y: -14}
+        - {x: -5, y: -15}
+        - {x: 5, y: -15}
+        - {x: 7, y: -17}
+        - {x: 21, y: -17}
+        - {x: 23, y: -15}
+        - {x: 27, y: -15}
+        - {x: 32, y: -11}
+      physicsShape: []
+      tessellationDetail: 1
+      bones: []
+      spriteID: 3738201972d553f80800000000000000
+      internalID: -8127487528002223245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fireball_3
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -10, y: -13}
+        - {x: -10, y: -15}
+        - {x: -8, y: -17}
+        - {x: -4, y: -17}
+        - {x: -2, y: -15}
+        - {x: 4, y: -15}
+        - {x: 6, y: -17}
+        - {x: 22, y: -17}
+        - {x: 24, y: -15}
+        - {x: 28, y: -15}
+        - {x: 32, y: -11}
+        - {x: 32, y: 4}
+        - {x: 30, y: 6}
+        - {x: 29, y: 6}
+        - {x: 27, y: 8}
+        - {x: 23, y: 8}
+        - {x: 21, y: 10}
+        - {x: 7, y: 10}
+        - {x: 5, y: 8}
+        - {x: -5, y: 8}
+        - {x: -6, y: 7}
+        - {x: -7, y: 8}
+        - {x: -13, y: 8}
+        - {x: -15, y: 7}
+        - {x: -15, y: 5}
+        - {x: -18, y: 8}
+        - {x: -23, y: 8}
+        - {x: -28, y: 4}
+        - {x: -30, y: 4}
+        - {x: -32, y: 2}
+        - {x: -32, y: 0}
+        - {x: -30, y: -2}
+        - {x: -28, y: -2}
+        - {x: -26, y: -1}
+        - {x: -26, y: 1}
+        - {x: -23, y: -1}
+        - {x: -21, y: -3}
+        - {x: -22, y: -3}
+        - {x: -24, y: -1}
+        - {x: -26, y: -1}
+        - {x: -28, y: -3}
+        - {x: -28, y: -5}
+        - {x: -26, y: -7}
+        - {x: -24, y: -7}
+        - {x: -23, y: -8}
+        - {x: -26, y: -10}
+        - {x: -27, y: -10}
+        - {x: -28, y: -9}
+        - {x: -30, y: -9}
+        - {x: -32, y: -11}
+        - {x: -32, y: -12}
+        - {x: -29, y: -15}
+        - {x: -28, y: -15}
+        - {x: -26, y: -13}
+        - {x: -22, y: -17}
+        - {x: -16, y: -17}
+        - {x: -14, y: -15}
+        - {x: -14, y: -12}
+        - {x: -13, y: -13}
+      physicsShape: []
+      tessellationDetail: 1
+      bones: []
+      spriteID: f9cbebdd11868a9c0800000000000000
+      internalID: -3915765450054648673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures:
+    - texture: {fileID: 2800000, guid: 298cac9e17b29504d9a3f4aede3a4482, type: 3}
+      name: _Emission
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
