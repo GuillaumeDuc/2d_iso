@@ -17,7 +17,6 @@ public class Unit : MonoBehaviour
             currentMovementPoint,
             currentMana;
 
-    [HideInInspector]
     public List<GameObject> spellList = new List<GameObject>();
     [HideInInspector]
     public GameObject selectedSpell;
