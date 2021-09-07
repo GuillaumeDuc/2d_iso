@@ -182,6 +182,7 @@ MonoBehaviour:
   - {fileID: 6704543020205789090, guid: 12347f4e1e66b5648aa20dde3e6c9dc8, type: 3}
   - {fileID: 3575874839522709577, guid: 2edfcadb7c9c88845ad0098448eed602, type: 3}
   - {fileID: 2780143763527378437, guid: 935ec84be0c5f4b40a48bc63ec4da8ee, type: 3}
+  - {fileID: 6446760062049360379, guid: 4efa16924fb2d8746b7fb61e434909f5, type: 3}
   selectedSpell: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
   playable: 1

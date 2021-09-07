@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FireaballMat
-  m_Shader: {fileID: -6465566751694194690, guid: daa279753d0024442a8a30df231381eb, type: 3}
-  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
+  m_Name: FireburstShaderMat
+  m_Shader: {fileID: -6465566751694194690, guid: fe8f7c9cb6a7f14499a8e0466e6f4da6, type: 3}
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -19,12 +19,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_510fd9326e0f4978b88d23e3eb4dd439:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 719a06f68c05be64ba91de3d594e9605, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -41,5 +37,5 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats: []
     m_Colors:
-    - Color_d09d0a6681ee4c07a7f4f66bd6ec4e22: {r: 830.7925, g: 124.82814, b: 97.970795, a: 0}
+    - Color_06b5902424824238bd28edc757f6d880: {r: 766.9961, g: 64.250984, b: 76.29804, a: 0}
   m_BuildTextureStacks: []

@@ -9823,7 +9823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 10
-  area: 0
+  area: 2
   damage: 30
   clickNb: 1
   manaCost: 10
