@@ -323,7 +323,10 @@ public class TurnBasedSystem : MonoBehaviour
         GameObject PlayerPrefab = Resources.Load<GameObject>("Characters/PC/Player");
         Player = InstantiatePlayer(PlayerPrefab, new Vector3Int(15, 15, 0));
         // Init SpellList
-        Player.GetComponent<Unit>().spellList = SceneStore.selectedSpellList;
+        if (SceneStore.selectedSpellList != null)
+        {
+            Player.GetComponent<Unit>().spellList = SceneStore.selectedSpellList;
+        }
 
         // Get transform
         Transform PlayerTransform = Player.GetComponent<Transform>();
@@ -407,7 +410,6 @@ public class TurnBasedSystem : MonoBehaviour
         {
             tryEndGame();
             CastSystem.casted = false;
-            tilemap.RefreshAllTiles();
         }
 
         // Left mouse click

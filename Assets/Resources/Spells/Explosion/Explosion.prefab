@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3011477353448975115}
   - component: {fileID: 3011477353448975113}
   - component: {fileID: 8220950198103130225}
+  - component: {fileID: 4835571503271087065}
   - component: {fileID: 2000920347719187905}
   - component: {fileID: 5242035852087964449}
   m_Layer: 0
@@ -100,19 +101,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 12
-  area: 0
-  damage: 0
+  area: 5
+  damage: 1
   clickNb: 1
   manaCost: 1
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 0
+  type: 0
   position: {x: 0, y: 0, z: 0}
   caster: {fileID: 0}
   selectedArea: 0
   selectedRange: 0
   selectedCanCast: 0
   selectedInstantiate: 1
+--- !u!114 &4835571503271087065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3011477353448975112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ee48caefd9dd5409e444f4df206c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectDelay: 0
+  selectedSpellEffects:
+  - name: FireBurstEffect
+    value: 0
+    cumul: 1
 --- !u!114 &2000920347719187905
 MonoBehaviour:
   m_ObjectHideFlags: 0
