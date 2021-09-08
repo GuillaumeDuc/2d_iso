@@ -27,6 +27,8 @@ public static class SpellList
     static GameObject Blackhole = Resources.Load<GameObject>(PATH + "Blackhole" + "/" + "Blackhole");
 
     /// Mix ///
+    // Fire + Fire
+    static GameObject Fireburst = Resources.Load<GameObject>(PATH + "Fireburst" + "/" + "Fireburst");
     // Fire + Earth
     static GameObject Grogoulem = Resources.Load<GameObject>(PATH + "Grogoulem" + "/" + "Grogoulem");
 
@@ -53,6 +55,7 @@ public static class SpellList
     {
         return new List<GameObject>(){
             Grogoulem,
+            Fireburst
         };
     }
 

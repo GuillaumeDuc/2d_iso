@@ -9823,13 +9823,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 10
-  area: 0
+  area: 2
   damage: 30
   clickNb: 1
   manaCost: 10
   lineOfSight: 1
   uniqueCellArea: 0
   burst: 1
+  type: 0
   position: {x: 19, y: 18, z: 0}
   caster: {fileID: 0}
   selectedArea: 0

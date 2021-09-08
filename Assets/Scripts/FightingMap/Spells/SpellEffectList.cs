@@ -15,13 +15,16 @@ public class SpellEffectList : MonoBehaviour
         Fire = new SpellEffect("FireEffect"),
         Freeze = new SpellEffect("FreezeEffect"),
         Teleport = new SpellEffect("TeleportEffect"),
-        BurnTile = new SpellEffect("BurnTileEffect");
+        BurnTile = new SpellEffect("BurnTileEffect"),
+        FireBurst = new SpellEffect("FireBurstEffect");
+
     public static List<SpellEffect> spellEffects = new List<SpellEffect>() {
         PushFromPlayer,
         Fire,
         Freeze,
         Teleport,
-        BurnTile
+        BurnTile,
+        FireBurst
     };
 
     void Start()
@@ -46,6 +49,71 @@ public class SpellEffectList : MonoBehaviour
 
         // Change Tile
         BurnTile.applyEffectAction = burnTileEffect;
+
+        // Get all fire status, remove them and deal damage
+        FireBurst.applyEffectAction = fireBurstEffect;
+    }
+
+    public void fireBurstEffect(
+        Spell spell,
+        SpellEffect spellEffect,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        List<Vector3Int> area = spell.getArea(spell.position, spell.caster, obstacleList, tilemap);
+        int count = 0;
+        // Count Fire Status
+        area.ForEach(a =>
+        {
+            // Status Tile
+            GroundTile tile = (GroundTile)tilemap.GetTile(a);
+            if (tile != null && tile.statusList != null)
+            {
+                // Find Temperature equals or greater than Fire
+                Status statusOnTile = tile.statusList.Find(status => status.Equals(StatusList.Fire) && status.weight >= StatusList.Fire.weight);
+                if (statusOnTile != null)
+                {
+                    // Count Damage && delete Fire effect
+                    count += statusOnTile.weight;
+                    tile.removeStatus(statusOnTile);
+                    tilemap.RefreshTile(a);
+                }
+            }
+            // Status Units
+            Unit character = getUnitFromPos(playerList.Concat(enemyList).ToDictionary(x => x.Key, x => x.Value), a);
+            if (character != null)
+            {
+                // Find Temperature equals or greater than Fire
+                Status statusOnUnit = character.statusList.Find(status => status.Equals(StatusList.Fire) && status.weight >= StatusList.Fire.weight);
+                if (statusOnUnit != null)
+                {
+                    // Count Damage && delete Fire effect
+                    count += statusOnUnit.weight;
+                    character.statusList.Remove(statusOnUnit);
+                }
+            }
+            // Status Obstacles
+            GameObject obstacleGO = null;
+            try { obstacleGO = obstacleList[a]; }
+            catch { }
+            if (obstacleGO != null)
+            {
+                Obstacle obstacle = obstacleGO.GetComponent<Obstacle>();
+                // Find Temperature equals or greater than Fire
+                Status statusOnObstacle = obstacle.statusList.Find(status => status.Equals(StatusList.Fire) && status.weight >= StatusList.Fire.weight);
+                if (statusOnObstacle != null)
+                {
+                    // Count Damage && delete Fire effect
+                    count += statusOnObstacle.weight;
+                    obstacle.statusList.Remove(statusOnObstacle);
+                }
+            }
+        });
+        // Change damage
+        spell.damage += count;
     }
 
     public void burnTileEffect(
