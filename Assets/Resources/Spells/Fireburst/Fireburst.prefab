@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1311423979}
   - component: {fileID: 1417880370781261743}
   - component: {fileID: -319086973613176981}
+  - component: {fileID: -6200755466064755092}
   - component: {fileID: 6828284308875226072}
   m_Layer: 0
   m_Name: Fireburst
@@ -162,6 +163,20 @@ MonoBehaviour:
   - name: FireBurstEffect
     value: 0
     cumul: 1
+--- !u!114 &-6200755466064755092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6446760062049360379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68322e435e3d7194d8b5853ab4fc950f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageDelay: 0
+  selectedFunction: 0
 --- !u!114 &6828284308875226072
 MonoBehaviour:
   m_ObjectHideFlags: 0
