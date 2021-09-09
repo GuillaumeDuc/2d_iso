@@ -34,7 +34,8 @@ public class Spell : MonoBehaviour
         Circle,
         InLine,
         InLineBetweenCells,
-        AndresCircle
+        AndresCircle,
+        InLineHorizontal
     };
 
     public FunctionArea selectedArea;
@@ -44,19 +45,22 @@ public class Spell : MonoBehaviour
             { FunctionArea.InLine, SpellAreaList.getAreaInLine },
             { FunctionArea.InLineBetweenCells, SpellAreaList.getAreaInLineBetweenCells },
             { FunctionArea.AndresCircle, SpellAreaList.getAreaAndresCircle },
+            { FunctionArea.InLineHorizontal, SpellAreaList.getAreaInLineHorizontal },
         };
 
 
     // Range
     public enum FunctionRange
     {
-        Circle
+        Circle,
+        Line
     };
 
     public FunctionRange selectedRange;
     private Dictionary<FunctionRange, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>> functionRangeLookup = new Dictionary<FunctionRange, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>>()
         {
             { FunctionRange.Circle, SpellRangeList.getRangeInCircleFull },
+            { FunctionRange.Line, SpellRangeList.getRangeInLine },
         };
 
     // Can Cast

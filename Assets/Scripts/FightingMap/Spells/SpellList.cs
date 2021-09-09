@@ -18,6 +18,7 @@ public static class SpellList
 
     // Water
     static GameObject Icycle = Resources.Load<GameObject>(PATH + "Icycle" + "/" + "Icycle");
+    static GameObject Waveslash = Resources.Load<GameObject>(PATH + "Waveslash" + "/" + "Waveslash");
 
     // Earth
     static GameObject Sandwall = Resources.Load<GameObject>(PATH + "Sandwall" + "/" + "Sandwall");
@@ -41,8 +42,9 @@ public static class SpellList
         return new List<GameObject>(){
             Fireball,
             Explosion,
-            Tornado,
+            Waveslash,
             Icycle,
+            Tornado,
             Sandwall,
             Blackhole,
             Teleportation,

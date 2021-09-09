@@ -77,6 +77,39 @@ public static class SpellAreaList
         return circle;
     }
 
+    public static List<Vector3Int> getAreaInLineHorizontal(
+        Spell spell,
+        Vector3Int target,
+        Unit caster,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        List<Vector3Int> line = new List<Vector3Int>();
+
+        // Get the direction of the collision
+        Vector3 direction = target - caster.position;
+        // Right / Left
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+        {
+            line.AddRange(RangeUtils.getAreaInLine(new Vector3Int(target.x, target.y - spell.area, target.z), new Vector3Int(target.x, target.y + spell.area, target.z), 0, obstacleList, tilemap, spell.uniqueCellArea));
+            // Add to
+            line.Add(new Vector3Int(target.x, target.y - spell.area, target.z));
+        }
+        else
+        {
+            line.AddRange(RangeUtils.getAreaInLine(new Vector3Int(target.x - spell.area, target.y, target.z), new Vector3Int(target.x + spell.area, target.y, target.z), 0, obstacleList, tilemap, spell.uniqueCellArea));
+            line.Add(new Vector3Int(target.x - spell.area, target.y, target.z));
+        }
+
+        if (spell.burst)
+        {
+            line = burst(target, caster, line, obstacleList, tilemap);
+        }
+
+        return line;
+    }
+
     private static List<Vector3Int> burst(
         Vector3Int current,
         Unit caster,

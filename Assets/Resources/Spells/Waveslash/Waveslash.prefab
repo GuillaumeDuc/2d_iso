@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9141693052315287523}
   - component: {fileID: 7576337597070467611}
+  - component: {fileID: 7245359462977222285}
   m_Layer: 0
   m_Name: Container
   m_TagString: Untagged
@@ -24,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000834179245624321}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7372774, w: 0.67559016}
+  m_LocalRotation: {x: 0, y: 0, z: 0.72537434, w: 0.6883546}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3480327853214015537}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 95}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 93}
 --- !u!212 &7576337597070467611
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -82,6 +83,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!210 &7245359462977222285
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000834179245624321}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 2
 --- !u!1 &3480327853214015538
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,17 +225,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 15
-  area: 0
+  area: 2
   damage: 10
   clickNb: 1
   manaCost: 0
   lineOfSight: 0
   uniqueCellArea: 0
-  burst: 0
+  burst: 1
   type: 1
   position: {x: 0, y: 0, z: 0}
   caster: {fileID: 0}
-  selectedArea: 1
+  selectedArea: 4
   selectedRange: 0
   selectedCanCast: 0
   selectedInstantiate: 3
