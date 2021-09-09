@@ -26,7 +26,7 @@ public class MovingSpell : MonoBehaviour
         {
             rb = movingGO.GetComponent<Transform>();
         }
-        else
+        else if (movingParticles != null)
         {
             rb = movingParticles.GetComponent<Transform>();
         }
