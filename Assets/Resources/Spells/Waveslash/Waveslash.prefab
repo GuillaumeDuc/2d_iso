@@ -108,7 +108,6 @@ GameObject:
   - component: {fileID: 1306029616013455258}
   - component: {fileID: 6758131394377466378}
   - component: {fileID: 4744146265142680680}
-  - component: {fileID: -3665453422978809217}
   m_Layer: 0
   m_Name: Waveslash
   m_TagString: Untagged
@@ -225,10 +224,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 15
-  area: 2
+  area: 3
   damage: 10
   clickNb: 1
-  manaCost: 0
+  manaCost: 5
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 1
@@ -236,7 +235,7 @@ MonoBehaviour:
   position: {x: 0, y: 0, z: 0}
   caster: {fileID: 0}
   selectedArea: 4
-  selectedRange: 0
+  selectedRange: 1
   selectedCanCast: 0
   selectedInstantiate: 3
 --- !u!114 &4744146265142680680
@@ -253,22 +252,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movingGO: {fileID: 1000834179245624321}
   movingParticles: {fileID: 0}
-  nextGO: {fileID: 0}
+  nextGO: {fileID: 8274313168364748375, guid: 37f0586b4041fc744800c442e2c87bba, type: 3}
   speed: 3
   beforeImpactX: 0
   beforeImpactY: 0
   destroyDelay: 0
---- !u!114 &-3665453422978809217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3480327853214015538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68322e435e3d7194d8b5853ab4fc950f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageDelay: 0
-  selectedFunction: 0
