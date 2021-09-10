@@ -5,6 +5,7 @@ using UnityEngine;
 public class Obstacle : MonoBehaviour
 {
     public int maxHP, currentHP;
+    public bool hideLineOfSight = true, preventsWalk = true;
     public List<Status> statusList = new List<Status>();
 
     public void setHP(int hp)

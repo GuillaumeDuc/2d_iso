@@ -19,8 +19,8 @@ public static class RangeUtils
         lineOfSightArray.ForEach(a =>
         {
             GroundTile gt = (GroundTile)tilemap.GetTile(a);
-            // Ground tile is null, cell contains an obstacle on its path, cell contains a tile blocking LoS
-            if (gt == null || (obstacleList.ContainsKey(a) && a != cellPos) || (!gt.lineOfSight && a != cellPos))
+            // Ground tile is null, cell contains an obstacle on its path that blocks line of sight, cell contains a tile blocking LoS
+            if (gt == null || (obstacleList.ContainsKey(a) && a != cellPos && obstacleList[a].GetComponent<Obstacle>().hideLineOfSight) || (!gt.lineOfSight && a != cellPos))
             {
                 lineOS = false;
             };
@@ -167,7 +167,12 @@ public static class RangeUtils
         )
     {
         GroundTile gt = (GroundTile)tilemap.GetTile(cell);
-        return gt != null && !obstacleList.ContainsKey(cell) && gt.walkable;
+        Obstacle obstacle = null;
+        if (obstacleList.ContainsKey(cell))
+        {
+            obstacle = obstacleList[cell].GetComponent<Obstacle>();
+        }
+        return gt != null && (obstacle == null || !obstacle.preventsWalk) && gt.walkable;
     }
 
     public static Vector3Int getFarthestWalkableNeighbour(

@@ -184,6 +184,7 @@ MonoBehaviour:
   - {fileID: 2780143763527378437, guid: 935ec84be0c5f4b40a48bc63ec4da8ee, type: 3}
   - {fileID: 6446760062049360379, guid: 4efa16924fb2d8746b7fb61e434909f5, type: 3}
   - {fileID: 3480327853214015538, guid: 20dcab4ef28e78248b0c5be33ee6b306, type: 3}
+  - {fileID: 3128274454820993149, guid: fcd47b0630ad6be4888ce876f773a5a5, type: 3}
   selectedSpell: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
   playable: 1

@@ -159,6 +159,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 15
   currentHP: 15
+  hideLineOfSight: 1
+  preventsWalk: 1
 --- !u!114 &1495340181689123617
 MonoBehaviour:
   m_ObjectHideFlags: 0

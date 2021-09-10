@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class StatusList : MonoBehaviour
 {
-    public Status
-        Fire,
+    public Status Fire,
         Freeze,
         Slow,
         Wet,
@@ -17,6 +16,7 @@ public class StatusList : MonoBehaviour
 
     void Start()
     {
+        ////// Temperature //////
         // Temperature Tile GameObject
         GameObject fireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/FireEffect");
         GameObject extremeFireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/ExtremeFireEffect");
@@ -66,16 +66,16 @@ public class StatusList : MonoBehaviour
         setPNStatus(temperatureList);
         setWeight(FreezingCold, -3);
 
-        // Slow Status
+        ////// Slow Status //////
         Slow = new Status("Slow", 0, 3);
         setFunctions(Slow);
 
-        // Wet Status
+        ////// Wet Status //////
         Wet = new Status("Wet", 0, 3);
         Wet.permanentOnTile = true;
         setFunctions(Wet);
 
-        // Steam Status
+        ////// Steam Status //////
         Steam = new Status("Steam", 0, 3);
         setFunctions(Steam);
         Steam.modifyTileAction = removeLineOfSight;
