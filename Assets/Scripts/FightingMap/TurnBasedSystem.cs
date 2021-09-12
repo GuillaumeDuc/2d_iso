@@ -214,7 +214,9 @@ public class TurnBasedSystem : MonoBehaviour
             }
         }
         // Obstacle
-        foreach (var o in obstacleList)
+        // Obstacle can be added through update status, therefore use a copy
+        Dictionary<Vector3Int, GameObject> oldObstacleList = obstacleList.ToDictionary(entry => entry.Key, entry => entry.Value);
+        foreach (var o in oldObstacleList)
         {
             Obstacle obstacle = o.Value.GetComponent<Obstacle>();
             // Take damages

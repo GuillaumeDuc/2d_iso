@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4810993034406716250}
   - component: {fileID: 4810993034406716251}
-  - component: {fileID: -2563278646632610187}
+  - component: {fileID: 6553819638090785669}
   m_Layer: 0
   m_Name: WaterObstacle
   m_TagString: Untagged
@@ -82,8 +82,8 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
---- !u!114 &-2563278646632610187
+  m_SpriteSortPoint: 1
+--- !u!114 &6553819638090785669
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,10 +92,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4810993034406716248}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4610e4e0e461b540ae9817fcf16b3c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 63aa732dc6b730141b3dda210530d24d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 0
-  currentHP: 0
-  hideLineOfSight: 0
+  maxHP: 1
+  currentHP: 1
+  hideLineOfSight: 1
   preventsWalk: 0

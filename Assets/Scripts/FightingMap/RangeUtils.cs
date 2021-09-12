@@ -209,6 +209,16 @@ public static class RangeUtils
         return to;
     }
 
+    public static List<Vector3Int> getNeighours(Vector3Int cell)
+    {
+        Vector3Int up = new Vector3Int(cell.x, cell.y + 1, cell.z);
+        Vector3Int down = new Vector3Int(cell.x, cell.y - 1, cell.z);
+        Vector3Int left = new Vector3Int(cell.x - 1, cell.y, cell.z);
+        Vector3Int right = new Vector3Int(cell.x + 1, cell.y, cell.z);
+
+        return new List<Vector3Int>() { up, down, left, right };
+    }
+
     public static Vector3Int getClosestNeighbour(Vector3Int to, Vector3Int from, Tilemap tilemap)
     {
         Vector3Int up = new Vector3Int(to.x, to.y + 1, to.z);

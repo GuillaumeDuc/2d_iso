@@ -16,7 +16,8 @@ public class SpellEffectList : MonoBehaviour
         Freeze = new SpellEffect("FreezeEffect"),
         Teleport = new SpellEffect("TeleportEffect"),
         BurnTile = new SpellEffect("BurnTileEffect"),
-        FireBurst = new SpellEffect("FireBurstEffect");
+        FireBurst = new SpellEffect("FireBurstEffect"),
+        WaterEffect = new SpellEffect("WaterEffect");
 
     public static List<SpellEffect> spellEffects = new List<SpellEffect>() {
         PushFromPlayer,
@@ -24,7 +25,8 @@ public class SpellEffectList : MonoBehaviour
         Freeze,
         Teleport,
         BurnTile,
-        FireBurst
+        FireBurst,
+        WaterEffect
     };
 
     void Start()
@@ -52,6 +54,10 @@ public class SpellEffectList : MonoBehaviour
 
         // Get all fire status, remove them and deal damage
         FireBurst.applyEffectAction = fireBurstEffect;
+
+        // Water effect when in water
+        WaterEffect.statusList.Add(new Status(StatusList.Wet));
+        WaterEffect.applyEffectAction = applyEffect;
     }
 
     public void fireBurstEffect(

@@ -18,7 +18,7 @@ public class CreateMap : MonoBehaviour
         // Get map dimensions
         if (SceneStore.width == 0)
         {
-            TypeMap = TypeMap.Forest;
+            TypeMap = TypeMap.Desert;
             width = 25;
             height = 25;
         }
