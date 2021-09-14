@@ -224,17 +224,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 15
-  area: 3
+  area: 4
   damage: 10
   clickNb: 1
   manaCost: 5
-  lineOfSight: 0
+  lineOfSight: 1
   uniqueCellArea: 0
   burst: 1
   type: 1
   position: {x: 0, y: 0, z: 0}
   caster: {fileID: 0}
-  selectedArea: 4
+  selectedArea: 1
   selectedRange: 1
   selectedCanCast: 0
   selectedInstantiate: 3

@@ -31,6 +31,48 @@ public static class SpellAreaList
         )
     {
         List<Vector3Int> area = new List<Vector3Int>(RangeUtils.getAreaInLine(caster.position, target, spell.area, obstacleList, tilemap, spell.uniqueCellArea));
+
+        // Get the direction of the collision
+        Vector3 direction = target - caster.position;
+        // Remove area behind caster
+        List<Vector3Int> removeList = area.FindAll(a =>
+        {
+            // Right / Left
+            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+            {
+                // Right
+                if (direction.x > 0)
+                {
+                    return a.x <= caster.position.x;
+                }
+                // Left
+                if (direction.x < 0)
+                {
+                    return a.x >= caster.position.x;
+                }
+                return false;
+            }
+            else
+            {
+                if (direction.y > 0)
+                {
+                    return a.y <= caster.position.y;
+                }
+                if (direction.y < 0)
+                {
+                    return a.y >= caster.position.y;
+                }
+                return false;
+            }
+        });
+
+        // Remove list
+        area = area.Except(removeList).ToList();
+
+        if (spell.burst)
+        {
+            area = burst(target, caster, area, obstacleList, tilemap);
+        }
         return area;
     }
 

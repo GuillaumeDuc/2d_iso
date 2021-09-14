@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6515586704327281111}
   - component: {fileID: -8789997943006395751}
   - component: {fileID: 8945643970277849825}
+  - component: {fileID: -3817467885368699166}
   m_Layer: 0
   m_Name: WaveslashHit
   m_TagString: Untagged
@@ -129,3 +130,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageDelay: 0
   selectedFunction: 0
+--- !u!114 &-3817467885368699166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8274313168364748375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ee48caefd9dd5409e444f4df206c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectDelay: 0.1
+  selectedSpellEffects:
+  - name: WaterEffect
+    value: 0
+    cumul: 1

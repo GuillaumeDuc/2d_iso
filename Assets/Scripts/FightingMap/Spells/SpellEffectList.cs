@@ -57,7 +57,39 @@ public class SpellEffectList : MonoBehaviour
 
         // Water effect when in water
         WaterEffect.statusList.Add(new Status(StatusList.Wet));
-        WaterEffect.applyEffectAction = applyEffect;
+        WaterEffect.applyEffectAction = waterEffect;
+    }
+
+    public void waterEffect(
+        Spell spell,
+        SpellEffect spellEffect,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        applyEffect(spell, spellEffect, playerList, enemyList, obstacleList, tilemap);
+        GameObject WaterObstacle = Resources.Load<GameObject>("Obstacles/Water/WaterObstacle");
+        List<Vector3Int> area = spell.getArea(spell.position, spell.caster, obstacleList, tilemap);
+        area.ForEach(cell =>
+        {
+            createObstacle(WaterObstacle, cell, obstacleList, tilemap);
+        });
+    }
+
+    public void createObstacle(GameObject obstacle, Vector3Int pos, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    {
+        GameObject newObstacle = null;
+        try
+        {
+            newObstacle = Instantiate(obstacle, tilemap.CellToWorld(pos), Quaternion.identity);
+            FightingSceneStore.obstacleList.Add(pos, newObstacle);
+        }
+        catch
+        {
+            Destroy(newObstacle);
+        }
     }
 
     public void fireBurstEffect(

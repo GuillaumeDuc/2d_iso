@@ -24,7 +24,7 @@ public class WaterObstacle : Obstacle
                 FightingSceneStore.obstacleList.Remove(FightingSceneStore.tilemap.WorldToCell(gameObject.transform.position));
             }
             catch { }
-            Destroy(this.gameObject);
+            DestroyImmediate(this.gameObject);
         }
     }
 
