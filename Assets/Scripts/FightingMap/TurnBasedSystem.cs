@@ -244,8 +244,12 @@ public class TurnBasedSystem : MonoBehaviour
         }
         foreach (var s in destroyedObstacleList)
         {
-            DestroyImmediate(obstacleList[s]);
-            obstacleList.Remove(s);
+            try
+            {
+                DestroyImmediate(obstacleList[s]);
+                obstacleList.Remove(s);
+            }
+            catch { }
         }
     }
 

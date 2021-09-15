@@ -8,7 +8,6 @@ public class TileList : MonoBehaviour
 {
     public GroundTile brick, grass, sand, burnt;
     public WaterTile water;
-    public StatusList StatusList;
     public Tilemap tilemap;
 
     void Start()

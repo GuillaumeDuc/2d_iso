@@ -234,7 +234,7 @@ MonoBehaviour:
   type: 1
   position: {x: 0, y: 0, z: 0}
   caster: {fileID: 0}
-  selectedArea: 1
+  selectedArea: 0
   selectedRange: 1
   selectedCanCast: 0
   selectedInstantiate: 3

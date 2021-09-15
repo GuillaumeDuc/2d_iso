@@ -107,7 +107,7 @@ public class Status
         }
     }
 
-    public Status(string type, string name, int damage = 0, int turnNb = 0, bool permanent = false)
+    public Status(string type, string name, int damage = 0, int turnNb = 0, bool permanent = false, GameObject tileGO = null, System.Action<Status, Tile> modifyTile = null, bool permanentOnTile = false)
     {
         this.type = type;
         this.name = name;
@@ -115,12 +115,14 @@ public class Status
         this.turnNb = turnNb;
         this.permanent = permanent;
         this.turnCounter = 0;
+        this.tileGO = tileGO;
+        this.modifyTileAction = modifyTile;
         weight = 1;
         nextStatus = null;
         previousStatus = null;
     }
 
-    public Status(string type, int damage = 0, int turnNb = 0, bool permanent = false)
+    public Status(string type, int damage = 0, int turnNb = 0, bool permanent = false, GameObject tileGO = null, System.Action<Status, Tile> modifyTile = null, bool permanentOnTile = false)
     {
         this.type = type;
         this.name = type;
@@ -128,6 +130,8 @@ public class Status
         this.turnNb = turnNb;
         this.permanent = permanent;
         this.turnCounter = 0;
+        this.tileGO = tileGO;
+        this.modifyTileAction = modifyTile;
         weight = 1;
         nextStatus = null;
         previousStatus = null;

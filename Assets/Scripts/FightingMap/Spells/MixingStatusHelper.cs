@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MixingStatusHelper
 {
-    public List<Status> getStatusList(StatusList StatusList, List<Status> statusList, Status status)
+    public List<Status> getStatusList(List<Status> statusList, Status status)
     {
         // Check is statusList is empty
         if (!statusList.Any())
@@ -24,7 +24,7 @@ public class MixingStatusHelper
             // Mixing with Temperature
             if (currentStatus.type == StatusList.Fire.type)
             {
-                Status add = mixTemperature(StatusList, currentStatus, s);
+                Status add = mixTemperature(currentStatus, s);
                 // If spells got mixed
                 if (add != null)
                 {
@@ -41,7 +41,7 @@ public class MixingStatusHelper
             // Mixing with Wet
             else if (currentStatus.type == StatusList.Wet.type)
             {
-                Status add = mixWet(StatusList, currentStatus, s);
+                Status add = mixWet(currentStatus, s);
                 // If spells got mixed
                 if (add != null)
                 {
@@ -69,7 +69,7 @@ public class MixingStatusHelper
         return newList;
     }
 
-    private Status mixTemperature(StatusList StatusList, Status temperature, Status status)
+    private Status mixTemperature(Status temperature, Status status)
     {
         // Steam = Fire + Weight
         if (temperature.weight > 0 && status.type == StatusList.Wet.type)
@@ -84,7 +84,7 @@ public class MixingStatusHelper
         return null;
     }
 
-    private Status mixWet(StatusList StatusList, Status Wet, Status status)
+    private Status mixWet(Status Wet, Status status)
     {
         // Steam = Wet + Fire
         if (status.type == StatusList.Fire.type && status.weight > 0)

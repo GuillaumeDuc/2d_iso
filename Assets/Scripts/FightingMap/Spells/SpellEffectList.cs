@@ -6,8 +6,6 @@ using System.Linq;
 
 public class SpellEffectList : MonoBehaviour
 {
-    public StatusList StatusList;
-
     public TileList TileList;
 
 
@@ -56,7 +54,6 @@ public class SpellEffectList : MonoBehaviour
         FireBurst.applyEffectAction = fireBurstEffect;
 
         // Water effect when in water
-        WaterEffect.statusList.Add(new Status(StatusList.Wet));
         WaterEffect.applyEffectAction = waterEffect;
     }
 

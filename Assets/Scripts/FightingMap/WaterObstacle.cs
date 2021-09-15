@@ -1,10 +1,18 @@
 using System.Collections;
+using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class WaterObstacle : Obstacle
 {
     private int waterStep = 3;
+
+    void Start()
+    {
+        Vector3Int pos = FightingSceneStore.tilemap.WorldToCell(this.gameObject.transform.position);
+        GroundTile tile = (GroundTile)FightingSceneStore.tilemap.GetTile(pos);
+        tile.addStatus(new Status(StatusList.Wet));
+    }
 
     public override void updateStatus()
     {
