@@ -166,7 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Player
   unitLevel: 10
-  maxHP: 300
+  maxHP: 500
   endurance: 3
   mana: 110
   spellSlot: 3

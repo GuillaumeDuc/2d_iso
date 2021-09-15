@@ -169,7 +169,7 @@ public static class SpellAreaList
         List<Vector3Int> newCircle = new List<Vector3Int>();
         circle.ForEach(v =>
         {
-            if (RangeUtils.lineOfSight(current, v, obstacleList, tilemap))
+            if (RangeUtils.lineOfWalk(current, v, obstacleList, tilemap))
             {
                 newCircle.Add(v);
             }

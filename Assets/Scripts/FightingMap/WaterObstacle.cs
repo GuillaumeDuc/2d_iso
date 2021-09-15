@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class WaterObstacle : Obstacle
 {
@@ -9,9 +10,32 @@ public class WaterObstacle : Obstacle
 
     void Start()
     {
+        // Add status to tile & player
         Vector3Int pos = FightingSceneStore.tilemap.WorldToCell(this.gameObject.transform.position);
         GroundTile tile = (GroundTile)FightingSceneStore.tilemap.GetTile(pos);
-        tile.addStatus(new Status(StatusList.Wet));
+        if (tile != null && !(tile is WaterTile))
+        {
+            tile.addStatus(new Status(StatusList.Wet));
+            FightingSceneStore.tilemap.RefreshTile(pos);
+        }
+        Dictionary<Unit, GameObject> allCharacters = FightingSceneStore.playerList.Concat(FightingSceneStore.enemyList).ToDictionary(x => x.Key, x => x.Value);
+        Unit u = getUnitFromPos(allCharacters, pos);
+        if (u != null)
+        {
+            u.addStatus(new Status(StatusList.Wet));
+        }
+    }
+
+    private Unit getUnitFromPos(Dictionary<Unit, GameObject> dict, Vector3Int cell)
+    {
+        foreach (var d in dict)
+        {
+            if (d.Key.position == cell)
+            {
+                return d.Key;
+            }
+        }
+        return null;
     }
 
     public override void updateStatus()
@@ -101,8 +125,8 @@ public class WaterObstacle : Obstacle
                 existingObstacle = FightingSceneStore.obstacleList[pos].GetComponent<Obstacle>();
             }
 
-            // Check if neighbour is not already a water obstacle
-            if (!(existingObstacle is WaterObstacle))
+            // Check if neighbour is not already a water obstacle & not an empty tile
+            if (!(existingObstacle is WaterObstacle) && FightingSceneStore.tilemap.GetTile(pos) != null)
             {
                 Vector2 worldPos = FightingSceneStore.tilemap.CellToWorld(pos);
 

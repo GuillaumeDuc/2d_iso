@@ -28,6 +28,27 @@ public static class RangeUtils
         return lineOS;
     }
 
+    public static bool lineOfWalk(
+        Vector3Int playerPos,
+        Vector3Int cellPos,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        List<Vector3Int> lineOfWalkArray = new List<Vector3Int>(getLine(playerPos, cellPos));
+        bool lineOW = true;
+        lineOfWalkArray.ForEach(a =>
+        {
+            GroundTile gt = (GroundTile)tilemap.GetTile(a);
+            // Cell contains an obstacle on its path that blocks walk, cell contains a tile blocking LoS
+            if (gt == null || (obstacleList.ContainsKey(a) && a != cellPos && obstacleList[a] != null && obstacleList[a].GetComponent<Obstacle>().preventsWalk))
+            {
+                lineOW = false;
+            };
+        });
+        return lineOW;
+    }
+
     public static List<Vector3Int> getLine(Vector3Int playerPos, Vector3Int cellPos)
     {
         List<Vector3Int> lineOfSightArray = new List<Vector3Int>();
