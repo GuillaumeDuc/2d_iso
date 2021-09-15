@@ -176,7 +176,7 @@ MonoBehaviour:
   range: 10
   area: 0
   damage: 0
-  clickNb: 4
+  clickNb: 5
   manaCost: 10
   lineOfSight: 0
   uniqueCellArea: 0

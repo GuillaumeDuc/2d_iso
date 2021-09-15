@@ -72,8 +72,9 @@ public class WaterObstacle : Obstacle
             {
                 existingObstacle = FightingSceneStore.obstacleList[cell].GetComponent<Obstacle>();
             }
-            // Check if neighbour is not a water obstacle & different step
-            return existingObstacle == null || ((existingObstacle is WaterObstacle) && (waterStep != (((WaterObstacle)existingObstacle).getWaterStep())));
+
+            // Check if neighbour is not an obstacle or water obstacle & different step & waterstep is > 1
+            return existingObstacle == null || ((existingObstacle is WaterObstacle) && (waterStep > (((WaterObstacle)existingObstacle).getWaterStep())) && waterStep > 1);
         });
         if (!isSplitting)
         {

@@ -20,7 +20,7 @@ public static class RangeUtils
         {
             GroundTile gt = (GroundTile)tilemap.GetTile(a);
             // Ground tile is null, cell contains an obstacle on its path that blocks line of sight, cell contains a tile blocking LoS
-            if (gt == null || (obstacleList.ContainsKey(a) && a != cellPos && obstacleList[a].GetComponent<Obstacle>().hideLineOfSight) || (!gt.lineOfSight && a != cellPos))
+            if (gt == null || (obstacleList.ContainsKey(a) && a != cellPos && obstacleList[a] != null && obstacleList[a].GetComponent<Obstacle>().hideLineOfSight) || (!gt.lineOfSight && a != cellPos))
             {
                 lineOS = false;
             };
