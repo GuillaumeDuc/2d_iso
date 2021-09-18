@@ -117,6 +117,7 @@ public class Status
         this.turnCounter = 0;
         this.tileGO = tileGO;
         this.modifyTileAction = modifyTile;
+        this.permanentOnTile = permanentOnTile;
         weight = 1;
         nextStatus = null;
         previousStatus = null;
@@ -132,6 +133,7 @@ public class Status
         this.turnCounter = 0;
         this.tileGO = tileGO;
         this.modifyTileAction = modifyTile;
+        this.permanentOnTile = permanentOnTile;
         weight = 1;
         nextStatus = null;
         previousStatus = null;
