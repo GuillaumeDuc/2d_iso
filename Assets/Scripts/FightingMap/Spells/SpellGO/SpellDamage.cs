@@ -113,18 +113,22 @@ public class SpellDamage : MonoBehaviour
         {
             playerList.Remove(s);
             initiativeList.Remove(s);
-            DestroyImmediate(s.gameObject);
+            s.destroySelf();
         }
         foreach (var s in deadEnemyList)
         {
             enemyList.Remove(s);
             initiativeList.Remove(s);
-            DestroyImmediate(s.gameObject);
+            s.destroySelf();
         }
         foreach (var s in destroyedObstacleList)
         {
-            DestroyImmediate(obstacleList[s]);
-            obstacleList.Remove(s);
+            try
+            {
+                obstacleList[s].GetComponent<Obstacle>().destroySelf();
+                obstacleList.Remove(s);
+            }
+            catch { }
         }
     }
 

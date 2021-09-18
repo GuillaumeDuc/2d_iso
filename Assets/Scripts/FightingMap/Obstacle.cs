@@ -15,6 +15,11 @@ public class Obstacle : MonoBehaviour
         currentHP = maxHP;
     }
 
+    public virtual void destroySelf()
+    {
+        Destroy(this.gameObject);
+    }
+
     public bool takeDamage(int dmg)
     {
         currentHP -= dmg;

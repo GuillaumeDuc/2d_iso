@@ -7,8 +7,14 @@ using System.Linq;
 public class WaterObstacle : Obstacle
 {
     private int waterStep = 3;
+    private bool removeWet = false;
 
     void Start()
+    {
+        applyStatus();
+    }
+
+    void applyStatus()
     {
         // Add status to tile & player
         Vector3Int pos = FightingSceneStore.tilemap.WorldToCell(this.gameObject.transform.position);
@@ -17,6 +23,7 @@ public class WaterObstacle : Obstacle
         {
             tile.addStatus(new Status(StatusList.Wet));
             FightingSceneStore.tilemap.RefreshTile(pos);
+            removeWet = true;
         }
         Dictionary<Unit, GameObject> allCharacters = FightingSceneStore.playerList.Concat(FightingSceneStore.enemyList).ToDictionary(x => x.Key, x => x.Value);
         Unit u = getUnitFromPos(allCharacters, pos);
@@ -38,6 +45,18 @@ public class WaterObstacle : Obstacle
         return null;
     }
 
+    public override void destroySelf()
+    {
+        if (removeWet)
+        {
+            Vector3Int pos = FightingSceneStore.tilemap.WorldToCell(this.gameObject.transform.position);
+            GroundTile tile = (GroundTile)FightingSceneStore.tilemap.GetTile(pos);
+            tile.removeStatus(new Status(StatusList.Wet));
+            FightingSceneStore.tilemap.RefreshTile(pos);
+        }
+        base.destroySelf();
+    }
+
     public override void updateStatus()
     {
         base.updateStatus();
@@ -56,7 +75,7 @@ public class WaterObstacle : Obstacle
                 FightingSceneStore.obstacleList.Remove(FightingSceneStore.tilemap.WorldToCell(gameObject.transform.position));
             }
             catch { }
-            DestroyImmediate(this.gameObject);
+            this.destroySelf();
         }
     }
 

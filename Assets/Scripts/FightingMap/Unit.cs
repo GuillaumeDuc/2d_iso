@@ -54,6 +54,11 @@ public class Unit : MonoBehaviour
         return FightingSceneStore.enemyList.ContainsKey(this) ? FightingSceneStore.playerList : FightingSceneStore.enemyList;
     }
 
+    public void destroySelf()
+    {
+        Destroy(this.gameObject);
+    }
+
     public bool takeDamage(int dmg)
     {
         currentHP -= dmg;

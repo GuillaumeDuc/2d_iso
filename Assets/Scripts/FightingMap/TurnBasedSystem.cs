@@ -148,6 +148,7 @@ public class TurnBasedSystem : MonoBehaviour
             // Apply all status on players then update
             applyStatus();
             updateScrollViews();
+            tryEndGame();
         }
     }
 
@@ -234,19 +235,19 @@ public class TurnBasedSystem : MonoBehaviour
         {
             playerList.Remove(s);
             initiativeList.Remove(s);
-            DestroyImmediate(s.gameObject);
+            s.destroySelf();
         }
         foreach (var s in deadEnemyList)
         {
             enemyList.Remove(s);
             initiativeList.Remove(s);
-            DestroyImmediate(s.gameObject);
+            s.destroySelf();
         }
         foreach (var s in destroyedObstacleList)
         {
             try
             {
-                DestroyImmediate(obstacleList[s]);
+                obstacleList[s].GetComponent<Obstacle>().destroySelf();
                 obstacleList.Remove(s);
             }
             catch { }
