@@ -144,6 +144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectDelay: 0.1
   selectedSpellEffects:
-  - name: WaterEffect
+  - name: CreateWaterEffect
     value: 0
     cumul: 1

@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63aa732dc6b730141b3dda210530d24d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 1
+  maxHP: 50
   currentHP: 1
   hideLineOfSight: 1
   preventsWalk: 0

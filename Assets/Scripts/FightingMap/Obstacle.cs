@@ -10,7 +10,7 @@ public class Obstacle : MonoBehaviour
     public bool hideLineOfSight = true, preventsWalk = true;
     public List<Status> statusList = new List<Status>();
 
-    void Start()
+    protected virtual void Start()
     {
         currentHP = maxHP;
     }

@@ -55,6 +55,22 @@ public static class StatusList
     public static GameObject steamEffect = Resources.Load<GameObject>("TileEffects/Steam/SteamEffect");
     public static Status Steam = setFunctions(new Status("Steam", 0, 3, false, steamEffect, removeLineOfSight));
 
+    ////// Entrap Status //////
+    public static Status Entrap = setFunctions(new Status("Entrap", 0, 3));
+
+
+    public static List<Status> getStatuses()
+    {
+        return new List<Status>()
+        {
+            Fire,
+            Slow,
+            Wet,
+            Steam,
+            Entrap
+        };
+    }
+
     private static Status setFunctions(Status status)
     {
         status.setFunctions(

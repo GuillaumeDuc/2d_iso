@@ -9,8 +9,9 @@ public class WaterObstacle : Obstacle
     private int waterStep = 3;
     private bool removeWet = false;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         applyStatus();
     }
 

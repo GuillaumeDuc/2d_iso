@@ -15,7 +15,8 @@ public class SpellEffectList : MonoBehaviour
         Teleport = new SpellEffect("TeleportEffect"),
         BurnTile = new SpellEffect("BurnTileEffect"),
         FireBurst = new SpellEffect("FireBurstEffect"),
-        WaterEffect = new SpellEffect("WaterEffect");
+        CreateWater = new SpellEffect("CreateWaterEffect"),
+        Entrap = new SpellEffect("Entrap");
 
     public static List<SpellEffect> spellEffects = new List<SpellEffect>() {
         PushFromPlayer,
@@ -24,7 +25,8 @@ public class SpellEffectList : MonoBehaviour
         Teleport,
         BurnTile,
         FireBurst,
-        WaterEffect
+        CreateWater,
+        Entrap
     };
 
     void Start()
@@ -53,11 +55,15 @@ public class SpellEffectList : MonoBehaviour
         // Get all fire status, remove them and deal damage
         FireBurst.applyEffectAction = fireBurstEffect;
 
-        // Water effect when in water
-        WaterEffect.applyEffectAction = waterEffect;
+        // Create Water Obstacles
+        CreateWater.applyEffectAction = createWaterEffect;
+
+        // Apply entrapped to character
+        Entrap.statusList.Add(new Status(StatusList.Entrap));
+        Entrap.applyEffectAction = applyEffect;
     }
 
-    public void waterEffect(
+    public void createWaterEffect(
         Spell spell,
         SpellEffect spellEffect,
         Dictionary<Unit, GameObject> playerList,
