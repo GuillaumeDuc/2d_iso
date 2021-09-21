@@ -19,6 +19,7 @@ public static class SpellAreaList
         {
             circle = burst(target, caster, circle, obstacleList, tilemap);
         }
+        circle = includesOnlyStatus(spell.includesOnly, circle);
         return circle;
     }
 
@@ -175,5 +176,31 @@ public static class SpellAreaList
             }
         });
         return newCircle;
+    }
+
+    private static List<Vector3Int> includesOnlyStatus(
+        Status status,
+        List<Vector3Int> area
+        )
+    {
+        if (status == null)
+        {
+            return area;
+        }
+
+        List<Vector3Int> newArea = new List<Vector3Int>();
+        if (StatusList.getStatuses().Find(s => s.type == status.type) != null)
+        {
+            Dictionary<Unit, GameObject> allCharacters = FightingSceneStore.playerList.Concat(FightingSceneStore.enemyList).ToDictionary(x => x.Key, x => x.Value);
+            foreach (var unit in allCharacters)
+            {
+                if (area.Contains(unit.Key.position) && unit.Key.statusList.Contains(status))
+                {
+                    newArea.Add(unit.Key.position);
+                }
+            }
+            return newArea;
+        }
+        return area;
     }
 }
