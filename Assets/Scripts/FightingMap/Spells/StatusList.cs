@@ -58,7 +58,6 @@ public static class StatusList
     ////// Entrap Status //////
     public static Status Entrap = setFunctions(new Status("Entrap", 0, 3));
 
-
     public static List<Status> getStatuses()
     {
         return new List<Status>()

@@ -21,6 +21,7 @@ public class Spell : MonoBehaviour
     public int range = 1, area, damage, clickNb = 1, manaCost;
     public bool lineOfSight, uniqueCellArea, burst;
     public SpellType type;
+    public Status includesOnly;
 
     [HideInInspector]
     public Vector3Int position;

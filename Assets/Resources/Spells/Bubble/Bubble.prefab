@@ -116,6 +116,16 @@ MonoBehaviour:
   uniqueCellArea: 0
   burst: 0
   type: 1
+  includesOnly:
+    name: Wet
+    type: Wet
+    damage: 0
+    turnNb: 3
+    turnCounter: 0
+    permanent: 0
+    permanentOnTile: 1
+    weight: 1
+    tileGO: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
   caster: {fileID: 0}
   selectedArea: 0

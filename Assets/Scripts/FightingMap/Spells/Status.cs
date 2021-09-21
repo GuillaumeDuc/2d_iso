@@ -3,6 +3,7 @@ using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Status
 {
     public string name, type;
