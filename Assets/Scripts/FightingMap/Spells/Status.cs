@@ -19,6 +19,7 @@ public class Status
     public System.Func<Status, List<Status>, List<Status>> addStatusToPlayerFunc { get; set; }
     public System.Func<Status, List<Status>, List<Status>> addStatusToTileFunc { get; set; }
     public System.Action<Status, Tile> modifyTileAction { get; set; }
+    public System.Action<Status, Unit> modifyUnitAction { get; set; }
 
     public void setFunctions(
         System.Func<Status, bool> update,
@@ -58,6 +59,11 @@ public class Status
         modifyTileAction?.Invoke(this, tile);
     }
 
+    public void modifyUnit(Unit unit)
+    {
+        modifyUnitAction?.Invoke(this, unit);
+    }
+
     public Status(Status status, bool deepCopy = true)
     {
         type = status.type;
@@ -75,6 +81,7 @@ public class Status
         addStatusToPlayerFunc = status.addStatusToPlayerFunc;
         addStatusToTileFunc = status.addStatusToTileFunc;
         modifyTileAction = status.modifyTileAction;
+        modifyUnitAction = status.modifyUnitAction;
 
         // Deep clone
         if (deepCopy)
@@ -108,7 +115,7 @@ public class Status
         }
     }
 
-    public Status(string type, string name, int damage = 0, int turnNb = 0, bool permanent = false, GameObject tileGO = null, System.Action<Status, Tile> modifyTile = null, bool permanentOnTile = false)
+    public Status(string type, string name, int damage = 0, int turnNb = 0, bool permanent = false, bool permanentOnTile = false, GameObject tileGO = null, System.Action<Status, Tile> modifyTile = null, System.Action<Status, Unit> modifyUnit = null)
     {
         this.type = type;
         this.name = name;
@@ -117,14 +124,15 @@ public class Status
         this.permanent = permanent;
         this.turnCounter = 0;
         this.tileGO = tileGO;
-        this.modifyTileAction = modifyTile;
         this.permanentOnTile = permanentOnTile;
+        this.modifyTileAction = modifyTile;
+        this.modifyUnitAction = modifyUnit;
         weight = 1;
         nextStatus = null;
         previousStatus = null;
     }
 
-    public Status(string type, int damage = 0, int turnNb = 0, bool permanent = false, GameObject tileGO = null, System.Action<Status, Tile> modifyTile = null, bool permanentOnTile = false)
+    public Status(string type, int damage = 0, int turnNb = 0, bool permanent = false, bool permanentOnTile = false, GameObject tileGO = null, System.Action<Status, Tile> modifyTile = null, System.Action<Status, Unit> modifyUnit = null)
     {
         this.type = type;
         this.name = type;
@@ -134,6 +142,7 @@ public class Status
         this.turnCounter = 0;
         this.tileGO = tileGO;
         this.modifyTileAction = modifyTile;
+        this.modifyUnitAction = modifyUnit;
         this.permanentOnTile = permanentOnTile;
         weight = 1;
         nextStatus = null;

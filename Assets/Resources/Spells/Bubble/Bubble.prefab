@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1002851698}
   - component: {fileID: -1281832591939629621}
   - component: {fileID: -3343954350686497803}
+  - component: {fileID: 4244129696854233435}
   m_Layer: 0
   m_Name: Bubble
   m_TagString: Untagged
@@ -132,3 +133,22 @@ MonoBehaviour:
   selectedRange: 0
   selectedCanCast: 0
   selectedInstantiate: 0
+--- !u!114 &4244129696854233435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2894754952703797077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ee48caefd9dd5409e444f4df206c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectDelay: 0
+  selectedSpellEffects:
+  - name: Entrap
+    statusList: []
+    statusTileList: []
+    value: 0
+    cumul: 1

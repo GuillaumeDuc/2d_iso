@@ -22,17 +22,17 @@ public static class StatusList
     // No status
     static Status NoStatus = new Status(temperature, "No status", 0, 0);
     // Fire status
-    public static Status Fire = new Status(temperature, "Fire", 10, 3, false, fireTileEffect);
+    public static Status Fire = new Status(temperature, "Fire", 10, 3, false, false, fireTileEffect);
     // Escalating Fire
-    static Status ExtremeFire = new Status(temperature, "Extreme Fire", 15, 6, false, extremeFireTileEffect);
+    static Status ExtremeFire = new Status(temperature, "Extreme Fire", 15, 6, false, false, extremeFireTileEffect);
     // Escalating More
-    static Status ScorchingFire = new Status(temperature, "Scorching Fire", 20, 12, false, scorchingFireTileEffect);
+    static Status ScorchingFire = new Status(temperature, "Scorching Fire", 20, 12, false, false, scorchingFireTileEffect);
     // Freeze Status
-    public static Status Freeze = new Status(temperature, "Freeze", 10, 3, false, freezeTileEffect, walkableWater);
+    public static Status Freeze = new Status(temperature, "Freeze", 10, 3, false, false, freezeTileEffect, walkableWater);
     // Escalating Freeze
-    static Status ExtremeFreeze = new Status(temperature, "Extreme Freeze", 15, 6, false, freezeTileEffect, walkableWater);
+    static Status ExtremeFreeze = new Status(temperature, "Extreme Freeze", 15, 6, false, false, freezeTileEffect, walkableWater);
     // Escalating More
-    static Status FreezingCold = new Status(temperature, "Freezing Cold", 20, 12, false, freezeTileEffect, walkableWater);
+    static Status FreezingCold = new Status(temperature, "Freezing Cold", 20, 12, false, false, freezeTileEffect, walkableWater);
     // Setting Temperature status
     static List<Status> temperatureList = setWeight(setPNStatus(setFunctionsStatus(new List<Status>()
         {
@@ -49,14 +49,14 @@ public static class StatusList
     public static Status Slow = setFunctions(new Status("Slow", 0, 3));
 
     ////// Wet Status //////
-    public static Status Wet = setFunctions(new Status("Wet", 0, 3, false, null, null, true));
+    public static Status Wet = setFunctions(new Status("Wet", 0, 3, false, true));
 
     ////// Steam Status //////
     public static GameObject steamEffect = Resources.Load<GameObject>("TileEffects/Steam/SteamEffect");
-    public static Status Steam = setFunctions(new Status("Steam", 0, 3, false, steamEffect, removeLineOfSight));
+    public static Status Steam = setFunctions(new Status("Steam", 0, 3, false, false, steamEffect, removeLineOfSight));
 
     ////// Entrap Status //////
-    public static Status Entrap = setFunctions(new Status("Entrap", 0, 3));
+    public static Status Entrap = setFunctions(new Status("Entrap", 0, 3, false, false, null, null, removeMovement));
 
     public static List<Status> getStatuses()
     {
@@ -190,6 +190,13 @@ public static class StatusList
             statusList = MixingStatusHelper.getStatusList(statusList, status);
         }
         return statusList;
+    }
+
+    // Modify Unit
+
+    static public void removeMovement(Status status, Unit unit)
+    {
+        unit.currentMovementPoint = 0;
     }
 
     // Modify Tile 
