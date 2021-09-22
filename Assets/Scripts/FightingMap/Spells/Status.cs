@@ -115,7 +115,46 @@ public class Status
         }
     }
 
-    public Status(string type, string name, int damage = 0, int turnNb = 0, bool permanent = false, bool permanentOnTile = false, GameObject tileGO = null, System.Action<Status, Tile> modifyTile = null, System.Action<Status, Unit> modifyUnit = null)
+    public Status(
+        string type,
+        string name,
+        int damage = 0,
+        int turnNb = 0,
+        bool permanent = false,
+        bool permanentOnTile = false,
+        GameObject tileGO = null,
+        System.Action<Status, Tile> modifyTile = null,
+        System.Action<Status, Unit> modifyUnit = null
+        )
+    {
+        setStatus(type, name, damage, turnNb, permanent, permanentOnTile, tileGO, modifyTile, modifyUnit);
+    }
+
+    public Status(
+        string type,
+        int damage = 0,
+        int turnNb = 0,
+        bool permanent = false,
+        bool permanentOnTile = false,
+        GameObject tileGO = null,
+        System.Action<Status, Tile> modifyTile = null,
+        System.Action<Status, Unit> modifyUnit = null
+        )
+    {
+        setStatus(type, type, damage, turnNb, permanent, permanentOnTile, tileGO, modifyTile, modifyUnit);
+    }
+
+    private void setStatus(
+        string type,
+        string name,
+        int damage = 0,
+        int turnNb = 0,
+        bool permanent = false,
+        bool permanentOnTile = false,
+        GameObject tileGO = null,
+        System.Action<Status, Tile> modifyTile = null,
+        System.Action<Status, Unit> modifyUnit = null
+        )
     {
         this.type = type;
         this.name = name;
@@ -127,23 +166,6 @@ public class Status
         this.permanentOnTile = permanentOnTile;
         this.modifyTileAction = modifyTile;
         this.modifyUnitAction = modifyUnit;
-        weight = 1;
-        nextStatus = null;
-        previousStatus = null;
-    }
-
-    public Status(string type, int damage = 0, int turnNb = 0, bool permanent = false, bool permanentOnTile = false, GameObject tileGO = null, System.Action<Status, Tile> modifyTile = null, System.Action<Status, Unit> modifyUnit = null)
-    {
-        this.type = type;
-        this.name = type;
-        this.damage = damage;
-        this.turnNb = turnNb;
-        this.permanent = permanent;
-        this.turnCounter = 0;
-        this.tileGO = tileGO;
-        this.modifyTileAction = modifyTile;
-        this.modifyUnitAction = modifyUnit;
-        this.permanentOnTile = permanentOnTile;
         weight = 1;
         nextStatus = null;
         previousStatus = null;
