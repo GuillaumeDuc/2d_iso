@@ -15,7 +15,7 @@ public class CustomSpellEditor : Editor
     int ListSize;
 
     int _choiceIndex = 0;
-    List<string> _choices = new List<string> { "None", "Wet", "Steam" };
+    List<string> _choices = new List<string>(status.GetNames(typeof(status)));
 
     void OnEnable()
     {

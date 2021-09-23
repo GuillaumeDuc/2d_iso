@@ -3,6 +3,16 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
 
+public enum status
+{
+    None,
+    Fire,
+    Slow,
+    Wet,
+    Steam,
+    Entrap
+}
+
 public static class StatusList
 {
     private static MixingStatusHelper MixingStatusHelper = new MixingStatusHelper();

@@ -50,7 +50,10 @@ public class Obstacle : MonoBehaviour
     {
         statusList.ForEach(s =>
         {
-            takeDamage(s.damageStatus());
+            if (s != null)
+            {
+                takeDamage(s.damageStatus());
+            }
         });
     }
 }

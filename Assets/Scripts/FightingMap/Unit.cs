@@ -110,10 +110,10 @@ public class Unit : MonoBehaviour
         statusList.ForEach(s =>
         {
             bool continueStatus = s.updateStatus();
-            // Apply special status effect to unit
-            s.modifyUnit(this);
             if (continueStatus)
             {
+                // Apply special status effect to unit
+                s.modifyUnit(this);
                 newStatusList.Add(s);
             }
         });

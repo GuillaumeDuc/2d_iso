@@ -212,15 +212,25 @@ public class SpellEffectList : MonoBehaviour
                 });
             }
 
-            // Apply status to characters
+            // Apply status & spell effect to characters
             Unit character = getUnitFromPos(allCharacters, cell);
             if (character != null)
             {
+                // Apply status
                 spellEffect.statusList.ForEach(status =>
                 {
                     character.addStatus(new Status(status));
                 });
+
+                // Apply spell effect
+                if (spell.unitSpellEffect != null)
+                {
+                    Vector3 unitSEpos = new Vector3(character.gameObject.transform.position.x, character.gameObject.transform.position.y - 0.05f, character.gameObject.transform.position.z);
+                    GameObject unitSpellEffect = Instantiate(spell.unitSpellEffect, unitSEpos, Quaternion.identity);
+                    unitSpellEffect.transform.parent = character.gameObject.transform;
+                }
             }
+
             // Apply status to tiles
             GroundTile tile = (GroundTile)tilemap.GetTile(cell);
             if (tile != null)
