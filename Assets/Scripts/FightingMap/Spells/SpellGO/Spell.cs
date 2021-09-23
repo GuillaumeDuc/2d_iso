@@ -10,6 +10,10 @@ public enum SpellType
     Earth,
     Dark,
     SuperFire,
+    SuperWater,
+    SuperWind,
+    SuperEarth,
+
     Magma,
     Ice,
     Steam,

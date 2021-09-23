@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5314830767186907459}
   - component: {fileID: 564140783339041630}
   - component: {fileID: 2377990547450437052}
+  - component: {fileID: 5253247512247709004}
   m_Layer: 0
   m_Name: Waterboost
   m_TagString: Untagged
@@ -105,7 +106,7 @@ MonoBehaviour:
   uniqueCellArea: 0
   burst: 0
   unitSpellEffect: {fileID: 0}
-  type: 1
+  type: 6
   includesOnly:
     name: Wet
     type: Wet
@@ -150,3 +151,16 @@ MonoBehaviour:
     statusTileList: []
     value: 0
     cumul: 1
+--- !u!114 &5253247512247709004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5806489108024623919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565dccd97428ff64783b8a98c78c6ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0.5
