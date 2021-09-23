@@ -10,7 +10,8 @@ public enum status
     Slow,
     Wet,
     Steam,
-    Entrap
+    Entrap,
+    Waterboost
 }
 
 public static class StatusList
@@ -68,6 +69,9 @@ public static class StatusList
     ////// Entrap Status //////
     public static Status Entrap = setFunctions(new Status("Entrap", 0, 3, false, false, null, null, removeMovement));
 
+    ////// WaterBoost Status //////
+    public static Status Waterboost = setFunctions(new Status("Waterboost", 0, 3, false, false, null, null, boostPlayer));
+
     public static List<Status> getStatuses()
     {
         return new List<Status>()
@@ -76,7 +80,8 @@ public static class StatusList
             Slow,
             Wet,
             Steam,
-            Entrap
+            Entrap,
+            Waterboost
         };
     }
 
@@ -207,6 +212,14 @@ public static class StatusList
     static public void removeMovement(Status status, Unit unit)
     {
         unit.currentMovementPoint = 0;
+    }
+
+    static public void boostPlayer(Status status, Unit unit)
+    {
+        unit.mana = (int)(unit.mana * 1.1);
+        int diff = (int)(unit.maxHP * 1.1) - unit.maxHP;
+        unit.maxHP += diff;
+        unit.currentHP += diff;
     }
 
     // Modify Tile 

@@ -16,7 +16,8 @@ public class SpellEffectList : MonoBehaviour
         BurnTile = new SpellEffect("BurnTileEffect"),
         FireBurst = new SpellEffect("FireBurstEffect"),
         CreateWater = new SpellEffect("CreateWaterEffect"),
-        Entrap = new SpellEffect("Entrap");
+        Entrap = new SpellEffect("EntrapEffect"),
+        Waterboost = new SpellEffect("WaterboostEffect");
 
     public static List<SpellEffect> spellEffects = new List<SpellEffect>() {
         PushFromPlayer,
@@ -26,7 +27,8 @@ public class SpellEffectList : MonoBehaviour
         BurnTile,
         FireBurst,
         CreateWater,
-        Entrap
+        Entrap,
+        Waterboost
     };
 
     void Start()
@@ -61,6 +63,10 @@ public class SpellEffectList : MonoBehaviour
         // Apply entrapped to character
         Entrap.statusList.Add(new Status(StatusList.Entrap));
         Entrap.applyEffectAction = applyEffect;
+
+        // Apply water boost to character
+        Waterboost.statusList.Add(new Status(StatusList.Waterboost));
+        Waterboost.applyEffectAction = applyEffect;
     }
 
     public void createWaterEffect(
