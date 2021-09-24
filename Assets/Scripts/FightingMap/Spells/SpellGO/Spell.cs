@@ -13,7 +13,6 @@ public enum SpellType
     SuperWater,
     SuperWind,
     SuperEarth,
-
     Magma,
     Ice,
     Steam,
@@ -85,7 +84,7 @@ public class Spell : MonoBehaviour
     // Instantiate
     public enum FunctionInstantiate
     {
-        AreaWithDelay,
+        Area,
         OnCellClicked,
         Obstacles,
         ThrowedSpell,
@@ -96,7 +95,7 @@ public class Spell : MonoBehaviour
     public FunctionInstantiate selectedInstantiate;
     Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap>> functionInstantiateLookup = new Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap>>()
         {
-            { Spell.FunctionInstantiate.AreaWithDelay, SpellInstantiateList.instantiateAreaWithDelay },
+            { Spell.FunctionInstantiate.Area, SpellInstantiateList.instantiateArea },
             { Spell.FunctionInstantiate.OnCellClicked, SpellInstantiateList.instantiateOnCellClicked },
             { Spell.FunctionInstantiate.Obstacles, SpellInstantiateList.instantiateObstacles },
             { Spell.FunctionInstantiate.ThrowedSpell, SpellInstantiateList.instantiateThrowedSpell },

@@ -291,6 +291,18 @@ public class SpellEffectList : MonoBehaviour
         player.Key.position = spell.position;
         // Move gameobject to position
         player.Value.transform.position = cellPos;
+        // Add status from new tile position
+        GroundTile gt = (GroundTile)tilemap.GetTile(spell.position);
+        if (gt != null)
+        {
+            if (gt.statusList != null)
+            {
+                gt.statusList.ForEach(status =>
+                {
+                    player.Key.addStatus(status);
+                });
+            }
+        }
         // Make player reappear
         StartCoroutine(scaleGO(player.Value, 0f, originalScale.x, originalScale));
     }

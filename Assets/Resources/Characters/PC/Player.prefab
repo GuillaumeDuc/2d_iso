@@ -170,12 +170,14 @@ MonoBehaviour:
   endurance: 3
   mana: 110
   spellSlot: 3
-  currentHP: 150
   movementPoint: 6
   initiative: 0
+  currentHP: 150
   currentMovementPoint: 0
   currentMana: 0
   spellList:
+  - {fileID: 1217699458593871177, guid: 4206a6b2cda861341b12821715be9136, type: 3}
+  - {fileID: 2780143763527378437, guid: 935ec84be0c5f4b40a48bc63ec4da8ee, type: 3}
   - {fileID: 3480327853214015538, guid: 20dcab4ef28e78248b0c5be33ee6b306, type: 3}
   - {fileID: 2894754952703797077, guid: 5e5fd930c28a5c1449859c1f5a104257, type: 3}
   - {fileID: 5806489108024623919, guid: a31715b4624abd941913df7613e194f3, type: 3}
@@ -185,7 +187,6 @@ MonoBehaviour:
   - {fileID: 6974797582085391557, guid: 38733b82c351c6940b7582219ca9296e, type: 3}
   - {fileID: 6704543020205789090, guid: 12347f4e1e66b5648aa20dde3e6c9dc8, type: 3}
   - {fileID: 3575874839522709577, guid: 2edfcadb7c9c88845ad0098448eed602, type: 3}
-  - {fileID: 2780143763527378437, guid: 935ec84be0c5f4b40a48bc63ec4da8ee, type: 3}
   - {fileID: 6446760062049360379, guid: 4efa16924fb2d8746b7fb61e434909f5, type: 3}
   selectedSpell: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
