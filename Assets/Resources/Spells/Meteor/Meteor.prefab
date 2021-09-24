@@ -9609,7 +9609,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5282a98c86aa10047b1fbadc0fc46354, type: 2}
+  - {fileID: 2100000, guid: 476c9729345688c4ebe2e8b59ab46628, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14695,7 +14695,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcf77bb7d4dbf544a864a6e68847b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameSpell: 
   range: 15
   area: 4
   damage: 100
@@ -14704,6 +14703,7 @@ MonoBehaviour:
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 1
+  type: 0
   position: {x: 20, y: 15, z: 0}
   caster: {fileID: 0}
   selectedArea: 3

@@ -19,6 +19,7 @@ public static class SpellAreaList
         {
             circle = burst(target, caster, circle, obstacleList, tilemap);
         }
+        circle = includesOnlyStatus(spell.includesOnly, circle);
         return circle;
     }
 
@@ -31,6 +32,48 @@ public static class SpellAreaList
         )
     {
         List<Vector3Int> area = new List<Vector3Int>(RangeUtils.getAreaInLine(caster.position, target, spell.area, obstacleList, tilemap, spell.uniqueCellArea));
+
+        // Get the direction of the collision
+        Vector3 direction = target - caster.position;
+        // Remove area behind caster
+        List<Vector3Int> removeList = area.FindAll(a =>
+        {
+            // Right / Left
+            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+            {
+                // Right
+                if (direction.x > 0)
+                {
+                    return a.x <= caster.position.x;
+                }
+                // Left
+                if (direction.x < 0)
+                {
+                    return a.x >= caster.position.x;
+                }
+                return false;
+            }
+            else
+            {
+                if (direction.y > 0)
+                {
+                    return a.y <= caster.position.y;
+                }
+                if (direction.y < 0)
+                {
+                    return a.y >= caster.position.y;
+                }
+                return false;
+            }
+        });
+
+        // Remove list
+        area = area.Except(removeList).ToList();
+
+        if (spell.burst)
+        {
+            area = burst(target, caster, area, obstacleList, tilemap);
+        }
         return area;
     }
 
@@ -77,6 +120,39 @@ public static class SpellAreaList
         return circle;
     }
 
+    public static List<Vector3Int> getAreaInLineHorizontal(
+        Spell spell,
+        Vector3Int target,
+        Unit caster,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        List<Vector3Int> line = new List<Vector3Int>();
+
+        // Get the direction of the collision
+        Vector3 direction = target - caster.position;
+        // Right / Left
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+        {
+            line.AddRange(RangeUtils.getAreaInLine(new Vector3Int(target.x, target.y - spell.area, target.z), new Vector3Int(target.x, target.y + spell.area, target.z), 0, obstacleList, tilemap, spell.uniqueCellArea));
+            // Add to
+            line.Add(new Vector3Int(target.x, target.y - spell.area, target.z));
+        }
+        else
+        {
+            line.AddRange(RangeUtils.getAreaInLine(new Vector3Int(target.x - spell.area, target.y, target.z), new Vector3Int(target.x + spell.area, target.y, target.z), 0, obstacleList, tilemap, spell.uniqueCellArea));
+            line.Add(new Vector3Int(target.x - spell.area, target.y, target.z));
+        }
+
+        if (spell.burst)
+        {
+            line = burst(target, caster, line, obstacleList, tilemap);
+        }
+
+        return line;
+    }
+
     private static List<Vector3Int> burst(
         Vector3Int current,
         Unit caster,
@@ -94,11 +170,37 @@ public static class SpellAreaList
         List<Vector3Int> newCircle = new List<Vector3Int>();
         circle.ForEach(v =>
         {
-            if (RangeUtils.lineOfSight(current, v, obstacleList, tilemap))
+            if (RangeUtils.lineOfWalk(current, v, obstacleList, tilemap))
             {
                 newCircle.Add(v);
             }
         });
         return newCircle;
+    }
+
+    private static List<Vector3Int> includesOnlyStatus(
+        Status status,
+        List<Vector3Int> area
+        )
+    {
+        if (status == null)
+        {
+            return area;
+        }
+
+        List<Vector3Int> newArea = new List<Vector3Int>();
+        if (StatusList.getStatuses().Find(s => s.type == status.type) != null)
+        {
+            Dictionary<Unit, GameObject> allCharacters = FightingSceneStore.playerList.Concat(FightingSceneStore.enemyList).ToDictionary(x => x.Key, x => x.Value);
+            foreach (var unit in allCharacters)
+            {
+                if (area.Contains(unit.Key.position) && unit.Key.statusList.Contains(status))
+                {
+                    newArea.Add(unit.Key.position);
+                }
+            }
+            return newArea;
+        }
+        return area;
     }
 }

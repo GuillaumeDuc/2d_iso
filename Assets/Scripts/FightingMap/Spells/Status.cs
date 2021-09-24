@@ -3,6 +3,7 @@ using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Status
 {
     public string name, type;
@@ -18,6 +19,7 @@ public class Status
     public System.Func<Status, List<Status>, List<Status>> addStatusToPlayerFunc { get; set; }
     public System.Func<Status, List<Status>, List<Status>> addStatusToTileFunc { get; set; }
     public System.Action<Status, Tile> modifyTileAction { get; set; }
+    public System.Action<Status, Unit> modifyUnitAction { get; set; }
 
     public void setFunctions(
         System.Func<Status, bool> update,
@@ -57,6 +59,11 @@ public class Status
         modifyTileAction?.Invoke(this, tile);
     }
 
+    public void modifyUnit(Unit unit)
+    {
+        modifyUnitAction?.Invoke(this, unit);
+    }
+
     public Status(Status status, bool deepCopy = true)
     {
         type = status.type;
@@ -74,6 +81,7 @@ public class Status
         addStatusToPlayerFunc = status.addStatusToPlayerFunc;
         addStatusToTileFunc = status.addStatusToTileFunc;
         modifyTileAction = status.modifyTileAction;
+        modifyUnitAction = status.modifyUnitAction;
 
         // Deep clone
         if (deepCopy)
@@ -107,7 +115,46 @@ public class Status
         }
     }
 
-    public Status(string type, string name, int damage = 0, int turnNb = 0, bool permanent = false)
+    public Status(
+        string type,
+        string name,
+        int damage = 0,
+        int turnNb = 0,
+        bool permanent = false,
+        bool permanentOnTile = false,
+        GameObject tileGO = null,
+        System.Action<Status, Tile> modifyTile = null,
+        System.Action<Status, Unit> modifyUnit = null
+        )
+    {
+        setStatus(type, name, damage, turnNb, permanent, permanentOnTile, tileGO, modifyTile, modifyUnit);
+    }
+
+    public Status(
+        string type,
+        int damage = 0,
+        int turnNb = 0,
+        bool permanent = false,
+        bool permanentOnTile = false,
+        GameObject tileGO = null,
+        System.Action<Status, Tile> modifyTile = null,
+        System.Action<Status, Unit> modifyUnit = null
+        )
+    {
+        setStatus(type, type, damage, turnNb, permanent, permanentOnTile, tileGO, modifyTile, modifyUnit);
+    }
+
+    private void setStatus(
+        string type,
+        string name,
+        int damage = 0,
+        int turnNb = 0,
+        bool permanent = false,
+        bool permanentOnTile = false,
+        GameObject tileGO = null,
+        System.Action<Status, Tile> modifyTile = null,
+        System.Action<Status, Unit> modifyUnit = null
+        )
     {
         this.type = type;
         this.name = name;
@@ -115,19 +162,10 @@ public class Status
         this.turnNb = turnNb;
         this.permanent = permanent;
         this.turnCounter = 0;
-        weight = 1;
-        nextStatus = null;
-        previousStatus = null;
-    }
-
-    public Status(string type, int damage = 0, int turnNb = 0, bool permanent = false)
-    {
-        this.type = type;
-        this.name = type;
-        this.damage = damage;
-        this.turnNb = turnNb;
-        this.permanent = permanent;
-        this.turnCounter = 0;
+        this.tileGO = tileGO;
+        this.permanentOnTile = permanentOnTile;
+        this.modifyTileAction = modifyTile;
+        this.modifyUnitAction = modifyUnit;
         weight = 1;
         nextStatus = null;
         previousStatus = null;

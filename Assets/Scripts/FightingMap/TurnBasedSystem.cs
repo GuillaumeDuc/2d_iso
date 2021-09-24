@@ -148,6 +148,7 @@ public class TurnBasedSystem : MonoBehaviour
             // Apply all status on players then update
             applyStatus();
             updateScrollViews();
+            tryEndGame();
         }
     }
 
@@ -214,7 +215,9 @@ public class TurnBasedSystem : MonoBehaviour
             }
         }
         // Obstacle
-        foreach (var o in obstacleList)
+        // Obstacle can be added through update status, therefore use a copy
+        Dictionary<Vector3Int, GameObject> oldObstacleList = obstacleList.ToDictionary(entry => entry.Key, entry => entry.Value);
+        foreach (var o in oldObstacleList)
         {
             Obstacle obstacle = o.Value.GetComponent<Obstacle>();
             // Take damages
@@ -232,18 +235,22 @@ public class TurnBasedSystem : MonoBehaviour
         {
             playerList.Remove(s);
             initiativeList.Remove(s);
-            DestroyImmediate(s.gameObject);
+            s.destroySelf();
         }
         foreach (var s in deadEnemyList)
         {
             enemyList.Remove(s);
             initiativeList.Remove(s);
-            DestroyImmediate(s.gameObject);
+            s.destroySelf();
         }
         foreach (var s in destroyedObstacleList)
         {
-            DestroyImmediate(obstacleList[s]);
-            obstacleList.Remove(s);
+            try
+            {
+                obstacleList[s].GetComponent<Obstacle>().destroySelf();
+                obstacleList.Remove(s);
+            }
+            catch { }
         }
     }
 

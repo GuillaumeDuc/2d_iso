@@ -21,7 +21,7 @@ public class CustomListEditor : Editor
     {
         t = (SpellEffectScript)target;
         GetTarget = new SerializedObject(t);
-        ThisList = GetTarget.FindProperty("selectedSpellEffects"); // Find the List in our script and create a refrence of it
+        ThisList = GetTarget.FindProperty("selectedSpellEffects"); // Find the List in our script and create a reference of it
     }
 
     public override void OnInspectorGUI()

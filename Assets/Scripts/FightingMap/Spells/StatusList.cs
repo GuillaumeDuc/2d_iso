@@ -3,56 +3,49 @@ using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 using UnityEngine;
 
-public class StatusList : MonoBehaviour
+public enum status
 {
-    public Status
-        Fire,
-        Freeze,
-        Slow,
-        Wet,
-        Steam
-        ;
+    None,
+    Fire,
+    Slow,
+    Wet,
+    Steam,
+    Entrap,
+    Waterboost
+}
 
-    private MixingStatusHelper MixingStatusHelper = new MixingStatusHelper();
+public static class StatusList
+{
+    private static MixingStatusHelper MixingStatusHelper = new MixingStatusHelper();
 
-    void Start()
-    {
-        // Temperature Tile GameObject
-        GameObject fireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/FireEffect");
-        GameObject extremeFireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/ExtremeFireEffect");
-        GameObject scorchingFireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/ScorchingFireEffect");
-        GameObject freezeTileEffect = Resources.Load<GameObject>("TileEffects/Freeze/FreezeEffect");
-        GameObject extremeFreezeTileEffect = Resources.Load<GameObject>("TileEffects/Freeze/ExtremFreezeEffect");
-        GameObject freezingColdTileEffect = Resources.Load<GameObject>("TileEffects/Freeze/FreezingColdEffect");
+    ////// Temperature //////
+    // Temperature Tile GameObject
+    static GameObject fireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/FireEffect");
+    static GameObject extremeFireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/ExtremeFireEffect");
+    static GameObject scorchingFireTileEffect = Resources.Load<GameObject>("TileEffects/Fire/ScorchingFireEffect");
+    static GameObject freezeTileEffect = Resources.Load<GameObject>("TileEffects/Freeze/FreezeEffect");
+    static GameObject extremeFreezeTileEffect = Resources.Load<GameObject>("TileEffects/Freeze/ExtremFreezeEffect");
+    static GameObject freezingColdTileEffect = Resources.Load<GameObject>("TileEffects/Freeze/FreezingColdEffect");
 
-        // Temperature status
-        string temperature = "Temperature";
+    // Temperature status
+    static string temperature = "Temperature";
 
-        // No status
-        Status NoStatus = new Status(temperature, "No status", 0, 0);
-        // Fire status
-        Fire = new Status(temperature, "Fire", 10, 3);
-        Fire.tileGO = fireTileEffect;
-        // Escalating Fire
-        Status ExtremeFire = new Status(temperature, "Extreme Fire", 15, 6);
-        ExtremeFire.tileGO = extremeFireTileEffect;
-        // Escalating More
-        Status ScorchingFire = new Status(temperature, "Scorching Fire", 20, 12);
-        ScorchingFire.tileGO = scorchingFireTileEffect;
-        // Freeze Status
-        Freeze = new Status(temperature, "Freeze", 10, 3);
-        Freeze.tileGO = freezeTileEffect;
-        Freeze.modifyTileAction = walkableWater;
-        // Escalating Freeze
-        Status ExtremeFreeze = new Status(temperature, "Extreme Freeze", 15, 6);
-        ExtremeFreeze.tileGO = freezeTileEffect;
-        ExtremeFreeze.modifyTileAction = walkableWater;
-        // Escalating More
-        Status FreezingCold = new Status(temperature, "Freezing Cold", 20, 12);
-        FreezingCold.tileGO = freezeTileEffect;
-        FreezingCold.modifyTileAction = walkableWater;
-        // Setting Temperature status
-        List<Status> temperatureList = new List<Status>()
+    // No status
+    static Status NoStatus = new Status(temperature, "No status", 0, 0);
+    // Fire status
+    public static Status Fire = new Status(temperature, "Fire", 10, 3, false, false, fireTileEffect);
+    // Escalating Fire
+    static Status ExtremeFire = new Status(temperature, "Extreme Fire", 15, 6, false, false, extremeFireTileEffect);
+    // Escalating More
+    static Status ScorchingFire = new Status(temperature, "Scorching Fire", 20, 12, false, false, scorchingFireTileEffect);
+    // Freeze Status
+    public static Status Freeze = new Status(temperature, "Freeze", 10, 3, false, false, freezeTileEffect, walkableWater);
+    // Escalating Freeze
+    static Status ExtremeFreeze = new Status(temperature, "Extreme Freeze", 15, 6, false, false, freezeTileEffect, walkableWater);
+    // Escalating More
+    static Status FreezingCold = new Status(temperature, "Freezing Cold", 20, 12, false, false, freezeTileEffect, walkableWater);
+    // Setting Temperature status
+    static List<Status> temperatureList = setWeight(setPNStatus(setFunctionsStatus(new List<Status>()
         {
             FreezingCold,
             ExtremeFreeze,
@@ -61,47 +54,58 @@ public class StatusList : MonoBehaviour
             Fire,
             ExtremeFire,
             ScorchingFire
+        })), -3);
+
+    ////// Slow Status //////
+    public static Status Slow = setFunctions(new Status("Slow", 0, 3));
+
+    ////// Wet Status //////
+    public static Status Wet = setFunctions(new Status("Wet", 0, 3, false, true));
+
+    ////// Steam Status //////
+    public static GameObject steamEffect = Resources.Load<GameObject>("TileEffects/Steam/SteamEffect");
+    public static Status Steam = setFunctions(new Status("Steam", 0, 3, false, false, steamEffect, removeLineOfSight));
+
+    ////// Entrap Status //////
+    public static Status Entrap = setFunctions(new Status("Entrap", 0, 3, false, false, null, null, removeMovement));
+
+    ////// WaterBoost Status //////
+    public static Status Waterboost = setFunctions(new Status("Waterboost", 0, 3, false, false, null, null, boostPlayer));
+
+    public static List<Status> getStatuses()
+    {
+        return new List<Status>()
+        {
+            Fire,
+            Slow,
+            Wet,
+            Steam,
+            Entrap,
+            Waterboost
         };
-        setFunctionsStatus(temperatureList);
-        setPNStatus(temperatureList);
-        setWeight(FreezingCold, -3);
-
-        // Slow Status
-        Slow = new Status("Slow", 0, 3);
-        setFunctions(Slow);
-
-        // Wet Status
-        Wet = new Status("Wet", 0, 3);
-        Wet.permanentOnTile = true;
-        setFunctions(Wet);
-
-        // Steam Status
-        Steam = new Status("Steam", 0, 3);
-        setFunctions(Steam);
-        Steam.modifyTileAction = removeLineOfSight;
-        GameObject steamEffect = Resources.Load<GameObject>("TileEffects/Steam/SteamEffect");
-        Steam.tileGO = steamEffect;
     }
 
-    private void setFunctions(Status status)
+    private static Status setFunctions(Status status)
     {
         status.setFunctions(
             updateStatus,
             damageStatus,
             addStatusToPlayer,
             addStatusToTile
-            );
+        );
+        return status;
     }
 
-    private void setFunctionsStatus(List<Status> list)
+    private static List<Status> setFunctionsStatus(List<Status> list)
     {
         list.ForEach(status =>
         {
             status.setFunctions(updateStatus, damageStatus, addStatusToPlayer, addStatusToTile);
         });
+        return list;
     }
 
-    private void setPNStatus(List<Status> temperatureList)
+    private static List<Status> setPNStatus(List<Status> temperatureList)
     {
         Status previous = temperatureList[0];
         temperatureList.ForEach(status =>
@@ -113,31 +117,34 @@ public class StatusList : MonoBehaviour
                 previous = status;
             }
         });
+        return temperatureList;
     }
 
-    private void setWeight(Status start, int startWeight)
+    private static List<Status> setWeight(List<Status> list, int startWeight)
     {
-        Status current = start;
+        Status current = list[0];
         do
         {
             current.weight = startWeight;
             startWeight += 1;
             current = current.nextStatus;
         } while (current != null);
+
+        return list;
     }
 
-    bool updateStatus(Status status)
+    static bool updateStatus(Status status)
     {
         status.turnCounter += 1;
         return status.turnCounter < status.turnNb || status.permanent;
     }
 
-    int damageStatus(Status status)
+    static int damageStatus(Status status)
     {
         return status.damage;
     }
 
-    List<Status> addStatusToPlayer(Status status, List<Status> statusList)
+    static List<Status> addStatusToPlayer(Status status, List<Status> statusList)
     {
         Status newStatus = new Status(status);
         // Remove permanent on tile property for players
@@ -145,12 +152,12 @@ public class StatusList : MonoBehaviour
         return addStatusToList(newStatus, statusList);
     }
 
-    List<Status> addStatusToTile(Status status, List<Status> statusList)
+    static List<Status> addStatusToTile(Status status, List<Status> statusList)
     {
         return addStatusToList(status, statusList);
     }
 
-    List<Status> addStatusToList(Status status, List<Status> statusList)
+    static List<Status> addStatusToList(Status status, List<Status> statusList)
     {
         // Status does not stack
         if (statusList.Contains(status))
@@ -195,20 +202,35 @@ public class StatusList : MonoBehaviour
         // Create new status
         else
         {
-            statusList = MixingStatusHelper.getStatusList(this, statusList, status);
+            statusList = MixingStatusHelper.getStatusList(statusList, status);
         }
         return statusList;
     }
 
+    // Modify Unit
+
+    static public void removeMovement(Status status, Unit unit)
+    {
+        unit.currentMovementPoint = 0;
+    }
+
+    static public void boostPlayer(Status status, Unit unit)
+    {
+        unit.mana = (int)(unit.mana * 1.1);
+        int diff = (int)(unit.maxHP * 1.1) - unit.maxHP;
+        unit.maxHP += diff;
+        unit.currentHP += diff;
+    }
+
     // Modify Tile 
 
-    public void removeLineOfSight(Status status, Tile tile)
+    static public void removeLineOfSight(Status status, Tile tile)
     {
         GroundTile gt = (GroundTile)tile;
         gt.lineOfSight = false;
     }
 
-    public void walkableWater(Status status, Tile tile)
+    static public void walkableWater(Status status, Tile tile)
     {
         WaterTile wt;
         if (tile is WaterTile)

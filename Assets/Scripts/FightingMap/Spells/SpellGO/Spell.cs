@@ -10,6 +10,10 @@ public enum SpellType
     Earth,
     Dark,
     SuperFire,
+    SuperWater,
+    SuperWind,
+    SuperEarth,
+
     Magma,
     Ice,
     Steam,
@@ -20,7 +24,10 @@ public class Spell : MonoBehaviour
 {
     public int range = 1, area, damage, clickNb = 1, manaCost;
     public bool lineOfSight, uniqueCellArea, burst;
+    public GameObject unitSpellEffect;
     public SpellType type;
+    [HideInInspector]
+    public Status includesOnly;
 
     [HideInInspector]
     public Vector3Int position;
@@ -34,7 +41,8 @@ public class Spell : MonoBehaviour
         Circle,
         InLine,
         InLineBetweenCells,
-        AndresCircle
+        AndresCircle,
+        InLineHorizontal
     };
 
     public FunctionArea selectedArea;
@@ -44,19 +52,22 @@ public class Spell : MonoBehaviour
             { FunctionArea.InLine, SpellAreaList.getAreaInLine },
             { FunctionArea.InLineBetweenCells, SpellAreaList.getAreaInLineBetweenCells },
             { FunctionArea.AndresCircle, SpellAreaList.getAreaAndresCircle },
+            { FunctionArea.InLineHorizontal, SpellAreaList.getAreaInLineHorizontal },
         };
 
 
     // Range
     public enum FunctionRange
     {
-        Circle
+        Circle,
+        Line
     };
 
     public FunctionRange selectedRange;
     private Dictionary<FunctionRange, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>> functionRangeLookup = new Dictionary<FunctionRange, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>>()
         {
             { FunctionRange.Circle, SpellRangeList.getRangeInCircleFull },
+            { FunctionRange.Line, SpellRangeList.getRangeInLine },
         };
 
     // Can Cast

@@ -6,8 +6,6 @@ using System.Linq;
 
 public class SpellEffectList : MonoBehaviour
 {
-    public StatusList StatusList;
-
     public TileList TileList;
 
 
@@ -16,7 +14,10 @@ public class SpellEffectList : MonoBehaviour
         Freeze = new SpellEffect("FreezeEffect"),
         Teleport = new SpellEffect("TeleportEffect"),
         BurnTile = new SpellEffect("BurnTileEffect"),
-        FireBurst = new SpellEffect("FireBurstEffect");
+        FireBurst = new SpellEffect("FireBurstEffect"),
+        CreateWater = new SpellEffect("CreateWaterEffect"),
+        Entrap = new SpellEffect("EntrapEffect"),
+        Waterboost = new SpellEffect("WaterboostEffect");
 
     public static List<SpellEffect> spellEffects = new List<SpellEffect>() {
         PushFromPlayer,
@@ -24,7 +25,10 @@ public class SpellEffectList : MonoBehaviour
         Freeze,
         Teleport,
         BurnTile,
-        FireBurst
+        FireBurst,
+        CreateWater,
+        Entrap,
+        Waterboost
     };
 
     void Start()
@@ -52,6 +56,49 @@ public class SpellEffectList : MonoBehaviour
 
         // Get all fire status, remove them and deal damage
         FireBurst.applyEffectAction = fireBurstEffect;
+
+        // Create Water Obstacles
+        CreateWater.applyEffectAction = createWaterEffect;
+
+        // Apply entrapped to character
+        Entrap.statusList.Add(new Status(StatusList.Entrap));
+        Entrap.applyEffectAction = applyEffect;
+
+        // Apply water boost to character
+        Waterboost.statusList.Add(new Status(StatusList.Waterboost));
+        Waterboost.applyEffectAction = applyEffect;
+    }
+
+    public void createWaterEffect(
+        Spell spell,
+        SpellEffect spellEffect,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        applyEffect(spell, spellEffect, playerList, enemyList, obstacleList, tilemap);
+        GameObject WaterObstacle = Resources.Load<GameObject>("Obstacles/Water/WaterObstacle");
+        List<Vector3Int> area = spell.getArea(spell.position, spell.caster, obstacleList, tilemap);
+        area.ForEach(cell =>
+        {
+            createObstacle(WaterObstacle, cell, obstacleList, tilemap);
+        });
+    }
+
+    public void createObstacle(GameObject obstacle, Vector3Int pos, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    {
+        GameObject newObstacle = null;
+        try
+        {
+            newObstacle = Instantiate(obstacle, tilemap.CellToWorld(pos), Quaternion.identity);
+            FightingSceneStore.obstacleList.Add(pos, newObstacle);
+        }
+        catch
+        {
+            Destroy(newObstacle);
+        }
     }
 
     public void fireBurstEffect(
@@ -171,15 +218,25 @@ public class SpellEffectList : MonoBehaviour
                 });
             }
 
-            // Apply status to characters
+            // Apply status & spell effect to characters
             Unit character = getUnitFromPos(allCharacters, cell);
             if (character != null)
             {
+                // Apply status
                 spellEffect.statusList.ForEach(status =>
                 {
                     character.addStatus(new Status(status));
                 });
+
+                // Apply spell effect
+                if (spell.unitSpellEffect != null)
+                {
+                    Vector3 unitSEpos = new Vector3(character.gameObject.transform.position.x, character.gameObject.transform.position.y - 0.05f, character.gameObject.transform.position.z);
+                    GameObject unitSpellEffect = Instantiate(spell.unitSpellEffect, unitSEpos, Quaternion.identity);
+                    unitSpellEffect.transform.parent = character.gameObject.transform;
+                }
             }
+
             // Apply status to tiles
             GroundTile tile = (GroundTile)tilemap.GetTile(cell);
             if (tile != null)

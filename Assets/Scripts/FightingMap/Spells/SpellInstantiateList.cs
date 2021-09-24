@@ -23,22 +23,39 @@ public class SpellInstantiateList : MonoBehaviour
     {
         List<Vector3Int> listCells = spell.getArea(target, caster, obstacleList, tilemap);
 
-        instance.StartCoroutine(multipleInstantiateOnCell(listCells, caster, spell, obstacleList, tilemap));
+        instance.StartCoroutine(multipleInstantiateOnCell(listCells, spell, caster, obstacleList, tilemap));
     }
 
+    // ToDo make it work
     static IEnumerator multipleInstantiateOnCell(
         List<Vector3Int> listCells,
-        Unit caster,
         Spell spell,
+        Unit caster,
         Dictionary<Vector3Int, GameObject> obstacleList,
         Tilemap tilemap
         )
     {
+        // Instantiate spell only one time
+        Vector3Int pos = listCells[0];
+        listCells.RemoveAt(0);
+        instantiateOnCellClicked(spell, caster, pos, obstacleList, tilemap);
+        // Remove spell effects and damage
+        spell.enabled = false;
+        if (spell.gameObject.GetComponent<SpellEffectScript>())
+            spell.gameObject.GetComponent<SpellEffectScript>().enabled = false;
+        if (spell.gameObject.GetComponent<SpellDamage>())
+            spell.gameObject.GetComponent<SpellDamage>().enabled = false;
         foreach (var c in listCells)
         {
             yield return new WaitForSeconds(0.1f);
             instantiateOnCellClicked(spell, caster, c, obstacleList, tilemap);
         }
+        // Re enable spell effects and damage
+        spell.enabled = true;
+        if (spell.gameObject.GetComponent<SpellEffectScript>())
+            spell.gameObject.GetComponent<SpellEffectScript>().enabled = true;
+        if (spell.gameObject.GetComponent<SpellDamage>())
+            spell.gameObject.GetComponent<SpellDamage>().enabled = true;
     }
 
     public static void instantiateOnCellClicked(

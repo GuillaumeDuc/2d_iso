@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9051983902504114682}
   - component: {fileID: 3816883068887668332}
   - component: {fileID: -5208487855972218438}
+  - component: {fileID: 6555624200350830930}
   m_Layer: 0
   m_Name: Slash
   m_TagString: Untagged
@@ -104,7 +105,18 @@ MonoBehaviour:
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 0
-  type: 8
+  unitSpellEffect: {fileID: 0}
+  type: 12
+  includesOnly:
+    name: 
+    type: 
+    damage: 0
+    turnNb: 0
+    turnCounter: 0
+    permanent: 0
+    permanentOnTile: 0
+    weight: 0
+    tileGO: {fileID: 0}
   position: {x: 10, y: 15, z: 0}
   caster: {fileID: 0}
   selectedArea: 0
@@ -125,3 +137,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageDelay: 0
   selectedFunction: 0
+--- !u!114 &6555624200350830930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6775718935185108242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565dccd97428ff64783b8a98c78c6ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0.5
