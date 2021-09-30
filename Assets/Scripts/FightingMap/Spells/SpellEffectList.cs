@@ -303,6 +303,11 @@ public class SpellEffectList : MonoBehaviour
                 });
             }
         }
+        // Take damage from spell damage zone
+        FightingSceneStore.spellDamageAreaList.ForEach(spellArea =>
+        {
+            spellArea.damageUnit(player.Key);
+        });
         // Make player reappear
         StartCoroutine(scaleGO(player.Value, 0f, originalScale.x, originalScale));
     }

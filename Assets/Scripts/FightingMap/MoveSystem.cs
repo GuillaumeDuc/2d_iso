@@ -107,6 +107,9 @@ public class MoveSystem : MonoBehaviour
             // Move player from 1 to 1 square
             Move(playerTransform, path, tilemap);
 
+            // Apply tile damage to player for square passed
+            applySpellAreaDamage(playerStats, path, tilemap);
+
             // Apply tile status to player for every square passed
             applyTilesEffects(playerStats, path, tilemap);
         }
@@ -308,6 +311,17 @@ public class MoveSystem : MonoBehaviour
         });
     }
 
+    private void applySpellAreaDamage(Unit unit, List<Square> path, Tilemap tilemap)
+    {
+        path.ForEach(s =>
+        {
+            FightingSceneStore.spellDamageAreaList.ForEach(spellArea =>
+            {
+                spellArea.damageUnit(unit);
+            });
+        });
+    }
+
     public List<Square> removeOverCost(Unit unit, List<Square> path, Tilemap tilemap)
     {
         List<Square> res = new List<Square>();
@@ -346,6 +360,9 @@ public class MoveSystem : MonoBehaviour
 
                 // Apply tile status to player for square passed
                 applyTilesEffects(unit, new List<Square>() { square }, tilemap);
+
+                // Apply tile damage to player for square passed
+                applySpellAreaDamage(unit, new List<Square>() { square }, tilemap);
 
                 // Move player
                 Move(unitGO.transform, new List<Square>() { square }, tilemap);

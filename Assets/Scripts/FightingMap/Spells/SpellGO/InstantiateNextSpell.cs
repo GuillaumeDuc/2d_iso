@@ -10,7 +10,11 @@ public class InstantiateNextSpell : MonoBehaviour
     private IEnumerator instantiateDelay()
     {
         yield return new WaitForSeconds(delayInstantiate);
-        Instantiate(nextSpell, transform.position, Quaternion.identity);
+        GameObject go = Instantiate(nextSpell, transform.position, Quaternion.identity);
+        // Set spell script to next gameobject
+        Spell spell = gameObject.GetComponent<Spell>();
+        Spell nextSpellScript = go.AddComponent<Spell>();
+        nextSpellScript.setSpell(spell);
     }
     void Start()
     {

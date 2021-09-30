@@ -11,7 +11,8 @@ public class SummoningSpell : MonoBehaviour
     private IEnumerator instantiateDelay()
     {
         yield return new WaitForSeconds(delayInstantiate);
-        GameObject go = Instantiate(summonedUnit, transform.position, Quaternion.identity);
+        Vector2 pos = new Vector2(transform.position.x, transform.position.y - 0.2f);
+        GameObject go = Instantiate(summonedUnit, pos, Quaternion.identity);
 
         // Set unique name if already exists
         foreach (var a in FightingSceneStore.initiativeList)

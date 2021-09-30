@@ -43,6 +43,8 @@ public class TurnBasedSystem : MonoBehaviour
     public Dictionary<Unit, GameObject> playerList;
     [HideInInspector]
     public Dictionary<Vector3Int, GameObject> obstacleList = new Dictionary<Vector3Int, GameObject>();
+    [HideInInspector]
+    public List<SpellDamageArea> spellDamageAreaList = new List<SpellDamageArea>();
 
     [HideInInspector]
     public Dictionary<Unit, bool> initiativeList = new Dictionary<Unit, bool>();
@@ -147,6 +149,7 @@ public class TurnBasedSystem : MonoBehaviour
             currentUnit.isPlaying = true;
             // Apply all status on players then update
             applyStatus();
+            updateSpellDamageArea();
             updateScrollViews();
             tryEndGame();
         }
@@ -156,6 +159,26 @@ public class TurnBasedSystem : MonoBehaviour
     {
         EnemiesScrollView.updateScrollView();
         PlayersScrollView.updateScrollView();
+    }
+
+    void updateSpellDamageArea()
+    {
+        List<SpellDamageArea> newList = new List<SpellDamageArea>();
+        spellDamageAreaList.ForEach(spellDamageArea =>
+        {
+            spellDamageArea.doDamage();
+            bool finished = spellDamageArea.updateTurn();
+            if (!finished)
+            {
+                newList.Add(spellDamageArea);
+            }
+            else
+            {
+                spellDamageArea.destroySelf();
+            }
+        });
+        spellDamageAreaList = newList;
+        FightingSceneStore.spellDamageAreaList = spellDamageAreaList;
     }
 
     public void applyStatus()
@@ -254,7 +277,7 @@ public class TurnBasedSystem : MonoBehaviour
         }
     }
 
-    void tryEndGame()
+    public void tryEndGame()
     {
         string text = getWinningSideText();
         if (text != null)
@@ -394,6 +417,7 @@ public class TurnBasedSystem : MonoBehaviour
         FightingSceneStore.enemyList = enemyList;
         FightingSceneStore.obstacleList = obstacleList;
         FightingSceneStore.initiativeList = initiativeList;
+        FightingSceneStore.spellDamageAreaList = spellDamageAreaList;
         FightingSceneStore.PlayersScrollView = PlayersScrollView;
         FightingSceneStore.EnemiesScrollView = EnemiesScrollView;
     }

@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 10
-  area: 3
+  area: 1
   damage: 80
   clickNb: 1
   manaCost: 30
