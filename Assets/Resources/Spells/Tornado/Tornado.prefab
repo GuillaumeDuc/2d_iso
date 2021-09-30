@@ -113,7 +113,7 @@ MonoBehaviour:
   area: 3
   damage: 10
   clickNb: 1
-  manaCost: 75
+  manaCost: 50
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 0
