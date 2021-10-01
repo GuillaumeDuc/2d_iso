@@ -139,7 +139,18 @@ MonoBehaviour:
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 0
-  type: 5
+  unitSpellEffect: {fileID: 0}
+  type: 0
+  includesOnly:
+    name: 
+    type: 
+    damage: 0
+    turnNb: 0
+    turnCounter: 0
+    permanent: 0
+    permanentOnTile: 0
+    weight: 0
+    tileGO: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
   caster: {fileID: 0}
   selectedArea: 0
@@ -161,6 +172,8 @@ MonoBehaviour:
   effectDelay: 0
   selectedSpellEffects:
   - name: FireBurstEffect
+    statusList: []
+    statusTileList: []
     value: 0
     cumul: 1
 --- !u!114 &-6200755466064755092

@@ -9,7 +9,7 @@ public static class MixSpell
         // Mix Fire with Fire
         if (firstSpell.type == SpellType.Fire && secondSpell.type == SpellType.Fire)
         {
-            return SpellList.getMixedSpell(SpellType.SuperFire);
+            return SpellList.getMixedSpell(SpellType.Fire);
         }
         // Mix Fire with Earth
         if (firstSpell.type == SpellType.Fire && secondSpell.type == SpellType.Earth || firstSpell.type == SpellType.Earth && secondSpell.type == SpellType.Fire)
@@ -19,7 +19,7 @@ public static class MixSpell
         // Mix Water with Water
         if (firstSpell.type == SpellType.Water && secondSpell.type == SpellType.Water)
         {
-            return SpellList.getMixedSpell(SpellType.SuperWater);
+            return SpellList.getMixedSpell(SpellType.Water);
         }
         // Mix Water with Wind
         if (firstSpell.type == SpellType.Water && secondSpell.type == SpellType.Wind || firstSpell.type == SpellType.Wind && secondSpell.type == SpellType.Water)
