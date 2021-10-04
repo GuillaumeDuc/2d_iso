@@ -260,14 +260,80 @@ public class SpellEffectList : MonoBehaviour
         )
     {
         List<Vector3Int> area = spell.getArea(spell.position, spell.caster, obstacleList, tilemap);
-        // Move every ennemies and players one cell away until they're out of area
-        area.ForEach(a =>
+        // Move every ennemies and players one cell away until they're out of area or can't move
+        Dictionary<Unit, GameObject> allList = new Dictionary<Unit, GameObject>(
+            playerList
+            .Concat(enemyList)
+            .ToDictionary(x => x.Key, x => x.Value)
+        );
+        bool cont = true;
+
+        while (cont)
         {
-            // Players
-            movePlayer(spell, playerList, a, area, obstacleList, tilemap);
-            // Enemies
-            movePlayer(spell, enemyList, a, area, obstacleList, tilemap);
-        });
+            cont = false;
+            area.ForEach(a =>
+            {
+                bool moved = movePlayer(a, spell.caster.position, allList, obstacleList, tilemap);
+                if (moved)
+                {
+                    cont = true;
+                }
+            });
+        }
+    }
+
+    private bool movePlayer(
+    Vector3Int target,
+    Vector3Int casterPosition,
+    Dictionary<Unit, GameObject> dict,
+    Dictionary<Vector3Int, GameObject> obstacleList,
+    Tilemap tilemap
+    )
+    {
+        Unit unitPlayer = getUnitFromPos(dict, target);
+        // Try moving player
+        if (unitPlayer != null)
+        {
+            Vector3Int newPos = new Vector3Int(target.x, target.y, target.z);
+            // Get the direction
+            Vector3 direction = target - casterPosition;
+            // Right / Left
+            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+            {
+                // Right
+                if (direction.x > 0)
+                {
+                    newPos = new Vector3Int(newPos.x + 1, newPos.y, newPos.z);
+                }
+                // Left
+                if (direction.x < 0)
+                {
+                    newPos = new Vector3Int(newPos.x - 1, newPos.y, newPos.z);
+                }
+            }
+            else
+            {
+                // Up
+                if (direction.y > 0)
+                {
+                    newPos = new Vector3Int(newPos.x, newPos.y + 1, newPos.z);
+                }
+                // Down
+                if (direction.y < 0)
+                {
+                    newPos = new Vector3Int(newPos.x, newPos.y + 1, newPos.z);
+                }
+            }
+
+            FightingSceneStore.MoveSystem.moveOneSquare(new Square(newPos), unitPlayer, unitPlayer.gameObject, tilemap);
+            // If player moved
+            if (newPos != unitPlayer.position)
+            {
+                Debug.Log(newPos);
+                return true;
+            }
+        }
+        return false;
     }
 
     private void teleportPlayerEffect(
@@ -332,39 +398,6 @@ public class SpellEffectList : MonoBehaviour
             }
         }
         go.transform.localScale = new Vector3(to, originalScale.y, originalScale.z);
-    }
-
-    private void movePlayer(
-    Spell spell,
-    Dictionary<Unit, GameObject> dict,
-    Vector3Int cell,
-    List<Vector3Int> area,
-    Dictionary<Vector3Int, GameObject> obstacleList,
-    Tilemap tilemap
-    )
-    {
-        Unit unitPlayer = getUnitFromPos(dict, cell);
-        if (unitPlayer != null)
-        {
-            GameObject playerGO = dict[unitPlayer];
-            dict.Remove(unitPlayer);
-            unitPlayer.position = RangeUtils.getFarthestWalkableNeighbour(
-                cell,
-                spell.caster.position,
-                area, obstacleList,
-                tilemap: tilemap
-            );
-            dict.Add(unitPlayer, playerGO);
-
-            moveGameObject(playerGO, unitPlayer.position, tilemap);
-        }
-    }
-
-    private void moveGameObject(GameObject gameObject, Vector3Int cell, Tilemap tilemap)
-    {
-        // Move GameObjects
-        Vector2 pos = new Vector2(tilemap.CellToWorld(cell).x, tilemap.CellToWorld(cell).y + 0.2f);
-        gameObject.transform.position = pos;
     }
 
     private KeyValuePair<Unit, GameObject> getUnitFromPlayersAndEnemies(
