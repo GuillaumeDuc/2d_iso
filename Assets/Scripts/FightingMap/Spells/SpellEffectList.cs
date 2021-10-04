@@ -260,7 +260,7 @@ public class SpellEffectList : MonoBehaviour
         )
     {
         List<Vector3Int> area = spell.getArea(spell.position, spell.caster, obstacleList, tilemap);
-        // Move every ennemies and players one cell away
+        // Move every ennemies and players one cell away until they're out of area
         area.ForEach(a =>
         {
             // Players

@@ -1814,7 +1814,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1374256266}
   m_HandleRect: {fileID: 1374256265}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2017,8 +2017,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1768806068}
   m_HandleRect: {fileID: 1768806067}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.9999999
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2473,6 +2473,7 @@ MonoBehaviour:
   dialogueText: {fileID: 534003852}
   CurrentState: 0
   CastState: 0
+  spellDamageAreaList: []
   gameOver: 0
 --- !u!4 &1131004368
 Transform:
@@ -2797,8 +2798,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 428571590}
   m_HandleRect: {fileID: 428571589}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.9999999
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

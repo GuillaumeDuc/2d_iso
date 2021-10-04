@@ -72,7 +72,7 @@ public static class SpellAreaList
 
         if (spell.burst)
         {
-            area = burst(target, caster, area, obstacleList, tilemap);
+            area = burst(caster.position, caster, area, obstacleList, tilemap);
         }
         return area;
     }
