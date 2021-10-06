@@ -301,12 +301,12 @@ public class SpellEffectList : MonoBehaviour
             if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
             {
                 // Right
-                if (direction.x > 0)
+                if (direction.x >= 0)
                 {
                     newPos = new Vector3Int(newPos.x + 1, newPos.y, newPos.z);
                 }
                 // Left
-                if (direction.x < 0)
+                else
                 {
                     newPos = new Vector3Int(newPos.x - 1, newPos.y, newPos.z);
                 }
@@ -314,22 +314,21 @@ public class SpellEffectList : MonoBehaviour
             else
             {
                 // Up
-                if (direction.y > 0)
+                if (direction.y >= 0)
                 {
                     newPos = new Vector3Int(newPos.x, newPos.y + 1, newPos.z);
                 }
                 // Down
-                if (direction.y < 0)
+                else
                 {
-                    newPos = new Vector3Int(newPos.x, newPos.y + 1, newPos.z);
+                    newPos = new Vector3Int(newPos.x, newPos.y - 1, newPos.z);
                 }
             }
 
-            FightingSceneStore.MoveSystem.moveOneSquare(new Square(newPos), unitPlayer, unitPlayer.gameObject, tilemap);
+            FightingSceneStore.MoveSystem.moveOneSquare(new Square(newPos), unitPlayer, unitPlayer.gameObject, tilemap, 10f);
             // If player moved
-            if (newPos != unitPlayer.position)
+            if (newPos == unitPlayer.position)
             {
-                Debug.Log(newPos);
                 return true;
             }
         }

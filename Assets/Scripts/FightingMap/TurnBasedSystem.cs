@@ -464,7 +464,7 @@ public class TurnBasedSystem : MonoBehaviour
                 if (CurrentState == CurrentState.MOVE && !IsPointerOverUIElement())
                 {
                     // Move player
-                    if (tilemap.HasTile(cellPosition) && !obstacleList.ContainsKey(cellPosition))
+                    if (tilemap.HasTile(cellPosition))
                     {
                         MoveSystem.moveCharacter(currentPlayer, cellPosition, obstacleList, tilemap);
                         updateScrollViews();

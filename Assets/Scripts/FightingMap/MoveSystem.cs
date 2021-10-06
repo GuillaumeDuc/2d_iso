@@ -170,7 +170,7 @@ public class MoveSystem : MonoBehaviour
         return new List<Square>();
     }
 
-    private void Move(Transform playerTransform, List<Square> path, Tilemap tilemap)
+    private void Move(Transform playerTransform, List<Square> path, Tilemap tilemap, float smooth = 4f)
     {
         foreach (var s in path)
         {
@@ -181,12 +181,12 @@ public class MoveSystem : MonoBehaviour
             if (!isMoving)
             {
                 isMoving = true;
-                StartCoroutine(moveToMovingList());
+                StartCoroutine(moveToMovingList(smooth));
             }
         }
     }
 
-    private IEnumerator moveToMovingList()
+    private IEnumerator moveToMovingList(float smooth)
     {
         // Get all queued case
         while (movingList.Any())
@@ -201,7 +201,6 @@ public class MoveSystem : MonoBehaviour
             while (pos.Key != null && pos.Key.position != pos.Value)
             {
                 yield return new WaitForSeconds(0.001f);
-                float smooth = 4f;
                 if (pos.Key != null)
                 {
                     pos.Key.position = Vector3.MoveTowards(pos.Key.position, pos.Value, Time.deltaTime * smooth);
@@ -344,14 +343,16 @@ public class MoveSystem : MonoBehaviour
         Square square,
         Unit unit,
         GameObject unitGO,
-        Tilemap tilemap
+        Tilemap tilemap,
+        float smooth = 4f
         )
     {
-        GroundTile gt = (GroundTile)tilemap.GetTile(square.pos);
-        if (gt != null)
+        if (RangeUtils.isWalkable(square.pos, FightingSceneStore.obstacleList, tilemap))
         {
             if (unit.currentMovementPoint > 0)
             {
+                GroundTile gt = (GroundTile)tilemap.GetTile(square.pos);
+
                 // Remove movement point
                 unit.currentMovementPoint -= gt.movementCost;
 
@@ -365,7 +366,7 @@ public class MoveSystem : MonoBehaviour
                 applySpellAreaDamage(unit, new List<Square>() { square }, tilemap);
 
                 // Move player
-                Move(unitGO.transform, new List<Square>() { square }, tilemap);
+                Move(unitGO.transform, new List<Square>() { square }, tilemap, smooth);
             }
         }
     }
