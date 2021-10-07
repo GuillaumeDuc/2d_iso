@@ -9830,6 +9830,7 @@ MonoBehaviour:
   lineOfSight: 1
   uniqueCellArea: 0
   burst: 1
+  unitSpellEffect: {fileID: 0}
   type: 0
   includesOnly:
     name: 
