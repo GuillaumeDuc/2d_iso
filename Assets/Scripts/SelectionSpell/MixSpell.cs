@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public static class MixSpell
@@ -25,6 +23,11 @@ public static class MixSpell
         if (firstSpell.type == SpellType.Water && secondSpell.type == SpellType.Wind || firstSpell.type == SpellType.Wind && secondSpell.type == SpellType.Water)
         {
             return SpellList.getMixedSpell(SpellType.Ice);
+        }
+        // Mix Wind with Wind
+        if (firstSpell.type == SpellType.Wind && secondSpell.type == SpellType.Wind)
+        {
+            return SpellList.getMixedSpell(SpellType.Wind);
         }
         // None
         return null;
