@@ -325,7 +325,7 @@ public class SpellEffectList : MonoBehaviour
                 }
             }
 
-            FightingSceneStore.MoveSystem.moveOneSquare(new Square(newPos), unitPlayer, unitPlayer.gameObject, tilemap, 10f);
+            FightingSceneStore.MoveSystem.moveOneSquare(new Square(newPos), unitPlayer, unitPlayer.gameObject, tilemap, 10f, false);
             // If player moved
             if (newPos == unitPlayer.position)
             {

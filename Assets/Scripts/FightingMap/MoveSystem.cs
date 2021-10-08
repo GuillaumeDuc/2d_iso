@@ -344,7 +344,8 @@ public class MoveSystem : MonoBehaviour
         Unit unit,
         GameObject unitGO,
         Tilemap tilemap,
-        float smooth = 4f
+        float smooth = 4f,
+        bool costMovement = true
         )
     {
         if (RangeUtils.isWalkable(square.pos, FightingSceneStore.obstacleList, tilemap))
@@ -354,7 +355,10 @@ public class MoveSystem : MonoBehaviour
                 GroundTile gt = (GroundTile)tilemap.GetTile(square.pos);
 
                 // Remove movement point
-                unit.currentMovementPoint -= gt.movementCost;
+                if (costMovement)
+                {
+                    unit.currentMovementPoint -= gt.movementCost;
+                }
 
                 // Set new position
                 unit.position = square.pos;
