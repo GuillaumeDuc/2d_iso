@@ -37,6 +37,8 @@ public static class SpellList
     static GameObject Fireburst = Resources.Load<GameObject>(PATH + "Fireburst" + "/" + "Fireburst");
     // Fire + Earth
     static GameObject Grogoulem = Resources.Load<GameObject>(PATH + "Grogoulem" + "/" + "Grogoulem");
+    // Fire + Wind
+    static GameObject Chainlightning = Resources.Load<GameObject>(PATH + "Chainlightning" + "/" + "Chainlightning");
     // Water + Wind
     static GameObject Icycle = Resources.Load<GameObject>(PATH + "Icycle" + "/" + "Icycle");
 
@@ -68,7 +70,8 @@ public static class SpellList
             Fireburst,
             Waterboost,
             Icycle,
-            Tornado
+            Tornado,
+            Chainlightning
         };
     }
 

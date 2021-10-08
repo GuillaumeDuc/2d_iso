@@ -14,6 +14,11 @@ public static class MixSpell
         {
             return SpellList.getMixedSpell(SpellType.Magma);
         }
+        // Mix Fire with Wind
+        if (firstSpell.type == SpellType.Fire && secondSpell.type == SpellType.Wind || firstSpell.type == SpellType.Wind && secondSpell.type == SpellType.Fire)
+        {
+            return SpellList.getMixedSpell(SpellType.Electricity);
+        }
         // Mix Water with Water
         if (firstSpell.type == SpellType.Water && secondSpell.type == SpellType.Water)
         {

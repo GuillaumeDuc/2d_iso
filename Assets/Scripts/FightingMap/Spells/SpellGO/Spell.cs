@@ -12,7 +12,8 @@ public enum SpellType
     Magma,
     Ice,
     Steam,
-    Physical
+    Physical,
+    Electricity
 };
 
 public class Spell : MonoBehaviour
