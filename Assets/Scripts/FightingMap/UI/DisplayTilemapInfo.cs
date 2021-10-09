@@ -25,6 +25,7 @@ public class DisplayTilemapInfo : MonoBehaviour
                 });
                 s += "Block sight : " + !tile.lineOfSight + "\n";
                 s += "Block walk : " + !tile.walkable + "\n";
+                s += "Tile cost : " + tile.movementCost + "\n";
                 InfoPanel.text = s;
             }
         }

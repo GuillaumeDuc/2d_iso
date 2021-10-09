@@ -22,13 +22,13 @@ public class SpellInstantiateList : MonoBehaviour
         )
     {
         List<Vector3Int> listCells = spell.getArea(target, caster, obstacleList, tilemap);
-        // Instantiate spell only one time on cell clicked
-        Vector2 worldPos = tilemap.CellToWorld(target);
+        // Instantiate spell only one time on first cell
+        Vector2 worldPos = tilemap.CellToWorld(listCells.Count > 0 ? listCells[0] : target);
         // Instantiate animation
         GameObject go = Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
         setSpellPosition(go, target);
         // Remove cell clicked from list cells
-        listCells.Remove(target);
+        if (listCells.Count > 0) listCells.RemoveAt(0);
 
         multipleInstantiateOnCell(listCells, go, tilemap);
     }

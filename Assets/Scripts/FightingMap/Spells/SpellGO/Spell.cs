@@ -38,7 +38,8 @@ public class Spell : MonoBehaviour
         InLine,
         InLineBetweenCells,
         AndresCircle,
-        InLineHorizontal
+        InLineHorizontal,
+        ChainEnemies
     };
 
     public FunctionArea selectedArea;
@@ -49,6 +50,7 @@ public class Spell : MonoBehaviour
             { FunctionArea.InLineBetweenCells, SpellAreaList.getAreaInLineBetweenCells },
             { FunctionArea.AndresCircle, SpellAreaList.getAreaAndresCircle },
             { FunctionArea.InLineHorizontal, SpellAreaList.getAreaInLineHorizontal },
+            { FunctionArea.ChainEnemies, SpellAreaList.getAreaChainEnemies },
         };
 
 

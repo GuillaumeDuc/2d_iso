@@ -95,8 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcf77bb7d4dbf544a864a6e68847b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1
-  area: 0
+  range: 10
+  area: 5
   damage: 0
   clickNb: 1
   manaCost: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
     tileGO: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
   caster: {fileID: 0}
-  selectedArea: 0
+  selectedArea: 5
   selectedRange: 0
   selectedCanCast: 0
   selectedInstantiate: 0

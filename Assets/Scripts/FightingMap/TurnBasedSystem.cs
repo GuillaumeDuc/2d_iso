@@ -368,12 +368,16 @@ public class TurnBasedSystem : MonoBehaviour
         GameObject EnemyPrefab = Resources.Load<GameObject>("Characters/NPC/Phantom/Phantom");
         // First
         GameObject phantom = InstantiatePlayer(EnemyPrefab, new Vector3Int(10, 15, 0));
-        Transform green1Transform = phantom.GetComponent<Transform>();
         Unit green1Stats = phantom.GetComponent<Unit>();
+
+        GameObject phantom2 = InstantiatePlayer(EnemyPrefab, new Vector3Int(13, 15, 0));
+        Unit phantom2Unit = phantom2.GetComponent<Unit>();
+        phantom2Unit.name = phantom2Unit.name + " 2";
 
         // Add characters in lists
         enemyList = new Dictionary<Unit, GameObject>() {
             { green1Stats, phantom },
+            { phantom2Unit, phantom2 },
         };
         playerList = new Dictionary<Unit, GameObject>()
         {
