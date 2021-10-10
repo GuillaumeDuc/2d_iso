@@ -41,7 +41,7 @@ public class Status
 
     public int damageStatus()
     {
-        return damageFunc(this);
+        return damageFunc?.Invoke(this) ?? 0;
     }
 
     public List<Status> addStatusToPlayer(List<Status> statusList)
