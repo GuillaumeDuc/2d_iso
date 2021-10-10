@@ -126,7 +126,7 @@ MonoBehaviour:
   uniqueCellArea: 0
   burst: 1
   unitSpellEffect: {fileID: 0}
-  type: 10
+  type: 6
   includesOnly:
     name: 
     type: 

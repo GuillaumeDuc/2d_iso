@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7954773679806012766}
   - component: {fileID: -4464513376930819856}
   - component: {fileID: 5217642782950055312}
+  - component: {fileID: -689954264182808971}
   m_Layer: 0
   m_Name: Teleportation
   m_TagString: Untagged
@@ -104,7 +105,18 @@ MonoBehaviour:
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 0
+  unitSpellEffect: {fileID: 0}
   type: 4
+  includesOnly:
+    name: 
+    type: 
+    damage: 0
+    turnNb: 0
+    turnCounter: 0
+    permanent: 0
+    permanentOnTile: 0
+    weight: 0
+    tileGO: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
   caster: {fileID: 0}
   selectedArea: 0
@@ -126,5 +138,20 @@ MonoBehaviour:
   effectDelay: 0
   selectedSpellEffects:
   - name: TeleportEffect
+    statusList: []
+    statusTileList: []
     value: 0
     cumul: 1
+--- !u!114 &-689954264182808971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3575874839522709577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 565dccd97428ff64783b8a98c78c6ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0.1

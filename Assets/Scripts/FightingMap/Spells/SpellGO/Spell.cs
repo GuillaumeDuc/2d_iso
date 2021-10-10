@@ -9,15 +9,11 @@ public enum SpellType
     Wind,
     Earth,
     Dark,
-    SuperFire,
-    SuperWater,
-    SuperWind,
-    SuperEarth,
-
     Magma,
     Ice,
     Steam,
-    Physical
+    Physical,
+    Electricity
 };
 
 public class Spell : MonoBehaviour
@@ -42,7 +38,8 @@ public class Spell : MonoBehaviour
         InLine,
         InLineBetweenCells,
         AndresCircle,
-        InLineHorizontal
+        InLineHorizontal,
+        ChainEnemies
     };
 
     public FunctionArea selectedArea;
@@ -53,6 +50,7 @@ public class Spell : MonoBehaviour
             { FunctionArea.InLineBetweenCells, SpellAreaList.getAreaInLineBetweenCells },
             { FunctionArea.AndresCircle, SpellAreaList.getAreaAndresCircle },
             { FunctionArea.InLineHorizontal, SpellAreaList.getAreaInLineHorizontal },
+            { FunctionArea.ChainEnemies, SpellAreaList.getAreaChainEnemies },
         };
 
 
@@ -85,23 +83,26 @@ public class Spell : MonoBehaviour
     // Instantiate
     public enum FunctionInstantiate
     {
-        AreaWithDelay,
+        Area,
         OnCellClicked,
         Obstacles,
         ThrowedSpell,
         MoveInLineFromPlayer,
-        Attack
+        Attack,
+        AreaWithDelay
     };
 
     public FunctionInstantiate selectedInstantiate;
     Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap>> functionInstantiateLookup = new Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap>>()
         {
-            { Spell.FunctionInstantiate.AreaWithDelay, SpellInstantiateList.instantiateAreaWithDelay },
+            { Spell.FunctionInstantiate.Area, SpellInstantiateList.instantiateArea },
             { Spell.FunctionInstantiate.OnCellClicked, SpellInstantiateList.instantiateOnCellClicked },
             { Spell.FunctionInstantiate.Obstacles, SpellInstantiateList.instantiateObstacles },
             { Spell.FunctionInstantiate.ThrowedSpell, SpellInstantiateList.instantiateThrowedSpell },
             { Spell.FunctionInstantiate.MoveInLineFromPlayer, SpellInstantiateList.instantiateMoveInLineFromPlayer },
             { Spell.FunctionInstantiate.Attack, SpellInstantiateList.instantiateAttack },
+            { Spell.FunctionInstantiate.AreaWithDelay, SpellInstantiateList.instantiateAreaWithDelay },
+
         };
 
 

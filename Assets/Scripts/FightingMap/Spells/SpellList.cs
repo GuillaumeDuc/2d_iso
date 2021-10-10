@@ -14,6 +14,8 @@ public static class SpellList
     static GameObject Explosion = Resources.Load<GameObject>(PATH + "Explosion" + "/" + "Explosion");
 
     // Wind
+    static GameObject Flaywind = Resources.Load<GameObject>(PATH + "Flaywind" + "/" + "Flaywind");
+    static GameObject Windleap = Resources.Load<GameObject>(PATH + "Windleap" + "/" + "Windleap");
     static GameObject Tornado = Resources.Load<GameObject>(PATH + "Tornado" + "/" + "Tornado");
 
     // Water
@@ -35,6 +37,8 @@ public static class SpellList
     static GameObject Fireburst = Resources.Load<GameObject>(PATH + "Fireburst" + "/" + "Fireburst");
     // Fire + Earth
     static GameObject Grogoulem = Resources.Load<GameObject>(PATH + "Grogoulem" + "/" + "Grogoulem");
+    // Fire + Wind
+    static GameObject Chainlightning = Resources.Load<GameObject>(PATH + "Chainlightning" + "/" + "Chainlightning");
     // Water + Wind
     static GameObject Icycle = Resources.Load<GameObject>(PATH + "Icycle" + "/" + "Icycle");
 
@@ -49,7 +53,8 @@ public static class SpellList
             Explosion,
             Waveslash,
             Bubble,
-            Tornado,
+            Flaywind,
+            Windleap,
             Sandwall,
             Blackhole,
             Teleportation,
@@ -64,7 +69,9 @@ public static class SpellList
             Grogoulem,
             Fireburst,
             Waterboost,
-            Icycle
+            Icycle,
+            Tornado,
+            Chainlightning
         };
     }
 

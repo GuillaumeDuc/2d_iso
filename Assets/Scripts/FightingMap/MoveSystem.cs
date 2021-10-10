@@ -107,6 +107,9 @@ public class MoveSystem : MonoBehaviour
             // Move player from 1 to 1 square
             Move(playerTransform, path, tilemap);
 
+            // Apply tile damage to player for square passed
+            applySpellAreaDamage(playerStats, path, tilemap);
+
             // Apply tile status to player for every square passed
             applyTilesEffects(playerStats, path, tilemap);
         }
@@ -167,7 +170,7 @@ public class MoveSystem : MonoBehaviour
         return new List<Square>();
     }
 
-    private void Move(Transform playerTransform, List<Square> path, Tilemap tilemap)
+    private void Move(Transform playerTransform, List<Square> path, Tilemap tilemap, float smooth = 4f)
     {
         foreach (var s in path)
         {
@@ -178,12 +181,12 @@ public class MoveSystem : MonoBehaviour
             if (!isMoving)
             {
                 isMoving = true;
-                StartCoroutine(moveToMovingList());
+                StartCoroutine(moveToMovingList(smooth));
             }
         }
     }
 
-    private IEnumerator moveToMovingList()
+    private IEnumerator moveToMovingList(float smooth)
     {
         // Get all queued case
         while (movingList.Any())
@@ -198,7 +201,6 @@ public class MoveSystem : MonoBehaviour
             while (pos.Key != null && pos.Key.position != pos.Value)
             {
                 yield return new WaitForSeconds(0.001f);
-                float smooth = 4f;
                 if (pos.Key != null)
                 {
                     pos.Key.position = Vector3.MoveTowards(pos.Key.position, pos.Value, Time.deltaTime * smooth);
@@ -308,6 +310,17 @@ public class MoveSystem : MonoBehaviour
         });
     }
 
+    private void applySpellAreaDamage(Unit unit, List<Square> path, Tilemap tilemap)
+    {
+        path.ForEach(s =>
+        {
+            FightingSceneStore.spellDamageAreaList.ForEach(spellArea =>
+            {
+                spellArea.damageUnit(unit);
+            });
+        });
+    }
+
     public List<Square> removeOverCost(Unit unit, List<Square> path, Tilemap tilemap)
     {
         List<Square> res = new List<Square>();
@@ -330,16 +343,22 @@ public class MoveSystem : MonoBehaviour
         Square square,
         Unit unit,
         GameObject unitGO,
-        Tilemap tilemap
+        Tilemap tilemap,
+        float smooth = 4f,
+        bool costMovement = true
         )
     {
-        GroundTile gt = (GroundTile)tilemap.GetTile(square.pos);
-        if (gt != null)
+        if (RangeUtils.isWalkable(square.pos, FightingSceneStore.obstacleList, tilemap))
         {
             if (unit.currentMovementPoint > 0)
             {
+                GroundTile gt = (GroundTile)tilemap.GetTile(square.pos);
+
                 // Remove movement point
-                unit.currentMovementPoint -= gt.movementCost;
+                if (costMovement)
+                {
+                    unit.currentMovementPoint -= gt.movementCost;
+                }
 
                 // Set new position
                 unit.position = square.pos;
@@ -347,8 +366,11 @@ public class MoveSystem : MonoBehaviour
                 // Apply tile status to player for square passed
                 applyTilesEffects(unit, new List<Square>() { square }, tilemap);
 
+                // Apply tile damage to player for square passed
+                applySpellAreaDamage(unit, new List<Square>() { square }, tilemap);
+
                 // Move player
-                Move(unitGO.transform, new List<Square>() { square }, tilemap);
+                Move(unitGO.transform, new List<Square>() { square }, tilemap, smooth);
             }
         }
     }

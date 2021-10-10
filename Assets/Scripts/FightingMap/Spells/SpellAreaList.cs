@@ -72,7 +72,7 @@ public static class SpellAreaList
 
         if (spell.burst)
         {
-            area = burst(target, caster, area, obstacleList, tilemap);
+            area = burst(caster.position, caster, area, obstacleList, tilemap);
         }
         return area;
     }
@@ -151,6 +151,46 @@ public static class SpellAreaList
         }
 
         return line;
+    }
+
+    public static List<Vector3Int> getAreaChainEnemies(
+        Spell spell,
+        Vector3Int target,
+        Unit caster,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        List<Vector3Int> area = new List<Vector3Int>();
+        // Enemy List
+        List<Unit> enemiesList = new List<Unit>(caster.getEnemyTeam().Keys);
+        bool noUnitFound = false;
+        while (!noUnitFound)
+        {
+            // Get closest enemies from point of origin within area
+            List<Unit> enemiesInRange = enemiesList.FindAll(
+                unit => Vector3Int.Distance(unit.position, target) <= spell.area
+            );
+            if (enemiesInRange.Count > 0)
+            {
+                // Get closest enemy in list
+                Unit closestUnit = enemiesInRange.Aggregate((currUnit, x) => (
+                   x == null || Vector3Int.Distance(x.position, target) < Vector3Int.Distance(currUnit.position, target) ? x : currUnit
+               ));
+                // Add enemy in area list
+                area.Add(closestUnit.position);
+                // Change target
+                target = closestUnit.position;
+                // Remove it in enemies list
+                enemiesList.Remove(closestUnit);
+            }
+            else
+            {
+                noUnitFound = true;
+            }
+        }
+
+        return area;
     }
 
     private static List<Vector3Int> burst(
