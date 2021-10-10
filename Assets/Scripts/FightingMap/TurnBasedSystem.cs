@@ -374,10 +374,15 @@ public class TurnBasedSystem : MonoBehaviour
         Unit phantom2Unit = phantom2.GetComponent<Unit>();
         phantom2Unit.name = phantom2Unit.name + " 2";
 
+        GameObject phantom3 = InstantiatePlayer(EnemyPrefab, new Vector3Int(7, 15, 0));
+        Unit phantom3Unit = phantom3.GetComponent<Unit>();
+        phantom3Unit.name = phantom3Unit.name + " 3";
+
         // Add characters in lists
         enemyList = new Dictionary<Unit, GameObject>() {
             { green1Stats, phantom },
             { phantom2Unit, phantom2 },
+            { phantom3Unit, phantom3 },
         };
         playerList = new Dictionary<Unit, GameObject>()
         {

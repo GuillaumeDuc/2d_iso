@@ -48,6 +48,43 @@ public class SpellInstantiateList : MonoBehaviour
         }
     }
 
+    public static void instantiateAreaWithDelay(
+        Spell spell,
+        Unit caster,
+        Vector3Int target,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        List<Vector3Int> listCells = spell.getArea(target, caster, obstacleList, tilemap);
+        // Instantiate spell only one time on first cell
+        Vector2 worldPos = tilemap.CellToWorld(listCells.Count > 0 ? listCells[0] : target);
+        // Instantiate animation
+        GameObject go = Instantiate(spell.gameObject, new Vector2(worldPos.x, worldPos.y + 0.2f), Quaternion.identity);
+        setSpellPosition(go, target);
+        // Remove cell clicked from list cells
+        if (listCells.Count > 0) listCells.RemoveAt(0);
+
+        instance.StartCoroutine(multipleInstantiateOnCellWithDelay(listCells, go, tilemap));
+    }
+
+    static IEnumerator multipleInstantiateOnCellWithDelay(
+        List<Vector3Int> listCells,
+        GameObject gameObject,
+        Tilemap tilemap
+        )
+    {
+        foreach (var c in listCells)
+        {
+            yield return new WaitForSeconds(0.5f);
+            GameObject newGO = Instantiate(gameObject, tilemap.CellToWorld(c), Quaternion.identity);
+            Destroy(newGO.GetComponent<Spell>());
+            Destroy(newGO.GetComponent<SpellEffectScript>());
+            Destroy(newGO.GetComponent<SpellDamage>());
+            gameObject = newGO;
+        }
+    }
+
     public static void instantiateOnCellClicked(
         Spell spell,
         Unit caster,

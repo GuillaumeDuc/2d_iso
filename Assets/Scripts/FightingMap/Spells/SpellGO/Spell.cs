@@ -88,7 +88,8 @@ public class Spell : MonoBehaviour
         Obstacles,
         ThrowedSpell,
         MoveInLineFromPlayer,
-        Attack
+        Attack,
+        AreaWithDelay
     };
 
     public FunctionInstantiate selectedInstantiate;
@@ -100,6 +101,8 @@ public class Spell : MonoBehaviour
             { Spell.FunctionInstantiate.ThrowedSpell, SpellInstantiateList.instantiateThrowedSpell },
             { Spell.FunctionInstantiate.MoveInLineFromPlayer, SpellInstantiateList.instantiateMoveInLineFromPlayer },
             { Spell.FunctionInstantiate.Attack, SpellInstantiateList.instantiateAttack },
+            { Spell.FunctionInstantiate.AreaWithDelay, SpellInstantiateList.instantiateAreaWithDelay },
+
         };
 
 
