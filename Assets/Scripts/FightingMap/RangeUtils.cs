@@ -19,13 +19,34 @@ public static class RangeUtils
         lineOfSightArray.ForEach(a =>
         {
             GroundTile gt = (GroundTile)tilemap.GetTile(a);
-            // Ground tile is null, cell contains an obstacle on its path, cell contains a tile blocking LoS
-            if (gt == null || (obstacleList.ContainsKey(a) && a != cellPos) || (!gt.lineOfSight && a != cellPos))
+            // Ground tile is null, cell contains an obstacle on its path that blocks line of sight, cell contains a tile blocking LoS
+            if (gt == null || (obstacleList.ContainsKey(a) && a != cellPos && obstacleList[a] != null && obstacleList[a].GetComponent<Obstacle>().hideLineOfSight) || (!gt.lineOfSight && a != cellPos))
             {
                 lineOS = false;
             };
         });
         return lineOS;
+    }
+
+    public static bool lineOfWalk(
+        Vector3Int playerPos,
+        Vector3Int cellPos,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        List<Vector3Int> lineOfWalkArray = new List<Vector3Int>(getLine(playerPos, cellPos));
+        bool lineOW = true;
+        lineOfWalkArray.ForEach(a =>
+        {
+            GroundTile gt = (GroundTile)tilemap.GetTile(a);
+            // Cell contains an obstacle on its path that blocks walk, cell contains a tile blocking LoS
+            if (gt == null || (obstacleList.ContainsKey(a) && a != cellPos && obstacleList[a] != null && obstacleList[a].GetComponent<Obstacle>().preventsWalk))
+            {
+                lineOW = false;
+            };
+        });
+        return lineOW;
     }
 
     public static List<Vector3Int> getLine(Vector3Int playerPos, Vector3Int cellPos)
@@ -167,7 +188,12 @@ public static class RangeUtils
         )
     {
         GroundTile gt = (GroundTile)tilemap.GetTile(cell);
-        return gt != null && !obstacleList.ContainsKey(cell) && gt.walkable;
+        Obstacle obstacle = null;
+        if (obstacleList.ContainsKey(cell))
+        {
+            obstacle = obstacleList[cell].GetComponent<Obstacle>();
+        }
+        return gt != null && (obstacle == null || !obstacle.preventsWalk) && gt.walkable;
     }
 
     public static Vector3Int getFarthestWalkableNeighbour(
@@ -202,6 +228,16 @@ public static class RangeUtils
             return getFarthestWalkableNeighbour(farthest, from, area, obstacleList, tilemap);
         }
         return to;
+    }
+
+    public static List<Vector3Int> getNeighours(Vector3Int cell)
+    {
+        Vector3Int up = new Vector3Int(cell.x, cell.y + 1, cell.z);
+        Vector3Int down = new Vector3Int(cell.x, cell.y - 1, cell.z);
+        Vector3Int left = new Vector3Int(cell.x - 1, cell.y, cell.z);
+        Vector3Int right = new Vector3Int(cell.x + 1, cell.y, cell.z);
+
+        return new List<Vector3Int>() { up, down, left, right };
     }
 
     public static Vector3Int getClosestNeighbour(Vector3Int to, Vector3Int from, Tilemap tilemap)

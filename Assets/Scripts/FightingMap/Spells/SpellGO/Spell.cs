@@ -12,14 +12,18 @@ public enum SpellType
     Magma,
     Ice,
     Steam,
-    Physical
+    Physical,
+    Electricity
 };
 
 public class Spell : MonoBehaviour
 {
     public int range = 1, area, damage, clickNb = 1, manaCost;
     public bool lineOfSight, uniqueCellArea, burst;
+    public GameObject unitSpellEffect;
     public SpellType type;
+    [HideInInspector]
+    public Status includesOnly;
 
     [HideInInspector]
     public Vector3Int position;
@@ -33,7 +37,9 @@ public class Spell : MonoBehaviour
         Circle,
         InLine,
         InLineBetweenCells,
-        AndresCircle
+        AndresCircle,
+        InLineHorizontal,
+        ChainEnemies
     };
 
     public FunctionArea selectedArea;
@@ -43,19 +49,23 @@ public class Spell : MonoBehaviour
             { FunctionArea.InLine, SpellAreaList.getAreaInLine },
             { FunctionArea.InLineBetweenCells, SpellAreaList.getAreaInLineBetweenCells },
             { FunctionArea.AndresCircle, SpellAreaList.getAreaAndresCircle },
+            { FunctionArea.InLineHorizontal, SpellAreaList.getAreaInLineHorizontal },
+            { FunctionArea.ChainEnemies, SpellAreaList.getAreaChainEnemies },
         };
 
 
     // Range
     public enum FunctionRange
     {
-        Circle
+        Circle,
+        Line
     };
 
     public FunctionRange selectedRange;
     private Dictionary<FunctionRange, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>> functionRangeLookup = new Dictionary<FunctionRange, System.Func<Spell, Unit, Dictionary<Vector3Int, GameObject>, Tilemap, List<Vector3Int>>>()
         {
             { FunctionRange.Circle, SpellRangeList.getRangeInCircleFull },
+            { FunctionRange.Line, SpellRangeList.getRangeInLine },
         };
 
     // Can Cast
@@ -73,23 +83,26 @@ public class Spell : MonoBehaviour
     // Instantiate
     public enum FunctionInstantiate
     {
-        AreaWithDelay,
+        Area,
         OnCellClicked,
         Obstacles,
         ThrowedSpell,
         MoveInLineFromPlayer,
-        Attack
+        Attack,
+        AreaWithDelay
     };
 
     public FunctionInstantiate selectedInstantiate;
     Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap>> functionInstantiateLookup = new Dictionary<Spell.FunctionInstantiate, System.Action<Spell, Unit, Vector3Int, Dictionary<Vector3Int, GameObject>, Tilemap>>()
         {
-            { Spell.FunctionInstantiate.AreaWithDelay, SpellInstantiateList.instantiateAreaWithDelay },
+            { Spell.FunctionInstantiate.Area, SpellInstantiateList.instantiateArea },
             { Spell.FunctionInstantiate.OnCellClicked, SpellInstantiateList.instantiateOnCellClicked },
             { Spell.FunctionInstantiate.Obstacles, SpellInstantiateList.instantiateObstacles },
             { Spell.FunctionInstantiate.ThrowedSpell, SpellInstantiateList.instantiateThrowedSpell },
             { Spell.FunctionInstantiate.MoveInLineFromPlayer, SpellInstantiateList.instantiateMoveInLineFromPlayer },
             { Spell.FunctionInstantiate.Attack, SpellInstantiateList.instantiateAttack },
+            { Spell.FunctionInstantiate.AreaWithDelay, SpellInstantiateList.instantiateAreaWithDelay },
+
         };
 
 

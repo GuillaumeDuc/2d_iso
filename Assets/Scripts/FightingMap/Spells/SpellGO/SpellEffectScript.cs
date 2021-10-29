@@ -48,6 +48,7 @@ public class SpellEffectScript : MonoBehaviour
             tilemap
         );
         FightingSceneStore.TurnBasedSystem.DrawOnMap.resetMap();
+        FightingSceneStore.TurnBasedSystem.updateScrollViews();
     }
 
     public void applyEffect(

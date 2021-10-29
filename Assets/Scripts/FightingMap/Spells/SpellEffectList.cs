@@ -6,8 +6,6 @@ using System.Linq;
 
 public class SpellEffectList : MonoBehaviour
 {
-    public StatusList StatusList;
-
     public TileList TileList;
 
 
@@ -15,13 +13,22 @@ public class SpellEffectList : MonoBehaviour
         Fire = new SpellEffect("FireEffect"),
         Freeze = new SpellEffect("FreezeEffect"),
         Teleport = new SpellEffect("TeleportEffect"),
-        BurnTile = new SpellEffect("BurnTileEffect");
+        BurnTile = new SpellEffect("BurnTileEffect"),
+        FireBurst = new SpellEffect("FireBurstEffect"),
+        CreateWater = new SpellEffect("CreateWaterEffect"),
+        Entrap = new SpellEffect("EntrapEffect"),
+        Waterboost = new SpellEffect("WaterboostEffect");
+
     public static List<SpellEffect> spellEffects = new List<SpellEffect>() {
         PushFromPlayer,
         Fire,
         Freeze,
         Teleport,
-        BurnTile
+        BurnTile,
+        FireBurst,
+        CreateWater,
+        Entrap,
+        Waterboost
     };
 
     void Start()
@@ -46,6 +53,114 @@ public class SpellEffectList : MonoBehaviour
 
         // Change Tile
         BurnTile.applyEffectAction = burnTileEffect;
+
+        // Get all fire status, remove them and deal damage
+        FireBurst.applyEffectAction = fireBurstEffect;
+
+        // Create Water Obstacles
+        CreateWater.applyEffectAction = createWaterEffect;
+
+        // Apply entrapped to character
+        Entrap.statusList.Add(new Status(StatusList.Entrap));
+        Entrap.applyEffectAction = applyEffect;
+
+        // Apply water boost to character
+        Waterboost.statusList.Add(new Status(StatusList.Waterboost));
+        Waterboost.applyEffectAction = applyEffect;
+    }
+
+    public void createWaterEffect(
+        Spell spell,
+        SpellEffect spellEffect,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        applyEffect(spell, spellEffect, playerList, enemyList, obstacleList, tilemap);
+        GameObject WaterObstacle = Resources.Load<GameObject>("Obstacles/Water/WaterObstacle");
+        List<Vector3Int> area = spell.getArea(spell.position, spell.caster, obstacleList, tilemap);
+        area.ForEach(cell =>
+        {
+            createObstacle(WaterObstacle, cell, obstacleList, tilemap);
+        });
+    }
+
+    public void createObstacle(GameObject obstacle, Vector3Int pos, Dictionary<Vector3Int, GameObject> obstacleList, Tilemap tilemap)
+    {
+        GameObject newObstacle = null;
+        try
+        {
+            newObstacle = Instantiate(obstacle, tilemap.CellToWorld(pos), Quaternion.identity);
+            FightingSceneStore.obstacleList.Add(pos, newObstacle);
+        }
+        catch
+        {
+            Destroy(newObstacle);
+        }
+    }
+
+    public void fireBurstEffect(
+        Spell spell,
+        SpellEffect spellEffect,
+        Dictionary<Unit, GameObject> playerList,
+        Dictionary<Unit, GameObject> enemyList,
+        Dictionary<Vector3Int, GameObject> obstacleList,
+        Tilemap tilemap
+        )
+    {
+        List<Vector3Int> area = spell.getArea(spell.position, spell.caster, obstacleList, tilemap);
+        int count = 0;
+        // Count Fire Status
+        area.ForEach(a =>
+        {
+            // Status Tile
+            GroundTile tile = (GroundTile)tilemap.GetTile(a);
+            if (tile != null && tile.statusList != null)
+            {
+                // Find Temperature equals or greater than Fire
+                Status statusOnTile = tile.statusList.Find(status => status.Equals(StatusList.Fire) && status.weight >= StatusList.Fire.weight);
+                if (statusOnTile != null)
+                {
+                    // Count Damage && delete Fire effect
+                    count += statusOnTile.weight;
+                    tile.removeStatus(statusOnTile);
+                    tilemap.RefreshTile(a);
+                }
+            }
+            // Status Units
+            Unit character = getUnitFromPos(playerList.Concat(enemyList).ToDictionary(x => x.Key, x => x.Value), a);
+            if (character != null)
+            {
+                // Find Temperature equals or greater than Fire
+                Status statusOnUnit = character.statusList.Find(status => status.Equals(StatusList.Fire) && status.weight >= StatusList.Fire.weight);
+                if (statusOnUnit != null)
+                {
+                    // Count Damage && delete Fire effect
+                    count += statusOnUnit.weight;
+                    character.statusList.Remove(statusOnUnit);
+                }
+            }
+            // Status Obstacles
+            GameObject obstacleGO = null;
+            try { obstacleGO = obstacleList[a]; }
+            catch { }
+            if (obstacleGO != null)
+            {
+                Obstacle obstacle = obstacleGO.GetComponent<Obstacle>();
+                // Find Temperature equals or greater than Fire
+                Status statusOnObstacle = obstacle.statusList.Find(status => status.Equals(StatusList.Fire) && status.weight >= StatusList.Fire.weight);
+                if (statusOnObstacle != null)
+                {
+                    // Count Damage && delete Fire effect
+                    count += statusOnObstacle.weight;
+                    obstacle.statusList.Remove(statusOnObstacle);
+                }
+            }
+        });
+        // Change damage
+        spell.damage += count;
     }
 
     public void burnTileEffect(
@@ -103,15 +218,25 @@ public class SpellEffectList : MonoBehaviour
                 });
             }
 
-            // Apply status to characters
+            // Apply status & spell effect to characters
             Unit character = getUnitFromPos(allCharacters, cell);
             if (character != null)
             {
+                // Apply status
                 spellEffect.statusList.ForEach(status =>
                 {
                     character.addStatus(new Status(status));
                 });
+
+                // Apply spell effect
+                if (spell.unitSpellEffect != null)
+                {
+                    Vector3 unitSEpos = new Vector3(character.gameObject.transform.position.x, character.gameObject.transform.position.y - 0.05f, character.gameObject.transform.position.z);
+                    GameObject unitSpellEffect = Instantiate(spell.unitSpellEffect, unitSEpos, Quaternion.identity);
+                    unitSpellEffect.transform.parent = character.gameObject.transform;
+                }
             }
+
             // Apply status to tiles
             GroundTile tile = (GroundTile)tilemap.GetTile(cell);
             if (tile != null)
@@ -135,14 +260,79 @@ public class SpellEffectList : MonoBehaviour
         )
     {
         List<Vector3Int> area = spell.getArea(spell.position, spell.caster, obstacleList, tilemap);
-        // Move every ennemies and players one cell away
-        area.ForEach(a =>
+        // Move every ennemies and players one cell away until they're out of area or can't move
+        Dictionary<Unit, GameObject> allList = new Dictionary<Unit, GameObject>(
+            playerList
+            .Concat(enemyList)
+            .ToDictionary(x => x.Key, x => x.Value)
+        );
+        bool cont = true;
+
+        while (cont)
         {
-            // Players
-            movePlayer(spell, playerList, a, area, obstacleList, tilemap);
-            // Enemies
-            movePlayer(spell, enemyList, a, area, obstacleList, tilemap);
-        });
+            cont = false;
+            area.ForEach(a =>
+            {
+                bool moved = movePlayer(a, spell.caster.position, allList, obstacleList, tilemap);
+                if (moved)
+                {
+                    cont = true;
+                }
+            });
+        }
+    }
+
+    private bool movePlayer(
+    Vector3Int target,
+    Vector3Int casterPosition,
+    Dictionary<Unit, GameObject> dict,
+    Dictionary<Vector3Int, GameObject> obstacleList,
+    Tilemap tilemap
+    )
+    {
+        Unit unitPlayer = getUnitFromPos(dict, target);
+        // Try moving player
+        if (unitPlayer != null)
+        {
+            Vector3Int newPos = new Vector3Int(target.x, target.y, target.z);
+            // Get the direction
+            Vector3 direction = target - casterPosition;
+            // Right / Left
+            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+            {
+                // Right
+                if (direction.x >= 0)
+                {
+                    newPos = new Vector3Int(newPos.x + 1, newPos.y, newPos.z);
+                }
+                // Left
+                else
+                {
+                    newPos = new Vector3Int(newPos.x - 1, newPos.y, newPos.z);
+                }
+            }
+            else
+            {
+                // Up
+                if (direction.y >= 0)
+                {
+                    newPos = new Vector3Int(newPos.x, newPos.y + 1, newPos.z);
+                }
+                // Down
+                else
+                {
+                    newPos = new Vector3Int(newPos.x, newPos.y - 1, newPos.z);
+                }
+            }
+
+            FightingSceneStore.MoveSystem.moveOneSquare(new Square(newPos), unitPlayer, unitPlayer.gameObject, tilemap, 10f, false);
+            // If player moved
+            if (newPos == unitPlayer.position)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void teleportPlayerEffect(
@@ -166,6 +356,23 @@ public class SpellEffectList : MonoBehaviour
         player.Key.position = spell.position;
         // Move gameobject to position
         player.Value.transform.position = cellPos;
+        // Add status from new tile position
+        GroundTile gt = (GroundTile)tilemap.GetTile(spell.position);
+        if (gt != null)
+        {
+            if (gt.statusList != null)
+            {
+                gt.statusList.ForEach(status =>
+                {
+                    player.Key.addStatus(status);
+                });
+            }
+        }
+        // Take damage from spell damage zone
+        FightingSceneStore.spellDamageAreaList.ForEach(spellArea =>
+        {
+            spellArea.damageUnit(player.Key);
+        });
         // Make player reappear
         StartCoroutine(scaleGO(player.Value, 0f, originalScale.x, originalScale));
     }
@@ -190,39 +397,6 @@ public class SpellEffectList : MonoBehaviour
             }
         }
         go.transform.localScale = new Vector3(to, originalScale.y, originalScale.z);
-    }
-
-    private void movePlayer(
-    Spell spell,
-    Dictionary<Unit, GameObject> dict,
-    Vector3Int cell,
-    List<Vector3Int> area,
-    Dictionary<Vector3Int, GameObject> obstacleList,
-    Tilemap tilemap
-    )
-    {
-        Unit unitPlayer = getUnitFromPos(dict, cell);
-        if (unitPlayer != null)
-        {
-            GameObject playerGO = dict[unitPlayer];
-            dict.Remove(unitPlayer);
-            unitPlayer.position = RangeUtils.getFarthestWalkableNeighbour(
-                cell,
-                spell.caster.position,
-                area, obstacleList,
-                tilemap: tilemap
-            );
-            dict.Add(unitPlayer, playerGO);
-
-            moveGameObject(playerGO, unitPlayer.position, tilemap);
-        }
-    }
-
-    private void moveGameObject(GameObject gameObject, Vector3Int cell, Tilemap tilemap)
-    {
-        // Move GameObjects
-        Vector2 pos = new Vector2(tilemap.CellToWorld(cell).x, tilemap.CellToWorld(cell).y + 0.2f);
-        gameObject.transform.position = pos;
     }
 
     private KeyValuePair<Unit, GameObject> getUnitFromPlayersAndEnemies(

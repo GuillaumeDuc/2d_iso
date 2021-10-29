@@ -80,6 +80,28 @@ public class GroundTile : Tile
         return contains;
     }
 
+    public void removeStatus(Status status)
+    {
+        // Reset tile
+        resetTile();
+        if (statusList == null)
+        {
+            statusList = new List<Status>();
+        }
+        statusList.Remove(status);
+        // Change GameObject & apply status effects
+        statusList.ForEach(s =>
+        {
+            tileGO = s.tileGO;
+            s.modifyTile(this);
+        });
+        // If list empty, no GameObject
+        if (!statusList.Any())
+        {
+            tileGO = null;
+        }
+    }
+
     public virtual void updateStatus()
     {
         // Reset tile

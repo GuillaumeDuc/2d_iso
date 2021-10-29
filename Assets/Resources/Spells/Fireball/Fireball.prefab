@@ -4851,7 +4851,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5282a98c86aa10047b1fbadc0fc46354, type: 2}
+  - {fileID: 2100000, guid: 476c9729345688c4ebe2e8b59ab46628, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9823,13 +9823,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 10
-  area: 0
+  area: 5
   damage: 30
   clickNb: 1
   manaCost: 10
   lineOfSight: 1
   uniqueCellArea: 0
   burst: 1
+  unitSpellEffect: {fileID: 0}
+  type: 0
+  includesOnly:
+    name: 
+    type: 
+    damage: 0
+    turnNb: 0
+    turnCounter: 0
+    permanent: 0
+    permanentOnTile: 0
+    weight: 0
+    tileGO: {fileID: 0}
   position: {x: 19, y: 18, z: 0}
   caster: {fileID: 0}
   selectedArea: 0

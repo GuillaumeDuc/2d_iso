@@ -31,7 +31,7 @@ public class CreateMap : MonoBehaviour
 
         System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
         stopwatch.Start();
-        GameObject Tree = Resources.Load<GameObject>("Tilemaps/Tree");
+        GameObject Tree = Resources.Load<GameObject>("Obstacles/Trees/Tree");
         switch (TypeMap)
         {
             case TypeMap.Beach:

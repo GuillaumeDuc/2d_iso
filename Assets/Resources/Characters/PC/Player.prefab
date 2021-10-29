@@ -166,7 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Player
   unitLevel: 10
-  maxHP: 100
+  maxHP: 500
   endurance: 3
   mana: 110
   spellSlot: 3
@@ -176,18 +176,24 @@ MonoBehaviour:
   currentMovementPoint: 0
   currentMana: 0
   spellList:
-  - {fileID: 2253697307115073443, guid: 8aa0aa7ec32f761478d098b8fc638203, type: 3}
-  - {fileID: 3575874839522709577, guid: 2edfcadb7c9c88845ad0098448eed602, type: 3}
-  - {fileID: 6974797582085391557, guid: 38733b82c351c6940b7582219ca9296e, type: 3}
-  - {fileID: 3128274454820993149, guid: fcd47b0630ad6be4888ce876f773a5a5, type: 3}
-  - {fileID: 3667406406966735228, guid: aa4649a6bc9b97044be842b8a64799b3, type: 3}
-  - {fileID: 6775718935185108242, guid: d4f944b19f6cd6b48a5e3b52ddce1cb1, type: 3}
+  - {fileID: 1646264900561846299, guid: 5fb6d5dd6b43dd8439c9ab244884cfa2, type: 3}
+  - {fileID: 7207323083815335259, guid: 1198fe95c7ee5214ab3977bdbe2679ff, type: 3}
+  - {fileID: 1217699458593871177, guid: 4206a6b2cda861341b12821715be9136, type: 3}
   - {fileID: 2780143763527378437, guid: 935ec84be0c5f4b40a48bc63ec4da8ee, type: 3}
-  - {fileID: 6639043133137146266, guid: a2f7e656fb3885243a4101de5230ffb8, type: 3}
+  - {fileID: 3480327853214015538, guid: 20dcab4ef28e78248b0c5be33ee6b306, type: 3}
+  - {fileID: 2894754952703797077, guid: 5e5fd930c28a5c1449859c1f5a104257, type: 3}
+  - {fileID: 5806489108024623919, guid: a31715b4624abd941913df7613e194f3, type: 3}
+  - {fileID: 3128274454820993149, guid: fcd47b0630ad6be4888ce876f773a5a5, type: 3}
+  - {fileID: 2253697307115073443, guid: 8aa0aa7ec32f761478d098b8fc638203, type: 3}
+  - {fileID: 3011477353448975112, guid: 6847e7928d5294044851065b2f9966f2, type: 3}
+  - {fileID: 6974797582085391557, guid: 38733b82c351c6940b7582219ca9296e, type: 3}
   - {fileID: 6704543020205789090, guid: 12347f4e1e66b5648aa20dde3e6c9dc8, type: 3}
+  - {fileID: 3575874839522709577, guid: 2edfcadb7c9c88845ad0098448eed602, type: 3}
+  - {fileID: 6446760062049360379, guid: 4efa16924fb2d8746b7fb61e434909f5, type: 3}
   selectedSpell: {fileID: 0}
   position: {x: 0, y: 0, z: 0}
   playable: 1
   summon: 0
   isPlaying: 0
+  statusList: []
   selectedSpellPos: []

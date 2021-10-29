@@ -17,7 +17,6 @@ public class Unit : MonoBehaviour
             currentMovementPoint,
             currentMana;
 
-    [HideInInspector]
     public List<GameObject> spellList = new List<GameObject>();
     [HideInInspector]
     public GameObject selectedSpell;
@@ -53,6 +52,11 @@ public class Unit : MonoBehaviour
     public Dictionary<Unit, GameObject> getEnemyTeam()
     {
         return FightingSceneStore.enemyList.ContainsKey(this) ? FightingSceneStore.playerList : FightingSceneStore.enemyList;
+    }
+
+    public void destroySelf()
+    {
+        Destroy(this.gameObject);
     }
 
     public bool takeDamage(int dmg)
@@ -95,6 +99,8 @@ public class Unit : MonoBehaviour
     public void addStatus(Status status)
     {
         Status newStatus = new Status(status);
+        // Apply special status effect to unit
+        newStatus.modifyUnit(this);
         statusList = newStatus.addStatusToPlayer(statusList);
     }
 
@@ -106,6 +112,8 @@ public class Unit : MonoBehaviour
             bool continueStatus = s.updateStatus();
             if (continueStatus)
             {
+                // Apply special status effect to unit
+                s.modifyUnit(this);
                 newStatusList.Add(s);
             }
         });

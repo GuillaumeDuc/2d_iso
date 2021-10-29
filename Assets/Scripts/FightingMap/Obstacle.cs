@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-    public int maxHP, currentHP;
+    public int maxHP;
+    [HideInInspector]
+    public int currentHP;
+    public bool hideLineOfSight = true, preventsWalk = true;
     public List<Status> statusList = new List<Status>();
 
-    public void setHP(int hp)
+    protected virtual void Start()
     {
-        maxHP = hp;
-        currentHP = hp;
+        currentHP = maxHP;
+    }
+
+    public virtual void destroySelf()
+    {
+        Destroy(this.gameObject);
     }
 
     public bool takeDamage(int dmg)
@@ -25,7 +32,7 @@ public class Obstacle : MonoBehaviour
         statusList.Add(status);
     }
 
-    public void updateStatus()
+    public virtual void updateStatus()
     {
         List<Status> newStatusList = new List<Status>();
         statusList.ForEach(s =>
@@ -43,7 +50,10 @@ public class Obstacle : MonoBehaviour
     {
         statusList.ForEach(s =>
         {
-            takeDamage(s.damageStatus());
+            if (s != null)
+            {
+                takeDamage(s.damageStatus());
+            }
         });
     }
 }

@@ -100,13 +100,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 12
-  area: 0
-  damage: 0
-  clickNb: 1
+  area: 1
+  damage: 25
+  clickNb: 3
   manaCost: 1
   lineOfSight: 0
   uniqueCellArea: 0
   burst: 0
+  type: 0
   position: {x: 0, y: 0, z: 0}
   caster: {fileID: 0}
   selectedArea: 0
@@ -527,8 +528,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.8
-      minScalar: 0.5
+      scalar: 0.4
+      minScalar: 0.3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1108,7 +1109,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 30
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -5001,7 +5002,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5282a98c86aa10047b1fbadc0fc46354, type: 2}
+  - {fileID: 2100000, guid: dfc1d79388dcf2f499a9619806b6008b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
